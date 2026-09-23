@@ -125,9 +125,9 @@
   }
 
   .sheet .stat-label {
-    margin-top: calc(var(--dd-base) / 2);
-    font-size: var(--dd-type-1);
-    line-height: 1.75;
+    margin-top: var(--dd-sp-3);
+    font-size: var(--dd-type-2);
+    line-height: 1.7;
   }
 
   @media (max-width: 720px) {

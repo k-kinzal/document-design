@@ -20,7 +20,7 @@
     margin: 0 0 var(--dd-sp-5);
     padding: 0;
     font-family: var(--dd-font-mono);
-    font-size: var(--dd-text-sm);
+    font-size: var(--dd-text-md);
     line-height: 1.9;
   }
 
@@ -54,7 +54,7 @@
 
   .filetree-meta {
     color: var(--dd-fg-subtle);
-    font-size: var(--dd-text-xs);
+    font-size: var(--dd-text-sm);
     font-variant-numeric: tabular-nums;
   }
 

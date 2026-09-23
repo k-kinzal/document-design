@@ -19,7 +19,7 @@
     padding: var(--dd-sp-4);
     margin: 0 0 var(--dd-sp-5);
     font-family: var(--dd-font-mono);
-    font-size: var(--dd-text-sm);
+    font-size: var(--dd-text-md);
     line-height: 1.7;
     overflow-x: auto;
   }

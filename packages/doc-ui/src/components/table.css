@@ -27,7 +27,7 @@
 
   th {
     color: var(--dd-fg-muted);
-    font-size: var(--dd-text-sm);
+    font-size: var(--dd-text-md);
     font-weight: var(--dd-weight-label);
     white-space: nowrap;
   }

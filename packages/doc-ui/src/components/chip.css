@@ -16,7 +16,7 @@
     display: inline-block;
     padding: 1px var(--dd-sp-3);
     border-radius: var(--dd-radius-sm);
-    font-size: var(--dd-text-xs);
+    font-size: var(--dd-text-md);
     font-weight: var(--dd-weight-label);
     line-height: 1.45;
     white-space: nowrap;
@@ -26,18 +26,23 @@
   }
 
   /*
-   * Small is less bulk, not smaller text. The size step used to go to 10px,
-   * which is below anything this system is willing to ask a reader to
-   * decipher; what a secondary marker actually needs is to take less room.
+   * Small belongs to the metadata register, not to the row's subject.
+   *
+   * It used to go down to 10px, which is below anything this system will ask a
+   * reader to decipher. Raising it to the 14px floor overshot the other way:
+   * in a row whose metadata line is 13px, a bold tinted 14px marker outweighed
+   * the statement it was commenting on. It now matches the line it sits in and
+   * takes less room than a primary chip.
    */
   .chip-sm {
     padding: 0 var(--dd-sp-2);
+    font-size: var(--dd-text-sm);
     line-height: 1.35;
   }
 
   .chip-lg {
     padding: 2px var(--dd-sp-4);
-    font-size: var(--dd-text-sm);
+    font-size: var(--dd-text-lg);
   }
 
   /*

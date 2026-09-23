@@ -74,10 +74,24 @@
 
   .doc h1 code { font-size: 0.92em; }
 
+  /*
+   * The catalog's rhythm is grouping, not a baseline.
+   *
+   * A scanned page does not need every gap on one grid; it needs the reader to
+   * tell "this explains that" from "a new subject starts here" without
+   * thinking. That means two distances, held to consistently: 8px attaches a
+   * thing to what it belongs with, 28px separates one subject from the next.
+   *
+   * The gaps used to run 0, 12, 12, 40, 18, 40, 18, 12, 12 — a heading sat
+   * 18px from the content it introduced while the page title sat 0 from its
+   * own lede, so the strongest grouping signal on the page was attached to the
+   * wrong pair. Separation is now 3.5x the attachment gap rather than 2.2x,
+   * and the page is shorter for it.
+   */
   .doc h2 {
     font-size: var(--dd-text-xl);
     font-weight: var(--dd-weight-head);
-    margin: var(--dd-sp-7) 0 var(--dd-sp-5);
+    margin: var(--dd-sp-6) 0 var(--dd-sp-3);
     padding-bottom: var(--dd-sp-2);
     border-bottom: 1px solid var(--dd-border);
     display: flex;
@@ -89,7 +103,7 @@
   .doc h3 {
     font-size: var(--dd-text-lg);
     font-weight: var(--dd-weight-head);
-    margin: var(--dd-sp-6) 0 var(--dd-sp-4);
+    margin: var(--dd-sp-5) 0 var(--dd-sp-3);
     display: flex;
     align-items: baseline;
     gap: var(--dd-sp-3);
@@ -99,16 +113,26 @@
   .doc h2 code { font-size: 0.92em; }
   .doc h3 code { font-size: 0.92em; }
 
-  /* The one paragraph that says what this page is. */
+  /*
+   * The one paragraph that says what this page is. It belongs to the title
+   * above it, so it sits 4px from it and 8px from whatever follows.
+   *
+   * The generic paragraph rule below applies only to paragraphs with no class
+   * at all. It used to apply to every <p>, and since `.doc .content p` carries
+   * a descendant and a type selector it beat any single component class: the
+   * lede rendered 0 above and 12 below and read as the body's first paragraph
+   * rather than as the page's summary, and the counts row lost its separation
+   * from the cards the same way. A classed paragraph belongs to its component.
+   */
   .doc .lede {
     font-size: var(--dd-text-lg);
     color: var(--dd-fg-muted);
-    margin: var(--dd-sp-4) 0 var(--dd-sp-6);
+    margin: var(--dd-sp-2) 0 var(--dd-sp-3);
     max-width: 84ch;
     line-height: 1.6;
   }
 
-  .doc .content p { margin: 0 0 var(--dd-sp-4); }
+  .doc .content p:not([class]) { margin: 0 0 var(--dd-sp-4); }
 
   /*
    * The link back to a heading. Hidden until the heading is hovered: on a page

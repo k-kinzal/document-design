@@ -53,13 +53,13 @@
 
   .hit-where {
     color: var(--dd-fg-subtle);
-    font-size: var(--dd-text-xs);
+    font-size: var(--dd-text-sm);
     font-family: var(--dd-font-mono);
   }
 
   .hit-body {
     font-family: var(--dd-font-mono);
-    font-size: var(--dd-text-sm);
+    font-size: var(--dd-text-md);
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -46,7 +46,7 @@
     font-weight: var(--dd-weight-label);
     letter-spacing: 0.16em;
     color: var(--dd-fg-subtle);
-    margin: 0 0 var(--dd-base);
+    margin: 0 0 calc(var(--dd-base) / 2);
   }
 
   /*
@@ -61,7 +61,7 @@
     line-height: 1.1;
     letter-spacing: -0.035em;
     font-weight: var(--dd-weight-figure);
-    margin: 0 0 var(--dd-base);
+    margin: 0 0 calc(var(--dd-base) / 2);
     text-wrap: balance;
   }
 
@@ -73,11 +73,21 @@
     line-height: 1.6;
     letter-spacing: -0.01em;
     color: var(--dd-fg-muted);
-    margin: 0 0 calc(var(--dd-base) * 3);
+    margin: 0 0 var(--dd-base);
   }
 
   /* ---- the one figure the page leads with ---- */
 
+  /*
+   * The opening is one group, not four things.
+   *
+   * Eyebrow, title, stand-first and hero all answer "what is this page about",
+   * and they were spaced 28 / 28 / 84 — the stand-first pushed three baselines
+   * away from the figure that proves it, so a reader met the claim, a pause,
+   * and then a number arriving as a separate event. Half a baseline inside the
+   * group, one baseline to the hero, and the group's own separation from the
+   * argument below is carried by the hero's rule.
+   */
   .hero {
     display: grid;
     grid-template-columns: subgrid;
@@ -133,14 +143,21 @@
    *
    * So the figure scales to its own column — 28% of it, which keeps a
    * five-digit figure at about seventy percent of the track and leaves room
-   * for a longer one — capped at the scale's top step. And it is exempted from
-   * the breaking rule the rest of the document needs: a number that wraps is
-   * not a smaller number, it is a different one.
+   * for a longer one. And it is exempted from the breaking rule the rest of
+   * the document needs: a number that wraps is not a smaller number, it is a
+   * different one.
+   *
+   * It is capped below the title rather than above it. At 76 against a 61px
+   * title the two were within a few pixels of each other, in different places,
+   * with colour on the number — two centres of attention and no winner. The
+   * title carries the conclusion in words and the figure is the evidence for
+   * it, so the descent is title 61 → after 49 → before 39, and a reader's eye
+   * lands on the sentence that says what happened.
    */
   .fig {
     display: block;
     align-self: end;
-    font-size: clamp(2.25rem, 28cqi, var(--dd-type-9));
+    font-size: clamp(1.75rem, 22cqi, var(--dd-type-7));
     line-height: 0.92;
     font-weight: var(--dd-weight-figure);
     letter-spacing: -0.045em;
@@ -149,7 +166,17 @@
     text-wrap: nowrap;
   }
 
-  .was .fig { color: var(--dd-fg-subtle); }
+  /*
+   * Where we came from, not what we are reporting. Lighter and a step smaller
+   * so the pair reads as a movement toward the AFTER rather than as two
+   * numbers of equal standing.
+   */
+  .was .fig {
+    color: var(--dd-fg-subtle);
+    font-size: clamp(1.5rem, 18cqi, var(--dd-type-6));
+    font-weight: var(--dd-weight-normal);
+  }
+
   .now .fig { color: var(--dd-accent); }
 
   /*

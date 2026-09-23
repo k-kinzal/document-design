@@ -24,7 +24,7 @@
     border-radius: var(--dd-radius-pill);
     overflow: hidden;
     background: var(--dd-neutral-tint);
-    margin: var(--dd-sp-3) 0 var(--dd-sp-4);
+    margin: var(--dd-sp-3) 0 var(--dd-sp-3);
   }
 
   /*
@@ -86,7 +86,7 @@
   .legend li > .chip { justify-self: start; }
 
   .meter-legend-count { text-align: right; font-variant-numeric: tabular-nums; }
-  .meter-legend-description { color: var(--dd-fg-muted); font-size: var(--dd-text-sm); }
+  .meter-legend-description { color: var(--dd-fg-muted); font-size: var(--dd-text-md); }
 
   @media (max-width: 900px) {
     .legend li { grid-template-columns: 130px 50px; }

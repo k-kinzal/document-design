@@ -48,9 +48,16 @@
     margin: var(--dd-base) 0 calc(var(--dd-base) / 4);
   }
 
+  /*
+   * 16, not 13. A report is read rather than scanned, and these lines carry
+   * the distinctions the section is making — what counts, what is left
+   * uncovered, what is out of scope. Setting the argument at caption size and
+   * the figure above it at 49 told the reader to look at the number and skim
+   * the reason.
+   */
   .figures p {
-    font-size: var(--dd-type-1);
-    line-height: 1.75;
+    font-size: var(--dd-type-2);
+    line-height: 1.7;
     color: var(--dd-fg-muted);
     margin: 0;
   }

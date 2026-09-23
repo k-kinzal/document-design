@@ -40,12 +40,27 @@
      * spending 36px on vertical padding to present three clipped lines; it now
      * spends 16px and presents them larger. Same rows per screen, larger text.
      */
-    --dd-text-xs: 0.75rem;     /* 12 — a chip, a count, a facet's number     */
-    --dd-text-sm: 0.8125rem;   /* 13 — a caption, a legend note, meta        */
-    --dd-text-md: 0.875rem;    /* 14 — the catalog's body, cells, sidebar    */
-    --dd-text-lg: 1rem;        /* 16 — a lede, prose body, a small heading   */
-    --dd-text-xl: 1.125rem;    /* 18 — the catalog's h2                      */
-    --dd-text-2xl: 1.375rem;   /* 22 — the catalog's h1, prose h2            */
+    /*
+     * 14px is the floor for anything the reader came to read.
+     *
+     * The scale used to bottom out at 12 for chips and figures and 13 for the
+     * names in a listing — while the card hint explaining how to browse sat at
+     * 14. The support outranked the subject: a reader scanning for a table
+     * name found it set smaller than the sentence telling them to look for it.
+     * Six nominal sizes also collapsed into about three perceptual bands, so
+     * the extra steps were buying noise rather than hierarchy.
+     *
+     * xs and sm survive for marks that are genuinely subordinate — a count
+     * beside a heading, an uppercase rail label — and for nothing a reader has
+     * to decipher.
+     */
+    --dd-text-xs: 0.75rem;     /* 12 — a tracked rail label; never prose     */
+    --dd-text-sm: 0.8125rem;   /* 13 — a count next to something it counts   */
+    --dd-text-md: 0.875rem;    /* 14 — the catalog's floor: names, cells,
+                                        chips, figures, hints, navigation     */
+    --dd-text-lg: 1rem;        /* 16 — a lede, prose body, a card title      */
+    --dd-text-xl: 1.25rem;     /* 20 — the catalog's section heading         */
+    --dd-text-2xl: 1.5rem;     /* 24 — the catalog's page title, prose h2    */
     --dd-text-3xl: 1.75rem;    /* 28 — prose h1, a stat figure               */
 
     /* ---- type, the report's major third from 16px ---- */

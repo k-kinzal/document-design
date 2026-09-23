@@ -73,7 +73,7 @@
 
   .facet-shown {
     color: var(--dd-fg-subtle);
-    font-size: var(--dd-text-sm);
+    font-size: var(--dd-text-md);
     font-variant-numeric: tabular-nums;
     margin-left: auto;
   }

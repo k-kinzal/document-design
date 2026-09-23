@@ -24,7 +24,7 @@
     white-space: pre-wrap;
     word-break: break-word;
     line-height: 1.6;
-    font-size: var(--dd-text-sm);
+    font-size: var(--dd-text-md);
     font-family: var(--dd-font-mono);
   }
 

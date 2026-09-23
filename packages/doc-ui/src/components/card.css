@@ -65,7 +65,7 @@
 
   /* Pushed to the bottom so that cards of different heights still line their
      "all of them" links up along one edge. */
-  .card-more { margin: auto 0 0; padding-top: var(--dd-sp-3); font-size: var(--dd-text-sm); }
+  .card-more { margin: auto 0 0; padding-top: var(--dd-sp-3); font-size: var(--dd-text-md); }
 
   /* A card that supports the thing beside it rather than being a route. */
   /* An aside is a different thing from a route, so it keeps a surface — that

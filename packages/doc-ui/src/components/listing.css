@@ -24,7 +24,13 @@
     flex-wrap: wrap;
     align-items: baseline;
     gap: 0 var(--dd-sp-3);
-    padding: 6px 0;
+    /*
+     * 4px, not 6. With the name raised to 14px the row grew to a 36px pitch,
+     * which on a listing of hundreds is mostly separation. 22px of text and
+     * 8px of air reads as one row per line without the eye losing its place
+     * between neighbours, and returns about four rows per thousand pixels.
+     */
+    padding: var(--dd-sp-2) 0;
     border-top: 1px solid var(--dd-border);
   }
 
@@ -38,12 +44,12 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-family: var(--dd-font-mono);
-    font-size: var(--dd-text-sm);
+    font-size: var(--dd-text-md);
   }
 
   .peek-figures {
     color: var(--dd-fg-subtle);
-    font-size: var(--dd-text-xs);
+    font-size: var(--dd-text-md);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
     margin-left: auto;
