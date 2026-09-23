@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'node:url';
+import uiPackage from '@k-kinzal/doc-ui/package.json' with { type: 'json' };
 import { highlight } from './highlight.mjs';
 import { locales, localePath, translate } from './i18n.mjs';
 export const site = {
@@ -9,8 +10,9 @@ export const site = {
   description: 'A CSS design system for documentation and reports. Explore the components, layouts, and HTML for making information clear.',
 };
 export const escape = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-export const cssURL = `${site.url}v1/document-design.css`;
-export const jsURL = `${site.url}v1/document-design.js`;
+export const releaseTag = `v${uiPackage.version}`;
+export const cssURL = `${site.url}${releaseTag}/document-design.css`;
+export const jsURL = `${site.url}${releaseTag}/document-design.js`;
 export const stylesheet = `<link rel="stylesheet"\n      href="${cssURL}">`;
 
 /*
@@ -42,7 +44,7 @@ export function languageLink(path = '', lang = 'en') {
   return `<a class="btn btn-quiet" href="${base}${localePath(path, other)}index.html" lang="${other}" hreflang="${other}" rel="alternate" translate="no">${other === 'ja' ? '日本語' : 'English'}</a>`;
 }
 export function masthead(base = './', active = '', lang = 'en') {
-  return `<header class="masthead"><a class="brand" href="${base}" aria-label="doc-ui home">doc-ui</a><span class="chip chip-ghost">v1.0</span><nav aria-label="Main navigation"><a href="${base}start/" ${active === 'start' ? 'aria-current="page"' : ''}>Get started</a><a href="${base}components/" ${active === 'components' ? 'aria-current="page"' : ''}>Components</a><a href="${site.repository}">GitHub <span aria-hidden="true">↗</span></a>${languageLink('', lang)}<button class="btn btn-quiet" data-dd-theme-toggle data-dd-enhance hidden aria-label="Switch color theme">◐</button></nav></header>`;
+  return `<header class="masthead"><a class="brand" href="${base}" aria-label="doc-ui home">doc-ui</a><span class="chip chip-ghost" translate="no">${releaseTag}</span><nav aria-label="Main navigation"><a href="${base}start/" ${active === 'start' ? 'aria-current="page"' : ''}>Get started</a><a href="${base}components/" ${active === 'components' ? 'aria-current="page"' : ''}>Components</a><a href="${site.repository}">GitHub <span aria-hidden="true">↗</span></a>${languageLink('', lang)}<button class="btn btn-quiet" data-dd-theme-toggle data-dd-enhance hidden aria-label="Switch color theme">◐</button></nav></header>`;
 }
 export function footer(base = './') {
   return `<footer class="colophon"><a class="brand" href="${base}">doc-ui</a><nav aria-label="Footer"><a href="${base}components/">Documentation</a><a href="${base}storybook/">Storybook ↗</a><a href="${site.repository}">GitHub ↗</a><span>by <a href="https://github.com/k-kinzal">k-kinzal</a> · MIT License</span></nav></footer>`;
@@ -86,10 +88,10 @@ ${route ? '' : `<meta name="twitter:image" content="${site.url}assets/og.png">
 <meta name="twitter:image:alt" content="doc-ui — Information, made clear. A diagram compares the reading paths of a reference and a paper.">`}
 <link rel="icon" href="${base}assets/favicon.png" type="image/png" sizes="48x48">
 <link rel="apple-touch-icon" href="${base}assets/apple-touch-icon.png" sizes="180x180">
-<link ${development ? '' : 'vite-ignore '}rel="stylesheet" href="${development ? '/@fs/' + fileURLToPath(import.meta.resolve('@k-kinzal/doc-ui/src/index.css')) : base + 'latest/document-design.min.css'}">
+<link ${development ? '' : 'vite-ignore '}rel="stylesheet" href="${development ? '/@fs/' + fileURLToPath(import.meta.resolve('@k-kinzal/doc-ui/src/index.css')) : base + releaseTag + '/document-design.min.css'}">
 <script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>
 ${search ? `<script vite-ignore src="${base}${localePath('assets/search.js', lang)}" defer></script>` : ''}
-<script vite-ignore src="${development ? '/@fs/' + fileURLToPath(import.meta.resolve('@k-kinzal/doc-ui/src/js/document-design.js')) : base + 'latest/document-design.js'}" defer></script>
+<script vite-ignore src="${development ? '/@fs/' + fileURLToPath(import.meta.resolve('@k-kinzal/doc-ui/src/js/document-design.js')) : base + releaseTag + '/document-design.js'}" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">${lang === 'ja' ? '本文へ移動' : 'Skip to content'}</a>

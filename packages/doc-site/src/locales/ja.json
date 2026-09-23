@@ -97,7 +97,6 @@
   "Use doc-ui": "doc-uiを使う",
   "Add the stylesheet, choose a layout, and start with a complete HTML document.": "スタイルシートを読み込み、レイアウトを選んで、完全なHTML文書からはじめます。",
   "1. Load the stylesheet": "1. スタイルシートを読み込む",
-  "Add this link to your document’s <code>&lt;head&gt;</code>. Use the versioned <code>/v1/</code> URL for documents you publish or archive.": "このリンクを文書の<code>&lt;head&gt;</code>に追加します。公開・保存する文書では、バージョンを固定した<code>/v1/</code>のURLを使ってください。",
   "2. Choose a reading mode": "2. 読み方を選ぶ",
   "To find something: .doc": "探すための .doc",
   "API references, catalogs, and search results. A dense layout that stays easy to scan.": "APIリファレンス、カタログ、検索結果に。高い密度のまま走査できるレイアウトです。",
@@ -134,7 +133,6 @@
   "Check print preview before distributing a generated report.": "生成したレポートを配布する前に印刷プレビューを確認してください。",
   "Browser support & versions": "対応ブラウザとバージョン",
   "Designed for current Chrome, Edge, Firefox, and Safari. The CSS uses <code>light-dark()</code>, <code>color-mix()</code>, cascade layers, container queries, and subgrid.": "現在のChrome、Edge、Firefox、Safari向けの設計です。CSSでは<code>light-dark()</code>、<code>color-mix()</code>、カスケードレイヤー、コンテナクエリ、subgridを使っています。",
-  "Use <code>/latest/</code> to try development changes. Use <code>/v1/</code> for published and archived documents. Breaking changes belong in a new major version.": "開発中の変更を試す場合は<code>/latest/</code>、公開・保存する文書は<code>/v1/</code>を使います。破壊的変更は新しいメジャーバージョンに分けます。",
   "This stylesheet owns its document. When embedding it into an existing application, use a separate document or check the effect of its base styles on your surrounding UI.": "このスタイルシートは文書全体を受け持ちます。既存アプリケーションへ組み込む場合は、別文書として表示するか、周囲のUIへの影響を確認してください。",
   "Explore 43 components →": "43種類のコンポーネントを見る →",
   "Source code ↗": "ソースコード ↗",
@@ -714,5 +712,7 @@
   "Analysis stopped early. The actual count may be greater.": "解析が途中で止まりました。実際の件数はさらに多い可能性があります。",
   "Set the document language": "文書の言語を指定する",
   "Declare <code>lang=\"en\"</code> for English or <code>lang=\"ja\"</code> for Japanese on the HTML element. The language selects Japanese phrase-aware heading breaks and figure captions. Body text keeps its natural spacing; headings and short labels use proportional metrics.": "HTML要素に、英語なら<code>lang=\"en\"</code>、日本語なら<code>lang=\"ja\"</code>を指定します。言語に応じて、和文の見出しの文節改行や図の接頭辞が切り替わります。本文はベタ組を保ち、見出しや短いラベルにはプロポーショナルメトリクスを使います。",
-  "Use the language link in the header to compare the same page in English and Japanese. Try <a href=\"../components/prose/\">Prose</a> for reading text and <a href=\"../components/report/\">Report</a> for the larger type scale.": "ヘッダーの言語リンクで、同じページの日英の組版を比較できます。通読する文章は<a href=\"../components/prose/\">Prose</a>、大きな型スケールは<a href=\"../components/report/\">Report</a>で確認できます。"
+  "Use the language link in the header to compare the same page in English and Japanese. Try <a href=\"../components/prose/\">Prose</a> for reading text and <a href=\"../components/report/\">Report</a> for the larger type scale.": "ヘッダーの言語リンクで、同じページの日英の組版を比較できます。通読する文章は<a href=\"../components/prose/\">Prose</a>、大きな型スケールは<a href=\"../components/report/\">Report</a>で確認できます。",
+  "Add this link to your document’s <code>&lt;head&gt;</code>. The full release version keeps published and archived documents fixed.": "このリンクを文書の<code>&lt;head&gt;</code>に追加します。完全なリリースバージョンを指定すると、公開・保存する文書の見た目を固定できます。",
+  "Full versions such as <code>/v1.0.0/</code> and 40-character commit paths are immutable. <code>/v1.0/</code> and <code>/v1/</code> follow compatible releases; <code>/latest/</code> follows main. This site follows the latest stable release. Breaking changes belong in a new major version.": "<code>/v1.0.0/</code>のような完全なバージョンと40文字のコミットパスは変更されません。<code>/v1.0/</code>と<code>/v1/</code>は互換性のあるリリースを、<code>/latest/</code>はmainを追います。このサイトは最新の安定版リリースに基づきます。破壊的変更は新しいメジャーバージョンに分けます。"
 }

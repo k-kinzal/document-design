@@ -18,7 +18,7 @@ export function html(strings, ...values) {
  *
  * `.draw-arrow` sets `marker-end: url(#dd-arrow)` and a marker reference that
  * resolves to nothing is not an error in SVG — the line simply ends. So every
- * document that draws an arrow carries this block, and scripts/drawing-type.mjs
+ * document that draws an arrow carries this block, and tests/drawing-type.test.mjs
  * checks that it does.
  *
  * This is markup, not a component, because the public API of this system is the

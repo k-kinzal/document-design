@@ -3,6 +3,7 @@ name: Pages
 on:
   push:
     branches: [main]
+    tags: ['v*.*.*']
   pull_request:
   workflow_dispatch:
 
@@ -10,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: pages-${{ github.ref }}
+  group: pages-${{ github.event_name == 'pull_request' && github.ref || 'publication' }}
   cancel-in-progress: false
 
 jobs:
@@ -31,22 +32,72 @@ jobs:
       - run: npm exec --workspace doc-site -- playwright install --with-deps chromium
       - run: npm test
       - run: npm run build:storybook
-      - run: node scripts/pages.mjs
-      - uses: actions/upload-pages-artifact@v4
+      - run: npm run stage --workspace doc-publish -- "$RUNNER_TEMP/pages-build"
+      - uses: actions/upload-artifact@v7
         with:
-          path: pages
+          name: pages-build
+          path: ${{ runner.temp }}/pages-build
+          if-no-files-found: error
+          retention-days: 7
 
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/'))
     needs: build
     runs-on: ubuntu-latest
     permissions:
+      contents: write
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - uses: actions/configure-pages@v5
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v8
+        with:
+          name: pages-build
+          path: ${{ runner.temp }}/pages-build
+      - name: Restore publication archive
+        shell: bash
+        run: |
+          git fetch origin main
+          if git ls-remote --exit-code --heads origin gh-pages; then
+            git fetch origin gh-pages
+            git worktree add --detach "$RUNNER_TEMP/pages-archive" FETCH_HEAD
+          else
+            status=$?
+            if [ "$status" -ne 2 ]; then exit "$status"; fi
+            git worktree add --detach "$RUNNER_TEMP/pages-archive" HEAD
+            git -C "$RUNNER_TEMP/pages-archive" switch --orphan gh-pages
+          fi
+      - name: Assemble versioned publication
+        id: assemble
+        run: npm run assemble --workspace doc-publish -- "$RUNNER_TEMP/pages-build" "$RUNNER_TEMP/pages-archive" "$GITHUB_REF" "$(git rev-parse origin/main)"
+      - name: Save publication archive
+        shell: bash
+        run: |
+          git -C "$RUNNER_TEMP/pages-archive" config user.name 'github-actions[bot]'
+          git -C "$RUNNER_TEMP/pages-archive" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git -C "$RUNNER_TEMP/pages-archive" add --all
+          if ! git -C "$RUNNER_TEMP/pages-archive" diff --cached --quiet; then
+            git -C "$RUNNER_TEMP/pages-archive" commit -m "Publish $GITHUB_REF at $GITHUB_SHA"
+            git -C "$RUNNER_TEMP/pages-archive" push origin HEAD:gh-pages
+          fi
+      # Before the first release, retain main snapshots without replacing the
+      # public site with an artifact that has no product page.
+      - if: steps.assemble.outputs.has-site == 'true'
+        run: npm run export --workspace doc-publish -- "$RUNNER_TEMP/pages-archive" "$GITHUB_WORKSPACE/pages"
+      - if: steps.assemble.outputs.has-site == 'true'
+        uses: actions/configure-pages@v5
+      - if: steps.assemble.outputs.has-site == 'true'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: pages
       - id: deploy
+        if: steps.assemble.outputs.has-site == 'true'
         uses: actions/deploy-pages@v4

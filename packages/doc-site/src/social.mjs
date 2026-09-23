@@ -4,7 +4,7 @@ import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
-import { readingPaths } from '../src/home.mjs';
+import { readingPaths } from './home.mjs';
 
 const temp = mkdtempSync(join(tmpdir(), 'doc-site-social-'));
 let browser;

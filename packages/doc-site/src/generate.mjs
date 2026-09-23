@@ -1,11 +1,11 @@
 import { mkdirSync, rmSync, writeFileSync, cpSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { document, site } from '../src/site.mjs';
-import { home } from '../src/home.mjs';
-import { docs } from '../src/docs.mjs';
-import { components } from '../src/components.mjs';
-import { locales, localePath, localizeHTML, translate } from '../src/i18n.mjs';
+import { document, site, releaseTag } from './site.mjs';
+import { home } from './home.mjs';
+import { docs } from './docs.mjs';
+import { components } from './components.mjs';
+import { locales, localePath, localizeHTML, translate } from './i18n.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const generatedRoot = resolve(root, '.generated');
@@ -17,7 +17,7 @@ export function generate({ development = false, outDir = generatedRoot } = {}) {
   const assets = resolve(out, 'public');
   cpSync(resolve(root, 'public'), assets, { recursive: true });
   const ui = dirname(fileURLToPath(import.meta.resolve('@k-kinzal/doc-ui')));
-  for (const version of ['v1', 'latest']) cpSync(ui, resolve(assets, version), { recursive: true });
+  for (const version of [releaseTag, 'v1', 'latest']) cpSync(ui, resolve(assets, version), { recursive: true });
   if (!existsSync(resolve(assets, 'assets/og.png'))) throw new Error('Missing social preview: public/assets/og.png');
   const pages = locales.flatMap(lang => [
     { path: '', title: site.title, description: site.description, body: home(lang) }, ...docs(lang),
@@ -26,7 +26,7 @@ export function generate({ development = false, outDir = generatedRoot } = {}) {
     title: translate(page.title, lang), description: translate(page.description, lang),
     // Documentation links stay within the locale. Distribution and Storybook
     // belong to the repository root, shared by both languages.
-    body: localizeHTML(page.body, { lang }).replace(/href="((?:\.\.?\/)+)(storybook|v1|latest)\//g,
+    body: localizeHTML(page.body, { lang }).replace(/href="((?:\.\.?\/)+)(storybook|v\d+(?:\.\d+){0,2}|latest)\//g,
       (_, base, shared) => `href="${lang === 'ja' ? '../' : ''}${base}${shared}/`),
   })));
   // Explicit index filenames also work in an archive opened over file://.
@@ -34,7 +34,7 @@ export function generate({ development = false, outDir = generatedRoot } = {}) {
   for (const page of pages) {
     const target = resolve(out, page.path);
     mkdirSync(target, { recursive: true });
-    writeFileSync(resolve(target, 'index.html'), document({ ...page, body: portable(page.body), development }));
+    writeFileSync(resolve(target, 'index.html'), document({ ...page, body: portable(page.body).replace(/href="((?:\.\.?\/)+)v1\//g, (_, base) => `href="${base}${releaseTag}/`), development }));
   }
   for (const lang of locales) {
     const localeAssets = resolve(assets, localePath('', lang));

@@ -16,6 +16,28 @@ optimized for Japanese output.
   appropriate in translations, language-specific specimens, and quoted source
   material; mark its language explicitly in HTML.
 
+## Repository workflow
+
+- This is a maintainer-driven project. External pull requests are not accepted;
+  keep the repository's pull-request restriction in place.
+- Commit routine changes directly to `main`. Do not require feature branches,
+  pull requests, reviews, or a release for each change.
+- Release when the maintainer chooses: update the package version and workspace
+  dependency, validate the build, then create a matching annotated `vX.Y.Z` tag.
+  Never move or overwrite a published full-version tag.
+- Main commits publish immutable distributions under their full commit SHA and
+  update `/latest/`. Stable release tags publish full, minor, and major URLs.
+  The single product site and Storybook follow the highest stable release;
+  main changes must not alter the released site's content or pinned assets.
+- `gh-pages` is generated publication storage. Only the publication workflow
+  writes it; preserve historical release and commit distributions.
+- Do not add a `scripts/` directory. Use package-owned npm commands, build
+  configuration, source modules, and tests. Root npm commands coordinate packages;
+  root tests cover repository-wide contracts.
+- Keep the root README focused on users: a short overview, real screenshots,
+  getting started, and product/documentation/Storybook links. Maintainer setup and
+  release instructions belong in `docs/DEVELOPMENT.md` and package documentation.
+
 ## Vision
 
 Build a design system for the documents and papers produced by k-kinzal.
@@ -79,7 +101,7 @@ These are not design rationales, but conditions required for the design to work:
 | Japanese/Latin spacing | `text-autospace: normal`, excluding mono | The default is `no-autospace`. Generated Japanese contains Latin identifiers and numbers with no author to insert spaces. Measurements added no lines or overflow. **Do not declare** `text-spacing-trim`: its default is already `normal`. |
 | Line length | `--dd-measure` 36ric / `--dd-measure-wide` 48ric | 36 Japanese or 77 Latin characters keeps both readable. The old `72ch` produced 45/99 characters, **outside both ranges**. `ch` measures “0”, not either script's text. |
 | Shared right edges | Root-relative `ric`, not element-relative `ic` | With `ic`, the same token becomes wider in headings. Measured widths of 576 for prose, 720 for h3, and 768 for h2 created **five right edges**. Each character count was correct; the page was not. |
-| Figure text | Roles in `components/draw.css` (`.draw-label`, `.draw-value`, `.draw-cap`, …) | Handwritten 14/15/16/20 sizes were really **one size plus weight and colour**. `scripts/drawing-type.mjs` prevents their return. |
+| Figure text | Roles in `components/draw.css` (`.draw-label`, `.draw-value`, `.draw-cap`, …) | Handwritten 14/15/16/20 sizes were really **one size plus weight and colour**. `tests/drawing-type.test.mjs` prevents their return. |
 | Figure **lines and fills** | `.draw-box`, `.draw-box-toned`, `.draw-box-alt`, `.draw-box-open`, `.draw-group`, `.draw-fill`, `.draw-line`, `.draw-line-open`, `.draw-guide`, `.draw-focus` | Two review rounds left **0 of 146** text elements with handwritten styles, but **78 of 146** marks still had them, including direct `--dd-red` strokes. Readers see both in the same minute. |
 | Direction in figures | `.draw-arrow` and one `<marker id="dd-arrow">` per document (`.draw-defs`) | Each arrowhead used to have three manually calculated points. Moving nodes silently left nine stale points. `fill="context-stroke"` follows the line's colour. |
 | Referring to part of a figure | `components/annotate.css` (`.mark`, `.leader`, `.legend-key`) | Figures had numbers, captions, and sources but **no way to point at a part**. Authors put explanatory sentences in `<text>`, turning the figure into an image of text. |
@@ -96,7 +118,7 @@ These are not design rationales, but conditions required for the design to work:
 | Naming collisions | Prefix custom properties only with `--dd-` | Custom properties inherit across the entire document; neither `@layer` nor `@scope` contains them. They are also a theme API and need stable names. |
 | Themes | `light-dark()` + `color-scheme` | Write the palette once; manual switching changes only `color-scheme`. |
 | Colour readability | `color-mix(in oklab, hue var(--dd-tint-mix), bg)` | Derive `--dd-tint-mix` from **contrast targets**, not preference. |
-| Verifying claims | `scripts/contrast.mjs`, required in CI; 150 pairs across all hues, five surfaces, and tints | “Easy to see” is a claim only when it can be checked. |
+| Verifying claims | `tests/contrast.test.mjs`, required in CI; 150 pairs across all hues, five surfaces, and tints | “Easy to see” is a claim only when it can be checked. |
 | Orthogonal colour | Components read `--dd-tone` / `--dd-tone-tint` | New categories need no new components. Consumers can alias `.k-select` and similar names in one line. |
 | Responding to width | **Unnamed** container queries target the nearest container | A 1400px window can contain a 320px column. This preserves the promise that genres can be nested. |
 | Long lists | `[data-dd-defer]` → `content-visibility` | Speeds initial rendering of 844 rows; unsupported browsers keep the same appearance. |
@@ -125,7 +147,7 @@ These are not design rationales, but conditions required for the design to work:
 - **Do not set SVG alignment in CSS.** `text-anchor` and `dominant-baseline` describe placement, not typesetting. CSS declarations **always override** presentation attributes, silently disabling every `text-anchor="end"`.
 - **Prevent figures from growing as well as shrinking.** `min-width` without `width` lets a figure expand. An 820px drawing grew to 1124px (1.37×), making 14px labels render at 19.2px, larger than the page's headings.
 - **Do not reset counters on the container itself.** `container-type: inline-size` implies style containment and **makes that element a counter scope root**. A reset there sits outside the scope incremented by its descendants. In Chrome 154, three figures in one sheet all read “Figure 1”. Moving the reset to `:root` or `body`, or removing it, did not help. Resetting **inside the container** (`.sheet > :first-child`) produced Figure 1/2/3.
-- **Do not handwrite `font-size` in figures.** `scripts/drawing-type.mjs` rejects it. If another size is needed, a role is missing.
+- **Do not handwrite `font-size` in figures.** `tests/drawing-type.test.mjs` rejects it. If another size is needed, a role is missing.
 - **Do not handwrite `fill` or `stroke` in figures.** The same checker rejects them, except `fill="none"`, which specifies geometry rather than colour. Across two review rounds, text had 0/146 handwritten styles while `<rect>`, `<path>`, and `<circle>` had 78/146. **The reasoning for text applies equally to lines and fills.**
 - **CSS always overrides SVG attributes, so use `:not([attr])` for defaults.** `draw.css` documented this, but `graph.css` violated it with `:where(.graph text) { text-anchor: middle }`. `:where()` removes specificity; it **does not stop CSS from overriding attributes**. Use `:where(.graph text:not([text-anchor]))` to supply a default only when the author supplied none.
 - **Write defaults as fallbacks, not assigned values.** `.mark-open { --dd-tone: var(--dd-warn) }` is not a default. `.tone-danger` is in `dd.base`, while `.mark-open` is in `dd.component`, so `class="mark mark-open tone-danger"` stayed amber. `stroke: var(--dd-tone, var(--dd-warn))` yields when a tone is supplied.

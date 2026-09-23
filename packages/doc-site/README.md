@@ -43,7 +43,7 @@ script, and the root build/test shortcuts build dependencies in order.
 - `src/site.mjs`: document shell, canonical URL and social metadata.
 - `src/i18n.mjs` and `src/locales/`: build-time translation and message catalogs.
 - `src/highlight.mjs`: build-time Shiki parsing into doc-ui's `.tok-*` classes.
-- `scripts/generate.mjs`: HTML, search data, sitemap, robots and 404 output.
+- `src/generate.mjs`: HTML, search data, sitemap, robots and 404 output.
 - `public/assets/`: social card and typographic icons.
 
 Vite+ builds 92 pages (46 per language) plus a bilingual 404 document. No client framework or highlighting
@@ -56,9 +56,13 @@ site be opened over `file://` as well as under a GitHub Pages project path.
 
 This package owns `/`, `/start/`, `/components/`, and `/components/<name>/`,
 plus their Japanese counterparts under `/ja/`.
-The repository's `scripts/pages.mjs` combines its `dist/` with doc-ui's Storybook
+The `doc-publish` workspace combines its `dist/` with doc-ui's Storybook
 and versioned artifacts; `npm run build:pages` prepares that full site.
-The existing Pages workflow checks and tests the packages before publishing.
+The Pages workflow checks and tests the packages before publishing. Only a new
+highest stable `vX.Y.Z` tag replaces the product site and Storybook. Main pushes
+publish development distributions while preserving the released site. The
+site's CSS and JavaScript use the full version from doc-ui's public package
+metadata export, so a later main build cannot change a released page's styling.
 
 The canonical origin is configured in `src/site.mjs`. Change it there if the
 repository or domain changes. Each guide has its own title, description,

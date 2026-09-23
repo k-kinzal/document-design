@@ -7,11 +7,12 @@
   "type": "module",
   "scripts": {
     "build": "vp build",
-    "check": "node scripts/check.mjs",
+    "check": "node --test tests/content.mjs",
     "dev": "vp dev",
     "preview": "vp preview --open",
     "test": "playwright test",
-    "social": "node scripts/social.mjs"
+    "social": "node src/social.mjs",
+    "icons": "node src/icons.mjs"
   },
   "dependencies": {
     "@k-kinzal/doc-ui": "1.0.0"

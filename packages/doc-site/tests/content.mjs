@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync, readFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { generate } from './generate.mjs';
-import { site } from '../src/site.mjs';
+import { generate } from '../src/generate.mjs';
+import { site, releaseTag } from '../src/site.mjs';
 import { components } from '../src/components.mjs';
 import { catalog } from '../src/catalog.mjs';
 import { callers, statementLines, bins } from '../src/graph-examples.mjs';
@@ -27,6 +27,9 @@ try {
     assert(description && !descriptions.has(description), `Missing or duplicate description: ${page.path}`); descriptions.add(description);
     assert.equal((html.match(/<h1\b/g)||[]).length, 1, `One h1: ${page.path}`);
     assert(html.includes(`<html lang="${page.lang}"`));
+    assert(html.includes(`${releaseTag}/document-design.min.css`), `Unpinned site CSS: ${page.path}`);
+    assert(html.includes(`${releaseTag}/document-design.js`), `Unpinned site JavaScript: ${page.path}`);
+    assert(!/(?:href|src)="[^"]*latest\/document-design/.test(html), `Development asset in released site: ${page.path}`);
     if (page.lang === 'en') assert(!/[ぁ-んァ-ン一-龯]/.test(html.replace(/<a\b[^>]*translate="no"[^>]*>.*?<\/a>/gs, '')), `Unexpected Japanese content: ${page.path}`);
     else assert(/[ぁ-んァ-ン一-龯]/.test(description), `Missing Japanese description: ${page.path}`);
     if (page.lang === 'en') {

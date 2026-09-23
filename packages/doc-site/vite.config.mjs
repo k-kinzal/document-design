@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite-plus';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { generate, generatedRoot } from './scripts/generate.mjs';
+import { generate, generatedRoot } from './src/generate.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 export default defineConfig(({ command, isPreview }) => {

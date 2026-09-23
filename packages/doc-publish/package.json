@@ -1,0 +1,14 @@
+{
+  "name": "doc-publish",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Versioned GitHub Pages publication for doc-ui and doc-site",
+  "type": "module",
+  "scripts": {
+    "build": "node src/pages.mjs",
+    "stage": "node src/pages.mjs stage",
+    "assemble": "node src/pages.mjs publish",
+    "export": "node src/pages.mjs export",
+    "test": "node --test tests/*.test.mjs"
+  }
+}

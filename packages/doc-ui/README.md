@@ -121,7 +121,14 @@ src/
 
 `/v1/` is the stable URL and is not changed in a way that restyles a page
 already written — the consumers here are generated documents that get archived.
-A breaking change goes to `/v2/`. `/latest/` tracks `main`.
+A breaking change goes to `/v2/`. `/v1.0/` follows compatible patches in its minor
+series. Full paths such as `/v1.0.0/` never change and are the preferred links
+for archived documents. Each published main commit also has an immutable path
+using its full 40-character SHA; `/latest/` tracks the tip of `main`.
+
+Stable Git tags must match this package's version. The product site and
+Storybook follow the highest published stable version, with the site's CSS and
+JavaScript pinned to that release. See [Development and releases](../../docs/DEVELOPMENT.md) for the release procedure.
 
 ## Publication and preview components
 

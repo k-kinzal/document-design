@@ -12,7 +12,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const root = join(here, "..");
+const root = here;
 const dist = join(root, "dist");
 
 /*

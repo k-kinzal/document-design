@@ -105,7 +105,7 @@
      * 4.5:1, not 3:1. At the earlier 13%/22% nine hue/tint pairs sat between
      * 3.9 and 4.5 and were shipped as passing because the check asked for the
      * wrong number. 6%/12% puts the worst pair at 4.63 (light) and 4.58 (dark).
-     * scripts/contrast.mjs is the authority and runs in CI.
+     * tests/contrast.test.mjs is the authority and runs in CI.
      */
     --dd-blue-tint:   color-mix(in oklab, var(--dd-blue)   var(--dd-tint-mix), var(--dd-bg));
     --dd-violet-tint: color-mix(in oklab, var(--dd-violet) var(--dd-tint-mix), var(--dd-bg));
