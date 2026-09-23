@@ -1,0 +1,333 @@
+/*
+ * Annotate — pointing at a part of a figure and saying what it is.
+ *
+ *   <figure class="plate plate-wide" id="fig-resolution">
+ *     <div class="draw-wrap">
+ *       <svg class="draw" style="--dd-draw-width: 768px" viewBox="0 0 768 280">
+ *         …
+ *         <path class="leader" d="M318 96H392"/>
+ *         <circle class="leader-foot" cx="318" cy="96"/>
+ *         <g class="mark" transform="translate(404 96)"><circle/><text>1</text></g>
+ *       </svg>
+ *     </div>
+ *     <ol class="legend legend-key">
+ *       <li><span class="legend-name">Dependency not modeled</span> — the
+ *           resolver stops where a call leaves the analysed set. 709 of 844.</li>
+ *       <li class="mark-open">No measurement exists for runtime execution.</li>
+ *     </ol>
+ *     <figcaption>…</figcaption>
+ *   </figure>
+ *
+ * and, from the running text: <a class="ref" href="#fig-resolution">図 3</a>
+ *
+ * ---------------------------------------------------------------------------
+ * Why a figure needs this at all
+ *
+ * components/plate.css calls a figure "a unit of explanation rather than a box
+ * with a picture in it", and lists what it is made of: the drawing, its
+ * labels, a caption, a number, a source, and a name the text can point at.
+ * Every one of those addresses the figure as a whole. None of them can
+ * address a *part* of it.
+ *
+ * So a caption could say "the resolver stops at the third stage" and the
+ * reader had to find the third stage — by counting, in a drawing that has no
+ * reason to be countable left to right. The author's way out was to put the
+ * explanation inside the picture, as more `<text>`, which is how a diagram
+ * turns into a slide: the words stop being document text that reflows, prints
+ * and can be searched, and become part of a fixed-width image of words.
+ *
+ * A callout is the alternative. The number goes in the drawing, where space
+ * is scarce and a disc costs 22px. The sentence goes under it, in HTML, where
+ * it is text.
+ *
+ * ---------------------------------------------------------------------------
+ * Three things, not one
+ *
+ *   .mark          the token, in the drawing and in the key
+ *   .leader        the line from the token to what it names
+ *   .legend-key    the numbered list that says what each one is
+ *
+ * and the running text keeps pointing with `.ref` / `.ref ref-mark`
+ * (components/plate.css, components/composition.css). Those are pointers *at*
+ * a figure; a mark is a label *on* one, and the reader meets them in different
+ * places — a mark inline in a sentence would be a disc in the middle of a line
+ * of prose, which is a bullet, not a reference.
+ */
+
+@layer dd.component {
+  /* ---- the token ---- */
+
+  /*
+   * One class, two renderings: `<span class="mark">` in HTML and
+   * `<g class="mark">` in SVG. The same number, in the same shape, wherever
+   * the reader meets it — which is the entire job. Two classes would be two
+   * sets of values to keep in step by eye, and they would drift the first
+   * time either one was adjusted.
+   *
+   * The SVG form is positioned once, on the group:
+   *
+   *     <g class="mark" transform="translate(404 96)"><circle/><text>1</text></g>
+   *
+   * `cx`/`cy` and `x`/`y` all default to 0, so the disc and the numeral are
+   * concentric without either of them being given a coordinate. Writing them
+   * out means two coordinates that have to agree, and a mark whose number is
+   * three pixels off its disc looks like a mistake in the data.
+   */
+  .mark {
+    display: inline-grid;
+    place-items: center;
+    width: 1.6em;
+    height: 1.6em;
+    border-radius: var(--dd-radius-pill);
+    border: 1.5px solid var(--dd-tone, var(--dd-fg));
+    background: var(--dd-tone-tint, transparent);
+    color: var(--dd-tone, var(--dd-fg));
+    font-size: var(--dd-text-md);
+    font-weight: var(--dd-weight-label);
+    font-variant-numeric: tabular-nums;
+    /* A numeral alone in a disc is centred, not tracked: the tracking bands
+       are for runs of letters, and +0.16em on a single 3 pushes it right. */
+    letter-spacing: 0;
+    line-height: 1;
+    flex: none;
+  }
+
+  /*
+   * The disc is unfilled unless it carries a tone.
+   *
+   * A filled halo would have to be painted in `--dd-bg`, and the system has
+   * already found where that fails: on a raised or inset surface it is the
+   * wrong colour, and `.edge-label` in components/graph.css says so. So the
+   * mark does not clear a space for itself — the generator routes the leader
+   * to the edge of the disc, the same 8px discipline the flow graph already
+   * keeps between an arrow tip and its target.
+   */
+  .mark > circle {
+    /*
+     * Type, not geometry: the disc is sized to clear a two-digit numeral at
+     * the drawing's text size, so the number deciding it is a type decision
+     * and belongs here rather than in the markup.
+     *
+     * Derived from the same token as the HTML form's 1.6em rather than
+     * written as 11 — measured, the literal put the SVG disc at 22.0 against
+     * the HTML disc's 22.4, which is the kind of drift a reader sees when the
+     * two sit in one figure and cannot explain.
+     */
+    r: calc(var(--dd-text-md) * 0.8);
+    fill: var(--dd-tone-tint, none);
+    stroke: var(--dd-tone, var(--dd-fg));
+    stroke-width: 1.5;
+  }
+
+  .mark > text {
+    fill: var(--dd-tone, var(--dd-fg));
+    font-family: var(--dd-font-sans);
+    font-size: var(--dd-text-md);
+    font-weight: var(--dd-weight-label);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    pointer-events: none;
+  }
+
+  /*
+   * Centred by the system, and only where the author did not say otherwise —
+   * the `:not([attr])` shape components/graph.css explains. A numeral in its
+   * own disc has one placement, so this is the rare case where CSS may supply
+   * alignment at all; it still stands aside rather than overriding, because a
+   * declaration that cannot be overridden from the markup is the failure
+   * components/draw.css documents.
+   */
+  .mark > text:not([text-anchor]) { text-anchor: middle; }
+  .mark > text:not([dominant-baseline]) { dominant-baseline: central; }
+
+  /*
+   * A callout on something that is not there.
+   *
+   * Dashed, like every absence in this system, and toned the same way
+   * `.draw-box-open` is: warn by default for "as far as we got", neutral for
+   * a hole, danger for a measurement that does not exist. The mark is the
+   * only place a figure can say "the thing worth noticing here is the gap",
+   * and a figure that cannot say it hands the reader a false completeness.
+   *
+   * Warn is written as the FALLBACK of `--dd-tone`, not as its value. Set as
+   * `.mark-open { --dd-tone: var(--dd-warn) }` it was not a default at all:
+   * `.tone-danger` sets the same property from `dd.base`, which loses to
+   * `dd.component` on layer order before specificity is consulted, so
+   * `class="mark mark-open tone-danger"` came out amber. Three kinds of
+   * absence, one of them unreachable.
+   */
+  /*
+   * `--dd-tone` on the class and the dash on `.mark.mark-open`, not on
+   * `.mark-open` alone.
+   *
+   * The class is also put on a key item, where it means "this entry is about
+   * something absent" and the disc it tones is a `::before`. Written flat,
+   * `border-style: dashed` applied to the `<li>` as well — and an element
+   * with no border-width gets `medium`, so every open entry in the key was
+   * drawn inside a 3px dashed box across the full width of the column.
+   */
+  .mark.mark-open {
+    border-style: dashed;
+    border-color: var(--dd-tone, var(--dd-warn));
+    color: var(--dd-tone, var(--dd-warn));
+    background: none;
+  }
+
+  .mark-open > circle {
+    stroke: var(--dd-tone, var(--dd-warn));
+    stroke-dasharray: 4 3;
+    fill: none;
+  }
+
+  .mark-open > text { fill: var(--dd-tone, var(--dd-warn)); }
+
+  /* ---- the line from the token to the thing ---- */
+
+  /*
+   * A leader names; it does not direct. So it has no arrowhead — that is
+   * `.draw-arrow`, and the two would be indistinguishable at a glance if this
+   * had one — and it is thinner than `.draw-line`, because it is apparatus
+   * rather than one of the things the figure is of.
+   *
+   * The foot is a dot rather than a tip: a dot marks a place, an arrow marks
+   * a direction, and a leader is pointing at a place.
+   */
+  .leader {
+    fill: none;
+    stroke: var(--dd-tone, var(--dd-rule));
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .leader-foot {
+    r: 2.5px;
+    fill: var(--dd-tone, var(--dd-rule));
+    stroke: none;
+  }
+
+  /* ---- the key ---- */
+
+  /*
+   * `.legend-key` is the numbered form of `.legend` (components/legend.css).
+   * It is defined here, next to `.mark`, because the number it draws *is* a
+   * mark — split across two files, the disc in the drawing and the disc in
+   * the key would be two sets of values, and the reader matching ① to ① is
+   * exactly the person who notices when they stop matching.
+   *
+   * The number comes from a counter, not from the author. A key's items are
+   * 1, 2, 3 in the order they are written, so asking for the number as well
+   * is asking for two sequences to be held in step by hand — and the failure
+   * is silent, because a key reading 1 2 4 is a perfectly well-formed list.
+   *
+   * Its own counter rather than `list-item`: `display: grid` on the item
+   * takes away `display: list-item`, and with it the increment that
+   * `counter(list-item)` reads. Measured, every number came out 0.
+   */
+  .legend-key {
+    display: grid;
+    gap: var(--dd-sp-4);
+    counter-reset: dd-key;
+    max-width: var(--dd-measure);
+  }
+
+  /*
+   * A hanging mark against a block of running text, not a two-track grid.
+   *
+   * The grid was the first attempt and it does not survive contact with a
+   * real entry. A key item is a sentence with a name in it —
+   * `<span class="legend-name">…</span> — the resolver stops where …` — which
+   * is two children, one of them a bare text node. Grid makes an anonymous
+   * item of that text, so an item with a name in it had three items for two
+   * tracks: measured, the sentence was pushed onto a second row and `max-
+   * content` sized the first column to 332px to fit it. Every entry that
+   * named its subject laid out differently from every entry that did not.
+   *
+   * Indent and an out-of-flow mark is the arrangement components/timeline.css
+   * already uses for the same shape, and it puts no constraint at all on what
+   * the sentence is made of.
+   */
+  .legend-key > li {
+    position: relative;
+    padding: 0 0 0 calc(1.6em + var(--dd-sp-4));
+    counter-increment: dd-key;
+    font-size: var(--dd-text-md);
+    line-height: 1.7;
+    color: var(--dd-fg-muted);
+  }
+
+  /*
+   * The disc, restated for the generated number.
+   *
+   * A pseudo-element cannot carry a class, so these declarations are the one
+   * place in the system where the mark is written twice. Kept adjacent, and
+   * in the same order, so that the pair reads as one definition; the
+   * alternative — asking every key item to spell out its own
+   * `<span class="mark">` — puts the sequence back in the author's hands,
+   * which is the thing the counter exists to take away.
+   */
+  .legend-key > li:not(:has(> .mark))::before {
+    content: counter(dd-key);
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: inline-grid;
+    place-items: center;
+    width: 1.6em;
+    height: 1.6em;
+    border-radius: var(--dd-radius-pill);
+    border: 1.5px solid var(--dd-tone, var(--dd-fg));
+    background: var(--dd-tone-tint, transparent);
+    color: var(--dd-tone, var(--dd-fg));
+    font-weight: var(--dd-weight-label);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    line-height: 1;
+  }
+
+  .legend-key > li.mark-open::before {
+    border-style: dashed;
+    border-color: var(--dd-tone, var(--dd-warn));
+    color: var(--dd-tone, var(--dd-warn));
+    background: none;
+  }
+
+  /*
+   * An item that brings its own `.mark` keeps it, and the counter stands
+   * aside — the same bargain `.plate-unnumbered` strikes for figure numbers.
+   * A generator that owns one of the two numbers has to own both, or they
+   * drift on the next item somebody inserts.
+   */
+  .legend-key > li > .mark { position: absolute; left: 0; top: 0; }
+
+  /* Whatever the sentence is made of, it is the sentence. */
+  .legend-key > li > p { margin: 0; }
+
+  /* The name the sentence defines, findable in a list of six. Inline with
+     its sentence, because it is a subject and not a heading. */
+  .legend-name {
+    color: var(--dd-fg);
+    font-weight: var(--dd-weight-label);
+  }
+
+  /*
+   * A key under the drawing it keys belongs to that drawing, and the gap
+   * says so. Taken off the wrapper rather than added here, so the key's own
+   * spacing does not change with where it is used.
+   */
+  .draw-wrap:has(+ .legend-key),
+  .graph-wrap:has(+ .legend-key) { margin-bottom: var(--dd-sp-4); }
+
+  /*
+   * A forced palette drops author colours. A mark that survives as an empty
+   * ring has lost the number, which is the whole of it.
+   */
+  @media (forced-colors: active) {
+    .mark,
+    .legend-key > li::before { border-color: CanvasText; color: CanvasText; background: Canvas; }
+    .mark > circle { stroke: CanvasText; fill: Canvas; }
+    .mark > text { fill: CanvasText; }
+    .leader { stroke: CanvasText; }
+    .leader-foot { fill: CanvasText; }
+  }
+}

@@ -94,44 +94,12 @@
 
   .meter-lg { height: 20px; }
 
-  .legend {
-    list-style: none;
-    margin: 0 0 var(--dd-sp-4);
-    padding: 0;
-    font-size: var(--dd-text-md);
-  }
-
-  .legend li {
-    display: grid;
-    grid-template-columns: 150px 60px 1fr;
-    gap: var(--dd-sp-3);
-    align-items: baseline;
-    padding: var(--dd-sp-2) 0;
-  }
-
-  /* A grid item stretches to its track by default, which turns a chip into a
-     150px slab and loses the one thing a chip's shape says: that it is a
-     label of a particular length. */
-  .legend li > .chip { justify-self: start; }
-
   /*
-   * A legend that carries swatches takes a track for them.
+   * `.legend` moved to components/legend.css, media query included.
    *
-   * Opt-in, because a legend whose segments differ only by tone does not need
-   * one — the chip already carries the colour. It is needed the moment two
-   * segments are hatched: the hatch is the only thing separating them and the
-   * chip cannot show a hatch. Without it the reader has to match 709 and 95
-   * to two visually identical bands by counting.
+   * It was never the meter's: a graph had its own `.graph-legend` and a
+   * figure's callouts had nothing, which is three answers to one question.
+   * The swatch above stays here, because a hatched segment is a meter mark
+   * and the legend only has to make room for it.
    */
-  .legend li:has(.meter-legend-swatch) { grid-template-columns: 12px 150px 60px 1fr; }
-  .legend li > .meter-legend-swatch { align-self: center; }
-
-  .meter-legend-count { text-align: right; font-variant-numeric: tabular-nums; }
-  .meter-legend-description { color: var(--dd-fg-muted); font-size: var(--dd-text-md); }
-
-  @media (max-width: 900px) {
-    .legend li { grid-template-columns: 130px 50px; }
-    .legend li:has(.meter-legend-swatch) { grid-template-columns: 12px 130px 50px; }
-    .meter-legend-description { grid-column: 1 / -1; }
-  }
 }

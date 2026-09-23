@@ -13,6 +13,25 @@ export function html(strings, ...values) {
     : tpl.content;
 }
 
+/*
+ * The arrowhead, defined once per document.
+ *
+ * `.draw-arrow` sets `marker-end: url(#dd-arrow)` and a marker reference that
+ * resolves to nothing is not an error in SVG — the line simply ends. So every
+ * document that draws an arrow carries this block, and scripts/drawing-type.mjs
+ * checks that it does.
+ *
+ * This is markup, not a component, because the public API of this system is the
+ * shape of the HTML. A generator emits these eight lines once per page.
+ */
+export const drawDefs = `<svg class="draw-defs" aria-hidden="true" focusable="false">
+  <marker id="dd-arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 6"
+          refX="8" refY="3" markerWidth="8" markerHeight="6"
+          orient="auto-start-reverse">
+    <path class="draw-arrowhead" d="M0 0L8 3L0 6Z"/>
+  </marker>
+</svg>`;
+
 /** Wraps a specimen in a labelled strip. */
 export function specimen(label, markup) {
   return `<div class="sb-specimen"><p class="sb-label">${label}</p>${markup}</div>`;

@@ -1,5 +1,5 @@
-import { bars, missingBars, comparison, trend, missingTrend, histogram, branching,
-  comparisonPreview, trendPreview, histogramPreview, branchingPreview } from './graph-examples.mjs';
+import { bars, missingBars, comparison, trend, missingTrend, histogram, branching, callouts, marks,
+  comparisonPreview, trendPreview, histogramPreview, branchingPreview, calloutsPreview, marksPreview } from './graph-examples.mjs';
 
 export const charts = [
   {
@@ -60,6 +60,38 @@ export const charts = [
     ],
     note: 'Use a histogram for numeric distribution and Bar chart for named categories. Keep all bins in numeric order, including zeros. Equal-width bins allow counts; unequal widths require frequency density so area represents frequency. State inclusive or half-open boundaries and the observed sample size. Missing observations are excluded with an explicit count, never inserted as zeros; when none were measured, use Empty. This six-caller example describes one table, not the entire project.',
     examples: [{title:'Equal-width bins with observed zeros',html:histogram}],
+  },
+  {
+    slug: 'drawing', name: 'Drawing', label: 'Marks in a figure', group: 'Figures & graphs',
+    description: 'The marks a diagram is made of, and the size it is placed at, so a figure matches the page it is on.',
+    story: 'components-drawing--marks',
+    preview: marksPreview,
+    api: [
+      ['.draw-wrap / .draw', 'A scrolling wrapper and a drawing placed at 1:1. Set --dd-draw-width to the viewBox width in px and author coordinates at that size; it neither shrinks to a narrow column nor stretches to a wide one.'],
+      ['.draw-box / -toned / -alt / -open', 'An area: a thing, a thing with identity, its other state drawn hollow, and nothing there. “Box” means an area, not a <rect> — a circle that is a hole takes the same role.'],
+      ['.draw-group / .draw-group-open / .draw-fill', 'A hairline enclosure saying these belong together, the same proposed rather than established, and a filled region in the tone’s tint.'],
+      ['.draw-line / -open / .draw-guide / .draw-focus', 'A relation, a relation not established, apparatus thinner than content, and the one mark the figure is about — emphasis is added, never subtracted.'],
+      ['.draw-arrow / .draw-defs / .draw-arrowhead', 'A line that ends in the shared arrowhead, and the marker it points at. Put the defs block in your page shell: an unresolved marker is not an error in SVG, the line just ends.'],
+      ['.draw-label / -strong / -note / -value / -cap / -mono', 'The type roles. A diagram’s labels are document text, read by the same reader at the same distance as the paragraph above them.'],
+      ['.tone-*', 'Every mark reads the tone. Absence keeps its dash and changes only its hue: warn for “as far as we got”, tone-neutral for a hole, tone-danger for a measurement that does not exist.'],
+    ],
+    note: 'Geometry is the generator’s and paint is the system’s. Never write fill or stroke on a mark — a hand-painted mark does not follow the tone, the theme or a forced palette, and fill="var(--dd-accent)" fill-opacity=".12" is not the tint the components beside it use, least of all in dark mode. fill="none" is fine; that is a shape, not a colour. Keep text-anchor and dominant-baseline in SVG attributes: a CSS declaration beats a presentation attribute unconditionally, so one line of CSS silently overrides every alignment a generator wrote. Do not set font-size on a label, and do not write the figure’s explanation into it as more <text> — number the part and put the sentence in a key. See Annotate.',
+    examples: [{title:'Every mark, drawn once',html:marks}],
+  },
+  {
+    slug: 'annotate', name: 'Annotate', label: 'Name a part of a figure', group: 'Figures & graphs',
+    description: 'Number a part of a drawing and explain it underneath, so the sentence stays text and the picture stays a picture.',
+    story: 'components-annotate--callouts',
+    preview: calloutsPreview,
+    api: [
+      ['.mark', 'The numbered token. One class, two renderings: <g class="mark"><circle/><text>1</text></g> placed with a transform in SVG, and <span class="mark">1</span> in HTML. Both read the tone.'],
+      ['.mark-open', 'A callout on something that is not there. Dashed, and toned: warn for “as far as we got”, tone-danger for a measurement that does not exist, tone-neutral for a hole.'],
+      ['.leader / .leader-foot', 'The line from a mark to what it names, and the dot at its target. No arrowhead: a leader names a place, an arrow points a direction.'],
+      ['.legend legend-key', 'The numbered list underneath. It supplies its own numbers from a counter, so the key and the drawing cannot drift apart; an item carrying its own .mark takes over instead.'],
+      ['.legend-name', 'The subject a key entry defines, set inline with the sentence that defines it.'],
+    ],
+    note: 'Put numbers in the drawing and sentences in the key. A drawing has room for “709” and not for the clause explaining it, and the clause is the half that has to reflow, print at the reader’s size and be searchable — writing it as more <text> turns a diagram into an image of words. Keep the marks at their drawn size; they do not scale with the figure. Route leaders to the edge of a mark rather than painting a background halo behind it, which is wrong on any surface but the page. Running text still points with .ref and .ref ref-mark: those point at a figure, a mark labels one.',
+    examples: [{title:'Three exits, named underneath',html:callouts}],
   },
   {
     slug: 'flow-graph', name: 'Flow graph', label: 'Explain a branch', group: 'Figures & graphs',

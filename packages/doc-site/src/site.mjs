@@ -12,6 +12,25 @@ export const cssURL = `${site.url}v1/document-design.css`;
 export const jsURL = `${site.url}v1/document-design.js`;
 export const stylesheet = `<link rel="stylesheet"\n      href="${cssURL}">`;
 
+/*
+ * The arrowhead, defined once per document.
+ *
+ * `.draw-arrow` sets `marker-end: url(#dd-arrow)`, and a marker reference that
+ * resolves to nothing is not an error in SVG — the line just ends, with no
+ * warning anywhere. So the block goes in the page shell rather than in each
+ * figure: a page either has arrowheads or has no arrows at all, and never the
+ * state in between.
+ *
+ * It is markup and not a component because the public API of this system is
+ * the shape of the HTML. A generator emits these six lines once per page.
+ */
+export const drawDefs = `<svg class="draw-defs" aria-hidden="true" focusable="false">
+<marker id="dd-arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 6" refX="8" refY="3"
+        markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+  <path class="draw-arrowhead" d="M0 0L8 3L0 6Z"/>
+</marker>
+</svg>`;
+
 export function code(source, id, language = 'HTML') {
   return `<div class="code-block"><div class="code-head"><span>${language}</span><button class="btn" data-dd-copy="#${id}" data-dd-enhance hidden aria-label="Copy ${language}" aria-live="polite">Copy</button></div><pre class="code" id="${id}"><code>${highlight(source, language)}</code></pre></div>`;
 }
@@ -65,6 +84,7 @@ ${search ? `<script vite-ignore src="${base}assets/search.js" defer></script>` :
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+${drawDefs}
 ${body}
 </body>
 </html>\n`;

@@ -1,0 +1,141 @@
+/*
+ * Legend — what the marks mean.
+ *
+ *   <ul class="legend">                  a mark, a count, a definition
+ *   <ul class="legend legend-inline">    a mark and a phrase, in a strip
+ *
+ * and, for a figure's numbered callouts, `.legend-key` in
+ * components/annotate.css — same family, and it is documented there because
+ * the number it draws is a `.mark`.
+ *
+ * ---------------------------------------------------------------------------
+ * Why this is a file and not three classes in three components
+ *
+ * There were two, in two places, and nothing at all for the third. `.legend`
+ * lived in components/meter.css and carried a chip, a count and a definition.
+ * `.graph-legend` lived in components/graph.css and carried a swatch and a
+ * phrase in a wrapping row. Anything naming the parts of a drawing wrote its
+ * own list.
+ *
+ * All of them answer one question — what does this mark mean — and a reader
+ * who has learned one should not have to learn the next. It cost the author
+ * more: the two that existed were set at different sizes, in different
+ * colours, with different gaps, so a page carrying a meter and a graph said
+ * the same thing twice in two voices.
+ *
+ * One name, then, and the shape chosen by what the legend has to carry:
+ *
+ *   base             a mark, a count, a definition   a meter's categories
+ *   .legend-inline   a mark and a phrase, in a row   a drawing's line kinds
+ *   .legend-key      a number and a sentence         a figure's callouts
+ *
+ * `.graph-legend` is the former name of `.legend-inline`. It is in the
+ * published v1 surface and pages are written against it, so it keeps working
+ * and is set from the same declaration rather than a copy of it — the copy is
+ * how the two drifted apart in the first place.
+ *
+ * Moved here from components/meter.css whole, media query included. Left
+ * behind, the narrow-width block would have been read after this file and
+ * would have won over the base it is supposed to qualify.
+ */
+
+@layer dd.component {
+  .legend {
+    list-style: none;
+    margin: 0 0 var(--dd-sp-4);
+    padding: 0;
+    font-size: var(--dd-text-md);
+  }
+
+  /*
+   * The counted form's three tracks — a mark, a number, a definition.
+   *
+   * `:not(…)` so it does not reach the other two shapes. It was written flat
+   * as `.legend li`, which is (0,1,1) and outranks `.legend-inline > *` at
+   * (0,1,0): measured, every entry in a drawing's strip was laid out on the
+   * meter's tracks, so "depends on" was set in a 60px column and broke over
+   * two lines. A base that a variant has to out-specify is not a base.
+   */
+  .legend:not(.legend-inline, .legend-key) li {
+    display: grid;
+    grid-template-columns: 150px 60px 1fr;
+    gap: var(--dd-sp-3);
+    align-items: baseline;
+    padding: var(--dd-sp-2) 0;
+  }
+
+  /* A grid item stretches to its track by default, which turns a chip into a
+     150px slab and loses the one thing a chip's shape says: that it is a
+     label of a particular length. */
+  .legend li > .chip { justify-self: start; }
+
+  /*
+   * A legend that carries swatches takes a track for them.
+   *
+   * Opt-in, because a legend whose segments differ only by tone does not need
+   * one — the chip already carries the colour. It is needed the moment two
+   * segments are hatched: the hatch is the only thing separating them and the
+   * chip cannot show a hatch. Without it the reader has to match 709 and 95
+   * to two visually identical bands by counting.
+   */
+  .legend li:has(.meter-legend-swatch) { grid-template-columns: 12px 150px 60px 1fr; }
+  .legend li > .meter-legend-swatch { align-self: center; }
+
+  .meter-legend-count { text-align: right; font-variant-numeric: tabular-nums; }
+  .meter-legend-description { color: var(--dd-fg-muted); font-size: var(--dd-text-md); }
+
+  /* ---- the strip: a drawing's marks, named ---- */
+
+  /*
+   * A strip, not a table. A drawing's legend is three or four entries of two
+   * or three words — "dev dependency", "not analysed" — and a grid of fixed
+   * tracks would set each of them in a column with the rest of the line
+   * empty.
+   *
+   * The swatch is drawn in SVG rather than set as a tinted box, because what
+   * separates these entries is usually a dash pattern or an arrowhead and a
+   * square of colour can show neither. Every mark in this system says itself
+   * twice; a legend that can only repeat the colour half is not a legend for
+   * the marks that need one most.
+   */
+  .legend-inline,
+  .graph-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dd-sp-3) var(--dd-sp-5);
+    font-size: var(--dd-text-sm);
+    color: var(--dd-fg-muted);
+    margin: 0 0 var(--dd-sp-5);
+    padding: 0;
+    list-style: none;
+  }
+
+  .legend-inline > *,
+  .graph-legend > * {
+    display: flex;
+    align-items: center;
+    gap: var(--dd-sp-2);
+    padding: 0;
+  }
+
+  /* Wide enough for a dash pattern to repeat and an arrowhead to be a shape
+     rather than a smudge: 28 × 8 holds `5 4` twice over. */
+  .legend-inline svg,
+  .graph-legend svg { width: 28px; height: 8px; flex: none; overflow: visible; }
+
+  /*
+   * A legend that belongs to the drawing above it closes up against it.
+   *
+   * The gap is taken off the drawing rather than added to the legend, so the
+   * legend's own spacing is the same wherever it is used. A wrapper with a
+   * legend under it is not finished; a wrapper with a paragraph under it is.
+   */
+  .draw-wrap:has(+ .legend),
+  .graph-wrap:has(+ .legend) { margin-bottom: var(--dd-sp-3); }
+
+  @media (max-width: 900px) {
+    .legend:not(.legend-inline, .legend-key) li { grid-template-columns: 130px 50px; }
+    .legend li:has(.meter-legend-swatch) { grid-template-columns: 12px 130px 50px; }
+    .meter-legend-description { grid-column: 1 / -1; }
+  }
+}

@@ -159,6 +159,14 @@
 
   /* ---- the marks a drawing is made of ---- */
 
+  /*
+   * `.draw-box-*` names an AREA, not a `<rect>`. A circle that is a hole, a
+   * polygon that is the subject, a path that encloses a region — all of them
+   * are closed shapes standing for a thing, and they take the same roles. The
+   * shape is the generator's; what the area is, and therefore how it is
+   * painted, is the system's.
+   */
+
   .draw-box {
     fill: var(--dd-surface);
     stroke: var(--dd-border-strong);
@@ -171,20 +179,236 @@
     stroke-width: 1.5;
   }
 
-  /* Nothing there yet. Dashed, like every other absence in the system. */
+  /*
+   * Nothing there. Dashed, like every other absence in the system.
+   *
+   * The hue is a tone with warn as its default, because a drawing routinely
+   * carries two kinds of absence and they are not the same claim:
+   *
+   *   default (warn)   as far as we got — known to be open, left open
+   *   .tone-neutral    nothing is known here — a hole in the data
+   *   .tone-danger     a measurement that does not exist (see `.plot-missing`)
+   *
+   * It was flat `--dd-warn`, which meant a figure drawing nine untouched
+   * units and one deliberately-skipped unit had to draw them identically or
+   * leave the system: measured, the report's own figure left it, and wrote
+   * `stroke="var(--dd-fg-subtle)" stroke-dasharray="5 4"` nine times.
+   *
+   * The dash pattern does not change with the tone. The dash is what says
+   * "absent"; the hue only says which kind, and a reader who cannot see the
+   * hue still gets the first half.
+   */
   .draw-box-open {
     fill: none;
-    stroke: var(--dd-warn);
+    stroke: var(--dd-tone, var(--dd-warn));
     stroke-width: 1.5;
     stroke-dasharray: 5 4;
   }
 
+  /*
+   * A line takes a tone, like everything else that carries colour here.
+   *
+   * It was flat `--dd-rule`, so a drawing needing a line that meant something
+   * — a forbidden move struck through, a correspondence between two rows —
+   * had to leave the system for it. Measured in the report's own figures,
+   * that produced `stroke="var(--dd-red)"`: a raw palette token, used
+   * directly, for the one hue the system says means absence and nothing
+   * else. The role token exists so that claim can be kept.
+   */
   .draw-line {
     fill: none;
-    stroke: var(--dd-rule);
+    stroke: var(--dd-tone, var(--dd-rule));
     stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+
+
+  /*
+   * The other state of the same kind, told apart by being hollow.
+   *
+   * The pairing components/plot.css already uses — `.plot-before` hollow
+   * against `.plot-point` filled — for the marks a drawing is made of. A
+   * figure showing seven units linked and one newly created needs to
+   * separate them without reaching for a second hue, because the hue is
+   * already saying which project they belong to, and because outline against
+   * solid survives a forced palette and a black-and-white printer.
+   */
+  .draw-box-alt {
+    fill: none;
+    stroke: var(--dd-tone, var(--dd-border-strong));
+    stroke-width: 1.5;
+  }
+
+  /*
+   * An area that is context rather than subject: a frame around the units a
+   * figure is counting, the boundary of a package, the extent of a run.
+   *
+   * Hairline and unfilled, so several of them can be on a drawing at once
+   * without any of them competing with what is inside. The rest of the
+   * drawing sits on top of it; it is not a container in any layout sense,
+   * only a line that says "these belong together".
+   *
+   * Name its members with a `.draw-cap` outside the line, not inside it: a
+   * label in the corner of a frame is read as one of the things in the frame.
+   */
+  .draw-group {
+    fill: none;
+    stroke: var(--dd-tone, var(--dd-border));
+    stroke-width: 1.5;
+  }
+
+  /* The same, for a grouping that is proposed rather than established. */
+  .draw-group-open {
+    fill: none;
+    stroke: var(--dd-tone, var(--dd-border));
+    stroke-width: 1.5;
+    stroke-dasharray: 5 4;
+  }
+
+  /*
+   * A filled area with no outline: a band behind a range, a region of a
+   * field, the part of a whole a figure is pointing at.
+   *
+   * The tint, not the hue at low opacity. Every drawing in this system that
+   * needed a wash wrote `fill="var(--dd-accent)" fill-opacity=".12"` by hand
+   * — measured, fourteen times in one figure — which is a different colour
+   * from the tint every component beside it uses, and a different one again
+   * in dark mode, where compositing 12% of a hue onto a dark background does
+   * not give what mixing 6% into it gives. `--dd-tone-tint` is the value the
+   * rest of the page is already using and the one contrast.mjs measures.
+   */
+  .draw-fill {
+    fill: var(--dd-tone-tint, var(--dd-neutral-tint));
+    stroke: none;
+  }
+
+  /* ---- the one mark the figure is about ---- */
+
+  /*
+   * Emphasis is added, never subtracted.
+   *
+   * The obvious way to make one mark the subject is to push the others back,
+   * and it is the wrong way here: a drawing's labels are document text held
+   * to 4.5:1 like every other word on the page, and receding half of them
+   * takes that away from exactly the reader who needs it most. A figure whose
+   * context has been dimmed to 55% is a figure with two classes of reader.
+   *
+   * So the subject gets weight and the context keeps its contrast.
+   */
+  .draw-focus {
+    stroke: var(--dd-tone, var(--dd-accent));
+    stroke-width: 2.5;
+  }
+
+  /* ---- lines that mean something ---- */
+
+  /* A relation that is not established: proposed, inferred, not yet measured.
+     Same dash as an open box, for the same reason. */
+  .draw-line-open {
+    fill: none;
+    stroke: var(--dd-tone, var(--dd-warn));
+    stroke-width: 1.5;
+    stroke-dasharray: 5 4;
+    stroke-linecap: round;
+  }
+
+  /* Apparatus rather than content: a guide, a drop line, a tick. Thinner than
+     `.draw-line`, because it is not one of the things the figure is of. */
+  .draw-guide {
+    fill: none;
+    stroke: var(--dd-tone, var(--dd-border));
+    stroke-width: 1;
+  }
+
+  /* ---- direction ---- */
+
+  /*
+   * An arrow is a line with `marker-end`, and the head is drawn once per
+   * document rather than per arrow.
+   *
+   *   <svg class="draw-defs" aria-hidden="true" focusable="false">
+   *     <marker id="dd-arrow" markerUnits="userSpaceOnUse"
+   *             viewBox="0 0 8 6" refX="8" refY="3"
+   *             markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+   *       <path class="draw-arrowhead" d="M0 0L8 3L0 6Z"/>
+   *     </marker>
+   *   </svg>
+   *
+   * once, anywhere in the document, and then `class="draw-line draw-arrow"`
+   * on any path.
+   *
+   * Why this is worth a block of boilerplate: an arrowhead was three
+   * coordinates the author worked out by hand, per arrow, and then could not
+   * change. Measured in the flow graph, one path of three arrows carried
+   * `M379 114L384 120L389 114 M155 226L160 232L165 226 M603 226L608 232L613
+   * 226` — nine points describing one shape three times. Move a node and all
+   * nine are wrong, silently: the arrowhead stays where it was and the line
+   * runs out from under it.
+   *
+   * `orient="auto-start-reverse"` is why there is one marker and not two: the
+   * same head serves `marker-start` turned around.
+   *
+   * `markerUnits="userSpaceOnUse"` is deliberate. The default scales the head
+   * by the line's stroke-width, so `.draw-focus` at 2.5 would grow a head
+   * two-thirds larger than the one next to it — a size difference that reads
+   * as a different kind of arrow. A drawing is placed at the size it was
+   * drawn; so is its arrowhead.
+   *
+   * The reference is written here rather than as a `marker-end` attribute so
+   * that an author cannot point at a marker that is not there. It is a
+   * fragment-only URL, which resolves against the document and not against
+   * this stylesheet.
+   */
+  .draw-defs { display: block; width: 0; height: 0; position: absolute; }
+
+  .draw-arrow { marker-end: url(#dd-arrow); }
+  .draw-arrow-from { marker-start: url(#dd-arrow); }
+  .draw-arrow-both { marker-start: url(#dd-arrow); marker-end: url(#dd-arrow); }
+
+  /*
+   * Solid, and 8 long by 6 across.
+   *
+   * It was an open chevron, 5 deep and 10 across — a half-angle of 45°, which
+   * is not an arrowhead, it is a pair of wings. On the report's hero, where a
+   * single arrow carries the whole before-to-after claim at 56px, it read as
+   * two loose strokes that had come away from the line. Measured against the
+   * shaft it was meant to finish: 10px tall on a 1.5px line.
+   *
+   * 8 by 6 is a half-angle of 20.6°, which is what an arrowhead looks like,
+   * and solid rather than stroked so that it stays definite at the size a
+   * figure actually uses one. A 1.5px outline around a 6px shape is mostly
+   * outline.
+   *
+   * `context-stroke` is what lets one marker serve every kind of line —
+   * without it there is a marker per hue, and the day someone adds a tone
+   * they get a grey arrowhead on a coloured line and no error anywhere.
+   * Behind `@supports`, with a themed fallback, because a UA that does not
+   * know the keyword falls back to SVG's initial `fill: black` — invisible in
+   * dark mode, which is worse than the wrong grey.
+   */
+  .draw-arrowhead {
+    fill: var(--dd-rule);
+    stroke: none;
+  }
+
+  @supports (fill: context-stroke) {
+    .draw-arrowhead { fill: context-stroke; }
+  }
+
+  /*
+   * Forced palettes drop author colours, and a diagram made of nothing but
+   * author colours becomes a blank rectangle. Every mark is restated in
+   * system colours; the dashes, the weights and the shapes carry the rest,
+   * which is the whole reason they were never hue alone.
+   */
+  @media (forced-colors: active) {
+    .draw-box, .draw-box-toned { fill: Canvas; stroke: CanvasText; }
+    .draw-box-open, .draw-box-alt,
+    .draw-group, .draw-group-open { fill: none; stroke: CanvasText; }
+    .draw-fill { fill: Canvas; stroke: CanvasText; stroke-width: 1; }
+    .draw-line, .draw-line-open, .draw-guide, .draw-focus { stroke: CanvasText; }
+    .draw-arrowhead { stroke: CanvasText; }
   }
 
   /*

@@ -1,4 +1,4 @@
-import { html } from "./helpers.js";
+import { html, drawDefs } from './helpers.js';
 
 export default {
   title: "Layouts/Report sheet",
@@ -19,6 +19,7 @@ export default {
 /** The masthead and the one figure the page leads with. */
 export const Masthead = {
   render: () => html`
+    ${drawDefs}
     <article class="sheet" lang="ja">
       <p class="eyebrow">変更意図 · bison-parser 出典カバレッジ</p>
       <h1>挙動がある<br>単位だけ結ぶ</h1>
@@ -30,9 +31,8 @@ export const Masthead = {
           <span class="unit">出典 20/29 · ゲート 68 / 57 / 80</span>
         </div>
         <div class="mid">
-          <svg viewBox="0 0 56 16" aria-hidden="true">
-            <path d="M2 8H42" fill="none" stroke="var(--dd-rule)" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M36 2L54 8L36 14" fill="none" stroke="var(--dd-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg class="draw" style="--dd-draw-width:56px" viewBox="0 0 56 16" aria-hidden="true">
+            <path class="draw-line draw-arrow tone-accent" d="M2 8H54"/>
           </svg>
         </div>
         <div class="now">
@@ -52,6 +52,7 @@ export const Masthead = {
  */
 export const ClaimInsteadOfFigure = {
   render: () => html`
+    ${drawDefs}
     <article class="sheet" lang="ja">
       <p class="eyebrow">変更意図 · パーサ層の整理</p>
       <h1>読む場所を<br>ひとつにする</h1>
@@ -61,9 +62,8 @@ export const ClaimInsteadOfFigure = {
           <span class="claim">3 か所で<br>別々に読む</span>
         </div>
         <div class="mid">
-          <svg viewBox="0 0 56 16" aria-hidden="true">
-            <path d="M2 8H42" fill="none" stroke="var(--dd-rule)" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M36 2L54 8L36 14" fill="none" stroke="var(--dd-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg class="draw" style="--dd-draw-width:56px" viewBox="0 0 56 16" aria-hidden="true">
+            <path class="draw-line draw-arrow tone-accent" d="M2 8H54"/>
           </svg>
         </div>
         <div class="now">

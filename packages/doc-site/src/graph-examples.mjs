@@ -152,8 +152,9 @@ export const branching = `<figure class="plate plate-wide">
   <div class="draw-wrap" role="region" aria-label="Reading mode decision diagram" tabindex="0">
     <svg class="draw" style="--dd-draw-width:768px" viewBox="0 0 768 352" role="img" aria-label="Organize the information by the reader’s task. To find one entry, choose the doc catalog layout. To understand the whole, choose the sheet report layout.">
       <!-- One node module: 224 × 64. Row pitch: 112 (64 + 48). -->
-      <path class="edge-flow" d="M384 80V120 M272 160H160V232 M496 160H608V232"/>
-      <path class="edge-arrow" d="M379 114L384 120L389 114 M155 226L160 232L165 226 M603 226L608 232L613 226"/>
+      <path class="edge-flow draw-arrow" d="M384 80V120"/>
+      <path class="edge-flow draw-arrow" d="M272 160H160V232"/>
+      <path class="edge-flow draw-arrow" d="M496 160H608V232"/>
       <rect class="node-action" x="272" y="16" width="224" height="64" rx="4"/>
       <text class="draw-strong" x="384" y="48" text-anchor="middle" dominant-baseline="middle">Organize the information</text>
       <path class="node-decision" d="M384 128L496 160L384 192L272 160Z"/>
@@ -211,8 +212,8 @@ ${bins.map(({lo, hi, count}, i) => `  ${count ? `<rect class="plot-bin" x="${16 
 
 export const branchingPreview = `<svg class="draw" style="--dd-draw-width:240px" viewBox="0 0 240 168" role="img" aria-label="Reader’s task: find one entry, choose Catalog; understand the whole, choose Report.">
   <!-- Short labels use one compact module: 96 × 40, with full-size type. -->
-  <path class="edge-flow" d="M72 28H16V96H56V112 M168 28H224V96H184V112"/>
-  <path class="edge-arrow" d="M51 106L56 112L61 106 M179 106L184 112L189 106"/>
+  <path class="edge-flow draw-arrow" d="M72 28H16V96H56V112"/>
+  <path class="edge-flow draw-arrow" d="M168 28H224V96H184V112"/>
   <path class="node-decision" d="M120 8L168 28L120 48L72 28Z"/>
   <text class="draw-strong" x="120" y="28" text-anchor="middle" dominant-baseline="middle">Task</text>
   <text class="draw-label edge-label" x="68" y="84" text-anchor="middle">Find one</text>
@@ -221,4 +222,138 @@ export const branchingPreview = `<svg class="draw" style="--dd-draw-width:240px"
   <text class="draw-strong" x="56" y="140" text-anchor="middle" dominant-baseline="middle">Catalog</text>
   <rect class="node-terminal tone-teal" x="136" y="120" width="96" height="40" rx="20"/>
   <text class="draw-strong" x="184" y="140" text-anchor="middle" dominant-baseline="middle">Report</text>
+</svg>`;
+
+/*
+ * Where a statement stops — the callout figure, on the resolution counts the
+ * catalog actually reports: 35 + 709 + 95 + 5 = 844.
+ *
+ * Drawn around the 809 that do not arrive, because that is what a reader has
+ * to know before reading any other number on the page. A figure showing only
+ * the 35 would be the invented-coverage failure again, in a picture.
+ *
+ * Numbers in the drawing, sentences in the key. A drawing has room for "709"
+ * and not for the clause that explains it — and the clause is the half that
+ * has to reflow, print at the reader's size and be searchable.
+ */
+const STAGES = [
+  { x: 16, w: 148, value: '844', note: 'statements' },
+  { x: 212, w: 148, value: 'callers', note: 'resolved' },
+  { x: 408, w: 148, value: 'dependencies', note: 'followed' },
+];
+const EXITS = [
+  { x: 18, w: 144, cx: 90, value: '5', note: 'not analyzed', tone: ' tone-danger' },
+  { x: 214, w: 144, cx: 286, value: '709', note: 'no model', tone: '' },
+  { x: 410, w: 144, cx: 482, value: '95', note: 'cycle or limit', tone: '' },
+];
+
+export const callouts = `<figure class="plate plate-wide" id="fig-stops">
+  <p><strong>Where does a statement stop?</strong></p>
+  <div class="draw-wrap" role="region" aria-label="Statement resolution and its three exits" tabindex="0">
+    <svg class="draw" style="--dd-draw-width:768px" viewBox="0 0 768 216" role="img" aria-label="Of 844 statements, 5 are not analyzed, 709 stop where a dependency is not modeled, 95 stop at a cycle or a search limit, and 35 are fully determined.">
+${STAGES.map(s => `      <rect class="draw-box" x="${s.x}" y="24" width="${s.w}" height="56" rx="8"/>
+      <text class="draw-value" x="${s.x + s.w / 2}" y="46" text-anchor="middle">${s.value}</text>
+      <text class="draw-note" x="${s.x + s.w / 2}" y="66" text-anchor="middle">${s.note}</text>`).join('\n')}
+      <rect class="draw-box-toned tone-accent" x="604" y="24" width="148" height="56" rx="8"/>
+      <text class="draw-value draw-accent" x="678" y="46" text-anchor="middle">35</text>
+      <text class="draw-note" x="678" y="66" text-anchor="middle">fully determined</text>
+
+      <path class="draw-line draw-arrow" d="M168 52H208"/>
+      <path class="draw-line draw-arrow" d="M364 52H404"/>
+      <path class="draw-line draw-arrow" d="M560 52H600"/>
+
+${EXITS.map((e, i) => `      <path class="draw-line draw-arrow" d="M${e.cx} 84V144"/>
+      <rect class="draw-box-open${e.tone}" x="${e.x}" y="148" width="${e.w}" height="52" rx="8"/>
+      <text class="draw-value" x="${e.cx}" y="170" text-anchor="middle">${e.value}</text>
+      <text class="draw-note" x="${e.cx}" y="190" text-anchor="middle">${e.note}</text>
+      <g class="mark mark-open${e.tone}" transform="translate(${e.x + e.w + 20} 174)"><circle/><text>${i + 1}</text></g>`).join('\n')}
+    </svg>
+  </div>
+  <ol class="legend legend-key">
+    <li class="mark-open tone-danger"><span class="legend-name">Not analyzed</span> — 5 statements the run never reached. An absence of measurement, not a measurement of zero.</li>
+    <li class="mark-open"><span class="legend-name">Dependency not modeled</span> — 709 statements stop where a call leaves the analyzed set. The catalog knows they exist and not what they say.</li>
+    <li class="mark-open"><span class="legend-name">Stopped at a cycle or limit</span> — 95 statements reached the search budget. A larger budget would move some of them; how many is not known.</li>
+  </ol>
+  <figcaption>35 of 844 statements are fully determined. The other 809 are what this figure is about.
+    <span class="plate-source">WordPress SQL catalog snapshot · resolution categories, 35 + 709 + 95 + 5 = 844. Counts describe one analysis run, not WordPress.</span>
+  </figcaption>
+</figure>`;
+
+/* The index specimen. The marks stay 22px: a callout that shrinks with its
+ * drawing is a callout nobody reads, which is the argument draw.css makes for
+ * labels — and a number in a disc is a label with nowhere to reflow to. */
+export const calloutsPreview = `<svg class="draw" style="--dd-draw-width:240px" viewBox="0 0 240 152" role="img" aria-label="Of 844 statements, 35 are fully determined; 809 stop at one of three exits.">
+  <rect class="draw-box" x="8" y="16" width="86" height="40" rx="6"/>
+  <text class="draw-value" x="51" y="34" text-anchor="middle">844</text>
+  <text class="draw-note" x="51" y="50" text-anchor="middle">statements</text>
+  <path class="draw-line draw-arrow" d="M98 36H130"/>
+  <rect class="draw-box-toned tone-accent" x="134" y="16" width="86" height="40" rx="6"/>
+  <text class="draw-value draw-accent" x="177" y="34" text-anchor="middle">35</text>
+  <text class="draw-note" x="177" y="50" text-anchor="middle">determined</text>
+  <path class="draw-line draw-arrow" d="M51 60V92"/>
+  <rect class="draw-box-open" x="8" y="96" width="120" height="40" rx="6"/>
+  <text class="draw-value" x="68" y="114" text-anchor="middle">809</text>
+  <text class="draw-note" x="68" y="130" text-anchor="middle">stop before the end</text>
+  <g class="mark mark-open" transform="translate(150 116)"><circle/><text>1</text></g>
+</svg>`;
+/*
+ * The specimen sheet: every mark a drawing is made of, drawn once.
+ *
+ * Here because the vocabulary had no page. `.draw-box`, `.draw-line` and the
+ * type roles are what every other figure in this system is built out of, and
+ * they were documented only inside the figures that happened to use them —
+ * which is how 78 of 146 marks came to be painted by hand instead.
+ */
+const COL = i => 16 + i * 108;          /* 7 columns of 92, 16 apart */
+const MID = i => COL(i) + 46;
+const AREAS = [
+  ['draw-box', 'thing'],
+  ['draw-box-toned tone-accent', 'identity'],
+  ['draw-box-alt tone-accent', 'other state'],
+  ['draw-box-open', 'left open'],
+  ['draw-box-open tone-neutral', 'a hole'],
+  ['draw-fill tone-accent', 'a region'],
+  ['draw-group', 'grouped'],
+];
+const LINES = [
+  ['draw-line draw-arrow', 'directed'],
+  ['draw-line-open draw-arrow', 'not established'],
+  ['draw-guide', 'apparatus'],
+  ['draw-line draw-focus tone-accent', 'the subject'],
+  ['leader', 'names a place'],
+];
+
+export const marks = `<figure class="plate plate-wide" id="fig-marks">
+  <p><strong>What a drawing is made of.</strong></p>
+  <div class="draw-wrap" role="region" aria-label="The marks a drawing is made of" tabindex="0">
+    <svg class="draw" style="--dd-draw-width:768px" viewBox="0 0 768 184" role="img" aria-label="Seven area marks — a thing, a thing with identity, its other state, something left open, a hole, a region and a grouping — and five line marks: directed, not established, apparatus, the subject, and a leader.">
+      <text class="draw-cap" x="16" y="16">AREAS</text>
+${AREAS.map(([cls, name], i) => `      <rect class="${cls}" x="${COL(i)}" y="28" width="92" height="44" rx="6"/>
+      <text class="draw-note" x="${MID(i)}" y="90" text-anchor="middle">${name}</text>`).join('\n')}
+      <text class="draw-cap" x="16" y="122">LINES</text>
+${LINES.map(([cls, name], i) => `      <path class="${cls}" d="M${COL(i)} 142H${COL(i) + 92}"/>${cls === 'leader' ? `\n      <circle class="leader-foot" cx="${COL(i)}" cy="142"/>` : ''}
+      <text class="draw-note" x="${MID(i)}" y="172" text-anchor="middle">${name}</text>`).join('\n')}
+    </svg>
+  </div>
+  <ul class="legend legend-inline">
+    <li><svg viewBox="0 0 28 8" aria-hidden="true"><path class="draw-line" d="M1 4H27"/></svg>solid: established</li>
+    <li><svg viewBox="0 0 28 8" aria-hidden="true"><path class="draw-line-open" d="M1 4H27"/></svg>dashed: absent or unsettled</li>
+    <li><svg viewBox="0 0 28 8" aria-hidden="true"><path class="draw-guide" d="M1 4H27"/></svg>hairline: apparatus</li>
+  </ul>
+  <figcaption>Geometry is the generator’s; paint is the system’s. Absence is dashed in every mark, and the tone says which kind of absence — so the claim survives a reader who cannot see the hue.
+    <span class="plate-source">Specimen. Every mark here is a public class; none of them sets a colour in the markup.</span>
+  </figcaption>
+</figure>`;
+
+export const marksPreview = `<svg class="draw" style="--dd-draw-width:240px" viewBox="0 0 240 120" role="img" aria-label="A thing, a thing with identity and something left open, joined by a directed line and a dashed one.">
+  <rect class="draw-box" x="8" y="16" width="64" height="36" rx="6"/>
+  <rect class="draw-box-toned tone-accent" x="88" y="16" width="64" height="36" rx="6"/>
+  <rect class="draw-box-open" x="168" y="16" width="64" height="36" rx="6"/>
+  <path class="draw-line draw-arrow" d="M76 34H84"/>
+  <path class="draw-line-open draw-arrow" d="M156 34H164"/>
+  <text class="draw-note" x="40" y="72" text-anchor="middle">thing</text>
+  <text class="draw-note" x="120" y="72" text-anchor="middle">identity</text>
+  <text class="draw-note" x="200" y="72" text-anchor="middle">left open</text>
+  <path class="draw-guide" d="M8 92H232"/>
+  <text class="draw-cap" x="8" y="112">MARKS</text>
 </svg>`;

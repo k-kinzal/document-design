@@ -368,6 +368,78 @@ Keep your own vocabulary by aliasing, one line each:
 <span class="hole" data-dd-hint="A dependency the analyzer does not model.">…unresolved</span>
 ```
 
+**A drawing takes its marks from the system, the way its labels do.** Geometry
+is yours — the generator ran the layout and knows the coordinates. Paint is
+not: a hand-painted mark does not follow the tone, the theme, a forced palette
+or the page it was put on.
+
+```html
+<div class="draw-wrap">
+  <svg class="draw" style="--dd-draw-width: 768px" viewBox="0 0 768 216"
+       role="img" aria-label="…">
+    <rect class="draw-group" …/>                     <!-- these belong together -->
+    <rect class="draw-box" …/>                       <!-- a thing               -->
+    <rect class="draw-box-toned tone-accent" …/>     <!-- a thing with identity -->
+    <rect class="draw-box-alt tone-accent" …/>       <!-- its other state, hollow -->
+    <rect class="draw-box-open" …/>                  <!-- nothing there          -->
+    <rect class="draw-box-open tone-neutral" …/>     <!-- …and nothing known     -->
+    <path class="draw-line draw-arrow" d="…"/>       <!-- a relation, directed   -->
+    <path class="draw-line-open" d="…"/>             <!-- …not established       -->
+    <text class="draw-value" …>709</text>
+  </svg>
+</div>
+```
+
+`.draw-box-*` names an **area**, not a `<rect>`: a circle that is a hole takes
+the same role. Absence is dashed and takes a tone — warn (the default) for "as
+far as we got", `tone-neutral` for a hole, `tone-danger` for a measurement that
+does not exist.
+
+**Arrowheads come from one marker, defined once per document.** `.draw-arrow`
+sets `marker-end`, and a reference that resolves to nothing is not an error in
+SVG — the line simply ends. Put this in your page shell, not in each figure:
+
+```html
+<svg class="draw-defs" aria-hidden="true" focusable="false">
+  <marker id="dd-arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 6"
+          refX="8" refY="3" markerWidth="8" markerHeight="6"
+          orient="auto-start-reverse">
+    <path class="draw-arrowhead" d="M0 0L8 3L0 6Z"/>
+  </marker>
+</svg>
+```
+
+**To name a part of a figure, number it — don't write the sentence into the
+picture.** More `<text>` turns a diagram into an image of words: it stops
+reflowing, stops printing at the reader's size, stops being searchable. Numbers
+go in the drawing, sentences go in the key. The key numbers itself, so the two
+sequences cannot drift.
+
+```html
+<svg class="draw" …>
+  …
+  <path class="leader" d="M318 96H392"/>          <!-- names a place, so no arrowhead -->
+  <circle class="leader-foot" cx="318" cy="96"/>
+  <g class="mark" transform="translate(404 96)"><circle/><text>1</text></g>
+</svg>
+
+<ol class="legend legend-key">
+  <li><span class="legend-name">Dependency not modeled</span> — 709 statements
+      stop where a call leaves the analyzed set.</li>
+  <li class="mark-open">No measurement exists for runtime execution.</li>
+</ol>
+```
+
+`.mark` is one class with two renderings — `<g class="mark">` in SVG, placed
+once with a `transform`, and `<span class="mark">1</span>` in HTML. Running
+text still points *at* a figure with `.ref` and `.ref ref-mark`; a mark labels
+one.
+
+**What the marks mean is always `.legend`**, in the shape the legend has to
+carry: the base for a mark, a count and a definition; `.legend-inline` for a
+strip under a drawing; `.legend-key` for numbered callouts. (`.graph-legend` is
+the former name of `.legend-inline`.)
+
 **Optional behaviour**, driven by attributes; the page is complete without it:
 
 ```html
@@ -412,4 +484,14 @@ Keep your own vocabulary by aliasing, one line each:
 - Don't let a figure wrap. `.fig` and `.stat-fig` are exempt from the breaking
   rule on purpose — a number that wraps is not a smaller number, it is a
   different one.
+- Don't paint a mark in a drawing by hand. `fill="var(--dd-accent)"
+  fill-opacity=".12"` is not the tint the components beside it use, and in
+  dark mode it is not even close; it also cannot follow a tone or survive a
+  forced palette. `fill="none"` is fine — that is a shape, not a colour.
+- Don't let a drawing scale. State `--dd-draw-width` and it renders at 1:1; an
+  SVG with a viewBox and no width scales its text along with everything else,
+  and an authored 14 becomes whatever the column happened to be.
+- Don't explain a figure inside the figure. A sentence set as `<text>` cannot
+  reflow, cannot be found, and prints at whatever size the drawing ended up.
+  Number the part and put the sentence in the key.
 - Don't require JavaScript for anything a reader must reach.

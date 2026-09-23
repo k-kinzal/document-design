@@ -75,10 +75,29 @@
     font-family: var(--dd-font-sans);
     font-size: var(--dd-text-md);
     font-feature-settings: "palt" 1;
-    text-anchor: middle;
-    dominant-baseline: middle;
     pointer-events: none;
   }
+
+  /*
+   * A node's label is centred in its node, so the graph supplies the
+   * centring — and stands aside the moment the author says otherwise.
+   *
+   * These two were written flat, and components/draw.css spends a paragraph
+   * on why that is a trap: a CSS declaration beats an SVG presentation
+   * attribute unconditionally, whatever the selector looks like, `:where()`
+   * included. So `text-anchor: middle` here silently overrode every
+   * `text-anchor="end"` and `text-anchor="start"` a generator wrote inside a
+   * `.graph` — a rule the file next door documents as a failure, in force in
+   * this one.
+   *
+   * `:not([text-anchor])` is the way out. The attribute selector asks whether
+   * the author stated a value, and the declaration applies only where they
+   * did not, which is the relationship a default is supposed to have with
+   * the thing it defaults. The same shape is used for the callout numerals in
+   * components/annotate.css.
+   */
+  :where(.graph text:not([text-anchor])) { text-anchor: middle; }
+  :where(.graph text:not([dominant-baseline])) { dominant-baseline: middle; }
 
   .node {
     fill: var(--dd-surface);
@@ -126,19 +145,12 @@
   .edge-bad { stroke: var(--dd-danger); stroke-width: 1.6; }
   .edge-bad + .edge-tip { fill: var(--dd-danger); }
 
-  /* ---- what the drawing's marks mean ---- */
-
-  .graph-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--dd-sp-3) var(--dd-sp-5);
-    font-size: var(--dd-text-sm);
-    color: var(--dd-fg-muted);
-    margin: 0 0 var(--dd-sp-5);
-  }
-
-  .graph-legend > * { display: flex; align-items: center; gap: var(--dd-sp-2); }
-  .graph-legend svg { width: 28px; height: 8px; flex: none; }
+  /*
+   * What the marks mean is components/legend.css. `.graph-legend` was defined
+   * here and `.legend` in components/meter.css, which is one idea written
+   * twice at two sizes; it is now the former name for `.legend-inline` and
+   * comes off the same declaration.
+   */
 
   /* Opt-in branching graphs compose .draw with these marks. A figure uses
      one node module, not a different box for every string: 224 × 64 for the

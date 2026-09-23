@@ -123,7 +123,12 @@ test('figure, caption and annotation preserve their reading order at narrow widt
   await page.goto('/');
   const figure = page.locator('#reading-paths');
   const summary = figure.locator('.plate-summary');
-  const note = figure.locator('.margin-note');
+  /* `.sidenote`, not `.margin-note`. The two were one idea under two names —
+     a note in the rail and a note in a caption — and the system collapsed them
+     into the first. This test kept asking for the second, so it had been
+     timing out on a locator that could never match rather than checking the
+     reading order it is named for. */
+  const note = figure.locator('.sidenote');
   const reference = page.locator('#path-reference');
   const paper = page.locator('#path-paper');
   await page.setViewportSize({width:1200,height:900});

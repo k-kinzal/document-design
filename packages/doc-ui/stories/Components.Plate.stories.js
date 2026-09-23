@@ -30,9 +30,9 @@ const scale = (w = 520) => `
   <svg class="draw" style="--dd-draw-width:${w}px" viewBox="0 0 ${w} 120" role="img"
        aria-label="0から100の尺。68.97が変更前、96.67が上限。">
     <text x="16" y="18" text-anchor="start" class="draw-cap">BEFORE / AFTER</text>
-    <line x1="16" y1="62" x2="${w - 16}" y2="62" stroke="var(--dd-rule)" stroke-width="1.5" stroke-linecap="round"/>
-    <circle cx="${Math.round((w - 32) * 0.69) + 16}" cy="62" r="5" fill="var(--dd-fg-subtle)"/>
-    <circle cx="${Math.round((w - 32) * 0.967) + 16}" cy="62" r="6" fill="var(--dd-accent)"/>
+    <line class="draw-line" x1="16" y1="62" x2="${w - 16}" y2="62"/>
+    <circle class="plot-before" cx="${Math.round((w - 32) * 0.69) + 16}" cy="62" r="5"/>
+    <circle class="plot-point" cx="${Math.round((w - 32) * 0.967) + 16}" cy="62" r="6"/>
     <text x="${Math.round((w - 32) * 0.69) + 16}" y="44" text-anchor="middle" class="draw-value draw-note">68.97</text>
     <text x="${Math.round((w - 32) * 0.967) + 16}" y="44" text-anchor="end" class="draw-value draw-accent">96.67</text>
     <text x="16" y="92" text-anchor="start" class="draw-note">0</text>
@@ -155,18 +155,18 @@ export const Panels = {
     <div class="compare compare-draw">
       <div class="was"><span class="cap">変更前 · 9 空</span>
         <div class="draw-wrap"><svg class="draw" style="--dd-draw-width:268px" viewBox="0 0 268 168" role="img" aria-label="9単位すべてが空。">
-          <rect x="16" y="16" width="236" height="136" rx="12" fill="none" stroke="var(--dd-border)" stroke-width="1.5"/>
-          ${[0,1,2,3,4].map(i=>`<rect x="${36+i*36}" y="36" width="28" height="28" rx="6" fill="none" stroke="var(--dd-fg-subtle)" stroke-width="1.5" stroke-dasharray="5 4"/>`).join('')}
-          ${[0,1,2,3].map(i=>`<rect x="${54+i*36}" y="72" width="28" height="28" rx="6" fill="none" stroke="var(--dd-fg-subtle)" stroke-width="1.5" stroke-dasharray="5 4"/>`).join('')}
+          <rect class="draw-group" x="16" y="16" width="236" height="136" rx="12"/>
+          ${[0,1,2,3,4].map(i=>`<rect class="draw-box-open tone-neutral" x="${36+i*36}" y="36" width="28" height="28" rx="6"/>`).join('')}
+          ${[0,1,2,3].map(i=>`<rect class="draw-box-open tone-neutral" x="${54+i*36}" y="72" width="28" height="28" rx="6"/>`).join('')}
           <text x="134" y="132" text-anchor="middle" class="draw-mono draw-note">20 / 29</text>
         </svg></div>
       </div>
       <div class="now"><span class="cap">最終 · 7 結ぶ / 1 試す / 1 残す</span>
         <div class="draw-wrap"><svg class="draw" style="--dd-draw-width:340px" viewBox="0 0 340 168" role="img" aria-label="7を結び、1を新設し、1は空のまま。">
-          <rect x="16" y="16" width="308" height="136" rx="12" fill="none" stroke="var(--dd-accent)" stroke-width="1.5"/>
-          ${[0,1,2,3,4,5,6].map(i=>`<rect class="draw-box-toned" style="--dd-tone:var(--dd-accent);--dd-tone-tint:var(--dd-accent-tint)" x="${36+i*32}" y="36" width="24" height="24" rx="6"/>`).join('')}
-          <rect x="268" y="36" width="24" height="24" rx="6" fill="none" stroke="var(--dd-accent)" stroke-width="1.5"/>
-          <rect x="300" y="36" width="24" height="24" rx="6" fill="none" stroke="var(--dd-warn)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <rect class="draw-group tone-accent" x="16" y="16" width="308" height="136" rx="12"/>
+          ${[0,1,2,3,4,5,6].map(i=>`<rect class="draw-box-toned tone-accent" x="${36+i*32}" y="36" width="24" height="24" rx="6"/>`).join('')}
+          <rect class="draw-box-alt tone-accent" x="268" y="36" width="24" height="24" rx="6"/>
+          <rect class="draw-box-open" x="300" y="36" width="24" height="24" rx="6"/>
           <text x="140" y="84" text-anchor="middle" class="draw-accent">既存シナリオへ 7</text>
           <text x="140" y="108" text-anchor="middle" class="draw-mono draw-accent">005–008 · RULE-007</text>
           <text x="290" y="84" text-anchor="middle" class="draw-warn">空 1</text>

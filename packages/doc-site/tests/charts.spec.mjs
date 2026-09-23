@@ -1,14 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 
-const charts = ['bar-chart', 'comparison-plot', 'line-plot', 'histogram', 'flow-graph'];
+const charts = ['bar-chart', 'comparison-plot', 'line-plot', 'histogram', 'flow-graph', 'annotate', 'drawing'];
 const axePath = fileURLToPath(import.meta.resolve('axe-core/axe.min.js'));
 
 test('the visual index shows complete plot previews without shrinking type', async ({page}, info) => {
   await page.goto('/components/');
   for (const width of [1440, 768, 390, 320]) {
     await page.setViewportSize({width,height:1000});
-    for (const name of ['Comparison plot','Line plot','Histogram','Flow graph']) {
+    for (const name of ['Comparison plot','Line plot','Histogram','Flow graph','Annotate','Drawing']) {
       const card = page.locator('.card').filter({has:page.getByRole('link',{name,exact:true})});
       const preview = card.locator('.card-preview'), svg = preview.locator('svg.draw');
       const frame = await preview.boundingBox(), drawing = await svg.boundingBox();
@@ -50,9 +50,28 @@ for (const slug of charts.slice(1)) {
       await page.setViewportSize({width,height:1000});
       const measurements = await figures.locator('svg.draw').evaluateAll(nodes => nodes.map(svg => ({
         scale: svg.getScreenCTM().a,
+        /*
+         * Measured through getCTM(), not from getBBox() alone.
+         *
+         * getBBox() reports a box in the element's OWN user space, so a label
+         * positioned by an ancestor transform — which is how a callout mark
+         * carries its disc and its numeral on one coordinate — reports a box
+         * around the origin. A numeral centred at (0,0) measures left: -4.5,
+         * and the check that no label leaves the drawing failed on a label
+         * sitting comfortably inside it. Every figure whose parts are placed
+         * by transform would have been unmeasurable the same way.
+         *
+         * getCTM() is the matrix from that space to the SVG's viewport, and
+         * the scale asserted just above is 1, so the result is in viewBox
+         * units and comparable with the viewBox.
+         */
         labels: [...svg.querySelectorAll('text')].map(t => {
-          const box = t.getBBox();
-          return {size:parseFloat(getComputedStyle(t).fontSize),left:box.x,right:box.x+box.width,top:box.y,bottom:box.y+box.height};
+          const box = t.getBBox(), m = t.getCTM();
+          const at = (x, y) => ({x: m.a * x + m.c * y + m.e, y: m.b * x + m.d * y + m.f});
+          const a = at(box.x, box.y), b = at(box.x + box.width, box.y + box.height);
+          return {size:parseFloat(getComputedStyle(t).fontSize),
+                  left:Math.min(a.x,b.x), right:Math.max(a.x,b.x),
+                  top:Math.min(a.y,b.y), bottom:Math.max(a.y,b.y)};
         }),
         width:svg.viewBox.baseVal.width,height:svg.viewBox.baseVal.height,
       })));
@@ -128,8 +147,12 @@ test('all chart patterns remain readable in dark and forced palettes', async ({p
     await page.locator('.specimen').first().screenshot({path:info.outputPath(`${slug}-dark.png`)});
     await page.emulateMedia({forcedColors:'active'});
     await page.locator('.specimen').first().screenshot({path:info.outputPath(`${slug}-forced.png`)});
-    const marks = await page.locator('.specimen .plot-line, .specimen .plot-bin, .specimen .edge-flow').evaluateAll(nodes => nodes.map(n=>({stroke:getComputedStyle(n).stroke,fill:getComputedStyle(n).fill})));
+    const marks = await page.locator('.specimen .plot-line, .specimen .plot-bin, .specimen .edge-flow, .specimen .draw-line, .specimen .draw-box-open').evaluateAll(nodes => nodes.map(n=>({stroke:getComputedStyle(n).stroke,fill:getComputedStyle(n).fill})));
     for (const mark of marks) expect(mark.stroke).not.toBe('none');
+    /* A forced palette drops author colours, and an arrowhead that goes with
+       them leaves a line that no longer says which way it points. */
+    const heads = await page.locator('.draw-arrowhead').evaluateAll(nodes => nodes.map(n=>getComputedStyle(n).fill));
+    for (const fill of heads) expect(fill).not.toBe('none');
   }
 });
 
@@ -145,4 +168,62 @@ test('chart examples work offline without JavaScript and print without backgroun
     await page.emulateMedia({media:'screen'});
   }
   await context.close();
+});
+
+test('a callout keeps its number with the part it names, and its sentence out of the picture', async ({page}) => {
+  await page.goto('/components/annotate/');
+  const figure = page.locator('.specimen .plate').first();
+
+  /* The drawing carries numbers; the key carries the sentences. A drawing that
+     had grown its own explanation would show it here as extra <text>. */
+  const drawn = await figure.locator('svg.draw .mark text').allTextContents();
+  expect(drawn).toEqual(['1','2','3']);
+  for (const label of await figure.locator('svg.draw text').allTextContents()) {
+    expect(label.split(/\s+/).length).toBeLessThanOrEqual(3);
+  }
+
+  /* The key numbers itself, so the two sequences cannot drift. */
+  const keyed = await figure.locator('.legend-key > li').evaluateAll(items =>
+    items.map(li => getComputedStyle(li, '::before').content));
+  expect(keyed.length).toBe(drawn.length);
+
+  /* Every mark stays at its drawn size, at every width. */
+  for (const width of [1440, 390, 320]) {
+    await page.setViewportSize({width,height:1000});
+    const discs = await figure.locator('svg.draw .mark circle').evaluateAll(nodes =>
+      nodes.map(n => n.getBoundingClientRect().width));
+    expect(new Set(discs.map(Math.round)).size).toBe(1);
+    expect(Math.round(discs[0])).toBe(22);
+  }
+
+  /* Absence is dashed as well as toned: the tone is the kind, the dash is the
+     claim, and the dash is the half that survives a forced palette. */
+  await page.emulateMedia({forcedColors:'active'});
+  const dashes = await figure.locator('svg.draw .mark-open circle').evaluateAll(nodes =>
+    nodes.map(n => getComputedStyle(n).strokeDasharray));
+  for (const dash of dashes) expect(dash).not.toBe('none');
+});
+
+test('a drawing takes every mark from the system, and absence stays dashed without its hue', async ({page}) => {
+  await page.goto('/components/drawing/');
+  const svg = page.locator('.specimen svg.draw').first();
+
+  /* Not one mark paints itself. `fill="none"` is exempt: it is a shape
+     decision, which is the generator's, not a colour, which is not. */
+  const painted = await svg.locator('rect, path, circle, line, polygon').evaluateAll(nodes =>
+    nodes.filter(n => ['fill','stroke','stroke-width','fill-opacity','opacity']
+      .some(a => n.hasAttribute(a) && n.getAttribute(a) !== 'none')).length);
+  expect(painted).toBe(0);
+
+  /* Absence is dashed in every kind, and the two kinds differ only in hue —
+     so the claim survives a reader who cannot see hue at all. */
+  const open = await svg.locator('.draw-box-open').evaluateAll(nodes =>
+    nodes.map(n => ({dash: getComputedStyle(n).strokeDasharray, stroke: getComputedStyle(n).stroke})));
+  expect(open.length).toBeGreaterThanOrEqual(2);
+  expect(new Set(open.map(o => o.dash)).size).toBe(1);
+  expect(new Set(open.map(o => o.stroke)).size).toBe(open.length);
+
+  await page.emulateMedia({forcedColors:'active'});
+  for (const dash of await svg.locator('.draw-box-open').evaluateAll(n => n.map(x => getComputedStyle(x).strokeDasharray)))
+    expect(dash).not.toBe('none');
 });

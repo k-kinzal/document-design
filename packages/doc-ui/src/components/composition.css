@@ -134,10 +134,17 @@
   }
   a.ref-mark:hover { background: var(--dd-tone-tint, var(--dd-hover)); }
 
-  /* A reading sequence is an ordered list, not an image of text. */
+  /*
+   * A reading sequence is an ordered list, not an image of text.
+   *
+   * The stage count is a custom property because it was the literal 3, and a
+   * pipeline is whatever length it is: a fourth stage in a three-track grid
+   * either wrapped into a second row with the connector still pointing off
+   * the end of the first, or was left out of the figure.
+   */
   .flow {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--dd-flow-steps, 3), minmax(0, 1fr));
     gap: var(--dd-sp-4);
     margin: 0;
     padding: 0;
@@ -215,6 +222,39 @@
   }
   @container (max-width: 30rem) {
     .flow-name { font-size: var(--dd-text-lg); }
+
+    /*
+     * The stages stack and the connector turns with them.
+     *
+     * Three tracks in a 320px column is 96px a stage, and the first thing
+     * that does not fit is the stage's name — the one word the figure is
+     * made of. Measured at 320: "Point" set at 20px over four lines, with a
+     * connector 24px long between columns the reader could no longer tell
+     * apart. Turning the sequence down the page costs nothing: a flow is
+     * ordered, and down is an order.
+     *
+     * The connector is restated rather than hidden. A stack with no line
+     * between its items is a list, and the figure's claim is that these
+     * follow one another.
+     */
+    .flow { grid-template-columns: minmax(0, 1fr); gap: var(--dd-sp-6); }
+    .flow > li:not(:last-child) { padding-bottom: var(--dd-sp-6); }
+    .flow > li:not(:last-child)::after {
+      top: 32px;
+      bottom: var(--dd-sp-2);
+      left: 13px;
+      right: auto;
+      border-top: 0;
+      border-left: 1px solid var(--dd-tone, var(--dd-rule));
+    }
+    .flow > li:not(:last-child)::before {
+      top: auto;
+      bottom: 0;
+      left: 10px;
+      right: auto;
+      transform: rotate(135deg);
+    }
+
     .compare:not(.compare-draw) > * + * { border-top: 1px solid var(--dd-border); padding-top: var(--dd-sp-6); }
   }
 }

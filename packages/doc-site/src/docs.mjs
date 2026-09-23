@@ -11,6 +11,8 @@ const stories = new Map(Object.entries({
   "components-line-plot": "components-line-plot--cumulative",
   "components-histogram": "components-histogram--callers",
   "components-flow-graph": "components-flow-graph--reading-mode",
+  "components-annotate": "components-annotate--callouts",
+  "components-drawing": "components-drawing--marks",
   "examples-sql-catalog": "examples-sql-catalog--overview",
   "components-tree": "components-tree--namespaces",
   "components-notice": "components-notice--tones",

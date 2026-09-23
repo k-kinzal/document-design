@@ -139,6 +139,39 @@
        right-hand side, and there is nowhere to scroll to find it. */
     .graph, .draw { width: auto !important; min-width: 0 !important; max-width: 100% !important; }
 
+    /*
+     * A figure and the key that explains it are one thing and must not be
+     * split. The key is short by construction — a line or two an entry — so
+     * this is one of the few places `break-inside: avoid` can be honoured
+     * rather than merely asked for.
+     */
+    .legend-key, .legend-inline, .graph-legend { break-inside: avoid; }
+    .legend-key > li { break-inside: avoid; }
+
+    /*
+     * The marker block paints nothing and must occupy nothing — but it is
+     * NOT hidden. `display: none` on the element holding a `<marker>` is a
+     * reasonable-looking line that takes every arrowhead off the page with
+     * it, and paper is the one medium where that cannot be noticed before it
+     * ships. A `<marker>` is a resource; it is never rendered in place, so
+     * there is nothing to hide. What has to be held is the size: an `<svg>`
+     * with no width falls back to 300 × 150.
+     */
+    .draw-defs {
+      width: 0 !important;
+      height: 0 !important;
+      position: absolute !important;
+    }
+
+    /*
+     * Tints cost ink and a printer short of it drops them, which would take
+     * a callout number with the disc it sits in. The ring is the mark; the
+     * fill was only ever there to tell two toned marks apart, and on paper
+     * the number does that.
+     */
+    .mark,
+    .legend-key > li::before { background: none !important; }
+
     /* Every pre wraps, including signatures and prose code, which previously
        ran off the right edge of the sheet and were simply lost. */
     pre, pre.code, pre.code-scroll, pre.signature, .terminal-output {

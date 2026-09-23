@@ -90,6 +90,7 @@
 @import url("./components/code.css");
 @import url("./components/notice.css");
 @import url("./components/meter.css");
+@import url("./components/legend.css");
 @import url("./components/card.css");
 @import url("./components/listing.css");
 @import url("./components/facets.css");
@@ -112,6 +113,7 @@
 @import url("./components/tree.css");
 @import url("./components/draw.css");
 @import url("./components/plate.css");
+@import url("./components/annotate.css");
 @import url("./components/graph.css");
 @import url("./components/plot.css");
 @import url("./components/disclosure.css");

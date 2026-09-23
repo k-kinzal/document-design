@@ -1,6 +1,24 @@
 import "../src/index.css";
 import "./storybook.css";
 import { ensureBehaviour } from "./behaviour";
+import { drawDefs } from "../stories/helpers";
+
+/*
+ * The arrowhead marker, once for the whole preview document.
+ *
+ * `.draw-arrow` sets `marker-end: url(#dd-arrow)`, and a reference that
+ * resolves to nothing is not an error in SVG: the line simply ends. In a real
+ * document the block goes in the page shell, which is what doc-site does. Here
+ * the shell is the preview iframe, so it goes in once rather than in every
+ * story that happens to draw an arrow — a story that forgot it would show a
+ * headless arrow and report nothing.
+ */
+function ensureDrawDefs() {
+  if (document.getElementById("dd-arrow")) return;
+  const host = document.createElement("div");
+  host.innerHTML = drawDefs;
+  document.body.prepend(host.firstElementChild);
+}
 
 /*
  * The global is `ddTheme`, not `theme`: Storybook 10 ships a built-in global
@@ -86,6 +104,7 @@ export default {
        * nothing, while the document-level delegates kept working and hid it.
        */
       requestAnimationFrame(() => {
+        ensureDrawDefs();
         ensureBehaviour();
         if (window.documentDesign) {
           window.documentDesign.applyTheme(theme);
