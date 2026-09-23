@@ -50,8 +50,8 @@ export function home(lang = 'en') {
   <nav aria-label="On this page"><ul class="ribbon"><li><a href="#layouts">01 <b>Reading order</b></a></li><li><a href="#language">02 <b>Visual language</b></a></li><li><a href="#components">03 <b>Components</b></a></li><li><a href="#building">04 <b>Start building</b></a></li></ul></nav>
 
   <section class="section" id="layouts" aria-labelledby="layouts-title">
-    <p class="eyebrow">01 / READING ORDER</p>
-    <h2 class="section-title" id="layouts-title">Scan a reference. Read a report.</h2>
+    <div class="section-head"><p class="eyebrow">01 / READING ORDER</p>
+    <h2 class="section-title" id="layouts-title">Scan a reference. Read a report.</h2></div>
     ${readingPaths}
     <div class="compare">
       <div class="prose"><h3><a class="ref ref-mark tone-blue" href="#path-reference">A</a> Keep the detail close.</h3><p>A reference is read across: names, types, values. Compact spacing and aligned rows let readers compare entries without losing their place.</p><p><a href="./components/">Browse the component reference →</a></p></div>
@@ -60,14 +60,14 @@ export function home(lang = 'en') {
   </section>
 
   <section class="sec" id="language" aria-labelledby="language-title">
-    <aside class="label"><h2 id="language-title">02 / VISUAL LANGUAGE</h2><p class="sidenote">In <a class="ref" href="#reading-paths">Figure 1</a>, letters, color, and aligned stages carry the same meaning in the diagram and the text.</p></aside>
+    <aside class="rail"><p class="label">02 / VISUAL LANGUAGE</p><p class="sidenote">In <a class="ref" href="#reading-paths">Figure 1</a>, letters, color, and aligned stages carry the same meaning in the diagram and the text.</p></aside>
     <div class="field">
-      <h3 class="lead">The relationships are the design.</h3>
+      <h2 class="section-title" id="language-title">The relationships are the design.</h2>
       <div class="prose">
       <p>A heading sets the question. A diagram makes a relationship visible. Its caption explains what to take from it. The spacing between them is part of the explanation.</p>
-      <h4>Type follows the reading task.</h4>
+      <h3>Type follows the reading task.</h3>
       <p>Names and values stay readable in a dense reference. Density comes from the gaps, not smaller letters. In a paper, a larger scale separates the main idea from the supporting detail.</p>
-      <h4>Meaning travels with the mark.</h4>
+      <h3>Meaning travels with the mark.</h3>
       <p><a class="ref ref-mark tone-blue" href="#path-reference">A</a> always identifies the reference path; <a class="ref ref-mark tone-teal" href="#path-paper">B</a> identifies the paper. The letters keep that relationship intact in monochrome. States and missing information have their own vocabulary, separate from category colors.</p>
       </div>
       <div class="actions"><a href="./components/composition/">Figures &amp; annotations →</a><a href="./components/chip/">Labels &amp; states →</a></div>
@@ -85,10 +85,11 @@ export function home(lang = 'en') {
   </section>
 
   <section class="sec" id="building" aria-labelledby="building-title">
-    <div class="label"><h2 id="building-title">04 / START BUILDING</h2><p class="sidenote">Choose a reading mode, then compose the parts your content needs.</p><div class="actions"><a href="./start/">Get started →</a></div></div>
+    <div class="rail"><p class="label">04 / START BUILDING</p><p class="sidenote">Choose a reading mode, then compose the parts your content needs.</p></div>
     <div class="field">
-      <h3 class="lead">Put your content on the page.</h3>
+      <h2 class="section-title" id="building-title">Put your content on the page.</h2>
       <p class="note">Load the stylesheet in your document’s head, then use the layout classes in your HTML or templates. This page uses <code>.sheet</code>; the component reference uses <code>.doc</code>.</p>
+      <div class="actions"><a href="./start/">Get started →</a></div>
       ${code(markup, 'home-markup')}
       <details class="disclosure"><summary>Stylesheet URL</summary><div class="disclosure-body">${code(stylesheet,'home-stylesheet')}</div></details>
       <div class="disclosure-group">

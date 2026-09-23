@@ -9,6 +9,11 @@ export const groups = ["Layouts","Lists & data","Figures & graphs","Reading","Co
 export const components = [
   {
     slug: "document",
+    previewHeight: "auto",
+    preview: `<div class="doc doc-inset"><h2>Layout reference</h2><dl class="definitions">
+      <div><dt><code>.doc</code></dt><dd>Find and compare entries.</dd></div>
+      <div><dt><code>.sheet</code></dt><dd>Follow a point and its evidence.</dd></div>
+    </dl></div>`,
     name: "Document",
     label: "Catalog layout",
     group: "Layouts",
@@ -33,6 +38,9 @@ export const components = [
   },
   {
     slug: "report",
+    previewHeight: "auto",
+    preview: `<article class="sheet sheet-inset"><p class="eyebrow">READING ORDER</p>
+      <h2>Give the idea a sequence.</h2><p class="stand">A point, its evidence, its meaning.</p></article>`,
     name: "Report",
     label: "Report layout",
     group: "Layouts",
@@ -51,6 +59,7 @@ export const components = [
   },
   {
     slug: "publication",
+    previewHeight: "auto",
     name: "Publication",
     label: "Covers & specimens",
     group: "Layouts",
@@ -69,11 +78,19 @@ export const components = [
   <div class="specimen-bar">EXAMPLE / Status</div>
   <div class="specimen-body"><span class="chip tone-ok">✓ Analysis complete</span></div>
   <figcaption class="specimen-caption">State is expressed in both color and words.</figcaption>
-</figure>` }
+</figure>` },
+      { title: "Section headings", html: String.raw`<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">01 / READING ORDER</p>
+    <div><h2 class="section-title">Scan a reference. Read a report.</h2>
+      <p class="note">A point, its evidence, its meaning.</p></div>
+  </div>
+</section>` },
     ],
   },
   {
     slug: "composition",
+    previewHeight: "auto",
     name: "Composition",
     label: "Figures & annotations",
     group: "Layouts",
@@ -183,11 +200,15 @@ export const components = [
   },
   {
     slug: "card",
+    previewHeight: "auto",
+    preview: `<section class="card"><h3>Table</h3>
+      <p class="card-description">Which statements read from or write to each table.</p>
+      <p class="card-more"><a href="../table/">Explore 12 tables →</a></p></section>`,
     name: "Card",
     label: "Ways into content",
     group: "Lists & data",
     description: "Show where a route leads and what a reader can learn there.",
-    api: [[".cards / .card","A list and its entries, arranged in one or two columns according to the container."],[".card-preview","A bounded live preview. Use inert and aria-hidden when the card title provides the accessible description."],[".card-link","Stretches the title link across a preview card; its preview must not contain interactive controls."],[".card-description","What this destination can tell the reader."],[".card-more","A detail link aligned at the bottom."],[".aside","A supporting region with a quiet background."]],
+    api: [[".cards / .card","A list and its entries, arranged in one or two columns according to the container."],[".card-preview","A bounded live preview. Use inert and aria-hidden when the card title provides the accessible description."],["--dd-preview-height","Defaults to 224px. Use auto for a selected preview that needs to keep all text and controls visible; retain normal type sizes."],[".card-link","Stretches the title link across a preview card; its preview must not contain interactive controls."],[".card-description","What this destination can tell the reader."],[".card-more","A detail link aligned at the bottom."],[".aside","A supporting region with a quiet background."]],
     note: "A rule separates routes without turning every item into a box. Give comparable routes comparable descriptions.",
     story: "components-card--overview",
     examples: [
@@ -200,7 +221,7 @@ export const components = [
     <p class="card-more"><a href="../symbol/">Explore API references →</a></p></section>
 </div>` },
       { title: "A visual preview", html: String.raw`<article class="card">
-  <div class="card-preview doc doc-inset" inert aria-hidden="true">
+  <div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true">
     <div class="chips">
       <span class="chip tone-blue">SELECT</span>
       <span class="chip tone-violet">INSERT</span>
@@ -214,6 +235,7 @@ export const components = [
   },
   {
     slug: "meter",
+    previewHeight: "auto",
     name: "Meter",
     label: "Parts of a whole",
     group: "Figures & graphs",
@@ -234,6 +256,7 @@ export const components = [
   },
   {
     slug: "facts",
+    previewHeight: "auto",
     name: "Facts",
     label: "Labeled attributes",
     group: "Lists & data",
@@ -251,6 +274,9 @@ export const components = [
   },
   {
     slug: "prose",
+    previewHeight: "auto",
+    preview: `<div class="prose"><h3>Make information clear</h3>
+      <p>Different ways of reading call for different densities. <strong>Finding a single entry</strong> in a catalog and understanding a report deserve different layouts.</p></div>`,
     name: "Prose",
     label: "Reading text",
     group: "Reading",
@@ -332,6 +358,7 @@ export const components = [
   },
   {
     slug: "symbol",
+    previewHeight: "auto",
     name: "Symbol",
     label: "API references",
     group: "Code & changes",
@@ -441,6 +468,10 @@ export const components = [
   ...charts,
   {
     slug: "control",
+    previewHeight: "auto",
+    preview: `<div class="actions"><a class="btn btn-primary" href="../../start/">Quick start →</a>
+      <a class="btn" href="../">Back to the list</a></div>
+      <label>Filter by name <input class="input" type="search" placeholder="e.g. Chip"></label>`,
     name: "Control",
     label: "Buttons & inputs",
     group: "Navigation",
@@ -460,6 +491,7 @@ export const components = [
   },
   {
     slug: "facets",
+    previewHeight: "auto",
     name: "Facets",
     label: "Narrow the list",
     group: "Navigation",
@@ -646,6 +678,7 @@ export const components = [
   },
   {
     slug: "empty",
+    previewHeight: "auto",
     name: "Empty",
     label: "Nothing here, and why",
     group: "Status & feedback",
@@ -679,6 +712,12 @@ export const components = [
   },
   {
     slug: "timeline",
+    previewHeight: "auto",
+    preview: `<ol class="timeline">
+      <li class="timeline-item tone-ok"><p class="timeline-title">844 statements found</p></li>
+      <li class="timeline-item tone-ok"><p class="timeline-title">35 statements fully resolved</p></li>
+      <li class="timeline-item is-open"><p class="timeline-title">809 statements not fully resolved</p></li>
+    </ol>`,
     name: "Timeline",
     label: "What happened",
     group: "Status & feedback",

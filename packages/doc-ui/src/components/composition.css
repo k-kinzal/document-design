@@ -80,6 +80,7 @@
     gap: var(--dd-sp-6) var(--dd-sp-8);
   }
   .compare > * { min-width: 0; }
+  .compare:not(.compare-draw) > * { container-type: inline-size; }
 
   /*
    * A comparison whose sides are drawings.
@@ -182,7 +183,6 @@
   }
   .flow-name {
     display: block;
-    margin-top: var(--dd-sp-4);
     color: var(--dd-fg);
     font-size: var(--dd-type-3);
     font-weight: var(--dd-weight-head);
@@ -212,12 +212,21 @@
 
   @container (min-width: 46rem) {
     .compare:not(.compare-draw) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .compare:not(.compare-draw) > :nth-child(even) { border-left: 1px solid var(--dd-border); padding-left: var(--dd-sp-6); }
-    .plate-side > figcaption { grid-template-columns: minmax(0, 1fr) minmax(0, 2.3fr); }
-    .plate-summary { grid-column: 2; grid-row: 1; }
-    .plate-side > figcaption > .sidenote { grid-column: 1; grid-row: 1; }
+    /* Both panels keep equal content widths; the rule bisects the gutter. */
+    .compare:not(.compare-draw) { position: relative; }
+    .compare:not(.compare-draw)::before {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      left: 50%;
+      border-left: 1px solid var(--dd-border);
+    }
+    .plate-body.compare::before { inset-block: var(--dd-sp-6); }
+    .plate-side > figcaption { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; }
+    .plate-summary { grid-column: 4 / -1; grid-row: 1; }
+    .plate-side > figcaption > .sidenote { grid-column: 1 / 4; grid-row: 1; }
     /* With automatic numbering, the figure number heads the note column. */
-    .plate-side:not(.plate-unnumbered) > figcaption::before { grid-column: 1; grid-row: 1; }
+    .plate-side:not(.plate-unnumbered) > figcaption::before { grid-column: 1 / 4; grid-row: 1; }
     .plate-side:not(.plate-unnumbered) .plate-summary { grid-row: 1 / span 2; }
     .plate-side:not(.plate-unnumbered) > figcaption > .sidenote { grid-row: 2; }
   }
@@ -238,8 +247,12 @@
      * between its items is a list, and the figure's claim is that these
      * follow one another.
      */
-    .flow { grid-template-columns: minmax(0, 1fr); gap: var(--dd-sp-6); }
-    .flow > li:not(:last-child) { padding-bottom: var(--dd-sp-6); }
+    .flow { grid-template-columns: minmax(0, 1fr); gap: var(--dd-sp-5); }
+    /* The connector owns the ordinal column; text never crosses its path. */
+    .flow > li { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: var(--dd-sp-4); }
+    .flow-mark { grid-column: 1; grid-row: 1 / 3; }
+    .flow-name, .flow-detail { grid-column: 2; }
+    .flow > li:not(:last-child) { padding-bottom: var(--dd-sp-4); }
     .flow > li:not(:last-child)::after {
       top: 32px;
       bottom: var(--dd-sp-2);
@@ -257,6 +270,12 @@
     }
 
     .compare:not(.compare-draw) > * + * { border-top: 1px solid var(--dd-border); padding-top: var(--dd-sp-6); }
+  }
+}
+@layer dd.layout {
+  .flow-name { margin-top: var(--dd-sp-4); }
+  @container (max-width: 30rem) {
+    .flow-name { margin-top: 0; }
   }
 }
 @layer dd.print {

@@ -318,7 +318,7 @@
   /* A lead followed by the paragraph that explains it is one thought, not
      two. One and a half baselines is the distance to a figure, not to a
      sentence that finishes the claim. */
-  .lead:has(+ .note) { margin-bottom: calc(var(--dd-base) / 2); }
+  .lead:has(+ :is(.note, .prose)) { margin-bottom: calc(var(--dd-base) / 2); }
 
   /*
    * The report's running text, held to the measure.

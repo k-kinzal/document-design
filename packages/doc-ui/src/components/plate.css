@@ -75,31 +75,12 @@
   }
 
   .plate {
-    margin: 0 0 var(--dd-sp-6);
     counter-increment: dd-plate;
     max-width: var(--dd-measure);
   }
 
   .plate-wide { max-width: var(--dd-measure-wide); }
   .plate-full { max-width: none; }
-
-  /*
-   * The distance from what a section says to the figure that shows it.
-   *
-   * It belongs to the figure, not to whichever paragraph happened to be
-   * written last. Measured on the report: a section whose field ended with a
-   * `.lead` put 42px between the two, and a section whose field ended with a
-   * `.note` put nothing — the same relationship, on the same page, with two
-   * different gaps, decided by whether the writer added a supporting
-   * sentence.
-   *
-   * It lives here and not in layout/report.css even though it is about the
-   * sheet: `.plate` sets a margin in dd.component, and dd.layout is earlier,
-   * so a `.sheet .sec > .plate` written there loses to it on layer order
-   * before specificity is even consulted. Written there first, and it did.
-   */
-  .sheet .sec > .plate,
-  .sheet .sec > .figures { margin-top: calc(var(--dd-base) * 1.5); }
 
   /*
    * Two drawings in one figure is `.compare` with `.compare-draw`, in
@@ -239,4 +220,11 @@
   .plate:target {
     scroll-margin-top: calc(var(--dd-topbar-height) + var(--dd-sp-5));
   }
+}
+
+@layer dd.layout {
+  .plate { margin: 0 0 var(--dd-sp-6); }
+  /* A full-width figure follows its section’s introduction by one shared gap. */
+  .sheet .sec > .plate,
+  .sheet .sec > .figures { margin-top: calc(var(--dd-base) * 1.5); }
 }

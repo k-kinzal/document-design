@@ -86,7 +86,8 @@
 @layer dd.component {
   .card:has(.card-preview) { position: relative; border-top: 0; padding-top: 0; }
   .card-preview {
-    height: 224px;
+    height: var(--dd-preview-height, 224px);
+    min-height: 224px;
     overflow: hidden;
     padding: var(--dd-sp-6);
     margin-bottom: var(--dd-sp-5);

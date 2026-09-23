@@ -20,3 +20,32 @@ export const NestedGenres = {
     <figure class="specimen"><div class="specimen-bar">REPORT</div><div class="sheet sheet-inset"><h2>Resolution</h2><b class="fig">96%</b><p class="note">960 of 1,000 statements resolved.</p><p class="caveat">40 statements remain unresolved.</p></div><figcaption class="specimen-caption">One figure, with its caveat.</figcaption></figure>
   </div></article>`,
 };
+
+export const IntermediateWidth = {
+  parameters: { docs: { description: { story: 'A cover in a 900px frame stacks before wrapped supporting copy can displace the headline.' } } },
+  render: () => {
+    const page = Cover.render();
+    page.style.maxWidth = '900px';
+    return page;
+  },
+};
+
+export const JapaneseCover = {
+  parameters: { docs: { description: { story: 'Japanese display tracking is slightly more open than Latin tracking; body text keeps its natural metrics.' } } },
+  render: () => html`<article class="sheet sheet-wide" lang="ja"><header class="cover">
+    <div><p class="eyebrow">ドキュメントとレポートのための CSS</p><h1 class="cover-title">情報を、<br>見やすく。</h1></div>
+    <div class="cover-copy"><p>リファレンスは探しやすく。レポートには明快な読む順序を。</p></div>
+  </header></article>`,
+};
+
+export const SectionRhythm = {
+  parameters: { docs: { description: { story: 'Section headings share one type role. A heading attaches closely to prose, with a larger gap before a figure; caption and body start on the same grid line.' } } },
+  render: () => html`<article class="sheet sheet-wide">
+    <section class="section"><div class="section-head"><p class="eyebrow">01 / EVIDENCE</p><h2 class="section-title">A figure and its explanation.</h2></div>
+      <figure class="plate plate-full plate-side plate-unnumbered"><div class="plate-body"><p>35 of 844 statements fully resolved.</p></div>
+        <figcaption><p class="plate-summary">The complete SQL text could be determined for 35 statements.</p><p class="sidenote">WordPress SQL catalog snapshot.</p></figcaption>
+      </figure>
+    </section>
+    <section class="sec"><p class="label">02 / CONTEXT</p><div class="field"><h2 class="section-title">The qualification stays visible.</h2><div class="prose"><p>The other 809 statements include dependencies, analysis limits, and unexamined calls.</p></div></div></section>
+  </article>`,
+};

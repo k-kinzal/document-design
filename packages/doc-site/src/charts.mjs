@@ -1,9 +1,11 @@
-import { bars, missingBars, comparison, trend, missingTrend, histogram, branching, callouts, marks,
+import { bars, barsPreview, missingBars, comparison, trend, missingTrend, histogram, branching, callouts, marks,
   comparisonPreview, trendPreview, histogramPreview, branchingPreview, calloutsPreview, marksPreview } from './graph-examples.mjs';
 
 export const charts = [
   {
     slug: 'bar-chart', name: 'Bar chart', label: 'Compare quantities', group: 'Figures & graphs',
+    previewHeight: 'auto',
+    preview: barsPreview,
     description: 'Rank categories by magnitude, with aligned names, exact values, and a shared zero baseline.',
     story: 'components-bar-chart--callers',
     api: [

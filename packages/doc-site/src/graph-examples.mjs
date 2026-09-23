@@ -23,6 +23,15 @@ ${callers.map(([name, n]) => `    <li class="bar-row">
   </figcaption>
 </figure>`;
 
+export const barsPreview = `<div>
+  <p class="note">2 of 6 callers · common scale: 0–8 statements</p>
+  <ul class="bars">${callers.slice(0, 2).map(([name, n]) => `<li class="bar-row">
+    <span class="bar-label mono">${name}</span>
+    <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:${n / 8 * 100}%"></span></span>
+    <span class="bar-value">${n} ${n === 1 ? 'statement' : 'statements'}</span>
+  </li>`).join('')}</ul>
+</div>`;
+
 export const missingBars = `<figure class="plate plate-wide">
   <p><strong>Zero and unknown answer different questions.</strong></p>
   <ul class="bars">

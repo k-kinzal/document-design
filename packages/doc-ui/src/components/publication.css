@@ -63,6 +63,7 @@
     text-wrap: balance;
   }
   .cover-title em { color: var(--dd-accent); font-style: normal; }
+  .cover .cover-title:lang(ja) { letter-spacing: var(--dd-track-display-ja); }
   .cover-copy { color: var(--dd-fg-muted); font-size: var(--dd-text-lg); line-height: 1.9; }
   .cover-copy .actions { margin-top: var(--dd-sp-6); }
   .btn-primary {
@@ -95,15 +96,17 @@
     border-top: 1px solid var(--dd-border);
     min-width: 0;
   }
+  /* Adjacent navigation and section rules describe the same boundary. */
+  .ribbon + .section, nav:has(> .ribbon) + .section { border-top: 0; }
   .section-head {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2.3fr);
-    gap: var(--dd-sp-5);
-    margin-bottom: var(--dd-sp-7);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--dd-sp-4) 24px;
   }
+  .section-head > .eyebrow { grid-column: 1 / 4; }
+  .section-head > :not(.eyebrow) { grid-column: 4 / -1; }
   .section-head .eyebrow { margin: 0; padding-top: var(--dd-sp-3); }
-  .section-title { font-size: clamp(1.5rem, 3.3cqi, 2.5rem); line-height: 1.4; letter-spacing: var(--dd-track-large); }
-  .section-head .note { margin-top: var(--dd-sp-4); }
+  .section-title { font-size: var(--dd-type-5); font-weight: var(--dd-weight-head); line-height: 1.4; letter-spacing: var(--dd-track-large); }
 
   .specimens {
     display: grid;
@@ -137,7 +140,7 @@
   .specimen-body { padding: var(--dd-sp-6); min-width: 0; }
   .specimen-body > :last-child { margin-bottom: 0; }
   /* Embedded genres keep their own type. No viewport-sized empty frames. */
-  .doc.doc-inset { display: block; min-height: 0; }
+  :where(.doc.doc-inset) { display: block; min-height: 0; }
   .doc-inset h2:first-child, .doc-inset h3:first-child { margin-top: 0; }
   .sheet.sheet-inset {
     display: block;
@@ -198,10 +201,14 @@
     .specimens { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
     .principles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
-  @container (max-width: 42rem) {
+  @container (max-width: 60rem) {
     .cover { grid-template-columns: minmax(0, 1fr); gap: var(--dd-sp-6); padding-block: var(--dd-sp-7); }
     .cover .cover-title { font-size: clamp(2.25rem, 8.5cqi, 4rem); }
+    .cover-copy { max-width: var(--dd-measure); }
+  }
+  @container (width < 46rem) {
     .section-head { grid-template-columns: minmax(0, 1fr); gap: var(--dd-sp-4); }
+    .section-head > .eyebrow, .section-head > :not(.eyebrow) { grid-column: 1 / -1; }
     .specimen-body { padding: var(--dd-sp-5); }
   }
   @media (max-width: 720px) {
@@ -211,6 +218,17 @@
     .brand { font-size: var(--dd-text-xl); }
     .section { padding-block: var(--dd-sp-7); }
     .colophon nav { margin-left: 0; }
+  }
+}
+@layer dd.layout {
+  .section-head { margin-bottom: 24px; }
+  .section-title:has(+ :is(.note, .prose)) { margin-bottom: calc(var(--dd-base) / 2); }
+  .section-title + .plate { margin-top: 24px; }
+  @container (width < 46rem) {
+    .sheet-wide .sec > :is(.label, .field) { grid-column: 1 / -1; }
+    .sheet-wide .sec > .rail { display: contents; }
+    .sheet-wide .rail > * { grid-column: 1 / -1; }
+    .sheet-wide .rail > .sidenote { order: 1; }
   }
 }
 @layer dd.utility {

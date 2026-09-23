@@ -94,3 +94,14 @@ export const VisualPreviews = {
     </div>
   </main></div></div>`,
 };
+
+export const CompletePreview = {
+  parameters: { docs: { description: { story: 'Keep a selected preview complete with --dd-preview-height: auto. Other previews retain their bounded frame; text is never scaled to fit.' } } },
+  render: () => html`<div class="doc doc-inset" style="max-width:320px"><article class="card">
+    <div class="card-preview" style="--dd-preview-height:auto" inert aria-hidden="true">
+      <section class="cover"><div><p class="eyebrow">PUBLICATION</p><h2 class="cover-title">Information, made clear.</h2></div>
+        <div class="cover-copy"><p>A design system for documentation and reports.</p><div class="actions"><span class="btn btn-primary">Get started →</span></div></div>
+      </section>
+    </div><h3><a class="card-link" href="#">Publication</a></h3><p class="card-description">Covers and their supporting text.</p>
+  </article></div>`,
+};
