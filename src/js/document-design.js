@@ -630,9 +630,13 @@
    * runs on every frame of a flick through a long catalog page, and this runs
    * only when a heading crosses the band.
    */
+  var tocObserver = null;
+
   function initToc() {
     var toc = document.querySelector("[data-dd-toc], .sidebar-context");
     if (!toc || !("IntersectionObserver" in window)) return;
+    /* A stale observer keeps reporting on a document the story has replaced. */
+    if (tocObserver) { tocObserver.disconnect(); tocObserver = null; }
 
     var links = {};
     var targets = [];

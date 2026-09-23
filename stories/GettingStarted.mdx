@@ -96,12 +96,20 @@ without a specificity ladder:
 .chip { font-weight: 400; }
 ```
 
-To put your CSS between two of the library's layers, re-declare the order
-first:
+To put your CSS **between** two of the library's layers, declare a sublayer of
+`dd` and restate the whole order first:
 
 ```css
-@layer dd.tokens, dd.base, mine, dd.component;
+@layer dd.reset, dd.tokens, dd.base, dd.layout,
+       dd.mine, dd.component, dd.utility, dd.print;
+
+@layer dd.mine { .chip { … } }
 ```
+
+A top-level layer declared after `dd` outranks everything inside `dd` — it can
+only sit above all of it, never between two sublayers. And the list has to name
+every existing sublayer: one left out is created wherever it is first used,
+which reorders it.
 
 To retheme rather than override, redefine tokens on `:root`. Both the palette
 (`--dd-blue`) and the roles (`--dd-accent`, `--dd-warn`) are public.

@@ -24,9 +24,18 @@
  *
  * The sublayers are ordered so that later beats earlier, which lets a
  * component override the base without either one caring about selector shape.
- * A consumer can reorder or insert layers by re-declaring the list first:
+ * To sit between two of them, declare a sublayer of dd and restate the whole
+ * order first:
  *
- *     @layer dd.tokens, dd.base, mine, dd.component;
+ *     @layer dd.reset, dd.tokens, dd.base, dd.layout,
+ *            dd.mine, dd.component, dd.utility, dd.print;
+ *
+ *     @layer dd.mine { … }
+ *
+ * A top-level layer declared after dd outranks everything inside dd, sublayers
+ * included — it cannot sit between them. And the list has to name every
+ * existing sublayer, because one left out is created wherever it is first
+ * used, which is not where it was.
  *
  * ---------------------------------------------------------------------------
  * Why the custom properties are prefixed and the classes are not

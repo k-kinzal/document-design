@@ -54,24 +54,20 @@ export default {
       const theme = context.globals.ddTheme || "auto";
 
       /*
-       * The toolbar and the behaviour layer both own the theme, so they are
-       * made to agree rather than left to race.
+       * The toolbar owns the theme; the behaviour layer is told, not guessed at.
        *
-       * document-design.js reads its stored preference on every start, and
-       * Storybook restarts it on every story — so setting the attribute and
-       * then starting the layer means the layer immediately resets it to
-       * whatever localStorage says, which is "auto" on a fresh profile. The
-       * toolbar appeared to do nothing.
-       *
-       * Writing the choice to the same key the layer reads, before starting
-       * it, makes the layer arrive at the toolbar's answer by itself. The
-       * attribute is then set directly as well, for the case where the
-       * behaviour layer is not loaded at all.
+       * document-design.js keeps the current theme in memory and reapplies it
+       * on every start, and Storybook restarts it on every story. So writing
+       * localStorage and setting the attribute behind its back does not hold:
+       * the next render reapplies the cached value and the toolbar appears
+       * dead. Its exported applyTheme() updates that cache, which is the
+       * supported way in. Storage is still written so a reload keeps the
+       * choice, and the attribute is set directly when the layer is absent.
        */
       try {
         if (theme === "auto") window.localStorage.removeItem("dd-theme");
         else window.localStorage.setItem("dd-theme", theme);
-      } catch (e) { /* storage unavailable; the direct set below still holds */ }
+      } catch (e) { /* storage unavailable; applyTheme below still holds */ }
 
       const node = story();
 
@@ -81,14 +77,18 @@ export default {
        * this point queries a document the story is not in yet. Started here
        * directly, every initializer that binds by selector — sort, filter,
        * facets, tabs, the table of contents — found nothing and silently did
-       * nothing, while the document-level delegates (theme, copy, nav) kept
-       * working and hid it.
+       * nothing, while the document-level delegates kept working and hid it.
        */
-      requestAnimationFrame(ensureBehaviour);
-
-      const root = document.documentElement;
-      if (theme === "auto") root.removeAttribute("data-dd-theme");
-      else root.setAttribute("data-dd-theme", theme);
+      requestAnimationFrame(() => {
+        ensureBehaviour();
+        if (window.documentDesign) {
+          window.documentDesign.applyTheme(theme);
+        } else {
+          const root = document.documentElement;
+          if (theme === "auto") root.removeAttribute("data-dd-theme");
+          else root.setAttribute("data-dd-theme", theme);
+        }
+      });
 
       return node;
     },
