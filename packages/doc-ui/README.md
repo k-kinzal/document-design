@@ -71,13 +71,25 @@ each hue is accessible on its own wash, in both themes.
 
 ## Development
 
+This package lives in a workspace. Install once at the repository root, then
+run scripts from either place.
+
 ```sh
-npm install
+npm install                              # at the repository root
+
+# in packages/doc-ui
 npm run storybook        # design and browse components at :6006
 npm run build            # dist/document-design.css + .min.css + .js
-npm run check:contrast   # every hue against every surface, both themes
-npm run build:pages      # what gh-pages serves
+npm run check            # every hue against every surface, both themes
+
+# at the repository root
+npm run build            # every package that has one
+npm run check            # DESIGN.md against the tokens, then every package
+npm run build:pages      # what gh-pages serves, from every package
 ```
+
+`build:pages` is a repository-level script: the published site is assembled
+from this package and from doc-site together, so it does not belong to either.
 
 ## Layout of the source
 

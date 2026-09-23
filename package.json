@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "check": "node scripts/check-design-md.mjs && npm run check --workspaces --if-present",
+    "check": "node scripts/check-lockfile.mjs && node scripts/check-design-md.mjs && npm run check --workspaces --if-present",
     "storybook": "npm run storybook --workspace @k-kinzal/doc-ui",
     "build:storybook": "npm run build:storybook --workspace @k-kinzal/doc-ui",
     "build:pages": "npm run build && npm run build:storybook && node scripts/pages.mjs"
