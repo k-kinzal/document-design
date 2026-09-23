@@ -23,9 +23,10 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      # The palette claims one accessible value per hue. A claim a build can
-      # check is a claim; one it cannot is a comment.
-      - run: npm run check:contrast
+      # The palette claims one accessible value per hue on every surface it
+      # lands on. A claim a build can check is a claim; one it cannot is a
+      # comment.
+      - run: npm run check
       - run: npm run build
       - run: npm run build:storybook
       - run: node scripts/pages.mjs

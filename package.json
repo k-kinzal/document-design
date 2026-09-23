@@ -1,32 +1,18 @@
 {
-  "name": "@k-kinzal/document-design",
-  "version": "1.0.0",
-  "description": "Shared CSS for generated documentation, catalogs and reports",
+  "name": "document-design",
+  "private": true,
+  "description": "Design system for documentation and report pages, and the site that presents it",
   "license": "MIT",
   "type": "module",
-  "files": [
-    "dist",
-    "src"
+  "workspaces": [
+    "packages/*"
   ],
-  "exports": {
-    ".": "./dist/document-design.css",
-    "./js": "./dist/document-design.js",
-    "./tokens": "./dist/document-design.tokens.css",
-    "./src/*": "./src/*"
-  },
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "check:contrast": "node scripts/contrast.mjs",
-    "storybook": "storybook dev -p 6006 --no-open",
-    "build:storybook": "storybook build -o storybook-static",
-    "build:pages": "node scripts/build.mjs && storybook build -o storybook-static && node scripts/pages.mjs"
+    "build": "npm run build --workspaces --if-present",
+    "check": "npm run check --workspaces --if-present",
+    "storybook": "npm run storybook --workspace @k-kinzal/doc-ui",
+    "build:storybook": "npm run build:storybook --workspace @k-kinzal/doc-ui",
+    "build:pages": "npm run build && npm run build:storybook && node scripts/pages.mjs"
   },
-  "devDependencies": {
-    "@storybook/addon-docs": "^10.6.0",
-    "@storybook/html-vite": "^10.6.0",
-    "browserslist": "^4.29.0",
-    "lightningcss": "^1.33.0",
-    "storybook": "^10.6.0",
-    "vite": "^8.3.0"
-  }
+  "devDependencies": {}
 }

@@ -92,10 +92,18 @@ export function measured(build) {
   const host = document.createElement("div");
   let last = null;
 
+  /*
+   * Keyed on the colours the browser actually resolved, not on what asked for
+   * them. `color-scheme` stays "light dark" in auto mode whichever way the
+   * system is set, so a key built from it did not change when the system
+   * flipped and the table kept showing the previous theme's ratios. The
+   * resolved background is the ground truth: if it moved, the palette moved.
+   */
   const render = () => {
     const root = document.documentElement;
-    const key = (root.getAttribute("data-dd-theme") || "auto") + "|" +
-                getComputedStyle(root).colorScheme;
+    const cs = getComputedStyle(root);
+    const key = cs.getPropertyValue("--dd-bg").trim() + "|" +
+                cs.getPropertyValue("--dd-ink").trim();
     if (key === last) return;
     last = key;
     host.innerHTML = build();
