@@ -23,3 +23,5 @@ Add the stylesheet to your document’s `<head>`:
 [Start your first document →](https://k-kinzal.github.io/document-design/start/)
 Choose a document or report layout, copy a complete HTML example, and learn about
 Japanese typography, themes, offline use, and optional interactions.
+
+[MIT License](LICENSE)

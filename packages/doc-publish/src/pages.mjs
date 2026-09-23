@@ -62,6 +62,10 @@ export function stage(source, out, commit) {
   }
   cpSync(join(source, 'packages/doc-ui/storybook-static'), join(site, 'storybook'), { recursive: true });
   cpSync(join(source, 'DESIGN.md'), join(site, 'DESIGN.md'));
+  // Legal supplements can accompany an existing release without rebuilding it.
+  mkdirSync(join(out, 'legal'));
+  cpSync(join(source, 'LICENSE'), join(out, 'legal/LICENSE'));
+  cpSync(join(source, 'docs/licenses'), join(out, 'legal/licenses'), { recursive: true });
   writeJSON(join(out, 'build.json'), { version: pkg.version, commit });
 }
 
@@ -102,7 +106,7 @@ export function publish(input, out, { ref, mainCommit }) {
       const files = filesAt(site);
       for (const file of files) {
         const first = file.split(/[\\/]/)[0];
-        if (distribution.test(first) || first === '.git' || first === 'versions.json') {
+        if (distribution.test(first) || ['.git', 'versions.json', 'LICENSE', 'licenses'].includes(first)) {
           throw new Error(`Site file conflicts with publication storage: ${file}`);
         }
       }
@@ -111,6 +115,9 @@ export function publish(input, out, { ref, mainCommit }) {
       cpSync(site, out, { recursive: true });
       versions.site = { tag, commit: build.commit, files };
     }
+  }
+  if ((isMain && build.commit === mainCommit) || (tag && versions.site?.tag === tag)) {
+    cpSync(join(input, 'legal'), out, { recursive: true });
   }
   writeFileSync(join(out, '.nojekyll'), '');
   writeJSON(manifestPath, versions);

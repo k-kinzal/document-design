@@ -7,13 +7,15 @@
  */
 import { bundle, transform, browserslistToTargets } from "lightningcss";
 import browserslist from "browserslist";
-import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
+import { mkdirSync, writeFileSync, readFileSync, copyFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = here;
 const dist = join(root, "dist");
+const license = readFileSync(join(root, "LICENSE"), "utf8");
+const banner = `/*!\n${license.trim().split("\n").map(line => ` * ${line}`.trimEnd()).join("\n")}\n */\n`;
 
 /*
  * The support floor.
@@ -39,7 +41,7 @@ function build(entry, name) {
     include: 0,
   });
   const pretty = code.toString();
-  writeFileSync(join(dist, `${name}.css`), pretty);
+  writeFileSync(join(dist, `${name}.css`), banner + pretty);
 
   const { code: min } = transform({
     filename: `${name}.css`,
@@ -47,12 +49,13 @@ function build(entry, name) {
     minify: true,
     targets,
   });
-  writeFileSync(join(dist, `${name}.min.css`), min.toString());
+  writeFileSync(join(dist, `${name}.min.css`), banner + min.toString());
 
   return { pretty: pretty.length, min: min.length };
 }
 
 mkdirSync(dist, { recursive: true });
+copyFileSync(join(root, "LICENSE"), join(dist, "LICENSE"));
 
 const results = [
   ["src/index.css", "document-design"],
@@ -63,7 +66,7 @@ const results = [
    a generated document and wonders what the page is doing should be able to
    read the answer. */
 const js = readFileSync(join(root, "src/js/document-design.js"), "utf8");
-writeFileSync(join(dist, "document-design.js"), js);
+writeFileSync(join(dist, "document-design.js"), banner + js);
 
 for (const [name, size] of results) {
   console.log(

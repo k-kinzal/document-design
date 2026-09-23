@@ -2,6 +2,7 @@
   "name": "doc-publish",
   "version": "0.0.0",
   "private": true,
+  "license": "MIT",
   "description": "Versioned GitHub Pages publication for doc-ui and doc-site",
   "type": "module",
   "scripts": {

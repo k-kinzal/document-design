@@ -54,7 +54,7 @@ Pull requests never publish. Publication runs are serialized.
 | `/latest/` | Latest successfully published main-tip build |
 | `/versions.json` | Published versions and their source commits |
 
-All distribution paths include CSS, minified CSS, tokens, optional JavaScript,
+New distribution paths include `LICENSE`, CSS, minified CSS, tokens, optional JavaScript,
 `DESIGN.md`, and a `VERSION` file containing the package version and commit SHA.
 Short aliases are publication paths, not movable Git tags.
 
@@ -63,6 +63,10 @@ remove them. Do not edit it by hand. Main builds preserve the released product
 site and its pinned CSS/JS. An older maintenance tag can update its minor alias
 without rolling back the major alias or product site. Before the first release,
 main builds are archived without replacing the public site.
+
+Legal supplements at `/LICENSE` and `/licenses/` also publish from main, so
+missing notices can accompany existing releases without changing their bytes.
+See [Licenses and dependencies](LICENSES.md) for the review and update process.
 
 Full release and commit paths are immutable: a rerun fails if the generated
 files differ from those already published. A breaking visual change belongs in

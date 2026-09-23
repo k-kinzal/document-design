@@ -29,6 +29,9 @@ optimized for Japanese output.
   update `/latest/`. Stable release tags publish full, minor, and major URLs.
   The single product site and Storybook follow the highest stable release;
   main changes must not alter the released site's content or pinned assets.
+  Legal supplements at `/LICENSE` and `/licenses/` may publish from main to
+  accompany existing releases without changing their files. Retain third-party
+  notices and review dependency license changes; see `docs/LICENSES.md`.
 - `gh-pages` is generated publication storage. Only the publication workflow
   writes it; preserve historical release and commit distributions.
 - Do not add a `scripts/` directory. Use package-owned npm commands, build
