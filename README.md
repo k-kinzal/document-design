@@ -6,7 +6,7 @@ reports you can understand at a glance.
 ```
 packages/
   doc-ui/     CSS, optional behaviors, tokens and Storybook
-  doc-site/   English product site and component documentation, built with doc-ui
+  doc-site/   Japanese / English product site and documentation, built with doc-ui
 scripts/
   pages.mjs   assembles both packages for GitHub Pages
 ```
@@ -49,6 +49,7 @@ Work directly in `packages/doc-site` or `packages/doc-ui`, or use
 /start/                quick start and setup
 /components/           visual component gallery
 /components/<name>/    individual examples and usage
+/ja/…                  Japanese versions of the same pages
 /storybook/            development stories and variations
 /v1/…                  stable major-version artifacts
 /latest/…              tip of main

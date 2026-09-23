@@ -54,3 +54,15 @@ export const ThemeToggle = {
       </p>
     </main></div></div>`,
 };
+
+export const JapaneseFeedback = {
+  render: () => html`
+    <div class="doc doc-inset" lang="ja"><main class="content">
+      <div class="code-block">
+        <div class="code-head"><span>HTML</span><button class="btn" data-dd-copy="#ja-source" aria-live="polite">コピー</button></div>
+        <pre class="code" id="ja-source"><code>&lt;p&gt;情報を見やすくする。&lt;/p&gt;</code></pre>
+      </div>
+      <button class="btn" data-dd-theme-toggle aria-label="配色を切り替える">◐</button>
+      <p>コピー完了とテーマのラベルは、最も近いlang属性に従います。</p>
+    </main></div>`,
+};

@@ -140,6 +140,17 @@ Use `data-dd-enhance hidden` on controls that only make sense with JavaScript.
 The behavior script reveals them after initialization. Leave the content itself
 visible so an unenhanced or archived document stays readable.
 
+Declare `lang="ja"` or `lang="en"` on the document root (or a nested example).
+The behavior script follows the nearest language for copy confirmation, theme
+labels and empty search results. Other languages use the English fallback.
+Authors still supply the initial button text, input labels and search data.
+`Components/Control/Japanese feedback` demonstrates this behavior.
+
+Topbar wraps controls onto a second row when their text and the current location
+cannot fit together. Language links can use ordinary `.btn.btn-quiet` anchors
+with `lang` and `hreflang`; they work without JavaScript. See
+`Components/Topbar/Languages` for a narrow Japanese example.
+
 
 ## Figures and composition
 

@@ -42,9 +42,9 @@ test('bar geometry preserves the common scale at wide and narrow widths', async 
   await expect(missing).toContainText('Not measured');
 });
 
-for (const slug of charts.slice(1)) {
-  test(`${slug}: fixed readable type, full labels, keyboard scrolling and paper fit`, async ({page}, info) => {
-    await page.goto(`/components/${slug}/`);
+for (const lang of ['en', 'ja']) for (const slug of charts.slice(1)) {
+  test(`${lang}/${slug}: fixed readable type, full labels, keyboard scrolling and paper fit`, async ({page}, info) => {
+    await page.goto(`${lang === 'ja' ? '/ja' : ''}/components/${slug}/`);
     const figures = page.locator('.specimen .plate');
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width,height:1000});

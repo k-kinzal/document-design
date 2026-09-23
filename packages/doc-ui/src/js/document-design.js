@@ -23,6 +23,13 @@
   var root = document.documentElement;
   var THEME_KEY = root.getAttribute("data-dd-theme-key") || "dd-theme";
 
+  // Follow the nearest declared language, including embedded examples. The
+  // document language is the same contract used by the typography and captions.
+  function localizedLabel(el, english, japanese) {
+    var owner = el.closest("[lang]") || root;
+    return /^ja(?:-|$)/i.test(owner.getAttribute("lang") || "") ? japanese : english;
+  }
+
   /* localStorage throws outright in a sandboxed frame and in some private
      modes — not merely returning null — so every access is guarded and the
      page is expected to work when it is unavailable. */
@@ -79,8 +86,9 @@
     else root.setAttribute("data-dd-theme", theme);
     each("[data-dd-theme-toggle]", function (btn) {
       btn.setAttribute("data-dd-theme-state", theme);
-      btn.setAttribute("title", "Theme: " + theme);
-      btn.setAttribute("aria-label", "Theme: " + theme);
+      var name = localizedLabel(btn, "Theme: " + theme, "テーマ：" + { auto: "自動", light: "ライト", dark: "ダーク" }[theme]);
+      btn.setAttribute("title", name);
+      btn.setAttribute("aria-label", name);
     });
   }
 
@@ -182,7 +190,7 @@
       var done = function () {
         var label = btn.textContent;
         btn.classList.add("is-done");
-        btn.textContent = "Copied";
+        btn.textContent = localizedLabel(btn, "Copied", "コピーしました");
         setTimeout(function () {
           btn.classList.remove("is-done");
           btn.textContent = label;
@@ -501,7 +509,7 @@
       if (!results.length) {
         var empty = document.createElement("div");
         empty.className = "search-empty";
-        empty.textContent = "Nothing matched.";
+        empty.textContent = localizedLabel(input, "Nothing matched.", "該当する項目はありません。");
         panel.appendChild(empty);
       } else {
         results.forEach(function (item) {

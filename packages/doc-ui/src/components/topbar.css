@@ -20,6 +20,7 @@
     top: 0;
     z-index: 20;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--dd-sp-4);
     min-height: var(--dd-topbar-height);
@@ -37,7 +38,7 @@
    * they were on. A 94-character path made this the normal case, not the edge.
    */
   .breadcrumbs {
-    flex: 1;
+    flex: 1 1 12rem;
     min-width: 0;
     display: flex;
     align-items: baseline;
@@ -68,9 +69,16 @@
 
   .topbar-tools {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--dd-sp-3);
+    min-width: 0;
+    max-width: 100%;
   }
+
+  /* Language links and translated controls need real space. Let the tools
+     continue on a second row before they squeeze the current location away. */
+  .topbar-tools .input-search { flex: 1 1 10rem; min-width: 0; }
 
   /*
    * Scoped to .topbar so it outranks .btn's own display.

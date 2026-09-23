@@ -1,16 +1,19 @@
 import { test, expect } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import { components } from '../src/components.mjs';
+import { locales, localePath, localizeHTML } from '../src/i18n.mjs';
 
 const axePath = fileURLToPath(import.meta.resolve('axe-core/axe.min.js'));
-for (const path of ['/', '/start/', '/components/', ...components.map(c => `/components/${c.slug}/`)]) {
+for (const lang of locales) for (const route of ['', 'start/', 'components/', ...components.map(c => `components/${c.slug}/`)]) {
+  const path = '/' + localePath(route, lang);
   test(`page is readable and accessible: ${path}`, async ({ page }) => {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     expect((await page.goto(path)).status()).toBe(200);
     await expect(page.locator('h1')).toHaveCount(1);
-    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    expect(await page.locator('body').innerText()).not.toMatch(/[ぁ-んァ-ン一-龯]/);
+    await expect(page.locator('html')).toHaveAttribute('lang', lang);
+    if (lang === 'en') expect((await page.locator('body').innerText()).replace('日本語', '')).not.toMatch(/[ぁ-んァ-ン一-龯]/);
+    else expect(await page.locator('main').innerText()).toMatch(/[ぁ-んァ-ン一-龯]/);
     await page.addScriptTag({ path: axePath });
     const violations = await page.evaluate(async () => (await axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a','wcag2aa','wcag21aa'] } })).violations.map(v => ({ id:v.id, targets:v.nodes.map(n=>n.target) })));
     expect(violations).toEqual([]);
@@ -76,10 +79,79 @@ test('filters, sorting, tabs, theme and mobile navigation work', async ({page})=
 
 test('dark theme remains accessible',async({page})=>{
   await page.emulateMedia({colorScheme:'dark'});
-  for(const path of ['/','/components/','/components/chip/']){
+  for(const path of ['/','/components/','/components/chip/','/ja/','/ja/components/','/ja/components/prose/']){
     await page.goto(path); await page.addScriptTag({path:axePath});
     expect(await page.evaluate(async()=>(await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa']}})).violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})))).toEqual([]);
   }
+});
+
+test('language links keep the same route and local navigation keeps the chosen language', async ({page}) => {
+  for (const route of ['', 'start/', 'components/', 'components/prose/', 'components/report/']) {
+    await page.goto('/' + route);
+    await page.getByRole('link', {name:'日本語', exact:true}).click();
+    await expect(page).toHaveURL(new RegExp(`/ja/${route}index.html$`));
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ja');
+    await page.getByRole('link', {name:'English', exact:true}).click();
+    await expect(page).toHaveURL(new RegExp(`4174/${route}index.html$`));
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  }
+  await page.goto('/ja/components/prose/');
+  await page.locator('#navigation a').filter({hasText:/^Report$/}).click();
+  await expect(page).toHaveURL(/\/ja\/components\/report\/index.html$/);
+});
+
+test('Japanese search, copy feedback and themes use the page language', async ({page,context}) => {
+  await context.grantPermissions(['clipboard-read','clipboard-write']);
+  await page.goto('/ja/components/');
+  const search = page.getByRole('searchbox', {name:'コンポーネントを検索'});
+  await search.fill('分類');
+  await page.locator('[data-dd-search-results]').getByRole('link', {name:/Chip/}).click();
+  await expect(page).toHaveURL(/\/ja\/components\/chip\/index.html$/);
+  await search.fill('zzzzzzzz');
+  await expect(page.locator('.search-empty')).toHaveText('該当する項目はありません。');
+  await page.keyboard.press('Escape');
+  await page.locator('[data-dd-copy="#source-1"]').click();
+  await expect(page.locator('[data-dd-copy="#source-1"]')).toHaveText('コピーしました');
+  expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe(localizeHTML(components.find(c=>c.slug==='chip').examples[1].html));
+  await expect(page.locator('.topbar [data-dd-theme-toggle]')).toHaveAttribute('aria-label', 'テーマ：自動');
+  await page.locator('.topbar [data-dd-theme-toggle]').click();
+  await expect(page.locator('.topbar [data-dd-theme-toggle]')).toHaveAttribute('aria-label', 'テーマ：ライト');
+});
+
+test('Japanese typography activates without applying proportional metrics to body text', async ({page}, info) => {
+  for (const lang of locales) {
+    await page.goto('/' + localePath('components/prose/', lang));
+    const type = await page.locator('.specimen .prose').evaluate(el => {
+      const heading = getComputedStyle(el.querySelector('h3'));
+      const body = getComputedStyle(el.querySelector('p'));
+      return {heading:heading.fontFeatureSettings, body:body.fontFeatureSettings, breaks:heading.wordBreak, lineBreak:body.lineBreak, autospace:body.textAutospace, measure:el.querySelector('p').getBoundingClientRect().width};
+    });
+    expect(type.heading).toContain('"palt"');
+    expect(type.body).toBe('normal');
+    expect(type.breaks).toBe(lang === 'ja' ? 'auto-phrase' : 'normal');
+    expect(type.lineBreak).toBe('strict');
+    expect(type.autospace).toBe('normal');
+    expect(type.measure).toBe(576);
+    await page.locator('.specimen').screenshot({path:info.outputPath(`prose-${lang}.png`)});
+    await page.goto('/' + localePath('', lang));
+    await page.screenshot({path:info.outputPath(`home-${lang}.png`),fullPage:true});
+    await page.setViewportSize({width:390,height:844});
+    await page.screenshot({path:info.outputPath(`home-${lang}-mobile.png`),fullPage:true});
+    await page.setViewportSize({width:1440,height:1000});
+  }
+});
+
+test('language switching and Japanese examples work from disk without JavaScript', async ({browser}) => {
+  const context = await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
+  const page = await context.newPage();
+  await page.goto(new URL('../dist/components/prose/index.html',import.meta.url).href);
+  await page.getByRole('link',{name:'日本語',exact:true}).click();
+  await expect(page.locator('html')).toHaveAttribute('lang','ja');
+  await expect(page.locator('.specimen')).toContainText('情報を見やすくする');
+  await expect(page.locator('#navigation')).toBeVisible();
+  await page.getByRole('link',{name:'English',exact:true}).click();
+  await expect(page.locator('html')).toHaveAttribute('lang','en');
+  await context.close();
 });
 
 test('no JavaScript and file URLs preserve content and navigation',async({browser})=>{

@@ -1,7 +1,7 @@
 # doc-site
 
-The English product and documentation site for doc-ui. The homepage is a paper; the
-component index and usage guides are the documentation. A visual index leads to 41
+The Japanese and English product and documentation site for doc-ui. The homepage is a paper; the
+component index and usage guides are the documentation. A visual index leads to 43
 component and layout guides, each with a rendered example, highlighted HTML,
 classes and usage notes.
 
@@ -40,11 +40,12 @@ script, and the root build/test shortcuts build dependencies in order.
   and fixed-data HTML specimens for the Figures & graphs category.
 - `src/docs.mjs`: the visual index, quick start and individual guides.
 - `src/site.mjs`: document shell, canonical URL and social metadata.
+- `src/i18n.mjs` and `src/locales/`: build-time translation and message catalogs.
 - `src/highlight.mjs`: build-time Shiki parsing into doc-ui's `.tok-*` classes.
 - `scripts/generate.mjs`: HTML, search data, sitemap, robots and 404 output.
 - `public/assets/`: social card and typographic icons.
 
-Vite+ builds 44 pages plus a 404 document. No client framework or highlighting
+Vite+ builds 92 pages (46 per language) plus a bilingual 404 document. No client framework or highlighting
 runtime is shipped. Classic doc-ui JavaScript provides search, copying, sorting,
 filters, tabs, navigation and theme controls. Content remains available without
 JavaScript. Relative asset URLs and explicit index filenames let the built
@@ -52,7 +53,8 @@ site be opened over `file://` as well as under a GitHub Pages project path.
 
 ## Publish
 
-This package owns `/`, `/start/`, `/components/`, and `/components/<name>/`.
+This package owns `/`, `/start/`, `/components/`, and `/components/<name>/`,
+plus their Japanese counterparts under `/ja/`.
 The repository's `scripts/pages.mjs` combines its `dist/` with doc-ui's Storybook
 and versioned artifacts; `npm run build:pages` prepares that full site.
 The existing Pages workflow checks and tests the packages before publishing.
@@ -63,6 +65,31 @@ canonical, Open Graph text and structured data. The homepage adds the social
 preview image. `sitemap.xml` enumerates the public routes; submit its URL to
 Search Console when publishing. A project-path `robots.txt` is included, but
 crawler rules are controlled by the host's domain-root robots file.
+
+## Languages and typography
+
+English keeps the existing URLs. Japanese uses `/ja/`, `/ja/start/`, and
+`/ja/components/…`. The header links to the same page in the other language;
+navigation, search results and downloadable examples stay in the chosen language.
+Storybook, CSS and JavaScript distributions are shared at the repository root.
+Both languages have their own canonical URLs, `hreflang` links, metadata and
+sitemap entries. No browser-language redirect or client translation runtime is used.
+
+The HTML root declares `lang="en"` or `lang="ja"`. This activates doc-ui's
+Japanese heading breaks and figure labels. The shared typography continues to
+apply proportional metrics to headings and short labels while keeping body text
+at its natural spacing. Compare the homepages, Prose, Report and figure guides
+using the language link; the start guide explains the language attribute.
+
+`src/locales/ja.json` maps English messages to authored Japanese. Messages with
+inline markup keep the whole sentence together so Japanese can reorder links or
+code. The build parses HTML source ranges, translates prose and accessible labels,
+and highlights translated example HTML again. It preserves indentation, API names,
+SQL, SVG geometry and the fixture values. `shared.json` lists intentional literals,
+including public component names and identifiers. `npm run check` rejects missing
+translations and verifies that every copyable example matches its translated
+source. Add translations with new English content, and reserve shared literals for
+content that actually has the same meaning in both languages.
 
 ## Editorial direction and example data
 

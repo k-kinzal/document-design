@@ -36,8 +36,8 @@ export const readingPaths = `<figure class="plate plate-full plate-side plate-un
   </figcaption>
 </figure>`;
 
-export function home() {
-  return `<div class="sheet sheet-wide">${masthead()}
+export function home(lang = 'en') {
+  return `<div class="sheet sheet-wide">${masthead('./', '', lang)}
 <main class="sheet-body" id="main">
   <header class="cover">
     <div><p class="eyebrow">CSS FOR DOCUMENTATION &amp; REPORTS</p><h1 class="cover-title">Information,<br>made clear.</h1></div>
