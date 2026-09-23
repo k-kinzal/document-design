@@ -28,14 +28,38 @@
     border-bottom: 1px solid var(--dd-border);
   }
 
+  /*
+   * The ancestors give way; the current name does not.
+   *
+   * As one clipped line, the end is what goes — and the end is the symbol the
+   * reader just opened. They were left looking at the project name they
+   * already knew, unable to confirm which of several similarly named classes
+   * they were on. A 94-character path made this the normal case, not the edge.
+   */
   .breadcrumbs {
     flex: 1;
     min-width: 0;
+    display: flex;
+    align-items: baseline;
     font-size: var(--dd-text-md);
     white-space: nowrap;
+  }
+
+  .breadcrumbs > a {
+    min-width: 2ch;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  /* The one part that never shrinks. */
+  .breadcrumb-current {
+    flex: none;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .breadcrumb-sep { flex: none; }
 
   .breadcrumb-sep { color: var(--dd-fg-subtle); padding: 0 var(--dd-sp-2); }
 

@@ -239,6 +239,11 @@
     margin: 0 0 calc(var(--dd-base) * 1.5);
   }
 
+  /* A lead followed by the paragraph that explains it is one thought, not
+     two. One and a half baselines is the distance to a figure, not to a
+     sentence that finishes the claim. */
+  .lead:has(+ .note) { margin-bottom: calc(var(--dd-base) / 2); }
+
   .note {
     font-size: var(--dd-type-2);
     line-height: 1.75;
@@ -290,9 +295,37 @@
    * written inline and read the same tokens as the text around them: a
    * diagram follows the theme instead of being a picture of one theme.
    */
+  /*
+   * A drawing has a size below which it stops being a drawing.
+   *
+   * An SVG scaled to its column scales its labels with it. The report's
+   * diagrams are authored on an 820-unit viewBox and land in a 768px field, so
+   * 13px labels render at 12.2 — already under the 14px floor the rest of the
+   * system just adopted — and at a 390px viewport they render at 4.6px. That is
+   * not a small diagram, it is a texture. Shrinking cannot be the narrow-width
+   * strategy for the one element on the page that exists to be read closely.
+   *
+   * So a diagram does not shrink past --dd-diagram-min and its wrapper scrolls
+   * instead. A generator sets that to the viewBox width, which makes the
+   * authored size the rendered size. Labels are authored at 14 and up, for the
+   * same reason everything else is.
+   */
+  .sheet .diagram {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    margin-bottom: calc(var(--dd-base) / 2);
+  }
+
   .sheet svg { display: block; width: 100%; height: auto; }
+  .sheet .diagram > svg { min-width: var(--dd-diagram-min, 0); max-width: none; }
   .sheet svg text { fill: var(--dd-ink); font-family: inherit; }
   .sheet svg .svg-mono { font-family: var(--dd-font-mono); }
+
+  /* On paper there is nowhere to scroll, so it is scaled to the sheet. */
+  @media print {
+    .sheet .diagram { overflow: visible; }
+    .sheet .diagram > svg { min-width: 0; max-width: 100%; }
+  }
 
   @media (max-width: 720px) {
     .sheet {
@@ -335,5 +368,15 @@
     .hero:has(.claim) .mid,
     .hero:has(.claim) .now { grid-column: 1 / -1; }
     .hero .mid { display: none; }
+
+    /*
+     * The descent has to survive the fold. Stacked, each side takes the full
+     * width, so the figure reached its desktop cap while the title dropped a
+     * step — 39px of title under a 49px coloured number, which is the exact
+     * competition the desktop sizing exists to prevent. Capped a step lower on
+     * each: 39 title, 31 after, 25 before.
+     */
+    .now .fig { font-size: clamp(1.5rem, 18cqi, var(--dd-type-5)); }
+    .was .fig { font-size: clamp(1.25rem, 15cqi, var(--dd-type-4)); }
   }
 }

@@ -114,6 +114,14 @@
     line-height: 1.65;
     font-size: var(--dd-text-md);
     font-family: var(--dd-font-mono);
+    /*
+     * The preview gets three lines; source indentation should not take one of
+     * them. The longest real statement carries three leading tabs, which at
+     * the default tab size is 24 character cells before the first keyword —
+     * most of a line, on every wrapped row. The full statement keeps the
+     * original indentation; this is the excerpt.
+     */
+    tab-size: 2;
   }
 
   .row-meta {
@@ -139,11 +147,36 @@
 
   /* ---- .items: names and summaries ---- */
 
+  /*
+   * A name and what it does, and neither may starve the other.
+   *
+   * The identifier columns refused to wrap, so when several were long the
+   * explanation absorbed all of the compression — measured at a 500px column,
+   * the summary was reduced to one character per line. The reader kept "what
+   * this is" and lost "what it does", which is the pairing the table exists to
+   * show.
+   *
+   * So the explanation keeps a floor it cannot be squeezed under, and below the
+   * width where both fit side by side the row stacks: the name, then its
+   * namespace, then the sentence, each on its own full-width line.
+   */
   .items { width: 100%; }
 
-  .item-name { font-family: var(--dd-font-mono); white-space: nowrap; }
-  .item-ns { color: var(--dd-fg-subtle); font-size: var(--dd-text-sm); }
-  .item-summary { color: var(--dd-fg-muted); }
+  .item-name { font-family: var(--dd-font-mono); overflow-wrap: anywhere; }
+  .item-ns { color: var(--dd-fg-subtle); font-size: var(--dd-text-sm); overflow-wrap: anywhere; }
+  .item-summary { color: var(--dd-fg-muted); min-width: 24ch; }
+
+  @container dd-content (max-width: 40rem) {
+    .items, .items tbody, .items tr { display: block; }
+    .items td {
+      display: block;
+      width: auto;
+      border-bottom: none;
+      padding: var(--dd-sp-1) 0;
+    }
+    .items tr { padding: var(--dd-sp-3) 0; border-bottom: 1px solid var(--dd-border); }
+    .items .item-summary { min-width: 0; padding-top: var(--dd-sp-2); }
+  }
 
   /* ---- a flat list of findings or notes ---- */
 

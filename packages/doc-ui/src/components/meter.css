@@ -53,10 +53,39 @@
    * kinds of unknown. Hatching separates them and reads as provisional, the
    * same way every other absence in this system is dashed.
    */
+  /*
+   * "As far as we got", hatched rather than merely paler — and hatched
+   * differently when there is more than one kind of unknown.
+   *
+   * A coverage bar routinely carries two: a dependency that is not modelled,
+   * and a search that hit a budget. Both drawn at 135 degrees, they read as
+   * one band of grey with a seam in it, and the reader has to go to the legend
+   * to learn that the seam meant something. The angle is a custom property so
+   * a second unknown can set its own, and the legend swatch can match it.
+   */
   .meter-part.is-open {
     opacity: 1;
     background: repeating-linear-gradient(
-      135deg,
+      var(--dd-hatch, 135deg),
+      var(--dd-rule) 0 2px,
+      transparent 2px 5px
+    );
+    box-shadow: inset 0 0 0 1px var(--dd-rule);
+  }
+
+  /* A swatch in the legend, carrying the same pattern as its segment. */
+  .meter-legend-swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    vertical-align: -1px;
+    background: var(--dd-tone, var(--dd-neutral));
+  }
+
+  .meter-legend-swatch.is-open {
+    background: repeating-linear-gradient(
+      var(--dd-hatch, 135deg),
       var(--dd-rule) 0 2px,
       transparent 2px 5px
     );
