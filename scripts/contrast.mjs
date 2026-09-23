@@ -25,19 +25,19 @@ const TARGET_LARGE = 3.0;   /* reserved for genuinely large text; nothing uses i
 
 const PALETTE = {
   light: {
-    bg: "#fcfcfe", surface: "#f6f7f9", sunken: "#eef0f3", raised: "#ffffff", hover: "#eceef2",
+    bg: "#fcfcfe", surface: "#f6f7f9", sunken: "#f0f2f5", raised: "#ffffff", hover: "#f0f2f6",
     ink: "#1b1e24", sub: "#4d535d", dim: "#5f6572", hair: "#d9dbe0", rule: "#b8bcc4",
-    blue: "#006bb2", violet: "#7d5eaf", amber: "#707117", slate: "#676d79",
+    blue: "#006bb2", violet: "#79599f", amber: "#707117", slate: "#646a76",
     teal: "#0f7478", pink: "#b0356f", indigo: "#4a55bd",
     green: "#1b7c4a", red: "#ac011a", yellow: "#7d5300",
     mix: 0.06,
   },
   dark: {
-    bg: "#1f2023", surface: "#292c30", sunken: "#25272b", raised: "#2f3238", hover: "#32353b",
+    bg: "#1f2023", surface: "#292c30", sunken: "#25272b", raised: "#2d3036", hover: "#2a2d33",
     ink: "#d9dbdd", sub: "#a7abb3", dim: "#a1a7b2", hair: "#363940", rule: "#4d515a",
-    blue: "#5eabf1", violet: "#aa8ddd", amber: "#babc5e", slate: "#8d94a2",
+    blue: "#5eabf1", violet: "#b195e2", amber: "#babc5e", slate: "#969dab",
     teal: "#4fbcc0", pink: "#f085b4", indigo: "#949cf0",
-    green: "#5dac7b", red: "#fe6863", yellow: "#d6981a",
+    green: "#66b382", red: "#ff7570", yellow: "#d6981a",
     mix: 0.12,
   },
 };
@@ -114,14 +114,25 @@ for (const [theme, p] of Object.entries(PALETTE)) {
     }
   }
 
+  /*
+   * A hue is not only ever seen on the page background. A link sits in a table
+   * row that can be hovered, a chip sits in a card, a syntax token sits in a
+   * code block on the sunken surface, and a search hit sits on the raised one.
+   * Testing a hue against `bg` and its own tint only measured two of the five
+   * places it actually lands.
+   */
   for (const hue of HUES) {
     const tint = mix(p[hue], p.bg, p.mix);
     const onTint = ratio(p[hue], tint);
-    const onBg = ratio(p[hue], p.bg);
     if (onTint < TARGET_TEXT) failures++;
-    if (onBg < TARGET_TEXT) failures++;
     rows.push([theme, `${hue} chip on ${hue}-tint`, onTint, TARGET_TEXT, onTint >= TARGET_TEXT]);
-    rows.push([theme, `${hue} text on bg`, onBg, TARGET_TEXT, onBg >= TARGET_TEXT]);
+
+    for (const surface of SURFACES) {
+      const r = ratio(p[hue], p[surface]);
+      const ok = r >= TARGET_TEXT;
+      if (!ok) failures++;
+      rows.push([theme, `${hue} text on ${surface}`, r, TARGET_TEXT, ok]);
+    }
   }
 }
 

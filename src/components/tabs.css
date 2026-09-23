@@ -7,9 +7,21 @@
  *       <button class="tab" role="tab" aria-selected="true" aria-controls="p1">Resolved</button>
  *       <button class="tab" role="tab" aria-selected="false" aria-controls="p2">As written</button>
  *     </div>
- *     <div class="tabpanel" id="p1" role="tabpanel">…</div>
- *     <div class="tabpanel" id="p2" role="tabpanel" hidden>…</div>
+ *     <section class="tabpanel" id="p1" role="tabpanel">
+ *       <h3 class="tabpanel-title">Resolved</h3>
+ *       …
+ *     </section>
+ *     <section class="tabpanel" id="p2" role="tabpanel">
+ *       <h3 class="tabpanel-title">As written</h3>
+ *       …
+ *     </section>
  *   </div>
+ *
+ * Note what the markup does NOT carry: `hidden`. Every panel ships visible and
+ * headed, and the script hides the inactive ones on start. Shipping `hidden`
+ * means that without JavaScript — or in an archived copy whose script was
+ * never saved beside it — those panels are simply gone, and printing would
+ * reveal them with their only labels, the tab strip, removed.
  *
  * Only for views of the *same* thing. Content a reader might want to find
  * without knowing it is there belongs in a disclosure or on the page, because

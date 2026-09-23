@@ -56,7 +56,13 @@
   /* A pill, for the few places a chip is a status rather than a label. */
   .chip-pill { border-radius: var(--dd-radius-pill); }
 
-  a.chip:hover { text-decoration: none; filter: brightness(0.94); }
+  /*
+   * Underline, not brightness. `filter: brightness(.94)` darkened the text and
+   * its wash together, taking a dark slate link-chip to about 4.25:1 — under
+   * the target the palette is now measured against. A hover cue must not cost
+   * contrast.
+   */
+  a.chip:hover { text-decoration: underline; }
   a.chip-ghost:hover { border-color: var(--dd-link); color: var(--dd-link); filter: none; }
 
   /* A chip that is a filter, and is currently on. */

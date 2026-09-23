@@ -21,11 +21,29 @@
 @layer dd.component {
   .graph-wrap {
     overflow-x: auto;
+    overscroll-behavior-x: contain;
     margin: 0 0 var(--dd-sp-5);
     padding: var(--dd-sp-3) 0;
   }
 
-  .graph { display: block; height: auto; }
+  /*
+   * The wrapper scrolls; the drawing does not shrink to fit.
+   *
+   * The global `svg { max-width: 100% }` was scaling the whole graph down to
+   * whatever column it was in — in a 320px column an 820-unit diagram put its
+   * 12-unit labels at under 5px, which is not a diagram any more, it is a
+   * texture. A graph has a minimum size at which it says anything, and below
+   * that the honest move is to let the reader scroll.
+   *
+   * --dd-graph-min is the generator's to set: it knows how wide the layout it
+   * produced actually needs to be.
+   */
+  .graph {
+    display: block;
+    height: auto;
+    max-width: none;
+    min-width: min(var(--dd-graph-min, 40rem), 100%);
+  }
 
   .graph text {
     fill: var(--dd-fg);

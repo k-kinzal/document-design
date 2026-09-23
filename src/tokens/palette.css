@@ -29,12 +29,27 @@
     --dd-tint-mix: 6%;
     --dd-shadow: 0 8px 24px rgb(15 23 42 / 0.12);
 
+    /*
+     * ---- neutrals ----
+     *
+     * The five surfaces are set by contrast, not by taste. A hue is not only
+     * ever seen on the page: a link sits in a row that can be hovered, a chip
+     * sits in a card, a syntax token sits in a code block on the sunken
+     * surface, a search hit sits on the raised one. Measuring a hue against
+     * the page background and its own tint covered two of those five, and ten
+     * hue/surface pairs were sitting between 4.03 and 4.49.
+     *
+     * The fix was to move the surfaces toward the page rather than to darken
+     * the hues — a row highlight that costs the row's text its legibility is
+     * not a highlight worth having. Every surface is still separable from the
+     * page (1.03–1.23) and everything on them clears 4.5:1.
+     */
     /* ---- neutrals ---- */
     --dd-bg:      light-dark(#fcfcfe, #1f2023);
     --dd-surface: light-dark(#f6f7f9, #292c30);
-    --dd-sunken:  light-dark(#eef0f3, #25272b);
-    --dd-raised:  light-dark(#ffffff, #2f3238);
-    --dd-hover:   light-dark(#eceef2, #32353b);
+    --dd-sunken:  light-dark(#f0f2f5, #25272b);
+    --dd-raised:  light-dark(#ffffff, #2d3036);
+    --dd-hover:   light-dark(#f0f2f6, #2a2d33);
     --dd-ink:     light-dark(#1b1e24, #d9dbdd);
     --dd-sub:     light-dark(#4d535d, #a7abb3);
     --dd-dim:     light-dark(#5f6572, #a1a7b2);
@@ -44,9 +59,9 @@
     /* ---- identity hues ---- */
     /* blue, violet, amber and slate are the report sheet's own values. */
     --dd-blue:   light-dark(#006bb2, #5eabf1);
-    --dd-violet: light-dark(#7d5eaf, #aa8ddd);
+    --dd-violet: light-dark(#79599f, #b195e2);
     --dd-amber:  light-dark(#707117, #babc5e);
-    --dd-slate:  light-dark(#676d79, #8d94a2);
+    --dd-slate:  light-dark(#646a76, #969dab);
     /* teal, pink and indigo are added for the catalog genre, which has more
        kinds than the report has accents. Matched to the sheet's lightness
        band rather than to a stock palette, so they sit beside the four above. */
@@ -55,8 +70,8 @@
     --dd-indigo: light-dark(#4a55bd, #949cf0);
 
     /* ---- state hues ---- */
-    --dd-green:  light-dark(#1b7c4a, #5dac7b);
-    --dd-red:    light-dark(#ac011a, #fe6863);
+    --dd-green:  light-dark(#1b7c4a, #66b382);
+    --dd-red:    light-dark(#ac011a, #ff7570);
     /*
      * Gold — "needs attention", and kept where a reader expects to find it.
      *

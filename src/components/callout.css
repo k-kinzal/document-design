@@ -50,7 +50,7 @@
    * might be 320px wide, and a note that launches itself 17rem to the right of
    * a 320px column lands outside the page.
    */
-  @container dd-content (min-width: 62rem) {
+  @container (min-width: 62rem) {
     .prose .callout-margin {
       float: right;
       clear: right;

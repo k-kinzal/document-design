@@ -16,6 +16,10 @@
     align-items: start;
   }
 
+  /* Each column sizes what is in it, so a card in the narrow one does not ask
+     the wide page how much room it has. */
+  .split > * { container-type: inline-size; }
+
   .split-even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   /* ---- things abreast ---- */
@@ -51,31 +55,6 @@
     margin: 0;
   }
 
-  /* ---- figures that are a number ---- */
-
-  /*
-   * The sheet and the catalog present a figure with the same component; only
-   * the size differs. They were two components — .hold here and .stat in the
-   * catalog — with the same markup, the same meaning and separately maintained
-   * rules, so a change to one silently diverged from the other. The component
-   * lives in components/stat.css; what belongs here is the sheet's own scale
-   * and the sheet's column placement.
-   */
-  .sheet .stat { padding-top: calc(var(--dd-base) / 2); }
-
-  .sheet .stat-fig {
-    font-size: var(--dd-type-7);
-    line-height: 1;
-    letter-spacing: -0.04em;
-    font-variant-numeric: proportional-nums;
-  }
-
-  .sheet .stat-label {
-    margin-top: calc(var(--dd-base) / 2);
-    font-size: var(--dd-type-1);
-    line-height: 1.75;
-  }
-
   /*
    * Inside a sheet these sit on the sheet's columns rather than on columns of
    * their own.
@@ -86,22 +65,19 @@
    * margin. Auto-flow is only safe when the count divides evenly, and the
    * whole point of these is that the count is whatever the page has to say.
    */
-  .sheet .figures,
-  .sheet .stats {
+  .sheet .figures {
     display: grid;
     grid-template-columns: subgrid;
     grid-column: 4 / -1;
+    row-gap: calc(var(--dd-base) * 1.5);
   }
-
-  .sheet .figures { row-gap: calc(var(--dd-base) * 1.5); }
-  .sheet .stats { row-gap: 24px; }
 
   .sheet .figures > figure:nth-of-type(3n+1) { grid-column: 1 / 4; }
   .sheet .figures > figure:nth-of-type(3n+2) { grid-column: 4 / 7; }
   .sheet .figures > figure:nth-of-type(3n)   { grid-column: 7 / 10; }
 
-  .sheet .stats > .stat:nth-of-type(odd)  { grid-column: 1 / 5; }
-  .sheet .stats > .stat:nth-of-type(even) { grid-column: 5 / 9; }
+  /* The sheet's .stats live in components/stat.css, with the component they
+     vary — dd.layout cannot override dd.component, whatever the selector. */
 
   @media (max-width: 900px) {
     .split { grid-template-columns: 1fr; }
@@ -109,8 +85,8 @@
   }
 
   @media (max-width: 720px) {
-    .figures, .stats { grid-template-columns: 1fr; }
-    .sheet .figures, .sheet .stats { grid-column: 1 / -1; }
+    .figures { grid-template-columns: 1fr; }
+    .sheet .figures { grid-column: 1 / -1; }
 
     /*
      * Matched to the nth-of-type selectors above rather than forced past them.
@@ -120,8 +96,6 @@
      */
     .sheet .figures > figure:nth-of-type(3n+1),
     .sheet .figures > figure:nth-of-type(3n+2),
-    .sheet .figures > figure:nth-of-type(3n),
-    .sheet .stats > .stat:nth-of-type(odd),
-    .sheet .stats > .stat:nth-of-type(even) { grid-column: 1 / -1; }
+    .sheet .figures > figure:nth-of-type(3n) { grid-column: 1 / -1; }
   }
 }

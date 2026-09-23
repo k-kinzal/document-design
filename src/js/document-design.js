@@ -236,10 +236,22 @@
           if (hit) shown++;
         }
         report(input, shown, rows.length);
-        var empty = document.querySelector(input.getAttribute("data-dd-empty") || "");
-        if (empty) empty.hidden = shown !== 0;
+        toggleEmpty(optional(input, "data-dd-empty"), shown === 0);
       }, 80));
     });
+  }
+
+  /* An optional selector is optional. `querySelector("")` is a SyntaxError,
+     not a null — so a filter without a data-dd-empty target threw on every
+     keystroke, after updating the rows but before reporting the count. */
+  function optional(el, attr) {
+    var sel = el.getAttribute(attr);
+    if (!sel) return null;
+    try { return document.querySelector(sel); } catch (e) { return null; }
+  }
+
+  function toggleEmpty(target, isEmpty) {
+    if (target) target.hidden = !isEmpty;
   }
 
   function report(scopeEl, shown, total) {
@@ -303,8 +315,10 @@
          * failed; the empty state says which filters did it and offers the way
          * back. Markup: an element with [data-dd-empty] next to the listing.
          */
-        var empty = document.querySelector(bar.getAttribute("data-dd-empty") || "[data-dd-empty]");
-        if (empty) empty.hidden = shown !== 0;
+        toggleEmpty(
+          optional(bar, "data-dd-empty") || document.querySelector("[data-dd-empty]"),
+          shown === 0
+        );
 
         syncUrl(bar, groups);
       }
@@ -384,19 +398,31 @@
       if (typeof window.ddSearch === "function") return window.ddSearch(q);
       var index = window.ddSearchIndex || [];
       var needle = q.toLowerCase();
-      var out = [];
-      for (var i = 0; i < index.length && out.length < 50; i++) {
+
+      /*
+       * Rank first, truncate second.
+       *
+       * This used to stop collecting at fifty and sort afterwards, so fifty
+       * incidental mentions in statement bodies could push the exact symbol
+       * the reader typed out of the results entirely — on a 542-symbol
+       * reference, searching for a real name and being told it does not exist.
+       * The cap is on what is shown, not on what is considered.
+       */
+      var named = [];
+      var other = [];
+      for (var i = 0; i < index.length; i++) {
         var item = index[i];
-        var hay = ((item.name || "") + " " + (item.where || "") + " " + (item.body || "")).toLowerCase();
-        if (hay.indexOf(needle) !== -1) out.push(item);
+        var name = (item.name || "").toLowerCase();
+        if (name.indexOf(needle) !== -1) {
+          /* An exact name beats a name that merely contains it. */
+          named.push([name === needle ? 0 : 1, name.indexOf(needle), item]);
+        } else {
+          var rest = ((item.where || "") + " " + (item.body || "")).toLowerCase();
+          if (rest.indexOf(needle) !== -1) other.push(item);
+        }
       }
-      /* A name match is what the reader meant; a body match is a fallback. */
-      out.sort(function (a, b) {
-        var an = (a.name || "").toLowerCase().indexOf(needle) === -1 ? 1 : 0;
-        var bn = (b.name || "").toLowerCase().indexOf(needle) === -1 ? 1 : 0;
-        return an - bn;
-      });
-      return out;
+      named.sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; });
+      return named.map(function (n) { return n[2]; }).concat(other).slice(0, 50);
     }
 
     function close() { panel.hidden = true; selected = -1; }
@@ -584,6 +610,50 @@
     targets.forEach(function (t) { observer.observe(t); });
   }
 
+  /* -------------------------------------------------------------- print */
+
+  /*
+   * A print is a record of the whole document, and a closed <details> is not
+   * part of one by default: the UA hides its content with content-visibility,
+   * which no amount of print CSS on the children can undo. So every closed one
+   * is opened for the duration of the print and put back afterwards — the
+   * reader's page is unchanged when the dialog closes.
+   */
+  function initPrint() {
+    var opened = [];
+
+    function expand() {
+      opened = [];
+      each("details:not([open])", function (d) {
+        opened.push(d);
+        d.open = true;
+      });
+      /* An inactive tab panel is content too; the tab strip that labelled it
+         is not printed, so each panel's own heading carries the label. */
+      each(".tabpanel[hidden]", function (p) {
+        p.hidden = false;
+        p.setAttribute("data-dd-print-shown", "");
+      });
+    }
+
+    function restore() {
+      opened.forEach(function (d) { d.open = false; });
+      opened = [];
+      each("[data-dd-print-shown]", function (p) {
+        p.hidden = true;
+        p.removeAttribute("data-dd-print-shown");
+      });
+    }
+
+    if (window.matchMedia) {
+      var mq = window.matchMedia("print");
+      var onChange = function (e) { (e.matches ? expand : restore)(); };
+      if (mq.addEventListener) mq.addEventListener("change", onChange);
+    }
+    window.addEventListener("beforeprint", expand);
+    window.addEventListener("afterprint", restore);
+  }
+
   /* -------------------------------------------------------------- start */
 
   function start() {
@@ -597,6 +667,7 @@
     initTabs();
     initToTop();
     initToc();
+    initPrint();
   }
 
   if (document.readyState === "loading") {

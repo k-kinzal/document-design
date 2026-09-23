@@ -66,10 +66,24 @@
      * anything. A PDF missing the rows someone filtered out is not a smaller
      * record; it is a misleading one.
      */
-    details { display: block; }
+    /*
+     * A closed <details> does not hide its content with `display` — the UA
+     * hides ::details-content with content-visibility — so restyling the
+     * children does nothing. That is why the first attempt at this still lost
+     * callers, raw statements and tree branches from the PDF.
+     *
+     * Two belts: the pseudo-element where it is supported, and a
+     * beforeprint/afterprint pass in the behaviour layer that opens every
+     * closed <details> and puts them back afterwards. Either alone is enough;
+     * neither is available everywhere.
+     */
+    details::details-content {
+      content-visibility: visible;
+      block-size: auto;
+    }
+
     details > summary { list-style: none; }
     details > summary::marker { content: ""; }
-    details > *, .disclosure-body { display: revert; }
 
     .tabpanel[hidden] { display: block !important; }
     .tabpanel > .tabpanel-title { display: block !important; }
@@ -109,8 +123,12 @@
 
     thead { display: table-header-group; }
 
-    /* A wrapper that scrolls on screen has nowhere to scroll on paper. */
+    /* A wrapper that scrolls on screen has nowhere to scroll on paper, so its
+       contents must fit instead. A graph is the one thing that cannot be
+       reflowed, so on paper it is scaled to the sheet — the only place where
+       shrinking it is better than losing its right-hand side. */
     .table-wrap, .graph-wrap, .terminal { overflow: visible !important; }
+    .graph { min-width: 0; max-width: 100%; }
 
     /* Every pre wraps, including signatures and prose code, which previously
        ran off the right edge of the sheet and were simply lost. */

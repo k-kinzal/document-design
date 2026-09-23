@@ -82,3 +82,55 @@
   /* No rule at all, for a row of figures that is an aside rather than a menu. */
   .stats-plain .stat { border-top: none; padding-top: 0; }
 }
+
+@layer dd.component {
+  /*
+   * The sheet's variant — declared here, with the component it varies.
+   *
+   * It lived in layout/arrange.css, which is the wrong layer: dd.component
+   * ranks above dd.layout, so the catalog defaults silently won and a report's
+   * lead figures rendered at 28px instead of 49, on an auto-fit grid instead
+   * of the sheet's subgrid. No selector can fix that — layer order is decided
+   * before specificity is consulted.
+   */
+  .sheet .stats {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 4 / -1;
+    gap: 24px;
+  }
+
+  /*
+   * Pinned per row rather than left to auto-flow: inside a subgrid, an item
+   * that does not fit the remaining tracks is placed in an implicit column
+   * OUTSIDE the field, which puts it in the page's left margin.
+   */
+  .sheet .stats > .stat:nth-of-type(odd)  { grid-column: 1 / 5; }
+  .sheet .stats > .stat:nth-of-type(even) { grid-column: 5 / 9; }
+
+  .sheet .stat {
+    border-top: 2px solid var(--dd-border-strong);
+    padding-top: calc(var(--dd-base) / 2);
+  }
+
+  .sheet .stat-fig {
+    font-size: var(--dd-type-7);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    /* Proportional, unlike the catalog's: these are four separate answers read
+       one at a time, not a column of numbers to be compared down. */
+    font-variant-numeric: proportional-nums;
+  }
+
+  .sheet .stat-label {
+    margin-top: calc(var(--dd-base) / 2);
+    font-size: var(--dd-type-1);
+    line-height: 1.75;
+  }
+
+  @media (max-width: 720px) {
+    .sheet .stats { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr); }
+    .sheet .stats > .stat:nth-of-type(odd),
+    .sheet .stats > .stat:nth-of-type(even) { grid-column: 1 / -1; }
+  }
+}

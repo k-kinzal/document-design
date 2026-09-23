@@ -21,7 +21,14 @@
     gap: var(--dd-sp-5) var(--dd-sp-6);
   }
 
-  @container dd-content (min-width: 46rem) {
+  /*
+   * Unnamed, so it resolves to the nearest container — the content column in a
+   * catalog, the field in a sheet, or a .split column when the cards sit in
+   * one. Naming dd-content meant a sheet never widened (nothing establishes
+   * that name there) while cards inside a narrow split column consulted the
+   * wide outer column and went two-up in 300px.
+   */
+  @container (min-width: 46rem) {
     .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 

@@ -14,6 +14,10 @@
  */
 
 @layer dd.component {
+  /* `display: flex` outranks the UA's [hidden] rule, so a hidden empty state
+     stayed on screen next to the results it was denying. */
+  .empty[hidden], .empty-inline[hidden] { display: none; }
+
   .empty {
     display: flex;
     flex-direction: column;
