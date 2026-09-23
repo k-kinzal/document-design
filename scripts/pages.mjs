@@ -18,7 +18,7 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "pages");
 const docUi = join(root, "packages/doc-ui");
-const site = join(root, "packages/product-page");
+const site = join(root, "packages/doc-site");
 
 const pkg = JSON.parse(readFileSync(join(docUi, "package.json"), "utf8"));
 const major = `v${pkg.version.split(".")[0]}`;
@@ -44,12 +44,12 @@ if (!need(join(docUi, "dist"), "doc-ui build") ||
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
 
-/* The product page is the root. While it is a placeholder that is still true —
-   it is the first thing a visitor sees, so it is the first thing to replace. */
-if (existsSync(join(site, "public"))) {
-  cpSync(join(site, "public"), out, { recursive: true });
+/* doc-site is the root: it is the first thing a visitor sees, and it is built
+   with doc-ui, which makes it the system's first outside consumer. */
+if (existsSync(join(site, "dist"))) {
+  cpSync(join(site, "dist"), out, { recursive: true });
 } else {
-  console.warn("packages/product-page/public is absent; the site root will be empty.");
+  console.warn("packages/doc-site/dist is absent — run `npm run build` first; the site root will be empty.");
 }
 
 cpSync(join(docUi, "storybook-static"), join(out, "storybook"), { recursive: true });
@@ -60,6 +60,11 @@ for (const dir of [major, "latest"]) {
   cpSync(join(docUi, "dist"), target, { recursive: true });
   writeFileSync(join(target, "VERSION"), `${pkg.version}\n${new Date().toISOString()}\n`);
 }
+
+/* DESIGN.md is for an agent working in some other repository, so it is served
+   next to the stylesheet it describes rather than only living in git. */
+cpSync(join(root, "DESIGN.md"), join(out, "DESIGN.md"));
+for (const dir of [major, "latest"]) cpSync(join(root, "DESIGN.md"), join(out, dir, "DESIGN.md"));
 
 /* GitHub Pages runs the whole tree through Jekyll unless told not to, which
    silently drops any file or directory whose name begins with an underscore —
