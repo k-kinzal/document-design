@@ -1,0 +1,57 @@
+/*
+ * Controls — the buttons and inputs a generated page actually has. There are
+ * few of them on purpose: a document is read, not operated.
+ *
+ *   <button class="btn">Copy</button>
+ *   <button class="btn btn-quiet" data-dd-theme-toggle>◐</button>
+ *   <input type="search" class="field-input" placeholder="Find…">
+ */
+
+@layer dd.component {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--dd-sp-2);
+    background: var(--dd-bg);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius-sm);
+    color: var(--dd-fg);
+    padding: var(--dd-sp-1) var(--dd-sp-3);
+    cursor: pointer;
+    font-size: var(--dd-text-sm);
+    line-height: 1.6;
+    white-space: nowrap;
+  }
+
+  .btn:hover { background: var(--dd-hover); }
+
+  .btn:disabled { opacity: 0.5; cursor: default; }
+
+  .btn-quiet { background: none; border-color: transparent; }
+  .btn-quiet:hover { background: var(--dd-hover); border-color: var(--dd-border); }
+
+  /* A button that has just done its one job, and says so for a moment. */
+  .btn.is-done { color: var(--dd-ok); border-color: var(--dd-ok); }
+
+  .field-input {
+    padding: var(--dd-sp-2) var(--dd-sp-4);
+    font-size: var(--dd-text-md);
+    color: var(--dd-fg);
+    background: var(--dd-surface);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius);
+    outline: none;
+    min-width: 0;
+  }
+
+  .field-input:focus { border-color: var(--dd-accent); }
+
+  .field-input::placeholder { color: var(--dd-fg-subtle); }
+
+  .field-search { width: 340px; }
+  .field-block { width: 100%; max-width: 420px; display: block; }
+
+  @media (max-width: 900px) {
+    .field-search { width: 160px; }
+  }
+}

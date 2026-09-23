@@ -1,0 +1,106 @@
+/*
+ * Palette — the raw hues. Nothing outside this file declares a raw color.
+ *
+ * The values come from the QuuuAI report sheet, which states its colour rule as
+ * "neutrals plus one accent". That rule holds here for the report genre and is
+ * relaxed for the catalog genre, which has to tell kinds apart from each other
+ * and so needs a hue budget rather than a single accent.
+ *
+ * Both themes live in one declaration via light-dark(), so a hue is written
+ * once. What drives it is `color-scheme`, which the theme block sets — an
+ * attribute toggle and the OS preference reach light-dark() by the same path.
+ *
+ * Hue budget
+ *   identity (what a thing IS, no judgement)  blue violet amber teal pink indigo slate
+ *   state    (how a thing is GOING)           green yellow red, plus slate for "no news"
+ * Identity hues are reused for syntax highlighting at text weight only, and red
+ * never is — so the one red on a page always means something wants looking at.
+ */
+
+@layer dd.tokens {
+  :root {
+    /*
+     * color-scheme is what light-dark() reads, so this one property is the
+     * whole of the theme switch. The two values below it are not colours and
+     * so cannot ride inside light-dark(); they are the only thing the dark
+     * block further down has to repeat.
+     */
+    color-scheme: light dark;
+    --dd-tint-mix: 13%;
+    --dd-shadow: 0 8px 24px rgb(15 23 42 / 0.12);
+
+    /* ---- neutrals ---- */
+    --dd-bg:      light-dark(#fcfcfe, #1f2023);
+    --dd-surface: light-dark(#f6f7f9, #292c30);
+    --dd-sunken:  light-dark(#eef0f3, #25272b);
+    --dd-raised:  light-dark(#ffffff, #2f3238);
+    --dd-hover:   light-dark(#eceef2, #32353b);
+    --dd-ink:     light-dark(#1b1e24, #d9dbdd);
+    --dd-sub:     light-dark(#4d535d, #a7abb3);
+    --dd-dim:     light-dark(#686d78, #8c919b);
+    --dd-hair:    light-dark(#d9dbe0, #363940);
+    --dd-rule:    light-dark(#b8bcc4, #4d515a);
+
+    /* ---- identity hues ---- */
+    /* blue, violet, amber and slate are the report sheet's own values. */
+    --dd-blue:   light-dark(#006bb2, #5eabf1);
+    --dd-violet: light-dark(#7d5eaf, #aa8ddd);
+    --dd-amber:  light-dark(#975d00, #e8a750);
+    --dd-slate:  light-dark(#676d79, #8d94a2);
+    /* teal, pink and indigo are added for the catalog genre, which has more
+       kinds than the report has accents. Matched to the sheet's lightness
+       band rather than to a stock palette, so they sit beside the four above. */
+    --dd-teal:   light-dark(#0f7478, #4fbcc0);
+    --dd-pink:   light-dark(#b0356f, #f085b4);
+    --dd-indigo: light-dark(#4a55bd, #949cf0);
+
+    /* ---- state hues ---- */
+    --dd-green:  light-dark(#1b7c4a, #5dac7b);
+    --dd-red:    light-dark(#ac011a, #fe6863);
+    /* Gold, so that "needs attention" is not read as the amber that marks a
+       trait. They part company in dark, where amber goes orange and this
+       stays gold. */
+    --dd-yellow: light-dark(#7d5200, #cf9b2e);
+
+    /*
+     * Tints — the wash a chip or a marker sits on.
+     *
+     * Derived rather than written out. The catalog stylesheets this replaces
+     * each carried twenty hand-picked tint hexes, two themes deep, which is
+     * twenty chances for one hue to drift away from its own wash. A mix of the
+     * hue into the page background cannot drift, and follows the theme for
+     * free. --dd-tint-mix leans heavier in dark, where the hues are light and
+     * a light wash on a dark page would read as a block of colour.
+     */
+    --dd-blue-tint:   color-mix(in oklab, var(--dd-blue)   var(--dd-tint-mix), var(--dd-bg));
+    --dd-violet-tint: color-mix(in oklab, var(--dd-violet) var(--dd-tint-mix), var(--dd-bg));
+    --dd-amber-tint:  color-mix(in oklab, var(--dd-amber)  var(--dd-tint-mix), var(--dd-bg));
+    --dd-teal-tint:   color-mix(in oklab, var(--dd-teal)   var(--dd-tint-mix), var(--dd-bg));
+    --dd-pink-tint:   color-mix(in oklab, var(--dd-pink)   var(--dd-tint-mix), var(--dd-bg));
+    --dd-indigo-tint: color-mix(in oklab, var(--dd-indigo) var(--dd-tint-mix), var(--dd-bg));
+    --dd-slate-tint:  color-mix(in oklab, var(--dd-slate)  var(--dd-tint-mix), var(--dd-bg));
+    --dd-green-tint:  color-mix(in oklab, var(--dd-green)  var(--dd-tint-mix), var(--dd-bg));
+    --dd-yellow-tint: color-mix(in oklab, var(--dd-yellow) var(--dd-tint-mix), var(--dd-bg));
+    --dd-red-tint:    color-mix(in oklab, var(--dd-red)    var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  /*
+   * The manual override. Absent the attribute the document follows the reader's
+   * system, which is the right default — a generated report is not the place to
+   * have an opinion about how someone's screen is set up.
+   */
+  :root[data-dd-theme="light"] { color-scheme: light; }
+
+  :root[data-dd-theme="dark"] {
+    color-scheme: dark;
+    --dd-tint-mix: 22%;
+    --dd-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-dd-theme="light"]) {
+      --dd-tint-mix: 22%;
+      --dd-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
+    }
+  }
+}

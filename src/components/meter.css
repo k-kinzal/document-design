@@ -1,0 +1,72 @@
+/*
+ * Meter — how a whole divides, at a glance, with the parts reachable.
+ *
+ *   <div class="meter">
+ *     <a class="meter-part tone-ok" style="--dd-part:4%" href="…" title="resolved: 35"></a>
+ *     <a class="meter-part tone-neutral" style="--dd-part:84%" href="…"></a>
+ *   </div>
+ *   <ul class="legend">
+ *     <li><a class="chip tone-ok" href="…">resolved</a>
+ *         <span class="legend-count">35</span>
+ *         <span class="legend-note">The statement text is fully determined.</span></li>
+ *   </ul>
+ *
+ * The bar is the shape of the answer and the legend is the answer; neither
+ * works alone. Every segment keeps a minimum width, because a segment for one
+ * item out of nine hundred still has to be clickable — and a category that
+ * rounds to nothing on screen is exactly the one a reader is surprised by.
+ */
+
+@layer dd.component {
+  .meter {
+    display: flex;
+    height: 12px;
+    border-radius: var(--dd-radius-pill);
+    overflow: hidden;
+    background: var(--dd-neutral-tint);
+    margin: var(--dd-sp-3) 0 var(--dd-sp-4);
+  }
+
+  .meter-part {
+    display: block;
+    width: var(--dd-part, 0%);
+    min-width: 4px;
+    height: 100%;
+    background: var(--dd-tone, var(--dd-neutral));
+  }
+
+  .meter-part:hover { filter: brightness(1.15); }
+
+  /* A part that stands for "as far as we got", not for a finished category. */
+  .meter-part.is-open { background: var(--dd-slate); opacity: 0.55; }
+
+  .meter-lg { height: 20px; }
+
+  .legend {
+    list-style: none;
+    margin: 0 0 var(--dd-sp-4);
+    padding: 0;
+    font-size: var(--dd-text-md);
+  }
+
+  .legend li {
+    display: grid;
+    grid-template-columns: 150px 60px 1fr;
+    gap: var(--dd-sp-3);
+    align-items: baseline;
+    padding: var(--dd-sp-2) 0;
+  }
+
+  /* A grid item stretches to its track by default, which turns a chip into a
+     150px slab and loses the one thing a chip's shape says: that it is a
+     label of a particular length. */
+  .legend li > .chip { justify-self: start; }
+
+  .legend-count { text-align: right; font-variant-numeric: tabular-nums; }
+  .legend-note { color: var(--dd-fg-muted); font-size: var(--dd-text-sm); }
+
+  @media (max-width: 900px) {
+    .legend li { grid-template-columns: 130px 50px; }
+    .legend-note { grid-column: 1 / -1; }
+  }
+}

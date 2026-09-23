@@ -1,0 +1,39 @@
+/*
+ * The little that has to be reset. Everything here is in the lowest layer, so
+ * a consumer's own reset — layered or not — wins without a specificity fight.
+ */
+
+@layer dd.reset {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    background: var(--dd-bg);
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--dd-topbar-height) + var(--dd-sp-4));
+  }
+
+  body {
+    margin: 0;
+    background: var(--dd-bg);
+    color: var(--dd-fg);
+    font-family: var(--dd-font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6, p, figure, dl, dd, blockquote) { margin: 0; }
+
+  :where(ul, ol) { margin: 0; padding: 0; }
+
+  :where(img, svg, video) { max-width: 100%; }
+
+  :where(button, input, select, textarea) { font: inherit; color: inherit; }
+
+  :where(a) { color: var(--dd-link); text-decoration: none; }
+  :where(a):hover { text-decoration: underline; }
+
+  :where(:focus-visible) {
+    outline: 2px solid var(--dd-accent);
+    outline-offset: 2px;
+    border-radius: var(--dd-radius-sm);
+  }
+}

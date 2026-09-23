@@ -1,0 +1,72 @@
+/*
+ * Text. Headings are sized by genre, not here — a catalog's h2 is a 15px rule
+ * across the column and a report's is a 25px statement, and one declaration
+ * cannot be both. What lives here is what does not vary: inline code, the
+ * muted registers, the Japanese typesetting, and the few shared helpers.
+ */
+
+@layer dd.base {
+  /*
+   * Japanese setting. `palt` closes the gaps around latin set inside Japanese,
+   * which otherwise reads as holes in a line. Strict line breaking keeps small
+   * kana and the closing brackets off the start of a line. `anywhere` is the
+   * only thing that stops a long identifier — a namespace, a table name, a
+   * URL — from pushing a sidebar or a table cell wider than the viewport.
+   */
+  body {
+    font-feature-settings: "palt" 1;
+    line-break: strict;
+    overflow-wrap: anywhere;
+  }
+
+  code, pre, kbd, samp, .mono {
+    font-family: var(--dd-font-mono);
+  }
+
+  /* Inline code, on a wash so it reads as a quoted thing rather than as bold. */
+  :where(code):not(pre code) {
+    font-size: 0.86em;
+    background: var(--dd-sunken);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius-sm);
+    padding: 1px 5px;
+  }
+
+  kbd {
+    font-size: 0.86em;
+    background: var(--dd-surface);
+    border: 1px solid var(--dd-border);
+    border-bottom-width: 2px;
+    border-radius: var(--dd-radius-sm);
+    padding: 1px 5px;
+  }
+
+  .mono { font-family: var(--dd-font-mono); }
+
+  .muted  { color: var(--dd-fg-muted); }
+  .subtle { color: var(--dd-fg-subtle); }
+  /* Nothing to report, as opposed to something reported as zero. */
+  .none   { color: var(--dd-fg-subtle); font-style: italic; }
+
+  a.muted:hover, a.subtle:hover { color: var(--dd-link); }
+
+  /* A number that sits next to a heading or a link, and is not the point. */
+  .count {
+    color: var(--dd-fg-subtle);
+    font-weight: 400;
+    font-size: var(--dd-text-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .num, .tabular { font-variant-numeric: tabular-nums; }
+
+  /* Visible only to a screen reader. */
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

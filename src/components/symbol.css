@@ -1,0 +1,202 @@
+/*
+ * Symbol — a declared thing and its members: a class, an interface, a
+ * function. The shape an API reference is made of.
+ *
+ *   <div class="symbol-head">
+ *     <h1><code>WP_Query</code><span class="chip tone-blue">class</span></h1>
+ *     <p class="symbol-meta">wp-includes/class-wp-query.php</p>
+ *   </div>
+ *   <pre class="signature">…</pre>
+ *
+ *   <section class="member">
+ *     <div class="member-head">
+ *       <h3 id="m-query"><code>query()</code><span class="chip chip-sm">public</span></h3>
+ *     </div>
+ *     <div class="member-body">…</div>
+ *   </section>
+ */
+
+@layer dd.component {
+  .symbol-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--dd-sp-3);
+    margin-bottom: var(--dd-sp-4);
+  }
+
+  .symbol-meta {
+    color: var(--dd-fg-subtle);
+    font-size: var(--dd-text-sm);
+    font-family: var(--dd-font-mono);
+    margin: 0;
+  }
+
+  /* A signature is read for its shape, so it is not wrapped — the indentation
+     of a long parameter list is what makes it legible. */
+  pre.signature {
+    background: var(--dd-surface);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius);
+    padding: var(--dd-sp-4);
+    margin: 0 0 var(--dd-sp-5);
+    overflow-x: auto;
+    white-space: pre;
+    font-size: var(--dd-text-md);
+    font-family: var(--dd-font-mono);
+    line-height: 1.7;
+  }
+
+  .sig-name { font-weight: 650; color: var(--dd-fg); }
+  .sig-param { color: var(--dd-syn-var); }
+
+  /* Type names, at text weight. A type is identity, so it takes identity
+     hues and never red. */
+  .t-name  { color: var(--dd-blue); }
+  .t-key   { color: var(--dd-syn-kw); font-weight: 600; }
+  .t-lit   { color: var(--dd-syn-str); }
+  .t-gen   { color: var(--dd-fg-muted); }
+  .t-alias { color: var(--dd-teal); }
+  .t-var   { color: var(--dd-syn-var); }
+
+  .member {
+    border-top: 1px solid var(--dd-border);
+    padding-top: var(--dd-sp-4);
+    margin-bottom: var(--dd-sp-6);
+  }
+
+  .member-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--dd-sp-3);
+  }
+
+  .member-meta {
+    color: var(--dd-fg-subtle);
+    font-size: var(--dd-text-xs);
+    font-family: var(--dd-font-mono);
+    margin-left: auto;
+  }
+
+  .member-body { margin-top: var(--dd-sp-3); }
+
+  .member-sig {
+    font-family: var(--dd-font-mono);
+    font-size: var(--dd-text-md);
+    color: var(--dd-fg-muted);
+    margin: 0 0 var(--dd-sp-3);
+  }
+
+  /*
+   * A member that is not part of the surface. Dimmed rather than hidden: a
+   * reader looking at why a public method behaves as it does still needs to
+   * see that a private one exists.
+   */
+  .private-surface { opacity: 0.72; }
+
+  /*
+   * The name and the type take exactly their own width; the description takes
+   * the rest. Left to auto-layout the three columns share the table evenly,
+   * which strands a five-character parameter name a third of the way across
+   * the page from the sentence that explains it.
+   */
+  .param-table th { white-space: nowrap; }
+  .param-table :is(td, th):nth-child(1),
+  .param-table :is(td, th):nth-child(2) { width: 1%; white-space: nowrap; }
+  .param-table td:first-child { font-family: var(--dd-font-mono); }
+
+  /* A worked example, with its output. */
+  .example { margin: 0 0 var(--dd-sp-5); }
+
+  .example-title {
+    font-size: var(--dd-text-sm);
+    font-weight: 600;
+    color: var(--dd-fg-muted);
+    margin: 0 0 var(--dd-sp-2);
+  }
+
+  .example-output {
+    border-left: 3px solid var(--dd-ok);
+    padding-left: var(--dd-sp-4);
+    margin: var(--dd-sp-2) 0 0;
+    color: var(--dd-fg-muted);
+    font-size: var(--dd-text-sm);
+    font-family: var(--dd-font-mono);
+  }
+}
+
+@layer dd.component {
+  /* A link out to the line this was read from. Always present on a generated
+     page, so it is set quiet: it is provenance, not a call to action. */
+  .src-link {
+    font-family: var(--dd-font-mono);
+    font-size: var(--dd-text-xs);
+    color: var(--dd-fg-subtle);
+  }
+
+  .src-link:hover { color: var(--dd-link); }
+
+  /* What a section is, said once under its heading. */
+  .section-note {
+    color: var(--dd-fg-muted);
+    font-size: var(--dd-text-sm);
+    margin: calc(var(--dd-sp-5) * -1 + var(--dd-sp-2)) 0 var(--dd-sp-4);
+  }
+
+  /* Parameters, Returns, Throws — the labelled parts of one member. */
+  .member-block { margin: var(--dd-sp-4) 0; }
+
+  .member-block h4 {
+    font-size: var(--dd-text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--dd-fg-subtle);
+    margin: 0 0 var(--dd-sp-2);
+  }
+
+  .type-row { font-family: var(--dd-font-mono); font-size: var(--dd-text-md); }
+
+  /* A type from outside the project: named, but not linked into it. */
+  .t-ext { color: var(--dd-fg-muted); cursor: help; }
+
+  /*
+   * Who reaches this symbol. Collapsed by default past the first group,
+   * because a widely used symbol has hundreds of callers and a reader who
+   * opened the page for the signature should still be able to see it.
+   */
+  details.usage-details { margin: var(--dd-sp-3) 0; }
+
+  details.usage-details > summary {
+    cursor: pointer;
+    font-size: var(--dd-text-sm);
+    font-weight: 600;
+    color: var(--dd-fg-muted);
+    padding: var(--dd-sp-1) 0;
+  }
+
+  .usage-list {
+    list-style: none;
+    margin: var(--dd-sp-2) 0 0;
+    padding: 0 0 0 var(--dd-sp-4);
+    font-size: var(--dd-text-sm);
+    border-left: 1px solid var(--dd-border);
+  }
+
+  .usage-list li {
+    display: flex;
+    gap: var(--dd-sp-3);
+    align-items: baseline;
+    padding: var(--dd-sp-1) 0;
+  }
+
+  .usage-list code { font-size: var(--dd-text-sm); background: none; border: none; padding: 0; }
+
+  .usage-kind {
+    color: var(--dd-fg-subtle);
+    font-size: var(--dd-text-xs);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+}

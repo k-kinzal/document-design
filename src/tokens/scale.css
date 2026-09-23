@@ -1,0 +1,62 @@
+/*
+ * Scale — space, type, radius, and the two rhythms.
+ *
+ * The catalog genre and the report genre measure differently on purpose. A
+ * catalog is read by scanning: dense rows, a 13px body, space in small steps.
+ * A report is read straight through: a 28px baseline, a 16px body, one large
+ * figure. Forcing them onto one scale would cost the catalog its density or
+ * the report its air, so both scales are declared and a genre picks one.
+ */
+
+@layer dd.tokens {
+  :root {
+    /* ---- space, the catalog's steps ---- */
+    --dd-sp-1: 2px;
+    --dd-sp-2: 4px;
+    --dd-sp-3: 8px;
+    --dd-sp-4: 12px;
+    --dd-sp-5: 18px;
+    --dd-sp-6: 28px;
+    --dd-sp-7: 40px;
+    --dd-sp-8: 64px;
+
+    /* ---- the report's baseline; every block gap is a multiple of it ---- */
+    --dd-base: 28px;
+
+    /* ---- type, the catalog's steps ---- */
+    --dd-text-xs: 11px;
+    --dd-text-sm: 12px;
+    --dd-text-md: 13px;
+    --dd-text-lg: 14px;
+    --dd-text-xl: 16px;
+
+    /* ---- type, the report's major third from 16px ---- */
+    --dd-type-1: 13px;
+    --dd-type-2: 16px;
+    --dd-type-3: 20px;
+    --dd-type-4: 25px;
+    --dd-type-5: 31px;
+    --dd-type-6: 39px;
+    --dd-type-7: 49px;
+    --dd-type-8: 61px;
+    --dd-type-9: 76px;
+
+    /* ---- shape ---- */
+    --dd-radius-sm: 4px;
+    --dd-radius:    6px;
+    --dd-radius-lg: 12px;
+    --dd-radius-pill: 999px;
+
+    /* ---- families ---- */
+    --dd-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", sans-serif;
+    --dd-font-mono: ui-monospace, SFMono-Regular, "SF Mono", "JetBrains Mono", Menlo,
+                    Consolas, "Liberation Mono", monospace;
+
+    /* ---- frame ---- */
+    --dd-sidebar-width: 260px;
+    --dd-content-max: 1180px;
+    --dd-sheet-max: 1128px;
+    --dd-topbar-height: 46px;
+  }
+}

@@ -1,0 +1,25 @@
+/*
+ * Notice — something about the page that the page itself cannot show.
+ *
+ *   <div class="notice tone-warn">812 statements are lower bounds.</div>
+ *
+ * Toned, not variant-per-meaning. A notice with no tone is a neutral aside,
+ * which is what most of them are.
+ */
+
+@layer dd.component {
+  .notice {
+    border: 1px solid var(--dd-border);
+    border-left: 3px solid var(--dd-tone, var(--dd-border-strong));
+    border-radius: var(--dd-radius);
+    background: var(--dd-tone-tint, transparent);
+    padding: var(--dd-sp-3) var(--dd-sp-4);
+    margin: 0 0 var(--dd-sp-4);
+    font-size: var(--dd-text-md);
+    color: var(--dd-fg-muted);
+  }
+
+  .notice > :last-child { margin-bottom: 0; }
+  .notice ul { margin: var(--dd-sp-1) 0; padding-left: var(--dd-sp-5); }
+  .notice strong { color: var(--dd-fg); }
+}

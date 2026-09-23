@@ -1,0 +1,47 @@
+/*
+ * Tone — one modifier system, read by every component that carries colour.
+ *
+ * The three stylesheets this replaces each had their own set of colour
+ * modifiers written against their own vocabulary: .k-class and .k-interface in
+ * one, .k-select and .k-insert in another, .now and .warn in the third. All
+ * three were the same rule three times, so a change to how a chip tints had to
+ * be made three times and stayed consistent only by hand.
+ *
+ * Here a tone sets two custom properties and nothing else. Components read
+ * them. That makes tone orthogonal: the same .tone-teal works on a chip, a bar
+ * segment, a notice and a marker, and a component added later gets every tone
+ * for free by reading the same two properties.
+ *
+ * A project keeps its own vocabulary by aliasing in one line:
+ *
+ *   .k-select { --dd-tone: var(--dd-blue); --dd-tone-tint: var(--dd-blue-tint); }
+ */
+
+@layer dd.base {
+  .tone-blue   { --dd-tone: var(--dd-blue);   --dd-tone-tint: var(--dd-blue-tint); }
+  .tone-violet { --dd-tone: var(--dd-violet); --dd-tone-tint: var(--dd-violet-tint); }
+  .tone-amber  { --dd-tone: var(--dd-amber);  --dd-tone-tint: var(--dd-amber-tint); }
+  .tone-teal   { --dd-tone: var(--dd-teal);   --dd-tone-tint: var(--dd-teal-tint); }
+  .tone-pink   { --dd-tone: var(--dd-pink);   --dd-tone-tint: var(--dd-pink-tint); }
+  .tone-indigo { --dd-tone: var(--dd-indigo); --dd-tone-tint: var(--dd-indigo-tint); }
+  .tone-slate  { --dd-tone: var(--dd-slate);  --dd-tone-tint: var(--dd-slate-tint); }
+
+  .tone-ok      { --dd-tone: var(--dd-ok);      --dd-tone-tint: var(--dd-ok-tint); }
+  .tone-warn    { --dd-tone: var(--dd-warn);    --dd-tone-tint: var(--dd-warn-tint); }
+  .tone-danger  { --dd-tone: var(--dd-danger);  --dd-tone-tint: var(--dd-danger-tint); }
+  .tone-neutral { --dd-tone: var(--dd-neutral); --dd-tone-tint: var(--dd-neutral-tint); }
+  .tone-accent  { --dd-tone: var(--dd-accent);  --dd-tone-tint: var(--dd-blue-tint); }
+}
+
+@layer dd.base {
+  /*
+   * Coverage, as a tone. A percentage is a state, so it takes state hues —
+   * and the bands are named rather than computed, because the line between
+   * "covered" and "not really" is a decision the project makes, not one the
+   * stylesheet should make for it.
+   */
+  .cov-high { --dd-tone: var(--dd-ok);      --dd-tone-tint: var(--dd-ok-tint); }
+  .cov-mid  { --dd-tone: var(--dd-warn);    --dd-tone-tint: var(--dd-warn-tint); }
+  .cov-low  { --dd-tone: var(--dd-danger);  --dd-tone-tint: var(--dd-danger-tint); }
+  .cov-none { --dd-tone: var(--dd-neutral); --dd-tone-tint: var(--dd-neutral-tint); }
+}

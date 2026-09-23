@@ -1,0 +1,57 @@
+/*
+ * Topbar — where you are, and the few things you can do from anywhere.
+ *
+ *   <header class="topbar">
+ *     <button class="btn nav-toggle" data-dd-nav-toggle>☰</button>
+ *     <nav class="crumbs">
+ *       <a href="…">Tables</a><span class="crumb-sep">/</span>
+ *       <span class="crumb-current">wp_posts</span>
+ *     </nav>
+ *     <div class="topbar-tools">
+ *       <input type="search" class="field-input" data-dd-search>
+ *       <button class="btn" data-dd-theme-toggle>◐</button>
+ *     </div>
+ *   </header>
+ */
+
+@layer dd.component {
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: var(--dd-sp-4);
+    min-height: var(--dd-topbar-height);
+    padding: var(--dd-sp-3) var(--dd-sp-6);
+    background: var(--dd-bg);
+    border-bottom: 1px solid var(--dd-border);
+  }
+
+  .crumbs {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--dd-text-md);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .crumb-sep { color: var(--dd-fg-subtle); padding: 0 var(--dd-sp-2); }
+
+  /* Where you are is not a link, so it is not coloured as one. */
+  .crumb-current { color: var(--dd-fg-muted); }
+
+  .topbar-tools {
+    display: flex;
+    align-items: center;
+    gap: var(--dd-sp-3);
+  }
+
+  .nav-toggle { display: none; }
+
+  @media (max-width: 900px) {
+    .topbar { padding: var(--dd-sp-3) var(--dd-sp-4); }
+    .nav-toggle { display: inline-flex; }
+  }
+}

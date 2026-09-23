@@ -1,0 +1,72 @@
+import { html } from "./helpers.js";
+
+export default {
+  title: "Components/Card",
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "A way in. The hint is not decoration: an overview listing five nouns " +
+          "tells a reader nothing about which one answers their question, and " +
+          "saying what each route is for is the difference between a menu and " +
+          "an index.",
+      },
+    },
+  },
+};
+
+export const Routes = {
+  render: () => html`
+    <div class="doc"><div class="main"><main class="content">
+      <div class="cards">
+        <section class="card">
+          <h2><a href="#">Tables</a><span class="count">12</span></h2>
+          <p class="card-hint">Which statements read, write or alter a table, and where each is issued. Start here before changing a schema.</p>
+          <ol class="peek">
+            <li><a href="#">{$}cache_data</a><span class="peek-figures">13 · 4 read · 8 write</span></li>
+            <li><a href="#">{$}items</a><span class="peek-figures">7 · 4 read · 2 write</span></li>
+            <li><a href="#">{$}posts</a><span class="peek-figures">3 · 3 read · 0 write</span></li>
+          </ol>
+          <p class="card-more"><a href="#">All 12 tables</a></p>
+        </section>
+        <section class="card">
+          <h2><a href="#">Statements</a><span class="count">844</span></h2>
+          <p class="card-hint">Every statement, to narrow down by what it does, how far the analysis got and what was reported.</p>
+          <ol class="peek peek-chips">
+            <li><a class="chip tone-blue" href="#">SELECT</a><span class="peek-figures">639</span></li>
+            <li><a class="chip tone-indigo" href="#">ALTER</a><span class="peek-figures">63</span></li>
+            <li><a class="chip tone-violet" href="#">UPDATE</a><span class="peek-figures">44</span></li>
+            <li><a class="chip tone-teal" href="#">INSERT</a><span class="peek-figures">35</span></li>
+            <li><a class="chip tone-pink" href="#">DELETE</a><span class="peek-figures">28</span></li>
+          </ol>
+          <p class="card-more"><a href="#">All 844 statements</a></p>
+        </section>
+      </div>
+    </main></div></div>`,
+};
+
+/** `.split` puts a wide thing next to a narrow one; `.aside` is the narrow one. */
+export const WithAside = {
+  render: () => html`
+    <div class="doc"><div class="main"><main class="content">
+      <div class="split">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Rule</th><th class="num">Statements</th></tr></thead>
+            <tbody>
+              <tr><td><a class="mono" href="#">dynamic-sql</a></td><td class="num">709</td></tr>
+              <tr><td><a class="mono" href="#">analysis-incomplete</a></td><td class="num">239</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <section class="aside">
+          <h3>Functions issuing flagged statements</h3>
+          <ol class="peek">
+            <li><a class="mono" href="#">WP_User_Search::query</a><span class="peek-figures">36 medium</span></li>
+            <li><a class="mono" href="#">wp_get_archives</a><span class="peek-figures">34 medium</span></li>
+          </ol>
+          <p class="card-more"><a href="#">Every flagged function</a></p>
+        </section>
+      </div>
+    </main></div></div>`,
+};

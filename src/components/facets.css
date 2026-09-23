@@ -1,0 +1,90 @@
+/*
+ * Facets — narrowing a long listing without leaving the page.
+ *
+ *   <div class="facets" data-dd-facets="#rows">
+ *     <input type="search" class="field-input" data-dd-facet-search>
+ *     <div class="facet-group">
+ *       <button class="chip facet tone-blue" data-dd-facet="kind:select">
+ *         SELECT<span class="facet-count">639</span>
+ *       </button>
+ *     </div>
+ *     <span class="facet-shown"></span>
+ *   </div>
+ *
+ * Every facet carries its count. A filter that turns out to match nothing is
+ * a dead end the reader has to back out of; a count on the control means they
+ * never take it.
+ */
+
+@layer dd.component {
+  .facets {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--dd-sp-3) var(--dd-sp-4);
+    padding: var(--dd-sp-4) 0;
+    margin-bottom: var(--dd-sp-4);
+    border-bottom: 1px solid var(--dd-border);
+    position: sticky;
+    top: var(--dd-topbar-height);
+    background: var(--dd-bg);
+    z-index: 10;
+  }
+
+  .facet-group {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--dd-sp-2);
+    padding-left: var(--dd-sp-3);
+    border-left: 1px solid var(--dd-border);
+  }
+
+  button.facet {
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-weight: 600;
+    opacity: 0.75;
+  }
+
+  button.facet:hover { opacity: 1; }
+
+  /* On means outlined in its own colour, not merely brighter: "brighter than
+     the ones next to it" is not readable when only one facet is on. */
+  button.facet.is-on {
+    opacity: 1;
+    border-color: currentColor;
+    box-shadow: 0 0 0 1px currentColor inset;
+  }
+
+  .facet-count {
+    font-weight: 400;
+    opacity: 0.8;
+    margin-left: var(--dd-sp-2);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .facet-shown {
+    color: var(--dd-fg-subtle);
+    font-size: var(--dd-text-sm);
+    font-variant-numeric: tabular-nums;
+    margin-left: auto;
+  }
+
+  /* What is currently narrowing the listing, each removable. */
+  .active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dd-sp-2);
+    margin: 0 0 var(--dd-sp-4);
+    font-size: var(--dd-text-sm);
+    color: var(--dd-fg-muted);
+    align-items: center;
+  }
+
+  .active-filters .chip { cursor: pointer; }
+  .active-filters .chip:hover { text-decoration: line-through; }
+
+  @media (max-width: 900px) {
+    .facets { position: static; }
+  }
+}

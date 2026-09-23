@@ -1,0 +1,73 @@
+/*
+ * Chip — a word that classifies the thing next to it.
+ *
+ *   <span class="chip tone-blue">SELECT</span>
+ *   <span class="chip chip-sm tone-warn">medium</span>
+ *   <a class="chip chip-ghost" href="#">public</a>
+ *
+ * Colour comes from a tone class, never from a chip variant, so the set of
+ * chips does not grow when a project adds a kind. Untoned, a chip is neutral,
+ * which is the right default: a chip whose colour says nothing is better than
+ * one whose colour says something the reader has to learn.
+ */
+
+@layer dd.component {
+  .chip {
+    display: inline-block;
+    padding: 0 var(--dd-sp-3);
+    border-radius: var(--dd-radius-pill);
+    font-size: var(--dd-text-xs);
+    font-weight: 600;
+    line-height: 19px;
+    white-space: nowrap;
+    vertical-align: middle;
+    color: var(--dd-tone, var(--dd-neutral));
+    background: var(--dd-tone-tint, var(--dd-neutral-tint));
+  }
+
+  .chip-sm {
+    padding: 0 var(--dd-sp-2);
+    line-height: 16px;
+    font-size: 10px;
+  }
+
+  .chip-lg {
+    padding: 0 var(--dd-sp-4);
+    line-height: 24px;
+    font-size: var(--dd-text-sm);
+  }
+
+  /*
+   * Ghost — an outline instead of a wash, for a chip that names something
+   * rather than classifying it: a version, a parameter, a raw identifier. Set
+   * in mono because what it carries is usually a literal.
+   */
+  .chip-ghost {
+    background: none;
+    border: 1px solid var(--dd-border);
+    color: var(--dd-tone, var(--dd-fg-muted));
+    font-weight: 500;
+    font-family: var(--dd-font-mono);
+    line-height: 17px;
+  }
+
+  /* Square, for a chip that sits against code and should not look pill-like. */
+  .chip-square { border-radius: var(--dd-radius-sm); }
+
+  a.chip:hover { text-decoration: none; filter: brightness(0.94); }
+  a.chip-ghost:hover { border-color: var(--dd-link); color: var(--dd-link); filter: none; }
+
+  /* A chip that is a filter, and is currently on. */
+  .chip.is-on {
+    box-shadow: 0 0 0 1px currentColor inset;
+    border-color: currentColor;
+  }
+
+  /* A row of chips that reads as one control, not as several labels. */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--dd-sp-2);
+  }
+}

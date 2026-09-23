@@ -1,0 +1,39 @@
+/*
+ * Storybook's own chrome, kept out of the design system. Unlayered on purpose:
+ * these rules are meant to beat dd's, which is exactly what a rule outside
+ * every layer does — and it is the same mechanism a consumer would use.
+ */
+
+#storybook-root { padding: 24px; }
+
+/* A whole frame fills the preview instead of sitting in a padded box. */
+#storybook-root:has(> .doc),
+#storybook-root:has(> .sheet) { padding: 0; }
+
+body { margin: 0; }
+
+/* A strip that names what a specimen is, above the specimen. */
+.sb-specimen { margin-bottom: 28px; }
+.sb-specimen:last-child { margin-bottom: 0; }
+
+.sb-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dd-fg-subtle);
+  margin: 0 0 8px;
+  font-family: var(--dd-font-sans);
+}
+
+.sb-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.sb-grid { display: grid; gap: 12px; }
+
+/* Component stories that are not inside a genre still need the catalog's
+   reading size, which the genre would otherwise have supplied. */
+#storybook-root > :not(.doc):not(.sheet) {
+  font-family: var(--dd-font-sans);
+  font-size: var(--dd-text-lg);
+  line-height: 1.55;
+  color: var(--dd-fg);
+}

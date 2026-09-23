@@ -1,0 +1,51 @@
+/*
+ * Roles — what a hue is for.
+ *
+ * The palette says which colours exist; this says what they mean. A hue named
+ * here is claimed on purpose: --syn-kw and a violet chip share violet because
+ * both are identity, not because violet was the next one free.
+ *
+ * Consumers theme the system by redefining palette or role tokens on :root.
+ * Both are part of the public surface, which is why every one of them carries
+ * the --dd- namespace: custom properties inherit through the whole document,
+ * and neither @layer nor @scope fences them in.
+ */
+
+@layer dd.tokens {
+  :root {
+    /* ---- surfaces and text ---- */
+    --dd-fg:         var(--dd-ink);
+    --dd-fg-muted:   var(--dd-sub);
+    --dd-fg-subtle:  var(--dd-dim);
+    --dd-border:     var(--dd-hair);
+    --dd-border-strong: var(--dd-rule);
+    --dd-link:       var(--dd-blue);
+    --dd-accent:     var(--dd-blue);
+
+    /* ---- state ---- */
+    --dd-ok:           var(--dd-green);
+    --dd-ok-tint:      var(--dd-green-tint);
+    --dd-warn:         var(--dd-yellow);
+    --dd-warn-tint:    var(--dd-yellow-tint);
+    --dd-danger:       var(--dd-red);
+    --dd-danger-tint:  var(--dd-red-tint);
+    --dd-neutral:      var(--dd-sub);
+    --dd-neutral-tint: var(--dd-slate-tint);
+
+    /* ---- syntax, text weight only, never red ---- */
+    --dd-syn-kw:  var(--dd-violet);
+    --dd-syn-str: var(--dd-teal);
+    --dd-syn-num: var(--dd-blue);
+    --dd-syn-com: var(--dd-dim);
+    --dd-syn-var: var(--dd-amber);
+    --dd-syn-id:  var(--dd-ink);
+
+    /* ---- diff, on state hues only, so a mark never reads as a kind ---- */
+    --dd-added:         var(--dd-green);
+    --dd-added-tint:    var(--dd-green-tint);
+    --dd-removed:       var(--dd-red);
+    --dd-removed-tint:  var(--dd-red-tint);
+    --dd-modified:      var(--dd-yellow);
+    --dd-modified-tint: var(--dd-yellow-tint);
+  }
+}

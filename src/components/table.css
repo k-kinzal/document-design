@@ -1,0 +1,62 @@
+/*
+ * Table — rows that are meant to be compared.
+ *
+ *   <div class="table-wrap">
+ *     <table class="sortable">
+ *       <thead><tr><th>Rule</th><th class="tight">Severity</th><th class="num">Count</th></tr></thead>
+ *       <tbody>…</tbody>
+ *     </table>
+ *   </div>
+ *
+ * Wrapped because a generated table has whatever columns the data has, and a
+ * table that overflows its column pushes the whole page sideways. The wrapper
+ * scrolls instead.
+ */
+
+@layer dd.component {
+  .table-wrap { overflow-x: auto; margin: var(--dd-sp-3) 0 var(--dd-sp-5); }
+
+  table { border-collapse: collapse; width: 100%; font-size: var(--dd-text-md); }
+
+  th, td {
+    text-align: left;
+    padding: var(--dd-sp-3);
+    border-bottom: 1px solid var(--dd-border);
+    vertical-align: top;
+  }
+
+  th {
+    color: var(--dd-fg-muted);
+    font-size: var(--dd-text-sm);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* Numbers line up on the right, in tabular figures, so they can be compared
+     down the column rather than read one at a time. */
+  td.num, th.num {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    width: 1%;
+  }
+
+  /* A column that should take exactly the width of its content. */
+  td.tight, th.tight { white-space: nowrap; width: 1%; }
+
+  tbody tr:hover { background: var(--dd-hover); }
+
+  table.plain tbody tr:hover { background: none; }
+  table.plain th, table.plain td { border-bottom: none; padding: var(--dd-sp-2) var(--dd-sp-3); }
+
+  /* ---- sorting ---- */
+
+  .sortable th[data-dd-sort] { cursor: pointer; user-select: none; }
+  .sortable th[data-dd-sort]:hover { color: var(--dd-fg); }
+  .sortable th.is-asc::after  { content: " ↑"; }
+  .sortable th.is-desc::after { content: " ↓"; }
+
+  /* ---- filtering ---- */
+
+  tr.is-hidden, .is-hidden { display: none; }
+}

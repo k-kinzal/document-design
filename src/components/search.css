@@ -1,0 +1,71 @@
+/*
+ * Search results — a panel over the page, not a page of its own.
+ *
+ *   <div class="search-results" id="search-results" hidden>
+ *     <a href="…"><span class="hit-name">wpdb::query</span>
+ *        <span class="hit-where">wp-includes/wp-db.php</span></a>
+ *   </div>
+ *
+ * Over the page because the reader is on the page they wanted and is looking
+ * for one thing in it. Navigating away to a results page and back costs them
+ * their place for no gain.
+ */
+
+@layer dd.component {
+  .search-results {
+    position: fixed;
+    top: calc(var(--dd-topbar-height) + var(--dd-sp-1));
+    right: var(--dd-sp-6);
+    z-index: 30;
+    width: min(720px, calc(100vw - 40px));
+    max-height: 64vh;
+    overflow-y: auto;
+    background: var(--dd-raised);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius);
+    box-shadow: var(--dd-shadow);
+  }
+
+  .search-results a {
+    display: block;
+    padding: var(--dd-sp-3) var(--dd-sp-4);
+    border-bottom: 1px solid var(--dd-border);
+    color: var(--dd-fg);
+  }
+
+  .search-results a:last-child { border-bottom: none; }
+
+  .search-results a:hover,
+  .search-results a.is-selected {
+    background: var(--dd-hover);
+    text-decoration: none;
+  }
+
+  .hit-name { font-weight: 600; }
+
+  .hit-where {
+    color: var(--dd-fg-subtle);
+    font-size: var(--dd-text-xs);
+    font-family: var(--dd-font-mono);
+  }
+
+  .hit-body {
+    font-family: var(--dd-font-mono);
+    font-size: var(--dd-text-sm);
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: var(--dd-sp-1);
+  }
+
+  .search-empty {
+    padding: var(--dd-sp-4);
+    color: var(--dd-fg-muted);
+    font-size: var(--dd-text-md);
+  }
+
+  @media (max-width: 900px) {
+    .search-results { right: var(--dd-sp-4); }
+  }
+}

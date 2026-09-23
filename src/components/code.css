@@ -1,0 +1,99 @@
+/*
+ * Code — a statement, a signature, a source excerpt.
+ *
+ *   <div class="code-block">
+ *     <pre class="code"><span class="tok-kw">SELECT</span> …</pre>
+ *     <button class="btn copy" data-dd-copy>Copy</button>
+ *   </div>
+ *
+ * Wrapped rather than scrolled by default. A generated SQL statement or a PHP
+ * signature is often one very long line, and a reader who has to scroll a code
+ * block sideways to find the end of a WHERE clause will not do it. Use
+ * .code-scroll where the line structure is the point and wrapping would lie
+ * about it.
+ */
+
+@layer dd.component {
+  pre.code, .code-block pre {
+    background: var(--dd-surface);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius);
+    padding: var(--dd-sp-3) var(--dd-sp-4);
+    margin: 0 0 var(--dd-sp-3);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.6;
+    font-size: var(--dd-text-sm);
+    font-family: var(--dd-font-mono);
+  }
+
+  pre.code-scroll { white-space: pre; word-break: normal; }
+
+  /* The statement as the subject of the page rather than as an example. */
+  pre.code-lead {
+    font-size: var(--dd-text-lg);
+    line-height: 1.8;
+    padding: var(--dd-sp-5) var(--dd-sp-6);
+  }
+
+  .code-block { position: relative; margin: 0 0 var(--dd-sp-5); }
+
+  .code-block > .copy {
+    position: absolute;
+    top: var(--dd-sp-3);
+    right: var(--dd-sp-3);
+    background: var(--dd-raised);
+    opacity: 0;
+  }
+
+  .code-block:hover > .copy,
+  .code-block > .copy:focus-visible,
+  .code-block > .copy.is-done { opacity: 1; }
+
+  /* Line numbers, unselectable so that copying the block copies the code. */
+  .ln {
+    display: inline-block;
+    width: 3.5ch;
+    margin-right: var(--dd-sp-3);
+    text-align: right;
+    color: var(--dd-fg-subtle);
+    user-select: none;
+  }
+
+  .src-line.is-target { background: var(--dd-warn-tint); }
+
+  /* ---- syntax ---- */
+
+  .tok-kw  { color: var(--dd-syn-kw); font-weight: 600; }
+  .tok-str { color: var(--dd-syn-str); }
+  .tok-num { color: var(--dd-syn-num); }
+  .tok-com { color: var(--dd-syn-com); font-style: italic; }
+  .tok-var { color: var(--dd-syn-var); font-weight: 600; }
+  .tok-ph  { color: var(--dd-syn-var); font-weight: 600; }
+  .tok-id  { color: var(--dd-syn-id); }
+
+  /* ---- a gap in what could be determined ---- */
+
+  /*
+   * A hole is a claim about the analysis, not about the code, so it is marked
+   * rather than merely written: dashed, tinted, and carrying a title that says
+   * where it came from. Tone picks which kind of gap it is.
+   */
+  .hole {
+    color: var(--dd-tone, var(--dd-warn));
+    background: var(--dd-tone-tint, var(--dd-warn-tint));
+    border: 1px dashed var(--dd-tone, var(--dd-warn));
+    border-radius: var(--dd-radius-sm);
+    padding: 0 var(--dd-sp-2);
+    font-weight: 600;
+    font-size: 0.92em;
+    cursor: help;
+  }
+
+  /* ---- a block the reader can open if they want the raw form ---- */
+
+  details.as-written { font-size: var(--dd-text-sm); color: var(--dd-fg-muted); }
+  details.as-written summary { cursor: pointer; padding: var(--dd-sp-1) 0; }
+  details.as-written pre.code { margin-top: var(--dd-sp-2); font-size: var(--dd-text-sm); }
+}

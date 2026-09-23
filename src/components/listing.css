@@ -1,0 +1,137 @@
+/*
+ * Listings — the several shapes of "here are the things".
+ *
+ * .peek   a few of them, with a figure each, inside a card
+ * .rows   all of them, each with its own content and metadata
+ * .items  a table of names and one-line summaries
+ */
+
+@layer dd.component {
+
+  /* ---- .peek: the first few, as a teaser ---- */
+
+  .peek { list-style: none; margin: 0; padding: 0; font-size: var(--dd-text-md); }
+
+  .peek li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--dd-sp-3);
+    padding: 6px 0;
+    border-top: 1px solid var(--dd-border);
+  }
+
+  /* The name takes the space and clips; the figures never wrap or shrink,
+     because a count that has moved to its own line no longer belongs to the
+     row it describes. */
+  .peek li > a:first-child {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--dd-font-mono);
+    font-size: var(--dd-text-sm);
+  }
+
+  .peek-figures {
+    color: var(--dd-fg-subtle);
+    font-size: var(--dd-text-xs);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* The same list, carrying chips instead of names. */
+  .peek-chips { display: flex; flex-wrap: wrap; gap: var(--dd-sp-2) var(--dd-sp-4); }
+  .peek-chips li { border: none; padding: var(--dd-sp-1) 0; gap: var(--dd-sp-2); }
+  .peek-chips li > a:first-child { flex: none; overflow: visible; }
+
+  /* ---- .rows: the full listing ---- */
+
+  .rows { list-style: none; margin: 0 0 var(--dd-sp-5); padding: 0; }
+
+  .row { padding: var(--dd-sp-5) 0; border-top: 1px solid var(--dd-border); }
+
+  .row-main {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--dd-sp-4);
+    color: var(--dd-fg);
+  }
+
+  .row-main:hover { text-decoration: none; }
+  .row-main:hover .row-body { color: var(--dd-link); }
+
+  /* The leading chip is a fixed column so that the bodies start on one line
+     down the listing, whatever the chip says. */
+  .row-main > .chip {
+    flex: none;
+    margin-top: 2px;
+    min-width: 62px;
+    text-align: center;
+  }
+
+  /*
+   * Clamped to three lines. A generated statement can be two hundred lines
+   * long; a listing of them is for choosing which one to open, and a row that
+   * fills a screen stops the listing from being a listing.
+   */
+  .row-body {
+    flex: 1;
+    min-width: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.65;
+    font-size: var(--dd-text-md);
+    font-family: var(--dd-font-mono);
+  }
+
+  .row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--dd-sp-2) var(--dd-sp-4);
+    margin: var(--dd-sp-3) 0 0 78px;
+    font-size: var(--dd-text-sm);
+    color: var(--dd-fg-subtle);
+  }
+
+  .row-meta a, .row-ref { font-family: var(--dd-font-mono); color: var(--dd-fg-muted); }
+  .row-meta a:hover { color: var(--dd-link); }
+
+  .group > h3 {
+    margin-top: var(--dd-sp-7);
+    padding-bottom: var(--dd-sp-2);
+    border-bottom: 1px solid var(--dd-border);
+  }
+
+  .group.is-empty { display: none; }
+
+  /* ---- .items: names and summaries ---- */
+
+  .items { width: 100%; }
+
+  .item-name { font-family: var(--dd-font-mono); white-space: nowrap; }
+  .item-ns { color: var(--dd-fg-subtle); font-size: var(--dd-text-sm); }
+  .item-summary { color: var(--dd-fg-muted); }
+
+  /* ---- a flat list of findings or notes ---- */
+
+  .finding-list { list-style: none; margin: 0 0 var(--dd-sp-5); padding: 0; font-size: var(--dd-text-md); }
+
+  .finding-list li {
+    padding: var(--dd-sp-3) 0;
+    display: flex;
+    gap: var(--dd-sp-4);
+    align-items: baseline;
+    border-top: 1px solid var(--dd-border);
+  }
+
+  @media (max-width: 900px) {
+    .row-meta { margin-left: 0; }
+  }
+}

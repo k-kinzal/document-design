@@ -1,0 +1,12 @@
+/*
+ * Tokens only — the palette, the roles and the scales, with no components.
+ *
+ * For a page that has its own layout and wants the colours and the theme
+ * switch to match the rest of the documentation.
+ */
+
+@layer dd.tokens;
+
+@import url("./tokens/palette.css") layer(dd.tokens);
+@import url("./tokens/role.css") layer(dd.tokens);
+@import url("./tokens/scale.css") layer(dd.tokens);

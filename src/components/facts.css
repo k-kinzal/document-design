@@ -1,0 +1,40 @@
+/*
+ * Facts — the short, labelled answers about one thing.
+ *
+ *   <dl class="facts-grid">
+ *     <div><dt>Resolution</dt><dd><span class="chip tone-ok">resolved</span></dd></div>
+ *     <div><dt>Issued at</dt><dd><a class="mono" href="…">wp-includes/post.php:1240</a></dd></div>
+ *   </dl>
+ *
+ * Labels are small and uppercase so that the values read as the content and
+ * the labels as the scaffolding — the reverse, which is what equal weight
+ * produces, makes a reader scan the words they already know.
+ */
+
+@layer dd.component {
+  .facts-grid {
+    margin: 0 0 var(--dd-sp-5);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--dd-sp-5);
+    font-size: var(--dd-text-md);
+  }
+
+  .facts-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .facts-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .facts-grid dt {
+    font-size: var(--dd-text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--dd-fg-subtle);
+    margin-bottom: var(--dd-sp-2);
+  }
+
+  .facts-grid dd { margin: 0; line-height: 1.7; }
+
+  @media (max-width: 900px) {
+    .facts-grid-2, .facts-grid-3 { grid-template-columns: 1fr; }
+  }
+}

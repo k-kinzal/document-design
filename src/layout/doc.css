@@ -1,0 +1,135 @@
+/*
+ * The catalog frame: a sidebar you navigate from, a bar that says where you
+ * are, and a column you read. Used by anything generated per-symbol or
+ * per-record, where a reader arrives at one page out of hundreds and needs to
+ * know immediately what else is here.
+ *
+ *   <div class="doc">
+ *     <nav class="sidebar">…</nav>
+ *     <div class="main">
+ *       <header class="topbar">…</header>
+ *       <main class="content">…</main>
+ *       <footer class="doc-footer">…</footer>
+ *     </div>
+ *   </div>
+ *
+ * The genre is one wrapper element rather than a class on <body>, so a frame
+ * can be nested — inside a preview pane, inside a story, inside a page that
+ * already has a header of its own — without the layout depending on where it
+ * sits in the document.
+ *
+ * The genre owns its heading sizes. A catalog heading is a label on a band of
+ * rows, not a statement, so h2 is 15px with a rule under it rather than
+ * something large enough to read as a title.
+ */
+
+@layer dd.layout {
+  .doc {
+    display: flex;
+    min-height: 100vh;
+    font-size: var(--dd-text-lg);
+    line-height: 1.55;
+  }
+
+  .doc .main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .doc .content {
+    padding: var(--dd-sp-5) var(--dd-sp-6) var(--dd-sp-8);
+    max-width: var(--dd-content-max);
+    width: 100%;
+  }
+
+  .doc .doc-footer {
+    margin-top: auto;
+    padding: var(--dd-sp-5) var(--dd-sp-6);
+    border-top: 1px solid var(--dd-border);
+    color: var(--dd-fg-subtle);
+    font-size: var(--dd-text-sm);
+  }
+
+  /* ---- headings ---- */
+
+  .doc h1 {
+    font-size: 21px;
+    font-weight: 650;
+    display: flex;
+    align-items: center;
+    gap: var(--dd-sp-3);
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  .doc h1 code { font-size: 19px; }
+
+  .doc h2 {
+    font-size: 15px;
+    font-weight: 650;
+    margin: var(--dd-sp-7) 0 var(--dd-sp-5);
+    padding-bottom: var(--dd-sp-2);
+    border-bottom: 1px solid var(--dd-border);
+    display: flex;
+    align-items: baseline;
+    gap: var(--dd-sp-3);
+    flex-wrap: wrap;
+  }
+
+  .doc h3 {
+    font-size: var(--dd-text-lg);
+    margin: var(--dd-sp-6) 0 var(--dd-sp-4);
+    display: flex;
+    align-items: baseline;
+    gap: var(--dd-sp-3);
+    flex-wrap: wrap;
+  }
+
+  .doc h2 code { font-size: var(--dd-text-lg); }
+  .doc h3 code { font-size: var(--dd-text-md); }
+
+  /* The one paragraph that says what this page is. */
+  .doc .lede {
+    color: var(--dd-fg-muted);
+    margin: var(--dd-sp-4) 0 var(--dd-sp-6);
+    max-width: 84ch;
+    line-height: 1.6;
+  }
+
+  .doc .content p { margin: 0 0 var(--dd-sp-4); }
+
+  /*
+   * The link back to a heading. Hidden until the heading is hovered: on a page
+   * that is mostly headings, a permanent § at every one of them reads as
+   * decoration and competes with the headings themselves.
+   */
+  .anchor {
+    margin-left: auto;
+    font-size: var(--dd-text-sm);
+    color: var(--dd-fg-subtle);
+    font-weight: 400;
+    visibility: hidden;
+  }
+
+  :is(h1, h2, h3, h4):hover .anchor,
+  .anchor:focus-visible { visibility: visible; }
+
+  /* A row of counts under the title: what this page is made of. */
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--dd-sp-2);
+    margin: 0 0 var(--dd-sp-5);
+    font-size: var(--dd-text-md);
+    color: var(--dd-fg-muted);
+  }
+
+  .facts-sep { color: var(--dd-fg-subtle); padding: 0 var(--dd-sp-2); }
+
+  @media (max-width: 900px) {
+    .doc .content { padding: var(--dd-sp-4) var(--dd-sp-4) var(--dd-sp-7); }
+  }
+}

@@ -1,0 +1,224 @@
+/*
+ * The report sheet: one page, read straight through, that says what changed
+ * and what it cost. Used when a run finishes and has something to report.
+ *
+ *   <article class="sheet">
+ *     <p class="eyebrow">…</p>
+ *     <h1>…</h1>
+ *     <p class="stand">…</p>
+ *     <div class="hero">…</div>
+ *     <section class="sec">
+ *       <div class="label">01<br>spec</div>
+ *       <div class="field">…</div>
+ *     </section>
+ *   </article>
+ *
+ * The sheet is the genre: one element, carrying both the grid and the reading
+ * size, so it can sit anywhere without a second wrapper to say what it is.
+ *
+ * Twelve columns, 24px gutter, and a 28px baseline that every block gap is a
+ * multiple of. A section's name sits in columns 1–2 and its content in 4–12,
+ * so the eye finds the names down the left edge without them crowding the
+ * text. Children use `grid-template-columns: subgrid` rather than a nested
+ * grid, which is what keeps a figure in the middle of a section on the same
+ * column lines as the title above it.
+ */
+
+@layer dd.layout {
+  .sheet {
+    font-size: var(--dd-type-2);
+    line-height: 1.75;
+    max-width: var(--dd-sheet-max);
+    margin: 0 auto;
+    padding: calc(var(--dd-base) * 4) 48px calc(var(--dd-base) * 6);
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 24px;
+  }
+
+  .sheet > * { grid-column: 1 / -1; }
+
+  /* ---- masthead ---- */
+
+  .eyebrow {
+    font-size: var(--dd-type-1);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: var(--dd-fg-subtle);
+    margin: 0 0 var(--dd-base);
+  }
+
+  .sheet h1 {
+    grid-column: 1 / 10;
+    font-size: var(--dd-type-8);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+    font-weight: 700;
+    margin: 0 0 var(--dd-base);
+  }
+
+  /* The sentence under the title that says what the reader is about to learn. */
+  .stand {
+    grid-column: 1 / 7;
+    font-size: var(--dd-type-3);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    color: var(--dd-fg-muted);
+    margin: 0 0 calc(var(--dd-base) * 3);
+  }
+
+  /* ---- the one figure the page leads with ---- */
+
+  .hero {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-template-rows: auto auto auto;
+    padding-bottom: calc(var(--dd-base) * 2);
+    border-bottom: 1px solid var(--dd-border);
+  }
+
+  .hero > div {
+    display: grid;
+    grid-row: 1 / 4;
+    grid-template-rows: subgrid;
+  }
+
+  .hero .was { grid-column: 1 / 4; }
+  .hero .mid { grid-column: 4 / 5; }
+  .hero .now { grid-column: 5 / 9; }
+
+  /* The arrow belongs on the figures' line, not on the caption's. */
+  .hero .mid svg { grid-row: 2; align-self: center; width: 56px; }
+
+  /* Or the lead is simply a drawing. */
+  .hero > svg { grid-column: 1 / -1; grid-row: 1 / 4; }
+
+  .cap {
+    display: block;
+    font-size: var(--dd-type-1);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: var(--dd-fg-subtle);
+    margin-bottom: calc(var(--dd-base) / 2);
+  }
+
+  .now .cap { color: var(--dd-accent); }
+
+  /*
+   * A number, when the number is the point. Proportional figures on purpose:
+   * tabular digits are for columns that have to line up, and make a large
+   * standalone number look loose.
+   */
+  .fig {
+    display: block;
+    align-self: end;
+    font-size: var(--dd-type-9);
+    line-height: 0.92;
+    font-weight: 700;
+    letter-spacing: -0.045em;
+  }
+
+  .was .fig { color: var(--dd-fg-subtle); }
+  .now .fig { color: var(--dd-accent); }
+
+  /*
+   * The same slot, carrying words instead.
+   *
+   * Most changes have no number worth showing. Forced into one anyway, a page
+   * leads with a count nobody asked about and spends its largest type saying
+   * the least interesting true thing about the work. A short phrase does the
+   * job a figure cannot. It stays in ink: the accent belongs to the mark.
+   */
+  .claim {
+    display: block;
+    align-self: end;
+    font-size: var(--dd-type-6);
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  .was .claim { color: var(--dd-fg-subtle); }
+
+  /* Words need more room than digits. */
+  .hero:has(.claim) .was { grid-column: 1 / 6; }
+  .hero:has(.claim) .mid { grid-column: 6 / 7; }
+  .hero:has(.claim) .now { grid-column: 7 / -1; }
+
+  .unit {
+    display: block;
+    font-size: var(--dd-type-2);
+    color: var(--dd-fg-muted);
+    margin-top: calc(var(--dd-base) / 2);
+  }
+
+  /* ---- sections ---- */
+
+  .sec {
+    display: grid;
+    grid-template-columns: subgrid;
+    margin-top: calc(var(--dd-base) * 3);
+  }
+
+  .label {
+    grid-column: 1 / 3;
+    font-size: var(--dd-type-1);
+    line-height: 1.7;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--dd-fg-subtle);
+    padding-top: 6px;
+  }
+
+  .field { grid-column: 4 / -1; }
+
+  .lead {
+    font-size: var(--dd-type-4);
+    line-height: 1.45;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    margin: 0 0 calc(var(--dd-base) * 1.5);
+  }
+
+  .note {
+    font-size: var(--dd-type-2);
+    line-height: 1.75;
+    color: var(--dd-fg-muted);
+    margin: 0;
+  }
+
+  /*
+   * Something the reader would be wrong to assume still holds. Kept to the end
+   * of a section and set small, because it is a correction to what was just
+   * claimed and not a claim of its own.
+   */
+  .caveat {
+    grid-column: 4 / -1;
+    margin: var(--dd-base) 0 0;
+    padding-left: 20px;
+    border-left: 2px solid var(--dd-warn);
+    font-size: var(--dd-type-1);
+    line-height: 1.75;
+    color: var(--dd-fg-muted);
+  }
+
+  /*
+   * Drawings are the report's argument, not its illustration, so they are
+   * written inline and read the same tokens as the text around them: a
+   * diagram follows the theme instead of being a picture of one theme.
+   */
+  .sheet svg { display: block; width: 100%; height: auto; }
+  .sheet svg text { fill: var(--dd-ink); font-family: inherit; }
+  .sheet svg .svg-mono { font-family: var(--dd-font-mono); }
+
+  @media (max-width: 720px) {
+    .sheet {
+      padding: calc(var(--dd-base) * 2) 24px calc(var(--dd-base) * 4);
+      column-gap: 16px;
+    }
+    .sheet h1 { grid-column: 1 / -1; font-size: var(--dd-type-6); }
+    .stand, .label, .field, .caveat { grid-column: 1 / -1; }
+    .hero > div { grid-column: 1 / -1 !important; }
+    .hero .mid { display: none; }
+  }
+}
