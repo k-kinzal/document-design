@@ -25,7 +25,7 @@ const names = Object.keys(lock.packages ?? {});
 /* The native packages this build actually needs on a CI runner. */
 const REQUIRED = [
   "lightningcss-linux-x64-gnu",
-  "@rolldown/binding-linux-x64-gnu",
+  "@voidzero-dev/vite-plus-linux-x64-gnu",
   "@esbuild/linux-x64",
 ];
 

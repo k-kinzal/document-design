@@ -1,0 +1,153 @@
+import { test, expect } from '@playwright/test';
+import { fileURLToPath } from 'node:url';
+import { components } from '../src/components.mjs';
+
+const axePath = fileURLToPath(import.meta.resolve('axe-core/axe.min.js'));
+for (const path of ['/', '/start/', '/components/', ...components.map(c => `/components/${c.slug}/`)]) {
+  test(`page is readable and accessible: ${path}`, async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    expect((await page.goto(path)).status()).toBe(200);
+    await expect(page.locator('h1')).toHaveCount(1);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    expect(await page.locator('body').innerText()).not.toMatch(/[ぁ-んァ-ン一-龯]/);
+    await page.addScriptTag({ path: axePath });
+    const violations = await page.evaluate(async () => (await axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a','wcag2aa','wcag21aa'] } })).violations.map(v => ({ id:v.id, targets:v.nodes.map(n=>n.target) })));
+    expect(violations).toEqual([]);
+    for (const width of [1440, 768, 390, 320]) {
+      await page.setViewportSize({width,height:1000});
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `overflow at ${width}px on ${path}`).toBe(true);
+    }
+    expect(errors).toEqual([]);
+  });
+}
+
+test('gallery contains a real preview for every component', async ({page}) => {
+  await page.goto('/components/');
+  await expect(page.locator('.card-preview')).toHaveCount(components.length);
+  for (const preview of await page.locator('.card-preview').all()) expect(await preview.locator(':scope > *').count()).toBeGreaterThan(0);
+  await page.locator('.card').getByRole('link',{name:'Chip',exact:true}).click();
+  await expect(page).toHaveURL(/components\/chip\/index.html$/);
+});
+
+test('highlighted HTML preserves source when copied', async ({page,context})=>{
+  await context.grantPermissions(['clipboard-read','clipboard-write']);
+  await page.goto('/components/chip/');
+  expect(await page.locator('#source-0 .tok-kw').count()).toBeGreaterThan(0);
+  expect(await page.locator('#source-0 .tok-str').count()).toBeGreaterThan(0);
+  await page.locator('[data-dd-copy="#source-0"]').click();
+  expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe(components.find(c=>c.slug==='chip').examples[0].html);
+});
+
+test('search reaches a component and supports keyboard navigation', async ({page})=>{
+  await page.goto('/components/');
+  await page.keyboard.press('/');
+  await expect(page.locator('[data-dd-search]')).toBeFocused();
+  await page.locator('[data-dd-search]').fill('Chip');
+  await expect(page.locator('[data-dd-search-results]')).toBeVisible();
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/components\/chip\/index.html$/);
+});
+
+test('filters, sorting, tabs, theme and mobile navigation work', async ({page})=>{
+  await page.goto('/components/facets/');
+  await page.locator('[data-dd-facet="kind:insert"]').click();
+  await expect(page.locator('#facet-items .row:visible')).toHaveCount(1);
+  await page.locator('[data-dd-facet-clear]').click();
+  await expect(page.locator('#facet-items .row:visible')).toHaveCount(3);
+  await page.goto('/components/table/');
+  await page.locator('.specimen th.num').click();
+  await expect(page.locator('.specimen tbody tr:first-child .num')).toHaveText('3');
+  await page.goto('/components/tabs/');
+  await page.getByRole('tab',{name:'CSS',exact:true}).click();
+  await expect(page.locator('#sample-css')).toBeVisible();
+  await expect(page.locator('#sample-html')).toBeHidden();
+  await page.locator('.topbar [data-dd-theme-toggle]').click();
+  await page.locator('.topbar [data-dd-theme-toggle]').click();
+  await expect(page.locator('html')).toHaveAttribute('data-dd-theme','dark');
+  await page.setViewportSize({width:390,height:844});
+  await page.getByRole('button',{name:'Open navigation'}).click();
+  await expect(page.locator('#navigation')).toBeVisible();
+  await expect(page.locator('[data-dd-nav-toggle]')).toHaveAttribute('aria-expanded','true');
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#navigation')).toBeHidden();
+});
+
+test('dark theme remains accessible',async({page})=>{
+  await page.emulateMedia({colorScheme:'dark'});
+  for(const path of ['/','/components/','/components/chip/']){
+    await page.goto(path); await page.addScriptTag({path:axePath});
+    expect(await page.evaluate(async()=>(await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa']}})).violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})))).toEqual([]);
+  }
+});
+
+test('no JavaScript and file URLs preserve content and navigation',async({browser})=>{
+  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
+  const page=await context.newPage();
+  await page.goto(new URL('../dist/components/tabs/index.html',import.meta.url).href);
+  await expect(page.locator('#sample-html')).toBeVisible();
+  await expect(page.locator('#sample-css')).toBeVisible();
+  await expect(page.locator('#navigation')).toBeVisible();
+  await expect(page.locator('[data-dd-copy]').first()).toBeHidden();
+  await page.locator('#navigation a').filter({hasText:/^Chip$/}).click();
+  await expect(page).toHaveURL(/components\/chip\/index.html$/);
+  expect(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor)).not.toBe('rgba(0, 0, 0, 0)');
+  await context.close();
+});
+
+test('printing reveals the complete data behind tabs and filters',async({page})=>{
+  await page.goto('/components/tabs/');
+  await page.emulateMedia({media:'print'});
+  await expect(page.locator('#sample-html')).toBeVisible();
+  await expect(page.locator('#sample-css')).toBeVisible();
+  await expect(page.locator('.tablist')).toBeHidden();
+  await page.goto('/components/facets/');
+  await page.emulateMedia({media:'screen'});
+  await page.locator('[data-dd-facet="kind:insert"]').click();
+  await page.emulateMedia({media:'print'});
+  await expect(page.locator('#facet-items .row:visible')).toHaveCount(3);
+});
+
+
+test('the paper cover leads into the component documentation', async ({page}) => {
+  await page.goto('/');
+  await expect(page.locator('.sheet > main.sheet-body')).toBeVisible();
+  await expect(page.locator('iframe')).toHaveCount(0);
+  await page.getByRole('link', {name:'Explore components', exact:true}).click();
+  await expect(page).toHaveURL(/components\/index.html$/);
+  await expect(page.locator('.doc .card-preview')).toHaveCount(components.length);
+});
+
+test('figure, caption and annotation preserve their reading order at narrow widths', async ({page}, testInfo) => {
+  await page.goto('/');
+  const figure = page.locator('#reading-paths');
+  const summary = figure.locator('.plate-summary');
+  const note = figure.locator('.margin-note');
+  const reference = page.locator('#path-reference');
+  const paper = page.locator('#path-paper');
+  await page.setViewportSize({width:1200,height:900});
+  const desktopA = await reference.boundingBox(), desktopB = await paper.boundingBox();
+  expect(desktopB.x).toBeGreaterThan(desktopA.x + desktopA.width);
+  expect(Math.abs(desktopA.y - desktopB.y)).toBeLessThan(2);
+  await figure.screenshot({path:testInfo.outputPath('figure-desktop.png')});
+  for (const width of [768,390,320]) {
+    await page.setViewportSize({width,height:900});
+    const a = await reference.boundingBox(), b = await paper.boundingBox();
+    expect(b.y).toBeGreaterThanOrEqual(a.y + a.height);
+    const captionBox = await summary.boundingBox(), noteBox = await note.boundingBox();
+    expect(noteBox.y).toBeGreaterThanOrEqual(captionBox.y + captionBox.height);
+    expect(await figure.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+    for (const name of await figure.locator('.flow-name').all()) {
+      expect(await name.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+      expect(await name.evaluate(el => parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(16);
+    }
+  }
+  await figure.screenshot({path:testInfo.outputPath('figure-mobile.png')});
+  await page.emulateMedia({forcedColors:'active'});
+  await expect(reference.locator('.ref-mark')).toHaveText('A');
+  await expect(paper.locator('.ref-mark')).toHaveText('B');
+  await page.emulateMedia({media:'print'});
+  await expect(summary).toBeVisible();
+  await expect(note).toBeVisible();
+});

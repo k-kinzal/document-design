@@ -13,13 +13,13 @@ details; this is the shared part, maintained once.
       href="https://k-kinzal.github.io/document-design/v1/document-design.css">
 ```
 
-**[Component list and examples →](https://k-kinzal.github.io/document-design/)**
+**[Component list and examples →](https://k-kinzal.github.io/document-design/components/)**
 
 ## What you get
 
 - **Two page genres.** `.doc` for a catalog you navigate; `.sheet` for a report
   you read straight through. They measure differently on purpose.
-- **29 components**, from chips and tables to rendered markdown, diffs,
+- **Components and layouts**, from chips and tables to rendered markdown, diffs,
   dependency graphs, trees, timelines and terminal output.
 - **One tone system.** `.tone-blue`, `.tone-warn` — colour is orthogonal to
   components, so a component added later gets every tone for free.
@@ -100,14 +100,15 @@ src/
   tokens/            palette (raw hues) → role (what they mean) → scale
   base/              reset, text, tone modifiers, skip link, print
   layout/            doc (catalog frame), report (sheet), arrange (shared)
-  components/        29 of them, grouped by what they are for:
+  components/        grouped by what they are for:
                        reading    prose, callout, quote, deflist
                        code       code, diff, terminal, filetree
                        structure  tree, graph, disclosure, tabs, pagination
-                       data       table, listing, meter, stat, facts, symbol
+                       data       table, listing, meter, plot, stat, facts, symbol
                        status     chip, notice, banner, empty, timeline
                        frame      sidebar, topbar, control, search, facets
                        aids       keys, tooltip, card
+                       publication covers, section headings, live specimens
   js/                the optional behaviour layer
 ```
 
@@ -116,3 +117,96 @@ src/
 `/v1/` is the stable URL and is not changed in a way that restyles a page
 already written — the consumers here are generated documents that get archived.
 A breaking change goes to `/v2/`. `/latest/` tracks `main`.
+
+## Publication and preview components
+
+`doc-site` is a consumer of the same public CSS. It uses `.masthead`, `.brand`,
+`.cover`, `.section`, `.specimen` and `.colophon` for publication structure.
+`.doc-inset` and `.sheet-inset` embed the two reading modes in a live specimen;
+`.sheet-wide` gives a publication cover more room.
+
+A visual catalog uses `.card-preview` inside `.card`, followed by a heading
+link with `.card-link`. Give a decorative preview `inert aria-hidden="true"`,
+omit duplicate IDs and behavior hooks, and keep its title and description
+outside the preview. The link covers the whole card. The preview stays at the
+normal readable type size and leads to a complete example.
+
+Syntax colors are provided by `.tok-kw`, `.tok-str`, `.tok-num`, `.tok-com`,
+`.tok-var` and `.tok-id`. A generator supplies the highlighted spans; the
+library keeps their colors consistent in light, dark and print themes.
+`.code-head` places a language label and copy button above a code block.
+
+Use `data-dd-enhance hidden` on controls that only make sense with JavaScript.
+The behavior script reveals them after initialization. Leave the content itself
+visible so an unenhanced or archived document stays readable.
+
+
+## Figures and composition
+
+Use a semantic `figure.plate` for a drawing, table, or HTML diagram, followed by
+its `figcaption`. `.plate-wide` and `.plate-full` let the figure exceed the prose
+measure. Captions are numbered automatically; when a generator writes reference
+numbers, use `.plate-unnumbered` and write the same explicit number in both places.
+
+`.plate-side` extends this figure with a two-part caption: `.plate-summary` for
+its interpretation and `.margin-note` for a qualification. Put the summary first
+in the HTML; the note sits in the left margin on wide columns and follows the
+summary on narrow ones. `.plate-body` groups the visual between rules.
+
+`.compare` aligns two related groups when their container has room. `.flow` is
+an ordered list of three stages, with `.flow-mark`, `.flow-name`, and
+`.flow-detail` for the ordinal, name, and explanation. Its arrows express sequence;
+use a different diagram for causality or an arbitrary number of stages.
+`.ref-mark` adds a letter-and-color reference that stays meaningful in monochrome.
+
+Use `.sheet-body` on a semantic `main` or `article` inside a `.sheet` to preserve
+the parent grid through that wrapper. `.doc-quiet` lowers the sidebar's surface
+contrast while retaining readable text. `.index-nav` offers an unboxed category
+index, and `.link-list` groups plain links without making them look like controls.
+See `Components/Composition` in Storybook and the product site's Composition guide.
+
+## Choose a graph by the question
+
+| Reader’s question | Pattern | Public marks |
+| --- | --- | --- |
+| How does one whole divide? | Meter | `.meter`, `.meter-part`, `.legend` |
+| Which category has more? | Bar chart | `.bars`, `.bar-row`, `.bar-track`, `.bar-fill`, `.bar-value` |
+| What changed between two observations? | Comparison plot (dumbbell) | `.plot-span`, `.plot-before`, `.plot-point` |
+| How does a measure change across time or position? | Line / step plot | `.plot-line`, `.plot-point`, `.plot-missing` |
+| Where do numeric observations concentrate? | Histogram | `.plot-bin`, `.plot-zero` |
+| What depends on what? | Graph | `.node`, `.edge` |
+| Which branch leads to which outcome? | Flow graph | `.node-action`, `.node-decision`, `.node-terminal`, `.edge-flow`, `.edge-arrow`, `.edge-label` |
+
+All patterns belong inside a `.plate`, with a question, units, caption and source.
+Bars are HTML lists: use the **same maximum for every row**, then set
+`--dd-bar` to `value / maximum * 100%`. Zero has zero width. An unknown value has
+no fill: use `.bar-track.is-missing` and write “Not measured” in `.bar-value`.
+
+Other plots compose `.draw` and its text roles with the marks in `plot.css`.
+The generator owns coordinates, scales and binning; doc-ui owns type and marks.
+Set `--dd-draw-width` to the SVG viewBox width in pixels (the standard wide
+figure is 768px). `.draw-wrap` scrolls instead of shrinking labels; give a
+scrolling wrapper `tabindex="0"`, `role="region"` and an accessible name.
+Set `text-anchor` in SVG attributes, not CSS. Include a complete accessible
+description and exact observations in the caption or a companion table.
+
+Keep bars and histogram counts on a zero baseline. Paired observations need
+both denominators; percent changes and percentage-point differences are not
+interchangeable. Use steps for discrete accumulation and separate line paths
+around missing observations. A second series can use `.plot-line-alt` and
+`.plot-point-alt` for dashes and hollow points, plus direct labels. Histograms
+need sample size, bin boundaries and equal widths when showing counts. Empty
+bins are zeros; an unmeasured population belongs in `.empty`.
+
+Use `Components/Bar chart`, `Comparison plot`, `Line plot`, `Histogram` and
+`Flow graph` in Storybook for catalog, report and narrow examples. The product
+site’s **Figures & graphs** category provides copyable HTML and usage guidance.
+Data provenance is recorded in [graph-examples.md](stories/graph-examples.md).
+
+Flow graphs use one node module throughout a figure. The full pattern uses
+224 × 64px bounds for actions, decisions and outcomes, with 48px between rows;
+the compact index uses 96 × 40px and shorter labels. Both retain the shared
+drawing text size and a 1.5px outline. Center titles with `.draw-strong` and
+explicit SVG alignment attributes; put supporting notes outside the boxes.
+If the text needs more room, enlarge the shared module. Route lines clear of
+branch labels rather than outlining text in a guessed background color.

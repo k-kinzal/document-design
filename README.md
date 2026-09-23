@@ -1,58 +1,65 @@
 # document-design
 
-A design system for documentation and report pages, and the site that presents
-it.
+A design system for making information clear: dense catalogs you can scan and
+reports you can understand at a glance.
 
 ```
 packages/
-  doc-ui/         the design system — CSS, the optional behaviour layer, Storybook
-  product-page/   the page that presents it; a placeholder for now
+  doc-ui/     CSS, optional behaviors, tokens and Storybook
+  doc-site/   English product site and component documentation, built with doc-ui
 scripts/
-  pages.mjs       assembles what gh-pages serves, from both packages
+  pages.mjs   assembles both packages for GitHub Pages
 ```
 
-## Use it
+## Develop
+
+Use Node.js 24.11 or later (or Node.js 22.18+), then install the npm workspace:
+
+```sh
+npm install
+npm run dev             # Vite+ opens the product page at :5173
+npm run storybook       # component development at :6006
+npm run build           # doc-ui, then doc-site
+npm run check           # package checks, contrast and design-document consistency
+npm test                # browser, accessibility, responsive and interaction tests
+npm run preview         # preview the production site at :4173
+npm run build:pages     # assemble the complete GitHub Pages artifact
+```
+
+Each package owns its dependencies, source, configuration, documentation and
+commands. The root provides shortcuts and operations that combine packages.
+Work directly in `packages/doc-site` or `packages/doc-ui`, or use
+`npm run <command> --workspace <package-name>`.
+
+## Use doc-ui
 
 ```html
 <link rel="stylesheet"
       href="https://k-kinzal.github.io/document-design/v1/document-design.css">
 ```
 
-**[Component list and examples →](https://k-kinzal.github.io/document-design/storybook/)**
+[Product site](https://k-kinzal.github.io/document-design/) ·
+[Component gallery and usage](https://k-kinzal.github.io/document-design/components/) ·
+[Storybook](https://k-kinzal.github.io/document-design/storybook/)
 
-## Develop
-
-npm workspaces; run everything from the repo root.
-
-```sh
-npm install
-npm run storybook        # design and browse components at :6006
-npm run build            # every package that has a build
-npm run check            # every package that has a check (contrast, 150 pairs)
-npm run build:pages      # what gh-pages serves
-```
-
-Or work in one package directly:
-
-```sh
-npm run build --workspace @k-kinzal/doc-ui
-```
-
-## What gets published
+## Publication layout
 
 ```
-/                  the product page
-/storybook/        the component list
-/v1/…              the stable URL a consumer links; not rewritten in place
-/latest/…          the tip of main
+/                      product page
+/start/                quick start and setup
+/components/           visual component gallery
+/components/<name>/    individual examples and usage
+/storybook/            development stories and variations
+/v1/…                  stable major-version artifacts
+/latest/…              tip of main
 ```
 
-`/v1/` is not changed in a way that restyles a page already written — the
-consumers here are generated documents that get archived. A breaking change
-goes to `/v2/`.
+The Pages workflow builds, checks and tests the packages, then deploys `pages/`
+on pushes to `main`. Pull requests build and test without deploying.
 
-## Why it is built this way
+`/v1/` is not changed in a way that restyles a page already written; consumers
+are generated documents that get archived. A breaking change belongs in `/v2/`.
 
-See [AGENTS.md](AGENTS.md) for the design thesis and the decisions that look
-arbitrary and are not, and **Foundations → Principles** in Storybook for the
-long form.
+See [AGENTS.md](AGENTS.md) for the design principles,
+[doc-ui](packages/doc-ui/README.md) for the library, and
+[doc-site](packages/doc-site/README.md) for the site's architecture.

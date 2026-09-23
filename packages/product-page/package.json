@@ -1,9 +1,0 @@
-{
-  "name": "@k-kinzal/doc-ui-site",
-  "version": "0.0.0",
-  "private": true,
-  "description": "The page that presents doc-ui — not built yet",
-  "license": "MIT",
-  "type": "module",
-  "scripts": {}
-}

@@ -4,3 +4,7 @@ storybook-static/
 pages/
 .DS_Store
 *.log
+.generated/
+.generated-dev/
+test-results/
+playwright-report/

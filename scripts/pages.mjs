@@ -30,6 +30,7 @@ const need = (path, what) => {
 };
 
 if (!need(join(docUi, "dist"), "doc-ui build") ||
+    !need(join(site, "dist/index.html"), "doc-site build") ||
     !need(join(docUi, "storybook-static"), "storybook build")) {
   console.error("run `npm run build` and `npm run build:storybook` first.");
   process.exit(1);
@@ -46,11 +47,7 @@ mkdirSync(out, { recursive: true });
 
 /* doc-site is the root: it is the first thing a visitor sees, and it is built
    with doc-ui, which makes it the system's first outside consumer. */
-if (existsSync(join(site, "dist"))) {
-  cpSync(join(site, "dist"), out, { recursive: true });
-} else {
-  console.warn("packages/doc-site/dist is absent — run `npm run build` first; the site root will be empty.");
-}
+cpSync(join(site, "dist"), out, { recursive: true });
 
 cpSync(join(docUi, "storybook-static"), join(out, "storybook"), { recursive: true });
 
