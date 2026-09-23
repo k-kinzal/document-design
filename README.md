@@ -63,6 +63,15 @@ Work directly in `packages/doc-site` or `packages/doc-ui`, or use
 The Pages workflow builds, checks and tests the packages, then deploys `pages/`
 on pushes to `main`. Pull requests build and test without deploying.
 
+In the repository's **Settings → Pages**, set **Build and deployment → Source**
+to **GitHub Actions** before the first deployment. The workflow can also be run
+manually from the Actions tab. It publishes the assembled artifact directly;
+no `gh-pages` branch is needed.
+
+Commit source files and `package-lock.json`. Dependencies, generated HTML,
+build artifacts, test reports, and local `.env` files are ignored. Shareable
+environment templates may use `.env.example` or `.env.<name>.example`.
+
 `/v1/` is not changed in a way that restyles a page already written; consumers
 are generated documents that get archived. A breaking change belongs in `/v2/`.
 
