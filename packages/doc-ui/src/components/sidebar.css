@@ -77,6 +77,51 @@
   .sidebar-list a:hover { color: var(--dd-link); }
 
   /*
+   * A rail entry for a path-like name, in two parts.
+   *
+   * End-ellipsis is the wrong cut for generated names. The real longest entry
+   * in the WordPress catalog is 70 characters — 466px of text in a 212px rail
+   * — and what a single clipped line keeps is the common prefix:
+   *
+   *     wp-includes-rest-api-endpoi…
+   *     wp-admin-includes-class-wp-…
+   *
+   * Two different files, indistinguishable by what survives. The half that
+   * names the thing is exactly the half that goes.
+   *
+   * CSS cannot clip from the start reliably (`direction: rtl` with
+   * `unicode-bidi: plaintext` resolves back to LTR for a latin string), so the
+   * fix is structural: the generator emits the distinguishing part and the
+   * containing part separately. The containing part is the one that can be cut
+   * without losing the entry's identity.
+   *
+   *   <li><a href="…">
+   *     <span class="sidebar-name">class-wp-rest-users-controller.php</span>
+   *     <span class="sidebar-path">wp-includes/rest-api/endpoints</span>
+   *   </a><span class="sidebar-count">31</span></li>
+   */
+  .sidebar-list a:has(.sidebar-name) { display: block; }
+
+  .sidebar-name {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sidebar-path {
+    display: block;
+    font-size: var(--dd-text-sm);
+    color: var(--dd-fg-subtle);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    direction: ltr;
+  }
+
+  .sidebar-list li:has(.sidebar-name) { padding-top: var(--dd-sp-2); padding-bottom: var(--dd-sp-2); }
+
+  /*
    * Where you are. Marked with a bar on the inside edge as well as a wash,
    * because a wash alone disappears against the sidebar's own surface for
    * anyone who has trouble telling two near neighbours apart.

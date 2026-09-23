@@ -32,8 +32,22 @@
     margin: 0;
   }
 
-  /* A signature is read for its shape, so it is not wrapped — the indentation
-     of a long parameter list is what makes it legible. */
+  /*
+   * A signature is read for its shape, so intentional line breaks are kept —
+   * but it wraps when it has to, with the continuation indented.
+   *
+   * The rule used to be "never wrap", on the grounds that the indentation of a
+   * parameter list is what makes it legible. That holds for a signature that
+   * fits. The longest one this generator actually emits is 819 characters: a
+   * shape type with fourteen keys, which renders 5267px wide in a 1122px
+   * column. Four point seven screens of horizontal scroll, with nothing on
+   * screen to say there is more to the right. You cannot read the shape of
+   * something you can see a fifth of at a time, so the justification for not
+   * wrapping had stopped applying long before that width.
+   *
+   * Wrapped at a hanging indent, a continuation line is visibly a
+   * continuation, and the parameter list is legible on one screen.
+   */
   pre.signature {
     background: var(--dd-surface);
     border: 1px solid var(--dd-border);
@@ -41,7 +55,10 @@
     padding: var(--dd-sp-4);
     margin: 0 0 var(--dd-sp-5);
     overflow-x: auto;
-    white-space: pre;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    padding-left: calc(var(--dd-sp-4) + 3ch);
+    text-indent: -3ch;
     font-size: var(--dd-text-md);
     font-family: var(--dd-font-mono);
     line-height: 1.7;
