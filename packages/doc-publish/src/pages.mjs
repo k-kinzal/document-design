@@ -62,10 +62,9 @@ export function stage(source, out, commit) {
   }
   cpSync(join(source, 'packages/doc-ui/storybook-static'), join(site, 'storybook'), { recursive: true });
   cpSync(join(source, 'DESIGN.md'), join(site, 'DESIGN.md'));
-  // Legal supplements can accompany an existing release without rebuilding it.
+  // The project license can accompany an existing release without rebuilding it.
   mkdirSync(join(out, 'legal'));
   cpSync(join(source, 'LICENSE'), join(out, 'legal/LICENSE'));
-  cpSync(join(source, 'docs/licenses'), join(out, 'legal/licenses'), { recursive: true });
   writeJSON(join(out, 'build.json'), { version: pkg.version, commit });
 }
 

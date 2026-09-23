@@ -128,7 +128,7 @@ using its full 40-character SHA; `/latest/` tracks the tip of `main`.
 
 Stable Git tags must match this package's version. The product site and
 Storybook follow the highest published stable version, with the site's CSS and
-JavaScript pinned to that release. See [Development and releases](../../docs/DEVELOPMENT.md) for the release procedure.
+JavaScript pinned to that release.
 
 ## Publication and preview components
 

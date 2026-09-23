@@ -23,10 +23,8 @@ npm run export --workspace doc-publish -- /absolute/archive /absolute/pages
 For a release, pass `refs/tags/vX.Y.Z` instead of `refs/heads/main`. The tag must
 match the staged package version. `assemble` preserves all immutable release
 and commit paths and manages compatible aliases. Main builds update only their
-commit snapshot, `/latest/`, and legal supplements (`/LICENSE`, `/licenses/`);
+commit snapshot, `/latest/`, and the project `/LICENSE`;
 the highest stable release owns the single site
 and Storybook. `export` omits Git worktree metadata from the deployable artifact.
 
 The workflow restores and commits the `gh-pages` archive before deploying it.
-See [Development and releases](../../docs/DEVELOPMENT.md) for the public URL
-contract, initial Pages setup, and release procedure.

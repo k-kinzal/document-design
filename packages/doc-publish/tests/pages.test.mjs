@@ -29,7 +29,6 @@ function fixture(t) {
     write('packages/doc-ui/storybook-static/index.html', version);
     write('DESIGN.md', version);
     write('LICENSE', 'MIT License');
-    write('docs/licenses/storybook-v1.0.0.md', 'Third-party notices');
     stage(source, input, commit);
     return { input, commit, version };
   }
@@ -51,7 +50,6 @@ test('main snapshots do not publish a product page; releases pin the single site
   assert.match(f.read('index.html'), /\.\/v1\.0\.0\/document-design\.css/);
   const homepage = f.read('index.html');
   const next = f.build('1.0.0', 'b');
-  writeFileSync(join(next.input, 'legal/licenses/storybook-v1.0.0.md'), 'Supplemented third-party notices');
   f.main(next);
   assert.equal(f.read('index.html'), homepage);
   assert.equal(f.read('storybook/index.html'), '1.0.0');
@@ -60,7 +58,6 @@ test('main snapshots do not publish a product page; releases pin the single site
   assert.notEqual(f.read('latest/document-design.css'), css);
   assert.equal(f.manifest().main.commit, next.commit);
   assert.equal(f.read('LICENSE'), 'MIT License');
-  assert.equal(f.read('licenses/storybook-v1.0.0.md'), 'Supplemented third-party notices');
 });
 
 test('maintenance and out-of-order tags update only the appropriate release aliases', t => {

@@ -9,7 +9,7 @@ figures work together, with English and Japanese support.
 [Storybook](https://k-kinzal.github.io/document-design/storybook/) ·
 [日本語](https://k-kinzal.github.io/document-design/ja/)
 
-[![Report typography on the doc-ui product page](docs/images/overview.png)](https://k-kinzal.github.io/document-design/)
+[![Report typography on the doc-ui product page](.github/overview.png)](https://k-kinzal.github.io/document-design/)
 
 ## Getting Started
 
