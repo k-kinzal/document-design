@@ -69,7 +69,7 @@ export const Layers = {
       </div>
 
       <div class="graph-wrap">
-        <svg class="graph" viewBox="0 0 820 250" role="img"
+        <svg class="graph" style="--dd-draw-width:820px" viewBox="0 0 820 250" role="img"
              aria-label="PhpStanExtension depends on PhpStanRule, which depends on Shared and Doctest. DocGen depends on Shared for development only. Installer suggests vendor. One violation: DocGen reaches Doctest.">
           ${edge(N.ext, N.rule)}
           ${edge(N.rule, N.shared)}
@@ -93,7 +93,7 @@ export const NodeKinds = {
   render: () => html`
     <div class="doc"><div class="main"><main class="content">
       <div class="graph-wrap">
-        <svg class="graph" viewBox="0 0 640 50" role="img" aria-label="Node variants">
+        <svg class="graph" style="--dd-draw-width:640px" viewBox="0 0 640 50" role="img" aria-label="Node variants">
           ${node({ x: 10, y: 0, w: 140, label: "plain" })}
           ${node({ x: 170, y: 0, w: 140, label: "toned", cls: "node node-toned tone-teal" })}
           ${node({ x: 330, y: 0, w: 140, label: "toned", cls: "node node-toned tone-violet" })}

@@ -98,11 +98,22 @@
 
   .member-body { margin-top: var(--dd-sp-3); }
 
+  /*
+   * A member's signature. Same treatment as `pre.signature` above, which it
+   * did not get when that was fixed: measured at 390px, a class page put a
+   * 649px signature on a 390px viewport and pushed the whole page sideways.
+   * It wraps, and the continuation hangs under the name, so a wrapped
+   * signature reads as one signature rather than as two.
+   */
   .member-sig {
     font-family: var(--dd-font-mono);
     font-size: var(--dd-text-md);
     color: var(--dd-fg-muted);
     margin: 0 0 var(--dd-sp-3);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    padding-left: 3ch;
+    text-indent: -3ch;
   }
 
   /*

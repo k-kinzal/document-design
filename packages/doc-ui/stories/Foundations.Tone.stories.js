@@ -24,7 +24,7 @@ const ALL = [...HUES, ...STATES];
  */
 export const Orthogonal = {
   render: () => html`
-    <table class="plain">
+    <div class="table-wrap"><table class="plain">
       <thead>
         <tr><th>tone</th><th>chip</th><th>ghost</th><th>notice</th><th>meter</th></tr>
       </thead>
@@ -35,7 +35,7 @@ export const Orthogonal = {
             <td><code>.tone-${t}</code></td>
             <td><span class="chip tone-${t}">${t}</span></td>
             <td><span class="chip chip-ghost tone-${t}">${t}</span></td>
-            <td style="min-width:180px"><div class="notice tone-${t}" style="margin:0">A line about it.</div></td>
+            <td><div class="notice tone-${t}" style="margin:0">A line about it.</div></td>
             <td style="min-width:120px">
               <div class="meter" style="margin:0">
                 <span class="meter-part tone-${t}" style="--dd-part:60%"></span>
@@ -44,7 +44,7 @@ export const Orthogonal = {
           </tr>`
         ).join("")}
       </tbody>
-    </table>`,
+    </table></div>`,
 };
 
 /**

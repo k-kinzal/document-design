@@ -110,7 +110,10 @@
 
 /* components — structure */
 @import url("./components/tree.css");
+@import url("./components/draw.css");
+@import url("./components/plate.css");
 @import url("./components/graph.css");
+@import url("./components/plot.css");
 @import url("./components/disclosure.css");
 @import url("./components/tabs.css");
 @import url("./components/pagination.css");
@@ -122,6 +125,10 @@
 @import url("./components/timeline.css");
 @import url("./components/keys.css");
 @import url("./components/tooltip.css");
+
+/* publication furniture — shared by reports, guides and product pages */
+@import url("./components/publication.css");
+@import url("./components/composition.css");
 
 /* print — last, so it wins over anything a component says */
 @import url("./base/print.css");

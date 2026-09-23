@@ -29,6 +29,28 @@
   body {
     line-break: strict;
     overflow-wrap: anywhere;
+    /*
+     * Space between Japanese and what is set inside it.
+     *
+     * 和欧間アキ: a run of latin or digits inside Japanese takes a small space
+     * on each side, so "844件" and "のstatementを" read as separate words
+     * rather than as one run. JLREQ asks for a quarter em; CSS specifies an
+     * eighth and that is what the engines do.
+     *
+     * It has to be asked for. The computed default is `no-autospace`, so
+     * every page here was set without it — which is the one place where
+     * generated Japanese suffers most, because the latin inside it is
+     * identifiers and counts, and there is nobody hand-inserting the spaces.
+     *
+     * Measured across the report, the catalog and the long-names page: no
+     * block changed height and nothing overflowed. The space is taken out of
+     * the slack already in the line.
+     *
+     * Its sibling `text-spacing-trim` is NOT set here: its default is already
+     * `normal`, which trims the half-width side of full-width brackets and
+     * punctuation. Declaring it would restate the default.
+     */
+    text-autospace: normal;
   }
 
   /*
@@ -36,11 +58,23 @@
    * a title, a lead, a figure, a tracked label. These are looked at rather
    * than read through, so the spacing between characters should be even —
    * which is what proportional metrics and pair kerning give.
+   *
+   * "Short or large" is the test, and it is worth applying rather than
+   * assuming. Measured across the stories: `.claim` tops out at 12
+   * characters, `.cap` at 40, `.unit` at 58 — short. `.lead` runs to 133 and
+   * `.stand` to 120, but they are set at 25px and 20px, and at that size the
+   * gaps a font leaves around latin inside Japanese do read as holes.
+   *
+   * `.stat-label` and `.card-description` were here and are neither: 108 and
+   * 109 characters at body size, carrying whole sentences — eight of the
+   * stat labels are multi-sentence. They are prose in a small slot, and
+   * flattening the kanji/kana density of prose is exactly what this rule is
+   * scoped to avoid.
    */
   :is(h1, h2, h3, h4, h5, h6),
   .eyebrow, .stand, .lead, .claim, .cap, .fig, .unit,
-  .stat-fig, .stat-label, .label, .sidebar-title, .chip,
-  .card-description, .tabpanel-title, .empty-title, .callout-title {
+  .stat-fig, .label, .sidebar-title, .chip,
+  .tabpanel-title, .empty-title, .callout-title {
     font-feature-settings: "palt" 1;
     font-kerning: normal;
   }
@@ -51,11 +85,22 @@
    * monospaced is not a column.
    */
   p, li, dd, td, .row-body, .prose, .note, .caveat, .lede,
+  .stat-label, .card-description,
   code, pre, kbd, samp, .mono {
     font-feature-settings: normal;
   }
 
-  code, pre, kbd, samp, .mono { letter-spacing: 0; font-kerning: none; }
+  /*
+   * Mono keeps its cells. Tracking, kerning and 和欧間アキ all move glyphs off
+   * the column they are supposed to sit in, and a monospaced column that is
+   * not monospaced is not a column — a diff stops lining up, a signature stops
+   * hanging on its indent.
+   */
+  code, pre, kbd, samp, .mono {
+    letter-spacing: 0;
+    font-kerning: none;
+    text-autospace: no-autospace;
+  }
 
   /*
    * `pretty` only where a person wrote the words. It costs layout passes, and
@@ -63,6 +108,13 @@
    * prose component and the report's body, not a table of 844 rows.
    */
   .prose p, .prose li, .note, .lede { text-wrap: pretty; }
+
+  /* An inline link must remain identifiable without distinguishing hues. */
+  :where(p, .notice, .caveat, .doc-footer, .breadcrumbs) a:not(.btn, .chip),
+  .colophon span a {
+    text-decoration: underline;
+    text-underline-offset: .15em;
+  }
 
   code, pre, kbd, samp, .mono {
     font-family: var(--dd-font-mono);

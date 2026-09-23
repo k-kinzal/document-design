@@ -1,0 +1,242 @@
+/*
+ * Plate — a figure as a unit of explanation rather than a box with a picture
+ * in it.
+ *
+ *   <figure class="plate" id="fig-coverage">
+ *     <div class="draw-wrap">
+ *       <svg class="draw" style="--dd-draw-width: 820px" …>…</svg>
+ *     </div>
+ *     <figcaption>
+ *       出典単位の解決先。
+ *       <span class="plate-source">bison-parser 3.8.2 · 2026-02-11 時点</span>
+ *     </figcaption>
+ *   </figure>
+ *
+ * and, from the text: <a class="ref" href="#fig-coverage">図 2</a>
+ *
+ * ---------------------------------------------------------------------------
+ * What a figure is made of
+ *
+ * The drawing is one of seven parts, and the system had been treating it as
+ * the only one. A reader who cannot find the units, or cannot tell which mark
+ * the paragraph means by "this one", has been given a picture and not an
+ * explanation. So a plate carries: the drawing, its labels (components/
+ * draw.css), a caption, a number, where the data came from, and a name the
+ * running text can point at.
+ *
+ * ---------------------------------------------------------------------------
+ * Three widths, not one
+ *
+ * Text is capped at the measure because a long line is hard to return from.
+ * A drawing has no such limit — it is looked at, not swept — and a table's
+ * columns get narrower for nothing when they are held to a measure they do
+ * not need. So the cap belongs on the text, and a plate may leave it:
+ *
+ *     default        --dd-measure        36ic   the paragraph's own width
+ *     .plate-wide    --dd-measure-wide   48ic   a drawing, a wide table
+ *     .plate-full    none                       the whole column
+ *
+ * This is why .prose no longer caps itself and caps its children instead. A
+ * container capped at the measure cannot contain anything wider than the
+ * measure, so a figure inside it had no way out — which is the reason every
+ * drawing in this system had so far been placed outside the prose rather than
+ * in it.
+ */
+
+@layer dd.component {
+  /*
+   * The counters are reset per document, not per section and not per prose
+   * block: 図 7 is the seventh figure in the document, and a reader who finds
+   * two of them has been given a worse reference than no number at all.
+   *
+   * The reset sits on the genre root's FIRST CHILD, not on the root.
+   *
+   * `.sheet` and `.doc .content` are container-query containers, and
+   * `container-type: inline-size` carries style containment — which makes the
+   * element a counter scope root. A `counter-reset` on that same element is
+   * then outside the scope its own descendants increment in, and every figure
+   * comes out as the first one.
+   *
+   * Measured, Chrome 154, three plates in one sheet: reset on `.sheet` gave
+   * 図1 図1 図1. So did moving it to `:root`, to `body`, and removing it
+   * altogether — the containment hides all three. Removing
+   * `container-type` from `.sheet` gave 図1 図2 図3, which is what identified
+   * it. Resetting on an element *inside* the container creates a counter
+   * whose scope is that element, its following siblings and their
+   * descendants — every section of the sheet — and that gives 図1 図2 図3
+   * with the container left alone.
+   *
+   * `.prose` is not a container, so it resets on itself.
+   */
+  .doc .content > :first-child,
+  .sheet > :first-child,
+  .prose:not(.doc .content .prose, .sheet .prose) {
+    counter-reset: dd-plate dd-table;
+  }
+
+  .plate {
+    margin: 0 0 var(--dd-sp-6);
+    counter-increment: dd-plate;
+    max-width: var(--dd-measure);
+  }
+
+  .plate-wide { max-width: var(--dd-measure-wide); }
+  .plate-full { max-width: none; }
+
+  /*
+   * The distance from what a section says to the figure that shows it.
+   *
+   * It belongs to the figure, not to whichever paragraph happened to be
+   * written last. Measured on the report: a section whose field ended with a
+   * `.lead` put 42px between the two, and a section whose field ended with a
+   * `.note` put nothing — the same relationship, on the same page, with two
+   * different gaps, decided by whether the writer added a supporting
+   * sentence.
+   *
+   * It lives here and not in layout/report.css even though it is about the
+   * sheet: `.plate` sets a margin in dd.component, and dd.layout is earlier,
+   * so a `.sheet .sec > .plate` written there loses to it on layer order
+   * before specificity is even consulted. Written there first, and it did.
+   */
+  .sheet .sec > .plate,
+  .sheet .sec > .figures { margin-top: calc(var(--dd-base) * 1.5); }
+
+  /*
+   * Two drawings in one figure is `.compare` with `.compare-draw`, in
+   * components/composition.css — a comparison is a comparison whether its
+   * sides are passages or drawings, and the sides are named with the same
+   * `.was` / `.now` / `.cap` the sheet's hero already uses. This file had
+   * its own `.plate-panels` and `.panel-cap` for a while, which is two
+   * vocabularies for one idea and exactly what principle 7 is about.
+   */
+
+  /* A table's plate numbers on its own sequence — 表 1 and 図 1 are different
+     things and a reader looking for one does not want to count the other. */
+  .plate-table {
+    counter-increment: dd-table;
+  }
+
+  .plate > figcaption {
+    margin-top: var(--dd-sp-3);
+    font-size: var(--dd-text-md);
+    line-height: 1.7;
+    color: var(--dd-fg-muted);
+    /* The caption is read, so it keeps the measure even when the drawing
+       above it does not. */
+    max-width: var(--dd-measure);
+  }
+
+  /*
+   * A table's caption goes above it and a figure's goes below: a table is read
+   * downward from its heading, and a caption arriving after forty rows arrives
+   * too late to tell the reader what they were reading.
+   */
+  .plate-table {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .plate-table > figcaption {
+    order: -1;
+    margin: 0 0 var(--dd-sp-3);
+  }
+
+  /* ---- the number ---- */
+
+  /*
+   * The label is a token so a document sets it once, and the whole prefix is
+   * restated for Japanese rather than assembled from parts: 「図 2.」 is not
+   * how it is written, and a separator token that produced it would be a
+   * setting nobody could get right.
+   */
+  /*
+   * `:not(.plate-unnumbered)` on every one of these, rather than a later rule
+   * setting `content: none`.
+   *
+   * That is what this was, and it did not work in Japanese: `:lang(ja) .plate
+   * > figcaption::before` is (0,2,1) and `.plate-unnumbered > figcaption::
+   * before` is (0,1,1), so the opt-out lost. The counter stopped advancing
+   * and the prefix stayed — which is the worst of the three possible states,
+   * because a generator that writes its own numbers (the documented reason
+   * this class exists) would have printed 「図1 図3 …」 against its own text.
+   * Excluding it from the selectors means it cannot be outranked by a
+   * translation of the same rule.
+   */
+  .plate:not(.plate-unnumbered) > figcaption::before {
+    content: "Figure " counter(dd-plate) ". ";
+    font-weight: var(--dd-weight-label);
+    color: var(--dd-fg);
+  }
+
+  .plate-table:not(.plate-unnumbered) > figcaption::before {
+    content: "Table " counter(dd-table) ". ";
+  }
+
+  :lang(ja) .plate:not(.plate-unnumbered) > figcaption::before { content: "図" counter(dd-plate) "　"; }
+  :lang(ja) .plate-table:not(.plate-unnumbered) > figcaption::before { content: "表" counter(dd-table) "　"; }
+
+  /*
+   * Opt out where the generator writes the number itself.
+   *
+   * A generated document that cross-references its figures has to write the
+   * number into the reference — CSS can read a counter where it is declared
+   * and nowhere else, so the text saying "see 図 2" cannot ask the caption
+   * what it ended up being. When the generator owns one number it must own
+   * both, or the two drift apart on the next figure someone inserts. This
+   * class is how it says so.
+   */
+  .plate-unnumbered { counter-increment: none; }
+
+  /* ---- what the figure is of ---- */
+
+  /*
+   * The conditions under which the figure is true. A drawing without them
+   * reads as a permanent fact about the project rather than as a measurement
+   * taken on a particular day against a particular version.
+   */
+  .plate-source {
+    display: block;
+    margin-top: var(--dd-sp-2);
+    font-size: var(--dd-text-md);
+    color: var(--dd-fg-subtle);
+  }
+
+  /* ---- the reference in the running text ---- */
+
+  /*
+   * Set so it survives being skimmed: a reader who hits 図 2 in the middle of
+   * a sentence should see at once that it is a pointer, without the line
+   * acquiring a link's underline every few words.
+   *
+   * This is the base for both ways of pointing at a figure. `.ref` alone
+   * carries a number — 図 2 — and is the form for a figure the text refers
+   * to from a distance. `.ref-mark` (components/composition.css) adds the
+   * other form: an identity letter shared by a passage and the panel it
+   * belongs to, where a number would be a second sequence to keep track of.
+   * They were separate classes with separate underlines and separate hover
+   * states, which made two mechanisms out of one.
+   */
+  .ref {
+    font-variant-numeric: tabular-nums;
+    text-decoration: none;
+    border-bottom: 2px solid var(--dd-border-strong);
+    color: inherit;
+    white-space: nowrap;
+  }
+
+  .ref:hover,
+  .ref:focus-visible {
+    color: var(--dd-link);
+    border-bottom-color: currentColor;
+    text-decoration: none;
+  }
+
+  /* Arriving at the figure the reference pointed to: it says which one it
+     was, for the moment after the jump when the page has moved and the reader
+     has not. */
+  .plate:target > figcaption::before { color: var(--dd-accent); }
+
+  .plate:target {
+    scroll-margin-top: calc(var(--dd-topbar-height) + var(--dd-sp-5));
+  }
+}

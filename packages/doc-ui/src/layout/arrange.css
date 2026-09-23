@@ -83,6 +83,32 @@
   .sheet .figures > figure:nth-of-type(3n+2) { grid-column: 4 / 7; }
   .sheet .figures > figure:nth-of-type(3n)   { grid-column: 7 / 10; }
 
+  /*
+   * A row that carries drawings counts differently.
+   *
+   * Three to a row is a statement about the content — these are three
+   * parallel things — but a drawing does not scale (components/draw.css), so
+   * a slot narrower than the drawing is not a smaller version of the row, it
+   * is a scrollbar. The sheet's own columns give a slot of 240px at full
+   * width and 138px at 721px, and the drawings in this system are authored at
+   * 240: below the full sheet, three of them stopped fitting.
+   *
+   * So the row leaves subgrid and counts what fits. At 768px — the field's
+   * width, which is also --dd-measure-wide — three 240px tracks and two 24px
+   * gutters come to exactly 768, so at full width this lands on the same
+   * lines the subgrid put them on and nothing moves. Narrower, it drops to
+   * two and then to one, instead of shrinking all three past the point where
+   * their labels can be read.
+   *
+   * Text-only figures keep the subgrid: they have nothing that stops scaling.
+   */
+  .sheet .figures:has(.draw) {
+    grid-template-columns: repeat(auto-fit, minmax(var(--dd-figures-min, 240px), 1fr));
+    column-gap: 24px;
+  }
+
+  .sheet .figures:has(.draw) > figure:nth-of-type(n) { grid-column: auto; }
+
   /* The sheet's .stats live in components/stat.css, with the component they
      vary — dd.layout cannot override dd.component, whatever the selector. */
 
@@ -104,5 +130,7 @@
     .sheet .figures > figure:nth-of-type(3n+1),
     .sheet .figures > figure:nth-of-type(3n+2),
     .sheet .figures > figure:nth-of-type(3n) { grid-column: 1 / -1; }
+
+    .sheet .figures:has(.draw) { grid-template-columns: 1fr; }
   }
 }

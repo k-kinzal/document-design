@@ -228,7 +228,83 @@
     padding-top: 6px;
   }
 
-  .field { grid-column: 4 / -1; container: dd-field / inline-size; }
+  .field {
+    grid-column: 4 / -1;
+    container: dd-field / inline-size;
+  }
+
+  /*
+   * 欄外注 — the left rail, carrying something.
+   *
+   * Three of the sheet's twelve columns are the rail, and until now they held
+   * a two-line section number and then nothing for the height of the section.
+   * A quarter of the page was structure with no work to do, while the notes
+   * that belong beside a paragraph — the version a number was measured on,
+   * the exception, the thing a sentence is glossing — were being set inline
+   * as `.note`, where they interrupt the argument they annotate.
+   *
+   * The rail is a real column, not a margin.
+   *
+   * The first build of this positioned each note absolutely at its static
+   * position, so it sat exactly beside the sentence it glossed. That is the
+   * better typography and it is not robust: an absolutely positioned note
+   * contributes no height, so nothing knows it is there. The first note
+   * written this way landed on top of the full-width figure in the next grid
+   * row — a collision the author cannot see coming and the system cannot
+   * warn about, because both elements were correctly placed.
+   *
+   * So the rail holds its contents as ordinary blocks: the section number,
+   * then its notes under it. A note is beside its section rather than beside
+   * its sentence, which is less precise and always true.
+   *
+   * The note itself — `.sidenote` — is components/composition.css, because
+   * the same note also appears beside a plate's caption and one reader
+   * meets both. What is here is only where the rail puts it.
+   */
+  /*
+   * Three tracks, not the label's two. `.label` holds "01 / 仕様" and two
+   * columns is enough for that; a sentence in 152px is eleven Japanese
+   * characters a line, which is a column of syllables rather than a note.
+   * The third track is free — the field starts at four — so taking it costs
+   * nothing and brings the rail to 240px, about seventeen characters.
+   */
+  .rail { grid-column: 1 / 4; }
+
+  /* A baseline below the section number, so the rail reads as one column
+     of two things rather than as a block that happens to contain both. */
+  .rail > .sidenote { margin-top: var(--dd-base); }
+
+  /*
+   * Below this the rail is too narrow to set a sentence in. The whole rail
+   * folds onto the field, and the note stops being a rail note and becomes
+   * what it always was — an aside, marked by a rule rather than by position.
+   */
+  @media (max-width: 1000px) {
+    /*
+     * The rail stops being a column, and its two jobs separate.
+     *
+     * Folded as one block it kept its internal order, so the reader met the
+     * section number, then the version a figure was measured on, and only
+     * then what the section is claiming — measured at 900px: 01 仕様 →
+     * 出典 bison 3.8.2… → the lead → the body. The support arrived before
+     * the subject, which is the one thing a report is not allowed to do.
+     *
+     * `display: contents` drops the rail as a box and hands its children to
+     * the section's grid, so the number can stay at the top where it names
+     * what follows and the note can go to the end with `order`. Only the
+     * note is ordered; everything else keeps document order ahead of it.
+     */
+    .sheet .rail { display: contents; }
+    .sheet .rail > * { grid-column: 1 / -1; }
+    .sheet .rail > .sidenote { order: 1; }
+
+    .rail > .sidenote {
+      margin-top: var(--dd-sp-4);
+      padding-left: var(--dd-sp-4);
+      border-left: 2px solid var(--dd-border);
+      max-width: var(--dd-measure);
+    }
+  }
 
   .lead {
     text-wrap: balance;
@@ -244,11 +320,22 @@
      sentence that finishes the claim. */
   .lead:has(+ .note) { margin-bottom: calc(var(--dd-base) / 2); }
 
+  /*
+   * The report's running text, held to the measure.
+   *
+   * The measure belongs to the text, not to the column. `.field` is 768px on
+   * a full sheet, which at 16px is 48 characters a line — past the band a
+   * reader can return from. But the field also carries tables and drawings,
+   * and those want the whole column: a table narrowed to the measure is a
+   * table with its columns squeezed for no reason. So the cap goes on the
+   * paragraphs and the field stays as wide as it is.
+   */
   .note {
     font-size: var(--dd-type-2);
     line-height: 1.75;
     color: var(--dd-fg-muted);
     margin: 0;
+    max-width: var(--dd-measure);
   }
 
   /*
@@ -275,6 +362,9 @@
     font-size: var(--dd-type-2);
     line-height: 1.7;
     color: var(--dd-fg);
+    /* The padding is inside the measure: what is capped is the line, and the
+       line starts after the padding. */
+    max-width: calc(var(--dd-measure) + var(--dd-sp-5) * 2);
   }
 
   /*
@@ -296,36 +386,50 @@
    * diagram follows the theme instead of being a picture of one theme.
    */
   /*
-   * A drawing has a size below which it stops being a drawing.
+   * The mechanics — a drawing is placed at --dd-draw-width and never scaled,
+   * its labels are set by the system — are components/draw.css now. They were
+   * worked out here, on the report, because that is where the drawings were;
+   * they are not a fact about reports. A catalog page with a dependency graph
+   * on it wants the same thing, and was not getting it.
    *
-   * An SVG scaled to its column scales its labels with it. The report's
-   * diagrams are authored on an 820-unit viewBox and land in a 768px field, so
-   * 13px labels render at 12.2 — already under the 14px floor the rest of the
-   * system just adopted — and at a 390px viewport they render at 4.6px. That is
-   * not a small diagram, it is a texture. Shrinking cannot be the narrow-width
-   * strategy for the one element on the page that exists to be read closely.
-   *
-   * So a diagram does not shrink past --dd-diagram-min and its wrapper scrolls
-   * instead. A generator sets that to the viewBox width, which makes the
-   * authored size the rendered size. Labels are authored at 14 and up, for the
-   * same reason everything else is.
+   * What stays here is the report's own spacing: a diagram sits half a
+   * baseline from what it illustrates.
    */
-  .sheet .diagram {
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    margin-bottom: calc(var(--dd-base) / 2);
-  }
+  .sheet .diagram { margin-bottom: calc(var(--dd-base) / 2); }
 
-  .sheet svg { display: block; width: 100%; height: auto; }
-  .sheet .diagram > svg { min-width: var(--dd-diagram-min, 0); max-width: none; }
-  .sheet svg text { fill: var(--dd-ink); font-family: inherit; }
-  .sheet svg .svg-mono { font-family: var(--dd-font-mono); }
+  /*
+   * A figure wide enough to need the page.
+   *
+   * The sheet has three widths and until now only used two of them: the rail
+   * and the field. A drawing put in the field is capped at the field — 768px,
+   * which is --dd-measure-wide — and the report's own diagrams are 820 units
+   * wide, so every one of them was being scrolled sideways inside a column
+   * while a quarter of the sheet sat empty to its left.
+   *
+   * So the third width is stated. A plate placed as a child of the section,
+   * rather than inside its field, takes the whole sheet: rail and field
+   * together, 1128px. It is the same three-tier arrangement the prose genre
+   * has — measure, plate, full — expressed in the grid the report is built on
+   * instead of in max-width.
+   *
+   * It has to be a child of .sec. An element inside .field cannot reach back
+   * past the field's own track, and the alternative — a negative margin — is
+   * a lie about where the element is that breaks the moment the grid changes.
+   */
+  .sheet .sec > .plate-full { grid-column: 1 / -1; max-width: none; }
+  .sheet .sec > .plate-wide { grid-column: 4 / -1; max-width: none; }
 
-  /* On paper there is nowhere to scroll, so it is scaled to the sheet. */
-  @media print {
-    .sheet .diagram { overflow: visible; }
-    .sheet .diagram > svg { min-width: 0; max-width: 100%; }
-  }
+  /* The field stops carrying trailing space; the figure states its own
+     distance. The figure half of this is in components/plate.css, because
+     dd.layout cannot override dd.component whatever the selector says. */
+  .sheet .field > :last-child { margin-bottom: 0; }
+
+
+  /* A mark with no text in it — an arrow between two figures — does scale,
+     because there is nothing in it that has to stay readable. */
+  .sheet svg:not(.draw) { display: block; width: 100%; height: auto; }
+
+  /* Print is components/draw.css, for the same reason the rest of it moved. */
 
   @media (max-width: 720px) {
     .sheet {

@@ -57,6 +57,15 @@ typography:
   report-title: { fontFamily: system-ui, fontSize: 61px, fontWeight: 700, lineHeight: 1.1 }
   report-figure: { fontFamily: system-ui, fontSize: 76px, fontWeight: 700, lineHeight: 0.92 }
   mono: { fontFamily: ui-monospace, fontSize: 0.8125rem, fontWeight: 400 }
+measure:
+  # Line length, counted in characters rather than pixels, because that is the
+  # unit the limit is in. 1ric is the root character (水), so 36ric is 36
+  # Japanese characters — and 77 latin ones, which puts both inside their
+  # readable bands. Root-relative, not element-relative: a shared right edge
+  # matters more on a page than a per-element character count.
+  text: 36ric
+  wide: 48ric
+  short: 40ric
 rounded:
   sm: 4px
   md: 6px
@@ -185,9 +194,35 @@ complete.
   that is the point, standing alone, uses *proportional* figures instead;
   tabular digits make a large lone number look loose.
 
-**Prose is held to 72ch.** Long-form text at the full width of a catalog column
-runs to about 140 characters a line, at which point the eye loses its place
-returning to the left edge.
+**The measure is counted in characters, because that is the unit the limit is
+in.** A line is too long when the eye cannot find the start of the next one
+coming back from the end of this one, and that threshold is a character count:
+30–40 for Japanese, 45–75 for latin. `1ric` is the root character (the advance
+of 水, falling back to 1em where the font has none), so a measure can be stated
+the way Japanese typesetting states it — JLREQ puts a line at an integer
+multiple of the character size.
+
+| token | value | at 16px | 和文 | latin |
+|---|---|---|---|---|
+| `--dd-measure` | `36ric` | 576px | 36 | 77 |
+| `--dd-measure-wide` | `48ric` | 768px | 48 | 103 |
+| `--dd-measure-short` | `40ric` | 640px | 40 | 86 |
+
+`--dd-measure` is for running text. `--dd-measure-wide` is for what is *looked
+at* rather than swept — a drawing, a wide table, a code block — where the
+measure costs column width and buys nothing. `--dd-measure-short` is for a
+block of one or two lines, where the return sweep happens once.
+
+`ric` and not `ic`: `ic` resolves against the element, so the same token gives
+a different width at every type size and a page acquires one right edge per
+size. Measured on one article, it produced five. A measure is a line down the
+page that things land on, and a per-element character count is not that.
+
+**Japanese takes a space against latin.** `text-autospace: normal` on `body`;
+`no-autospace` on monospace, where an inserted space moves a glyph off its
+cell. The computed default is `no-autospace`, so this has to be asked for.
+`text-spacing-trim` is deliberately *not* set — its default is already
+`normal`.
 
 **Japanese is set two ways, and which one is a decision.**
 

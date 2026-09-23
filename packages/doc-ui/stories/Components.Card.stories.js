@@ -70,3 +70,27 @@ export const WithAside = {
       </div>
     </main></div></div>`,
 };
+
+/** The visual index uses live HTML, at its normal readable size. */
+export const VisualPreviews = {
+  render: () => html`<div class="doc"><div class="main"><main class="content">
+    <div class="cards">
+      <article class="card">
+        <div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="chips">
+          <span class="chip tone-blue">SELECT</span><span class="chip tone-violet">INSERT</span><span class="chip tone-teal">UPDATE</span>
+        </div></div>
+        <h3><a class="card-link" href="#">Chip</a></h3>
+        <p class="card-description">Labels for kinds and states.</p>
+      </article>
+      <article class="card">
+        <div class="card-preview doc doc-inset" inert aria-hidden="true">
+          <table><thead><tr><th>Table</th><th class="num">Statements</th></tr></thead>
+            <tbody><tr><td>posts</td><td class="num">128</td></tr><tr><td>users</td><td class="num">42</td></tr></tbody>
+          </table>
+        </div>
+        <h3><a class="card-link" href="#">Table</a></h3>
+        <p class="card-description">Compare values at a glance.</p>
+      </article>
+    </div>
+  </main></div></div>`,
+};

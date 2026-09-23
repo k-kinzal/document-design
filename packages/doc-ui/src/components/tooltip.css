@@ -22,6 +22,7 @@
   }
 
   .hint::after {
+    display: none;
     content: attr(data-dd-hint);
     position: absolute;
     left: 0;
@@ -45,7 +46,7 @@
   }
 
   .hint:hover::after,
-  .hint:focus-visible::after { opacity: 1; visibility: visible; }
+  .hint:focus-visible::after { display: block; opacity: 1; visibility: visible; }
 
   /* Near the right edge the box would be cut off by the content column. */
   .tooltip-end::after { left: auto; right: 0; }

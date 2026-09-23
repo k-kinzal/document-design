@@ -1,0 +1,114 @@
+/*
+ * Quantitative graphics. Geometry and scales belong to the generator; type,
+ * marks and absence belong to the system. Compose SVG marks with .draw and
+ * .plate. A plot is never a substitute for its units, caption and source.
+ *
+ * Bars use HTML so long labels reflow. SVG plots keep their authored width
+ * through .draw; .draw-wrap scrolls on screen and fits the sheet in print.
+ */
+@layer dd.component {
+  .bars {
+    container-type: inline-size;
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) max-content;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--dd-sp-5);
+    font-size: var(--dd-text-md);
+  }
+  .bar-row {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--dd-sp-2) var(--dd-sp-4);
+    padding-block: var(--dd-sp-3);
+    border-bottom: 1px solid var(--dd-border);
+  }
+  .bar-label {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-feature-settings: "palt" 1;
+    font-kerning: normal;
+  }
+  .bar-value {
+    grid-column: 2;
+    grid-row: 1;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--dd-weight-figure);
+    justify-self: end;
+  }
+  .bar-track {
+    grid-column: 1 / -1;
+    height: 12px;
+    border-inline-start: 1px solid var(--dd-fg-muted);
+    background: var(--dd-surface);
+  }
+  .bar-fill {
+    display: block;
+    width: clamp(0%, var(--dd-bar, 0%), 100%);
+    height: 100%;
+    background: var(--dd-tone, var(--dd-accent));
+  }
+  /* Unknown is not zero. Omit the fill and say what is missing in HTML. */
+  .bar-track.is-missing {
+    border: 1px dashed var(--dd-danger);
+    background: none;
+  }
+  .bar-note {
+    grid-column: 1 / -1;
+    color: var(--dd-fg-muted);
+  }
+  .sheet .bar-row { padding-block: var(--dd-sp-4); }
+  .sheet .bar-track { height: 16px; }
+  @container (min-width: 36rem) {
+    .bar-row { grid-template-columns: subgrid; }
+    .bar-track { grid-column: 2; grid-row: 1; }
+    .bar-value { grid-column: 3; }
+  }
+
+  /* Use the .draw-* text roles; alignment remains in SVG attributes. */
+  .plot-axis { fill: none; stroke: var(--dd-fg-muted); stroke-width: 1; }
+  .plot-grid { fill: none; stroke: var(--dd-border); stroke-width: 1; }
+  .plot-line, .plot-span {
+    fill: none;
+    stroke: var(--dd-tone, var(--dd-accent));
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .plot-point, .plot-bin {
+    fill: var(--dd-tone, var(--dd-accent));
+    stroke: var(--dd-tone, var(--dd-accent));
+    stroke-width: 1.5;
+  }
+  /* Before and secondary series are also hollow / dashed, never hue alone. */
+  .plot-before {
+    fill: var(--dd-bg);
+    stroke: var(--dd-fg-muted);
+    stroke-width: 2;
+  }
+  .plot-line-alt { stroke-dasharray: 6 4; }
+  .plot-point-alt { fill: var(--dd-bg); }
+  .plot-zero { fill: none; stroke: var(--dd-fg-muted); stroke-width: 2; }
+  .plot-missing {
+    fill: none;
+    stroke: var(--dd-danger);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 3;
+  }
+  .plot-missing-label { fill: var(--dd-danger); }
+
+  /* Forced palettes may erase SVG fills. Explicit system colours preserve
+     marks; hollow points, dashes and direct labels still separate series. */
+  @media (forced-colors: active) {
+    .bar-fill { background: CanvasText; forced-color-adjust: none; }
+    .bar-track, .bar-row { border-color: CanvasText; }
+    .plot-axis, .plot-grid, .plot-line, .plot-span,
+    .plot-zero, .plot-missing { stroke: CanvasText; }
+    .plot-point, .plot-bin { fill: CanvasText; stroke: CanvasText; }
+    .plot-before, .plot-point-alt { fill: Canvas; stroke: CanvasText; }
+    .plot-missing-label { fill: CanvasText; }
+  }
+}

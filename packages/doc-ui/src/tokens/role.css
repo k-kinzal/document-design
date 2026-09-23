@@ -21,6 +21,10 @@
     --dd-border-strong: var(--dd-rule);
     --dd-link:       var(--dd-blue);
     --dd-accent:     var(--dd-blue);
+    /* Every other role that can fill a shape has a tint to fill it with;
+       accent did not, so the drawings were writing fill-opacity by hand and
+       getting a different wash than the components beside them. */
+    --dd-accent-tint: var(--dd-blue-tint);
 
     /* ---- state ---- */
     --dd-ok:           var(--dd-green);

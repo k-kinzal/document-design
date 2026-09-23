@@ -75,6 +75,33 @@
    * to present three clipped lines of SQL; the space is better spent on the
    * SQL being legible. Same rows per screen, larger text.
    */
+  /*
+   * How much of the whole a listing is showing.
+   *
+   * A page headed "Statements 844" that renders six rows hands the reader a
+   * total they cannot act on: the heading, the facet counts and the rows all
+   * claim different sizes, and nothing on the page says which is the one you
+   * can search. This is the catalog's version of a lower bound being read as
+   * a count — the same failure the report answers with `.caveat`, in the
+   * genre that meets it far more often, because a catalog is exactly the
+   * thing that gets paginated.
+   *
+   * Quiet rather than alarming: it is an ordinary fact about the page, not a
+   * warning. But it is stated, and the number that says how many rows are
+   * here is set in ink so it is not mistaken for the number in the heading.
+   */
+  .listing-range {
+    font-size: var(--dd-text-md);
+    color: var(--dd-fg-muted);
+    margin: 0 0 var(--dd-sp-4);
+  }
+
+  .listing-range b {
+    font-weight: var(--dd-weight-label);
+    color: var(--dd-fg);
+    font-variant-numeric: tabular-nums;
+  }
+
   .row { padding: var(--dd-sp-3) 0; border-top: 1px solid var(--dd-border); }
 
   .row-main {

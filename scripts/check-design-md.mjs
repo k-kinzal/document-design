@@ -50,6 +50,7 @@ const claimed = {
   colors: block("colors"),
   rounded: block("rounded"),
   spacing: block("spacing"),
+  measure: block("measure"),
 };
 
 /* ---- what the stylesheet actually declares ---- */
@@ -70,6 +71,7 @@ for (const m of css.matchAll(/^\s*(--dd-[a-z0-9-]+):\s*([^;]+);/gm)) {
 const SPACING = { 1: "sp-1", 2: "sp-2", 3: "sp-3", 4: "sp-4", 5: "sp-5",
                   6: "sp-6", 7: "sp-7", 8: "sp-8", baseline: "base" };
 const ROUNDED = { sm: "radius-sm", md: "radius", lg: "radius-lg", pill: "radius-pill" };
+const MEASURE = { text: "measure", wide: "measure-wide", short: "measure-short" };
 
 const problems = [];
 
@@ -86,6 +88,7 @@ function compare(label, claimedValue, tokenName) {
 for (const [name, value] of Object.entries(claimed.colors)) compare(`colors.${name}`, value, name);
 for (const [name, value] of Object.entries(claimed.rounded)) compare(`rounded.${name}`, value, ROUNDED[name]);
 for (const [name, value] of Object.entries(claimed.spacing)) compare(`spacing.${name}`, value, SPACING[name]);
+for (const [name, value] of Object.entries(claimed.measure)) compare(`measure.${name}`, value, MEASURE[name]);
 
 /* Every palette hue should be stated. A hue added to the stylesheet and not to
    DESIGN.md is a hue an agent will not know it may use. */
@@ -102,5 +105,5 @@ if (problems.length) {
 }
 
 const n = Object.keys(claimed.colors).length + Object.keys(claimed.rounded).length +
-          Object.keys(claimed.spacing).length;
+          Object.keys(claimed.spacing).length + Object.keys(claimed.measure).length;
 console.log(`DESIGN.md matches the stylesheet on all ${n} stated values.`);

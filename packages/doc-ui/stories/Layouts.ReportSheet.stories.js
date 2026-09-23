@@ -19,7 +19,7 @@ export default {
 /** The masthead and the one figure the page leads with. */
 export const Masthead = {
   render: () => html`
-    <article class="sheet">
+    <article class="sheet" lang="ja">
       <p class="eyebrow">変更意図 · bison-parser 出典カバレッジ</p>
       <h1>挙動がある<br>単位だけ結ぶ</h1>
       <p class="stand">未カバーは実装漏れではなかった。仕様が出典に触れていなかった。導入文は空のまま。</p>
@@ -52,7 +52,7 @@ export const Masthead = {
  */
 export const ClaimInsteadOfFigure = {
   render: () => html`
-    <article class="sheet">
+    <article class="sheet" lang="ja">
       <p class="eyebrow">変更意図 · パーサ層の整理</p>
       <h1>読む場所を<br>ひとつにする</h1>
       <div class="hero">
@@ -79,7 +79,7 @@ export const ClaimInsteadOfFigure = {
  *  the end for something the reader would be wrong to assume still stats. */
 export const Section = {
   render: () => html`
-    <article class="sheet">
+    <article class="sheet" lang="ja">
       <section class="sec">
         <div class="label">02<br>概念</div>
         <div class="field">
@@ -100,7 +100,7 @@ export const Section = {
 /** Figures that are a number. Two to a row, and any number of them. */
 export const Holds = {
   render: () => html`
-    <article class="sheet">
+    <article class="sheet" lang="ja">
       <section class="sec">
         <div class="label">04<br>検証</div>
         <div class="field"><p class="lead">ローカルは通った。作業ディレクトリは空のまま。</p></div>

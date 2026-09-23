@@ -1,0 +1,183 @@
+import { html, specimen } from "./helpers.js";
+
+export default {
+  title: "Components/Plate",
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "A figure as a unit of explanation rather than a box with a picture in it.\n\n" +
+          "The drawing is one of several parts. A reader who cannot find the " +
+          "conditions the figure was measured under, or cannot tell which mark the " +
+          "paragraph means by “this one”, has been given a picture and not an " +
+          "explanation. So a plate carries the drawing, its labels, a caption, a " +
+          "number, where the data came from, and a name the running text can point at.\n\n" +
+          "**Three widths.** Text is capped at the measure because a long line is " +
+          "hard to return from. A drawing is looked at rather than swept, and a " +
+          "table's columns get narrower for nothing, so a plate may leave it: " +
+          "`--dd-measure` → `.plate-wide` → `.plate-full`.\n\n" +
+          "**The number is CSS, the reference is yours.** A counter can be read " +
+          "where it is declared and nowhere else, so the sentence saying “see " +
+          "Figure 2” cannot ask the caption what it ended up being. When a " +
+          "generator writes one number it must write both — `.plate-unnumbered` " +
+          "turns the counter off so the two cannot drift apart.",
+      },
+    },
+  },
+};
+
+const scale = (w = 520) => `
+  <svg class="draw" style="--dd-draw-width:${w}px" viewBox="0 0 ${w} 120" role="img"
+       aria-label="0から100の尺。68.97が変更前、96.67が上限。">
+    <text x="16" y="18" text-anchor="start" class="draw-cap">BEFORE / AFTER</text>
+    <line x1="16" y1="62" x2="${w - 16}" y2="62" stroke="var(--dd-rule)" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="${Math.round((w - 32) * 0.69) + 16}" cy="62" r="5" fill="var(--dd-fg-subtle)"/>
+    <circle cx="${Math.round((w - 32) * 0.967) + 16}" cy="62" r="6" fill="var(--dd-accent)"/>
+    <text x="${Math.round((w - 32) * 0.69) + 16}" y="44" text-anchor="middle" class="draw-value draw-note">68.97</text>
+    <text x="${Math.round((w - 32) * 0.967) + 16}" y="44" text-anchor="end" class="draw-value draw-accent">96.67</text>
+    <text x="16" y="92" text-anchor="start" class="draw-note">0</text>
+    <text x="${w - 16}" y="92" text-anchor="end" class="draw-warn">100 にはしない</text>
+  </svg>`;
+
+/** The parts, and a sentence that points at them. */
+export const Anatomy = {
+  render: () => html`
+<div class="prose" lang="ja">
+  <p>出典 29 単位のうち 9 が空だった。到達点は <a class="ref" href="#plate-anatomy">図 1</a> のとおりで、
+  96.67 が正直な上限であり、100 は非対応への付け替えで作らない。</p>
+
+  <figure class="plate plate-wide" id="plate-anatomy">
+    <div class="draw-wrap">${scale(520)}</div>
+    <figcaption>カバレッジの尺。96.67 は到達した値であり、100 は取れる値ではない。<span class="plate-source">bison-parser 3.8.2 · 2026-02-11 時点 · ゲート 96 / 93 / 100</span></figcaption>
+  </figure>
+
+  <p>番号はカウンタが振る。本文の「図 1」は著者が書く — CSS のカウンタは宣言した場所でしか読めないので、
+  生成側が番号を持つなら <code>.plate-unnumbered</code> で両方を生成側が持つ。</p>
+</div>`,
+};
+
+/** The measure, the figure width, and the column. */
+export const Widths = {
+  render: () => html`
+<div class="prose">
+  <p>Running text stops at <code>--dd-measure</code>: 36 characters of Japanese, 77 of latin.
+  A plate may stay there, or leave.</p>
+
+  <figure class="plate">
+    <div class="draw-wrap">${scale(360)}</div>
+    <figcaption>Default — the plate sits at the measure, with the text.</figcaption>
+  </figure>
+
+  <figure class="plate plate-wide">
+    <div class="draw-wrap">${scale(520)}</div>
+    <figcaption><code>.plate-wide</code> — <code>--dd-measure-wide</code>, 48 characters. A drawing or a wide table.</figcaption>
+  </figure>
+
+  <figure class="plate plate-full">
+    <div class="draw-wrap">${scale(700)}</div>
+    <figcaption><code>.plate-full</code> — the whole column. The caption stays at the measure, because the caption is read.</figcaption>
+  </figure>
+</div>`,
+};
+
+/** A table's caption goes above it. */
+export const Table = {
+  render: () => html`
+<div class="prose">
+  <figure class="plate plate-table plate-wide">
+    <figcaption>What each severity means, and how many carry it.</figcaption>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">Rule</th><th scope="col">Severity</th><th class="num" scope="col">Statements</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">dynamic-sql</td><td><span class="chip tone-amber">medium</span></td><td class="num">709</td></tr>
+        <tr><td class="mono">analysis-incomplete</td><td><span class="chip tone-slate">low</span></td><td class="num">239</td></tr>
+        <tr><td class="mono">unresolved-sql</td><td><span class="chip tone-slate">low</span></td><td class="num">25</td></tr>
+      </tbody>
+    </table></div>
+  </figure>
+  <p>A figure's caption goes under it and a table's goes over it: a table is read downward from
+  its heading, and a caption arriving after forty rows arrives too late to say what was being read.
+  The two number on separate sequences, because a reader looking for 表 2 does not want to count figures.</p>
+</div>`,
+};
+
+/** Every role a label can take, at the size the system gives it. */
+export const Labels = {
+  render: () => html`
+<div>
+  ${specimen(
+    "The roles — all one size (--dd-text-md, 14px), distinguished by weight, colour and family",
+    `<div class="draw-wrap"><svg class="draw" style="--dd-draw-width:660px" viewBox="0 0 660 260" role="img"
+       aria-label="draw.css の各ロールの見本。">
+      <text x="20" y="24" text-anchor="start" class="draw-cap">DRAW ROLES</text>
+      ${[
+        [".draw-label", "a name on a box", "draw-label"],
+        [".draw-strong", "the one it is about", "draw-strong"],
+        [".draw-note", "a second line", "draw-note"],
+        [".draw-value", "29 / 30", "draw-value"],
+        [".draw-mono", "BISON-RUNTIME-001", "draw-mono draw-note"],
+        [".draw-accent", "最終", "draw-accent"],
+        [".draw-warn", "空のまま", "draw-warn"],
+      ]
+        .map(
+          ([name, sample, cls], i) =>
+            `<text x="20" y="${62 + i * 28}" text-anchor="start" class="draw-mono draw-note">${name}</text>
+             <text x="300" y="${62 + i * 28}" text-anchor="start" class="${cls}">${sample}</text>`,
+        )
+        .join("")}
+    </svg></div>`,
+  )}
+  ${specimen(
+    "The marks",
+    `<div class="draw-wrap"><svg class="draw" style="--dd-draw-width:660px" viewBox="0 0 660 96" role="img"
+       aria-label="draw.css の図形の見本。">
+      <rect class="draw-box" x="16" y="28" width="120" height="40" rx="8"/>
+      <text x="76" y="54" text-anchor="middle" class="draw-label">.draw-box</text>
+      <rect class="draw-box-toned" style="--dd-tone:var(--dd-accent);--dd-tone-tint:var(--dd-accent-tint)" x="164" y="28" width="150" height="40" rx="8"/>
+      <text x="239" y="54" text-anchor="middle" class="draw-label">.draw-box-toned</text>
+      <rect class="draw-box-open" x="342" y="28" width="150" height="40" rx="8"/>
+      <text x="417" y="54" text-anchor="middle" class="draw-warn">.draw-box-open</text>
+      <path class="draw-line" d="M520 48H620"/>
+      <path class="draw-line" d="M612 42L620 48L612 54"/>
+    </svg></div>`,
+  )}
+</div>`,
+};
+
+/** Two drawings, one figure: a comparison that never has to be scrolled. */
+export const Panels = {
+  render: () => html`
+<div class="prose" lang="ja">
+  <p>変更前と変更後は一つの説明です。番号もキャプションも一つ。ただし図は二枚で、
+  一枚の固定幅に両方を載せると、その幅を持たない読者は片側を記憶しながらもう片側を見ることになります。</p>
+
+  <figure class="plate plate-full" id="plate-compare">
+    <div class="compare compare-draw">
+      <div class="was"><span class="cap">変更前 · 9 空</span>
+        <div class="draw-wrap"><svg class="draw" style="--dd-draw-width:268px" viewBox="0 0 268 168" role="img" aria-label="9単位すべてが空。">
+          <rect x="16" y="16" width="236" height="136" rx="12" fill="none" stroke="var(--dd-border)" stroke-width="1.5"/>
+          ${[0,1,2,3,4].map(i=>`<rect x="${36+i*36}" y="36" width="28" height="28" rx="6" fill="none" stroke="var(--dd-fg-subtle)" stroke-width="1.5" stroke-dasharray="5 4"/>`).join('')}
+          ${[0,1,2,3].map(i=>`<rect x="${54+i*36}" y="72" width="28" height="28" rx="6" fill="none" stroke="var(--dd-fg-subtle)" stroke-width="1.5" stroke-dasharray="5 4"/>`).join('')}
+          <text x="134" y="132" text-anchor="middle" class="draw-mono draw-note">20 / 29</text>
+        </svg></div>
+      </div>
+      <div class="now"><span class="cap">最終 · 7 結ぶ / 1 試す / 1 残す</span>
+        <div class="draw-wrap"><svg class="draw" style="--dd-draw-width:340px" viewBox="0 0 340 168" role="img" aria-label="7を結び、1を新設し、1は空のまま。">
+          <rect x="16" y="16" width="308" height="136" rx="12" fill="none" stroke="var(--dd-accent)" stroke-width="1.5"/>
+          ${[0,1,2,3,4,5,6].map(i=>`<rect class="draw-box-toned" style="--dd-tone:var(--dd-accent);--dd-tone-tint:var(--dd-accent-tint)" x="${36+i*32}" y="36" width="24" height="24" rx="6"/>`).join('')}
+          <rect x="268" y="36" width="24" height="24" rx="6" fill="none" stroke="var(--dd-accent)" stroke-width="1.5"/>
+          <rect x="300" y="36" width="24" height="24" rx="6" fill="none" stroke="var(--dd-warn)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="140" y="84" text-anchor="middle" class="draw-accent">既存シナリオへ 7</text>
+          <text x="140" y="108" text-anchor="middle" class="draw-mono draw-accent">005–008 · RULE-007</text>
+          <text x="290" y="84" text-anchor="middle" class="draw-warn">空 1</text>
+          <text x="170" y="140" text-anchor="middle" class="draw-mono draw-accent">29 / 30</text>
+        </svg></div>
+      </div>
+    </div>
+    <figcaption>出典 9 単位の行き先。<span class="plate-source">bison-parser 3.8.2 · 2026-02-11 時点</span></figcaption>
+  </figure>
+
+  <p>パネルは自分の作図幅で並び、両方が入らなくなった時点で折り返します。
+  折り返しても隣り合っており、番号もキャプションも一つのままです。</p>
+</div>`,
+};

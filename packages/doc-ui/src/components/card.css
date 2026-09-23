@@ -80,3 +80,36 @@
 
 
 }
+
+/* A visual catalog entry. The preview is an intentionally bounded specimen,
+   not the full document: its title links to the complete, interactive example. */
+@layer dd.component {
+  .card:has(.card-preview) { position: relative; border-top: 0; padding-top: 0; }
+  .card-preview {
+    height: 224px;
+    overflow: hidden;
+    padding: var(--dd-sp-6);
+    margin-bottom: var(--dd-sp-5);
+    background: var(--dd-surface);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius);
+    container-type: inline-size;
+    pointer-events: none;
+    user-select: none;
+  }
+  .card-preview > * { margin: 0; }
+  .card-preview .topbar { position: static; }
+  .card-preview .cover { padding-block: 0; }
+  .card-preview .cover .cover-title { font-size: var(--dd-type-5); }
+  .card-preview .cover .eyebrow { margin-bottom: var(--dd-sp-3); }
+  .card-preview .sheet.sheet-inset { padding: 0; }
+  .card-preview .sheet-inset .eyebrow { margin-bottom: var(--dd-sp-3); }
+  .card-preview .sheet-inset h2 { margin-bottom: var(--dd-sp-3); font-size: var(--dd-type-3); }
+  .card-preview .sheet-inset .fig { margin-block: var(--dd-sp-3); font-size: var(--dd-type-6); }
+  .card-preview .sheet-inset .unit { margin-top: var(--dd-sp-3); }
+  .card:has(.card-preview) h3 { margin: 0 0 var(--dd-sp-3); }
+  .card-link { color: var(--dd-fg); }
+  .card-link::after { content: ""; position: absolute; inset: 0; }
+  .card:has(.card-link:hover) .card-preview { border-color: var(--dd-accent); }
+  .card:has(.card-link:focus-visible) { outline: 2px solid var(--dd-accent); outline-offset: 5px; }
+}

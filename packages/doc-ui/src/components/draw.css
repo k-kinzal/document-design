@@ -1,0 +1,198 @@
+/*
+ * Draw — the type inside a drawing, and the size a drawing is placed at.
+ *
+ *   <div class="draw-wrap">
+ *     <svg class="draw" style="--dd-draw-width: 820px" viewBox="0 0 820 300"
+ *          role="img" aria-label="…">
+ *       <rect class="draw-box" …/>
+ *       <text class="draw-label" …>対応</text>
+ *       <text class="draw-value" …>20 / 29</text>
+ *     </svg>
+ *   </div>
+ *
+ * ---------------------------------------------------------------------------
+ * Why this exists
+ *
+ * A diagram's labels are document text. They are read by the same reader, at
+ * the same distance, in the same minute as the paragraph above them — so they
+ * belong to the same type system as that paragraph. They were the one text
+ * here that nobody set: every label in every drawing carried its own
+ * font-size, font-weight, letter-spacing and fill, decided in the markup at
+ * the moment it was drawn.
+ *
+ * Measured before this file existed: 14, 15, 16 and 20 were all in use as
+ * authored sizes, and none of the four is a step on either scale. The system
+ * had just spent a round raising its floor to 14 on the argument that a
+ * reference document does not get to buy density with the reader's eyesight —
+ * and inside a picture that argument did not apply, because nothing carried
+ * it there.
+ *
+ * ---------------------------------------------------------------------------
+ * Why a drawing is not allowed to scale
+ *
+ * An SVG with a viewBox scales to its box, and its text scales with it. So an
+ * authored 15 is not 15: it is 15 × (rendered width ÷ viewBox width), a number
+ * the author cannot see and the system cannot state.
+ *
+ * Measured on the report, same page, same drawings:
+ *
+ *     viewport 1400   slot 240 of a 260 drawing   scale 0.923   15 → 13.8
+ *     viewport  820   slot 163 of a 260 drawing   scale 0.627   15 →  9.4
+ *                                                               14 →  8.8
+ *
+ * 8.8px is not small type, it is a texture. And it was produced by a drawing
+ * whose author had already been careful — 14 and 15 were chosen deliberately,
+ * after an earlier round found 12s. Care at the point of authoring cannot
+ * reach a number that is multiplied afterwards.
+ *
+ * So the drawing is placed at the size it was drawn: --dd-draw-width, which
+ * the generator sets because the generator ran the layout and knows it. Scale
+ * is 1, and an authored 14 is 14 on the glass. It does not shrink to fit a
+ * narrow column (the wrapper scrolls) and it does not stretch to fill a wide
+ * one (a figure has a size; filling the column is not one of its jobs).
+ */
+
+@layer dd.component {
+  .draw-wrap {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    margin: 0 0 var(--dd-sp-5);
+  }
+
+  .draw {
+    display: block;
+    height: auto;
+    /* Both, and both deliberate: `width` stops it stretching, `max-width`
+       undoes the reset's `svg { max-width: 100% }`, which would otherwise
+       shrink it — and shrinking is the whole failure this file is about. */
+    width: var(--dd-draw-width, 100%);
+    max-width: none;
+  }
+
+  /* ---- the roles ---- */
+
+  /*
+   * The default. 14 is the floor the rest of the system uses for anything the
+   * reader came to read, and a label on a box is that.
+   *
+   * `palt` for the same reason headings get it: these are single words and
+   * short runs, looked at rather than read through, and the loose gaps around
+   * latin set inside Japanese read as holes at this length.
+   */
+  /*
+   * :where(), so the default does not outrank the roles.
+   *
+   * Written as `.draw text` this is (0,1,1) — a class and a type — and every
+   * role below is (0,1,0). The default therefore won every one of them:
+   * measured, `.draw-warn`, `.draw-accent`, `.draw-cap`, `.draw-mono` and
+   * `.draw-value` all computed to fill #1b1e24, weight 400, tracking normal,
+   * system-ui. The roles existed, were applied, and did nothing.
+   *
+   * `:where()` contributes no specificity, so this is (0,0,0): a default that
+   * anything states over. That is what a default is for.
+   */
+  :where(.draw text) {
+    fill: var(--dd-fg);
+    font-family: var(--dd-font-sans);
+    font-size: var(--dd-text-md);
+    font-weight: var(--dd-weight-normal);
+    letter-spacing: var(--dd-track-body);
+    font-feature-settings: "palt" 1;
+    font-kerning: normal;
+    pointer-events: none;
+  }
+
+  /*
+   * Alignment is NOT here, and that is deliberate.
+   *
+   * `text-anchor` and `dominant-baseline` are where a label sits, not how it
+   * is set — the same distinction that keeps graph layout out of this system
+   * and in the generator that ran the ranking pass. They are also a trap: in
+   * SVG a CSS declaration beats a presentation attribute, so one line of
+   * `text-anchor: middle` here silently overrode every `text-anchor="end"` and
+   * `text-anchor="start"` in every drawing. Measured: a label with
+   * `text-anchor="end"` computed to `middle` and ran off the right edge of its
+   * own viewBox.
+   *
+   * So the drawing keeps its geometry and this file keeps its type.
+   */
+
+  /* What a box is. The drawing's ordinary text. */
+  .draw-label { fill: var(--dd-fg); }
+
+  /* The one label the drawing is making a point about. */
+  .draw-strong { font-weight: var(--dd-weight-label); }
+
+  /* A second line under a label: what it is made of, where it came from.
+     Muted rather than smaller — the support must not outrank the subject, and
+     it must not fall under the floor either. */
+  .draw-note { fill: var(--dd-fg-muted); }
+
+  /* A number in the drawing. Tabular so that two of them compare. */
+  .draw-value {
+    font-weight: var(--dd-weight-figure);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--dd-track-head);
+  }
+
+  /* The name of a band or a side — the drawing's equivalent of an eyebrow. */
+  .draw-cap {
+    font-size: var(--dd-text-md);
+    font-weight: var(--dd-weight-label);
+    letter-spacing: var(--dd-track-eyebrow);
+    fill: var(--dd-fg-subtle);
+  }
+
+  /* An identifier, a path, a flag: set as code, and set as code means the
+     cells stay cells. */
+  .draw-mono {
+    font-family: var(--dd-font-mono);
+    letter-spacing: 0;
+    font-feature-settings: normal;
+    font-kerning: none;
+  }
+
+  /* Tone, so a drawing says the same things in colour as the page around it. */
+  .draw-accent { fill: var(--dd-accent); }
+  .draw-warn   { fill: var(--dd-warn); }
+  .draw-toned  { fill: var(--dd-tone, var(--dd-fg)); }
+
+  /* ---- the marks a drawing is made of ---- */
+
+  .draw-box {
+    fill: var(--dd-surface);
+    stroke: var(--dd-border-strong);
+    stroke-width: 1.5;
+  }
+
+  .draw-box-toned {
+    fill: var(--dd-tone-tint, var(--dd-surface));
+    stroke: var(--dd-tone, var(--dd-border-strong));
+    stroke-width: 1.5;
+  }
+
+  /* Nothing there yet. Dashed, like every other absence in the system. */
+  .draw-box-open {
+    fill: none;
+    stroke: var(--dd-warn);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 4;
+  }
+
+  .draw-line {
+    fill: none;
+    stroke: var(--dd-rule);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /*
+   * Print is base/print.css, the system's last layer. On paper there is no
+   * scrolling, so a drawing wider than the page has to shrink and its labels
+   * shrink with it — the failure this file exists to prevent on screen, and
+   * the lesser loss against printing a drawing cut in half. Stated there
+   * rather than here so that the rule and its !important sit with the rest
+   * of what paper overrides.
+   */
+}

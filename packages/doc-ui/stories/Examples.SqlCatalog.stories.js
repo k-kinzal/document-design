@@ -57,11 +57,11 @@ const HOTSPOTS = [
 ];
 
 const RESOLUTIONS = [
-  ["resolved", "tone-ok", 35, "The statement text is fully determined."],
-  ["external-input", "tone-danger", 0, "The values were followed to runtime input, so the text cannot be fixed."],
-  ["incomplete-model", "chip-ghost", 709, "A dependency the analyzer does not model was reached."],
-  ["incomplete", "chip-ghost", 95, "A cycle or an analysis budget stopped the search before it closed."],
-  ["not-analyzed", "tone-neutral", 5, "The call was found but never examined, so nothing was read from it."],
+  ["resolved", "tone-ok", 35, "The statement text is fully determined.", "tone-ok"],
+  ["external-input", "tone-danger", 0, "The values were followed to runtime input, so the text cannot be fixed.", "tone-danger"],
+  ["incomplete-model", "chip-ghost", 709, "A dependency the analyzer does not model was reached.", "is-open"],
+  ["incomplete", "chip-ghost", 95, "A cycle or an analysis budget stopped the search before it closed.", "is-open|--dd-hatch:45deg"],
+  ["not-analyzed", "tone-neutral", 5, "The call was found but never examined, so nothing was read from it.", "tone-neutral"],
 ];
 
 const peek = (rows) =>
@@ -183,24 +183,26 @@ export const Overview = {
           </div>
 
           <h2 id="coverage">How far the analysis got<a class="anchor" href="#coverage">§</a></h2>
+          <p class="caveat"><a href="#">812 of the 844 statements</a> are lower bounds. A dependency, a
+            cycle or an analysis budget stopped the search, so a call may issue more than is listed here
+            and the totals below are floors, not counts.</p>
           <div class="meter">
             <a class="meter-part tone-ok" style="--dd-part:4%" href="#" title="resolved: The statement text is fully determined."></a>
             <a class="meter-part is-open" style="--dd-part:84%" href="#" title="incomplete-model: A dependency the analyzer does not model was reached."></a>
-            <a class="meter-part is-open" style="--dd-part:11%" href="#" title="incomplete: A cycle or an analysis budget stopped the search before it closed."></a>
+            <a class="meter-part is-open" style="--dd-part:11%;--dd-hatch:45deg" href="#" title="incomplete: A cycle or an analysis budget stopped the search before it closed."></a>
             <a class="meter-part tone-neutral" style="--dd-part:1%" href="#" title="not-analyzed: The call was found but never examined."></a>
           </div>
           <ul class="legend">
             ${RESOLUTIONS.map(
-              ([name, cls, n, note]) => `
+              ([name, cls, n, note, mark]) => `
               <li>
+                <span class="meter-legend-swatch ${mark.split("|")[0]}"${mark.includes("|") ? ` style="${mark.split("|")[1]}"` : ""}></span>
                 <a class="chip ${cls}" href="#" title="${note}">${name}</a>
                 <span class="meter-legend-count">${n}</span>
                 <span class="meter-legend-description">${note}</span>
               </li>`
             ).join("")}
           </ul>
-          <p class="muted"><a href="#">812 statements</a> are lower bounds: a dependency, a cycle or a budget
-            stopped the search, so the call may issue more than is listed.</p>
         </main>
       </div>
     </div>`,
@@ -234,6 +236,8 @@ export const Statements = {
         </header>
         <main class="content">
           <h1>Statements<span class="count">844</span></h1>
+          <p class="listing-range">This page holds <b>6</b> of <b>844</b> statements. The facet counts are
+            for all 844; filtering and search act on the 6 rendered here.</p>
           <div class="facets" data-dd-facets="#stmts">
             <input type="search" class="input" placeholder="Filter…" data-dd-facet-search>
             <div class="facet-group">

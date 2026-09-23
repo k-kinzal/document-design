@@ -150,9 +150,9 @@ export const ClassPage = {
               params: `${listError} ${T.var("$errors")}`,
               returns: arrayOf,
               summary: "Groups file-specific errors by file path.",
-              cov: "100%",
+              cov: "100% · 6/6",
               covTone: "cov-high",
-              covTitle: "6 of 6 executable lines executed by the test suite",
+              covTitle: "Line coverage: 6 of 6 executable lines executed by the test suite",
               usage: [
                 "AiRulesHumanErrorFormatter::formatErrors",
                 "ErrorGroupingTest::testByFileGroupsByPath",
@@ -166,9 +166,9 @@ export const ClassPage = {
               params: `${listError} ${T.var("$errors")}`,
               returns: arrayOf,
               summary: "Groups file-specific errors by identifier.",
-              cov: "100%",
+              cov: "100% · 7/7",
               covTone: "cov-high",
-              covTitle: "7 of 7 executable lines executed by the test suite",
+              covTitle: "Line coverage: 7 of 7 executable lines executed by the test suite",
               usage: [
                 "AiRulesAiErrorFormatter::formatErrors",
                 "ErrorGroupingTest::testByIdentifierGroupsByIdentifier",
@@ -181,9 +181,9 @@ export const ClassPage = {
               params: `${listError} ${T.var("$errors")}, ${T.key("int")} ${T.var("$threshold")}`,
               returns: T.key("bool"),
               summary: "Checks whether any identifier count reaches the deduplication threshold.",
-              cov: "75%",
+              cov: "75% · 3/4",
               covTone: "cov-mid",
-              covTitle: "3 of 4 executable lines executed by the test suite",
+              covTitle: "Line coverage: 3 of 4 executable lines executed by the test suite",
               usage: ["AiRulesAiErrorFormatter::formatErrors", "ErrorGroupingTest::testThreshold"],
             })}
           </section>

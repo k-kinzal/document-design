@@ -19,6 +19,7 @@
  */
 
 @layer dd.component {
+  /* .graph-wrap is .draw-wrap with room for the nodes' focus rings. */
   .graph-wrap {
     overflow-x: auto;
     overscroll-behavior-x: contain;
@@ -35,23 +36,45 @@
    * texture. A graph has a minimum size at which it says anything, and below
    * that the honest move is to let the reader scroll.
    *
-   * --dd-graph-min is the generator's to set: it knows how wide the layout it
+   * --dd-draw-width is the generator's to set: it knows how wide the layout it
    * produced actually needs to be.
+   */
+  /*
+   * Placed at the size it was drawn, exactly as components/draw.css places a
+   * drawing, and for the same reason in the other direction.
+   *
+   * This used to set only `min-width`, which stopped the graph shrinking and
+   * left it free to stretch: with no width of its own it filled whatever
+   * column it was in, so in a 1124px column an 820-unit graph ran at 1.37 and
+   * its 14px labels rendered at 19.2 — larger than the page's own headings,
+   * on the strength of nothing but the window being wide. Scaling up is the
+   * same defect as scaling down; it is only less obviously wrong.
+   *
+   * Both bounds now, so the scale is 1 either way and the wrapper scrolls
+   * when the column cannot hold it.
    */
   .graph {
     display: block;
     height: auto;
+    width: var(--dd-draw-width, 40rem);
+    min-width: var(--dd-draw-width, 40rem);
     max-width: none;
-    /* Not min(…, 100%) — that is the container width whenever the container is
-       the smaller of the two, which is exactly the case this exists for. In a
-       320px column it resolved to 320px and the labels went back under 5px. */
-    min-width: var(--dd-graph-min, 40rem);
   }
 
-  .graph text {
+  /*
+   * The type is components/draw.css — a node's name is a drawing's label, and
+   * there is no reason for a graph to have its own idea of one. This was
+   * `font-size: 12px`, hard-coded, two steps under the floor the rest of the
+   * system uses and not on either scale; it predates both the floor and the
+   * drawing roles.
+   */
+  /* :where(), for the reason components/draw.css gives: a default that a role
+     cannot state over is not a default, it is a ceiling. */
+  :where(.graph text) {
     fill: var(--dd-fg);
     font-family: var(--dd-font-sans);
-    font-size: 12px;
+    font-size: var(--dd-text-md);
+    font-feature-settings: "palt" 1;
     text-anchor: middle;
     dominant-baseline: middle;
     pointer-events: none;
@@ -116,4 +139,32 @@
 
   .graph-legend > * { display: flex; align-items: center; gap: var(--dd-sp-2); }
   .graph-legend svg { width: 28px; height: 8px; flex: none; }
+
+  /* Opt-in branching graphs compose .draw with these marks. A figure uses
+     one node module, not a different box for every string: 224 × 64 for the
+     full example, 96 × 40 for short index labels. Action, decision and outcome
+     share those bounds and the same stroke. Put supporting notes outside.
+     Shape states the role; neither size nor border weight states a priority.
+     Coordinates and text alignment remain in the generator's SVG. */
+  .node-action, .node-decision,
+  .node-terminal {
+    fill: var(--dd-tone-tint, var(--dd-surface));
+    stroke: var(--dd-tone, var(--dd-fg-muted));
+    stroke-width: 1.5;
+  }
+  .edge-flow, .edge-arrow {
+    fill: none;
+    stroke: var(--dd-fg-muted);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+  .edge-label {
+    /* Route the line clear of its label. A halo painted in --dd-bg is wrong
+       on a raised or inset surface and changes the apparent letter weight. */
+    stroke: none;
+  }
+  @media (forced-colors: active) {
+    .node-action, .node-decision, .node-terminal { fill: Canvas; stroke: CanvasText; }
+    .edge-flow, .edge-arrow { stroke: CanvasText; }
+  }
 }

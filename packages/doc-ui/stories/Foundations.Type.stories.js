@@ -166,25 +166,42 @@ export const Tracking = {
     </div>`,
 };
 
-/** Prose is held at 72ch. A README set to the full width of a catalog's
- *  content column runs to about 140 characters a line, at which point the eye
- *  loses its place returning to the left edge. */
+/** The measure, counted in characters — which is the unit the limit is in. */
 export const Measure = {
   render: () => html`
     <div>
-      <p class="sb-label">.prose — 72ch</p>
+      <p class="sb-label">--dd-measure — 36ric = 36 和文字 = 77 latin</p>
+      <div class="prose" lang="ja" style="border-left:2px solid var(--dd-accent);padding-left:16px">
+        <p>出典 29 単位のうち 9 が空だった。到達点は 96.67 であり、100 は非対応への
+           付け替えで作らない。行が長すぎるのは、行末から次の行頭へ目が戻れなくなる
+           からで、その限界は px ではなく文字数で数える。</p>
+      </div>
+
+      <p class="sb-label" style="margin-top:24px">the same rule, latin</p>
       <div class="prose" style="border-left:2px solid var(--dd-accent);padding-left:16px">
         <p>A PHPStan extension that detects anti-patterns commonly introduced by AI
            code generation, plus output formatters optimized for both AI agents and
            humans. The reporter groups errors by file and by identifier, and
            deduplicates once an identifier passes a threshold.</p>
       </div>
-      <p class="sb-label" style="margin-top:24px">the same text, unconstrained</p>
+
+      <p class="sb-label" style="margin-top:24px">unconstrained — 45 和文字 / 99 latin at the old 72ch, and worse in a wide column</p>
       <div class="prose prose-wide" style="border-left:2px solid var(--dd-danger);padding-left:16px">
         <p>A PHPStan extension that detects anti-patterns commonly introduced by AI
            code generation, plus output formatters optimized for both AI agents and
            humans. The reporter groups errors by file and by identifier, and
            deduplicates once an identifier passes a threshold.</p>
+      </div>
+
+      <p class="sb-label" style="margin-top:24px">the three widths</p>
+      <div class="prose">
+        <p>Running text stops at the measure. What is looked at rather than swept may leave it.</p>
+        <figure class="plate plate-unnumbered"><div style="height:8px;background:var(--dd-accent-tint);border:1px solid var(--dd-accent)"></div>
+          <figcaption>--dd-measure · 36ric · a paragraph</figcaption></figure>
+        <figure class="plate plate-unnumbered plate-wide"><div style="height:8px;background:var(--dd-accent-tint);border:1px solid var(--dd-accent)"></div>
+          <figcaption>--dd-measure-wide · 48ric · a drawing, a wide table, a code block</figcaption></figure>
+        <figure class="plate plate-unnumbered plate-full"><div style="height:8px;background:var(--dd-accent-tint);border:1px solid var(--dd-accent)"></div>
+          <figcaption>.plate-full · the whole column</figcaption></figure>
       </div>
     </div>`,
 };

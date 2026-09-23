@@ -63,6 +63,44 @@
     --dd-text-2xl: 1.5rem;     /* 24 — the catalog's page title, prose h2    */
     --dd-text-3xl: 1.75rem;    /* 28 — prose h1, a stat figure               */
 
+    /*
+     * Measure — the line length, in characters.
+     *
+     * A line is too long when the eye loses the start of the next one coming
+     * back from the end of this one, and that limit is counted in characters,
+     * not pixels. Japanese setting states it directly — JLREQ puts a line at
+     * an integer multiple of the character size — and `ic` is that unit: 1ic
+     * is the advance of 水, so `36ic` is exactly 36 characters wide. (Where
+     * the font has no 水, 1ic falls back to 1em, which lands in the same
+     * place.)
+     *
+     * Measured, at 16px: 36ic = 576px = 36 和文字 = 77 latin characters. Both
+     * sit inside their bands — 30–40 for Japanese, 45–75 for latin. The
+     * previous `72ch` was 725.6px, which is 45 和文字 and 99 latin: outside
+     * both. `ch` is the advance of "0", so it measures neither script's
+     * characters and reads as a round number while being neither.
+     *
+     * `ric`, not `ic`: the root's character, not the element's own.
+     *
+     * `ic` is relative to the type it is set on, so the same token gives a
+     * different width at every size — measured, on one prose article: the
+     * paragraphs landed at 576, the h3s at 720 and the h2s at 768, because
+     * 36 characters of 24px type is wider than 36 characters of 16px type.
+     * Each of those is the right character count and the page had five
+     * different right edges, which is worse than any one of them being
+     * slightly off. A measure is a line down the page that everything lands
+     * on; a per-element character count is not that. `ric` resolves against
+     * the root, so the edge is shared and the rule under a heading ends where
+     * the paragraph under it does.
+     */
+    --dd-measure:       36ric; /* running text: a paragraph, a note. 576px   */
+    --dd-measure-wide:  48ric; /* a drawing or a wide table, looked at rather
+                                  than swept. 768px — which is exactly the
+                                  report field's width, so the two genres put
+                                  their figures on the same line             */
+    --dd-measure-short: 40ric; /* a block of one or two lines: a lede, where
+                                  the eye makes the return sweep once        */
+
     /* ---- type, the report's major third from 16px ---- */
     --dd-type-1: 13px;
     --dd-type-2: 16px;

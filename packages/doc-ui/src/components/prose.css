@@ -12,19 +12,48 @@
  * component layer, which is after the layout layer, so `.prose h2` wins over
  * `.doc h2` without either having to know about the other.
  *
- * The measure is held at 72ch. Long-form text set to the full width of a
- * catalog's content column is roughly 140 characters a line, at which point
- * the eye loses its place returning to the left edge.
+ * The measure is --dd-measure, which is stated in characters rather than in
+ * pixels because that is the unit the limit is actually in. See the token.
  */
 
 @layer dd.component {
+  /*
+   * The cap is on the children, not on the block.
+   *
+   * A block capped at the measure cannot hold anything wider than the
+   * measure, so a drawing placed in an article had no way to exceed the
+   * column of text it belongs to — which is why, until now, every drawing in
+   * this system was placed beside the prose rather than inside it. Capping
+   * each child instead keeps the paragraphs at the measure and leaves the
+   * figures, tables and code free to take the width they actually need.
+   *
+   * The block itself is uncapped. Capping it at the figure width, as this
+   * first did, only moved the ceiling: `.plate-full` could no longer reach
+   * past 48ric either, so the third width did not exist inside prose — and
+   * the escape hatch, `.prose-wide`, released the paragraphs along with the
+   * figures. Widening for a drawing cost the measure. Now the three widths
+   * are three rules on the children and the block takes what its column
+   * gives it.
+   */
   .prose {
-    max-width: 72ch;
+    max-width: none;
     font-size: var(--dd-text-lg);
     line-height: 1.75;
   }
 
-  .prose-wide { max-width: none; }
+  .prose > * { max-width: var(--dd-measure); }
+
+  /*
+   * Looked at rather than read through. A table gains nothing from the
+   * measure and loses column width to it; a code block gains nothing and
+   * gets a scrollbar instead. The measure is a rule about returning from the
+   * end of a line of prose, and none of these are that.
+   */
+  .prose > :is(table, .table-wrap, pre, img, svg, video) {
+    max-width: var(--dd-measure-wide);
+  }
+
+  .prose-wide, .prose-wide > * { max-width: none; }
 
   /* ---- headings ---- */
 

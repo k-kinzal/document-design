@@ -45,6 +45,11 @@
      */
     .meter { display: none; }
 
+    /* Bars retain exact labels and a proportional outline without relying on
+       the printer's background-fill setting. Zero remains a zero-width mark. */
+    .bar-fill { background: none; border-block: 1px solid currentColor; }
+    .bar-row { break-inside: avoid; }
+
     /* A link's destination is not recoverable from paper, so it is written
        out — but only for links that leave the document. An in-page anchor
        printed as "(#method.byFile)" is noise. */
@@ -127,8 +132,12 @@
        contents must fit instead. A graph is the one thing that cannot be
        reflowed, so on paper it is scaled to the sheet — the only place where
        shrinking it is better than losing its right-hand side. */
-    .table-wrap, .graph-wrap, .terminal { overflow: visible !important; }
-    .graph { min-width: 0; max-width: 100%; }
+    .table-wrap, .graph-wrap, .draw-wrap, .terminal { overflow: visible !important; }
+    /* `width` as well as `min-width`: a drawing now states the size it was
+       drawn at, and on paper that is the one instruction that has to be
+       dropped — a fixed 820px on a sheet that is 700px wide loses its
+       right-hand side, and there is nowhere to scroll to find it. */
+    .graph, .draw { width: auto !important; min-width: 0 !important; max-width: 100% !important; }
 
     /* Every pre wraps, including signatures and prose code, which previously
        ran off the right edge of the sheet and were simply lost. */

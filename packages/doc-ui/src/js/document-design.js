@@ -123,6 +123,12 @@
    * on a flag set here, so the no-JavaScript rendering stays complete.
    */
   function initNav() {
+    function setOpen(open) {
+      document.body.classList.toggle("nav-open", open);
+      each("[data-dd-nav-toggle]", function (button) {
+        button.setAttribute("aria-expanded", String(open));
+      });
+    }
     /* Only a frame that actually has a working toggle may collapse its
        sidebar. A .doc with navigation and no toggle — a tree in a sidebar with
        no topbar, which the Tree story is — would otherwise hide its navigation
@@ -136,15 +142,26 @@
     document.addEventListener("click", function (ev) {
       var btn = ev.target.closest && ev.target.closest("[data-dd-nav-toggle]");
       if (btn) {
-        document.body.classList.toggle("nav-open");
+        setOpen(!document.body.classList.contains("nav-open"));
+        if (document.body.classList.contains("nav-open")) {
+          var sidebar = document.getElementById(btn.getAttribute("aria-controls"));
+          var first = sidebar && sidebar.querySelector("a, button, input");
+          if (first) first.focus();
+        }
         return;
       }
       /* Tapping the page behind an open sidebar closes it, which is what a
          reader expects from an overlay and saves them aiming at the toggle. */
       if (document.body.classList.contains("nav-open") &&
           !(ev.target.closest && ev.target.closest(".sidebar"))) {
-        document.body.classList.remove("nav-open");
+        setOpen(false);
       }
+    });
+    document.addEventListener("keydown", function (ev) {
+      if (ev.key !== "Escape" || !document.body.classList.contains("nav-open")) return;
+      setOpen(false);
+      var toggle = document.querySelector("[data-dd-nav-toggle]");
+      if (toggle) toggle.focus();
     });
   }
 
@@ -735,6 +752,7 @@
     initToTop();
     initToc();
     initPrint();
+    each("[data-dd-enhance]", function (el) { el.hidden = false; });
     installed = true;
   }
 
