@@ -75,9 +75,41 @@ export function token(name) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
-/** Renders after the stylesheet has resolved, so measurements are real. */
+/**
+ * Renders after the stylesheet has resolved, and re-renders whenever the theme
+ * actually changes.
+ *
+ * A single requestAnimationFrame was a race: the decorator applies the theme in
+ * a frame of its own, and whichever was queued first won. Measured in the
+ * losing order, the table computed the outgoing theme's ratios and displayed
+ * them against the incoming theme's colours — a contrast table that was wrong
+ * about contrast, which is the one thing it exists to be right about.
+ *
+ * Watching the attribute removes the ordering question entirely, and picks up
+ * an in-page theme toggle as well as the toolbar.
+ */
 export function measured(build) {
   const host = document.createElement("div");
-  requestAnimationFrame(() => { host.innerHTML = build(); });
+  let last = null;
+
+  const render = () => {
+    const root = document.documentElement;
+    const key = (root.getAttribute("data-dd-theme") || "auto") + "|" +
+                getComputedStyle(root).colorScheme;
+    if (key === last) return;
+    last = key;
+    host.innerHTML = build();
+  };
+
+  requestAnimationFrame(render);
+
+  new MutationObserver(() => requestAnimationFrame(render))
+    .observe(document.documentElement, { attributes: true, attributeFilter: ["data-dd-theme"] });
+
+  if (window.matchMedia) {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", () => requestAnimationFrame(render));
+  }
+
   return host;
 }

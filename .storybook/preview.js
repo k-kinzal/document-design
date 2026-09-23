@@ -69,6 +69,12 @@ export default {
         else window.localStorage.setItem("dd-theme", theme);
       } catch (e) { /* storage unavailable; applyTheme below still holds */ }
 
+      /* Set synchronously as well, so anything a story schedules in its own
+         frame already sees the right theme rather than the previous one. */
+      const root = document.documentElement;
+      if (theme === "auto") root.removeAttribute("data-dd-theme");
+      else root.setAttribute("data-dd-theme", theme);
+
       const node = story();
 
       /*
