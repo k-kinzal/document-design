@@ -7,17 +7,55 @@
 
 @layer dd.base {
   /*
-   * Japanese setting. `palt` closes the gaps around latin set inside Japanese,
-   * which otherwise reads as holes in a line. Strict line breaking keeps small
-   * kana and the closing brackets off the start of a line. `anywhere` is the
-   * only thing that stops a long identifier — a namespace, a table name, a
-   * URL — from pushing a sidebar or a table cell wider than the viewport.
+   * Japanese setting.
+   *
+   * `line-break: strict` everywhere: it keeps small kana and closing brackets
+   * off the start of a line, which is a correctness rule, not a taste one.
+   * `overflow-wrap: anywhere` is the only thing that stops a long identifier —
+   * a namespace, a table name, a URL — from pushing a sidebar or a table cell
+   * wider than the viewport.
+   *
+   * `palt` is NOT here, and that is the point. It was on <body>, so every line
+   * on every page was set with proportional metrics. That is right for a
+   * heading, where the loose gaps around latin set inside Japanese read as
+   * holes, and wrong for running text: closing those gaps flattens the
+   * density difference between kanji and kana, and that alternation of dark
+   * and light is what the eye follows down a long paragraph. Tightening it
+   * makes Japanese prose more even and harder to read.
+   *
+   * So it is applied per role below — display and headings get it, prose does
+   * not — which is also where `font-kerning` belongs, for the same reason.
    */
   body {
-    font-feature-settings: "palt" 1;
     line-break: strict;
     overflow-wrap: anywhere;
   }
+
+  /*
+   * Set, rather than merely typed. Everything here is short, large, or both:
+   * a title, a lead, a figure, a tracked label. These are looked at rather
+   * than read through, so the spacing between characters should be even —
+   * which is what proportional metrics and pair kerning give.
+   */
+  :is(h1, h2, h3, h4, h5, h6),
+  .eyebrow, .stand, .lead, .claim, .cap, .fig, .unit,
+  .stat-fig, .stat-label, .label, .sidebar-title, .chip,
+  .card-description, .tabpanel-title, .empty-title, .callout-title {
+    font-feature-settings: "palt" 1;
+    font-kerning: normal;
+  }
+
+  /*
+   * Read through, not looked at: left as the font designed it (ベタ組).
+   * Mono is excluded from tracking as well — a monospaced column that is not
+   * monospaced is not a column.
+   */
+  p, li, dd, td, .row-body, .prose, .note, .caveat, .lede,
+  code, pre, kbd, samp, .mono {
+    font-feature-settings: normal;
+  }
+
+  code, pre, kbd, samp, .mono { letter-spacing: 0; font-kerning: none; }
 
   /*
    * `pretty` only where a person wrote the words. It costs layout passes, and

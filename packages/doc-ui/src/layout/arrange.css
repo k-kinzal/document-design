@@ -43,7 +43,7 @@
   .figures h3 {
     font-size: var(--dd-type-3);
     line-height: 1.4;
-    letter-spacing: -0.01em;
+    letter-spacing: var(--dd-track-head);
     font-weight: var(--dd-weight-label);
     margin: var(--dd-base) 0 calc(var(--dd-base) / 4);
   }

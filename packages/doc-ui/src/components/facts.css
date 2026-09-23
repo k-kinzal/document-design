@@ -27,7 +27,7 @@
     font-size: var(--dd-text-xs);
     font-weight: var(--dd-weight-figure);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: var(--dd-track-label);
     color: var(--dd-fg-subtle);
     margin-bottom: var(--dd-sp-2);
   }

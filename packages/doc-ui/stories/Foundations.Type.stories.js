@@ -91,25 +91,78 @@ export const Registers = {
 };
 
 /**
- * Japanese setting. `palt` closes the gaps around latin set inside Japanese,
- * which otherwise reads as holes in the line; `line-break: strict` keeps small
- * kana and closing brackets off the start of a line.
+ * Japanese setting — the part that is a decision rather than a default.
  *
- * `overflow-wrap: anywhere` is the one thing that stops a long identifier — a
- * namespace, a table name, a URL — from pushing a sidebar or a table cell
- * wider than the viewport.
+ * `palt` closes the loose gaps the font leaves around latin set inside
+ * Japanese. That is right for something **looked at** — a title, a lead, a
+ * label — where those gaps read as holes punched in a short line.
+ *
+ * It is wrong for something **read through**. Closing the gaps also flattens
+ * the density difference between kanji and kana, and that alternation of dark
+ * and light is what the eye follows down a paragraph. Tightened, Japanese
+ * prose becomes evener and harder to keep your place in.
+ *
+ * So it is applied by role, not globally: headings, leads, figures and labels
+ * get `palt` and `font-kerning: normal`; prose, cells and listings are left as
+ * the font designed them (ベタ組). It used to sit on `<body>`, which meant
+ * every line on every page was set the display way.
+ *
+ * `line-break: strict` applies everywhere — keeping small kana and closing
+ * brackets off the start of a line is correctness, not taste.
  */
 export const JapaneseSetting = {
   render: () => html`
-    <div style="max-width:40ch">
+    <div class="sb-grid" style="gap:28px;max-width:46ch">
       ${specimen(
-        "as shipped — palt on, strict line breaking",
-        `<p style="font-feature-settings:'palt' 1;line-break:strict;margin:0">出典 29/30 のうち SYMBOL-009 と RULE-007 は Behat のシナリオへ結んだ。</p>`
+        "heading \u2014 palt on, as shipped",
+        `<p style="font-size:25px;font-weight:600;line-height:1.45;margin:0;font-feature-settings:'palt' 1;font-kerning:normal;letter-spacing:-0.025em">出典 29/30 · ゲート 96 / 93 / 100 は Behat へ</p>`
       )}
       ${specimen(
-        "without palt — note the gaps around the latin",
-        `<p style="font-feature-settings:normal;margin:0">出典 29/30 のうち SYMBOL-009 と RULE-007 は Behat のシナリオへ結んだ。</p>`
+        "the same heading without palt \u2014 holes around the latin",
+        `<p style="font-size:25px;font-weight:600;line-height:1.45;margin:0;font-feature-settings:normal;letter-spacing:-0.025em">出典 29/30 · ゲート 96 / 93 / 100 は Behat へ</p>`
       )}
+      ${specimen(
+        "prose \u2014 no palt, as shipped (ベタ組)",
+        `<p style="margin:0;font-feature-settings:normal;line-break:strict">未カバーの9単位を調べたところ、8つは仕様が出典に触れていない箇所だった。残る1つは導入文で、挙動がない。これは空のまま残す。水増しはしない。</p>`
+      )}
+      ${specimen(
+        "the same prose with palt \u2014 evener, and harder to hold your place in",
+        `<p style="margin:0;font-feature-settings:'palt' 1;line-break:strict">未カバーの9単位を調べたところ、8つは仕様が出典に触れていない箇所だった。残る1つは導入文で、挙動がない。これは空のまま残す。水増しはしない。</p>`
+      )}
+    </div>`,
+};
+
+/**
+ * Tracking is optical, not arithmetic. The same letter-spacing is too loose on
+ * a 76px figure and too tight on a 12px tracked label, because the space
+ * between letters is judged relative to their size. Large type wants it taken
+ * away; small capitals want it given back.
+ *
+ * Six bands, so a component inherits the adjustment instead of deriving it
+ * again by eye — which is how this became eight unrelated negative values and
+ * four positive ones.
+ */
+export const Tracking = {
+  render: () => html`
+    <div>
+      ${[
+        ["display", "-0.04em", "45px and up \u2014 a figure, a report title", 49, 700, false],
+        ["large", "-0.025em", "25\u201344px \u2014 a lead, a claim", 31, 600, false],
+        ["head", "-0.01em", "16\u201324px \u2014 a heading, a stand-first", 20, 650, false],
+        ["body", "0", "14\u201316px \u2014 prose; Japanese wants no more", 16, 400, false],
+        ["label", "0.06em", "small uppercase \u2014 a rail label", 12, 700, true],
+        ["eyebrow", "0.16em", "the most tracked \u2014 an eyebrow, a cap", 13, 600, true],
+      ]
+        .map(
+          ([name, value, use, size, weight, caps]) => `
+        <div style="display:flex;gap:16px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--dd-border)">
+          <code style="min-width:170px">--dd-track-${name}</code>
+          <span class="count" style="min-width:64px">${value}</span>
+          <span style="flex:1;font-size:${size}px;font-weight:${weight};letter-spacing:var(--dd-track-${name});${caps ? "text-transform:uppercase;" : ""}">挙動がある単位 Behat</span>
+          <span class="count" style="max-width:210px;text-align:right">${use}</span>
+        </div>`
+        )
+        .join("")}
     </div>`,
 };
 

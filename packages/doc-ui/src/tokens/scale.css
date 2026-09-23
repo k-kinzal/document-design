@@ -89,6 +89,27 @@
     --dd-weight-head:   650;   /* a heading                               */
     --dd-weight-figure: 700;   /* a number that is the point              */
 
+    /*
+     * Tracking, by size band.
+     *
+     * Optical, not arithmetic: the same letter-spacing is too loose on a 76px
+     * figure and too tight on an 11px uppercase label, because the space
+     * between letters is read relative to their size, not in absolute terms.
+     * Large type needs it taken away; small tracked capitals need it given
+     * back.
+     *
+     * These were eight ad-hoc negative values and four positive ones, each
+     * chosen by eye at the moment it was needed and never compared with the
+     * others. Banding them means a new component inherits the adjustment
+     * rather than re-deriving it.
+     */
+    --dd-track-display: -0.04em;   /* 45px and up: a figure, a report title  */
+    --dd-track-large:   -0.025em;  /* 25-44px: a lead, a claim               */
+    --dd-track-head:    -0.01em;   /* 16-24px: a heading, a stand-first      */
+    --dd-track-body:    0;         /* 14-16px: prose. Japanese wants no more */
+    --dd-track-label:   0.06em;    /* small uppercase: a rail label          */
+    --dd-track-eyebrow: 0.16em;    /* the most tracked: an eyebrow, a cap    */
+
     /* ---- shape ---- */
     --dd-radius-sm: 4px;
     --dd-radius:    6px;

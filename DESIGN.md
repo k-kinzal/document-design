@@ -189,8 +189,24 @@ complete.
 runs to about 140 characters a line, at which point the eye loses its place
 returning to the left edge.
 
-**Japanese** gets `font-feature-settings: "palt" 1` and `line-break: strict`;
-headings and leads additionally get `word-break: auto-phrase`.
+**Japanese is set two ways, and which one is a decision.**
+
+`palt` closes the loose gaps a font leaves around latin set inside Japanese.
+That is right for something *looked at* — a title, a lead, a figure, a label —
+where the gaps read as holes punched in a short line. It is wrong for something
+*read through*: closing them also flattens the density difference between kanji
+and kana, and that alternation of dark and light is what the eye follows down a
+paragraph.
+
+So headings, leads, figures and labels get `palt` and `font-kerning: normal`;
+prose, cells and listings are left as the font designed them (ベタ組). Do not
+put `palt` on `body`. `line-break: strict` applies everywhere, and headings
+additionally get `word-break: auto-phrase`.
+
+**Tracking is optical, by size band** — `--dd-track-display` (-0.04em) through
+`--dd-track-eyebrow` (+0.16em). Large type wants space taken away; small
+tracked capitals want it given back. Monospace gets neither: a column that is
+not monospaced is not a column.
 
 ## Layout
 

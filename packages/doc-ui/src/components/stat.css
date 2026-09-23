@@ -44,7 +44,7 @@
     font-size: var(--dd-text-3xl);
     line-height: 1.1;
     font-weight: var(--dd-weight-figure);
-    letter-spacing: -0.02em;
+    letter-spacing: var(--dd-track-large);
     font-variant-numeric: tabular-nums;
     color: var(--dd-tone, var(--dd-fg));
   }
@@ -118,7 +118,7 @@
   .sheet .stat-fig {
     font-size: var(--dd-type-7);
     line-height: 1;
-    letter-spacing: -0.04em;
+    letter-spacing: var(--dd-track-display);
     /* Proportional, unlike the catalog's: these are four separate answers read
        one at a time, not a column of numbers to be compared down. */
     font-variant-numeric: proportional-nums;

@@ -44,7 +44,7 @@
   .eyebrow {
     font-size: var(--dd-type-1);
     font-weight: var(--dd-weight-label);
-    letter-spacing: 0.16em;
+    letter-spacing: var(--dd-track-eyebrow);
     color: var(--dd-fg-subtle);
     margin: 0 0 calc(var(--dd-base) / 2);
   }
@@ -59,7 +59,7 @@
     grid-column: 1 / 10;
     font-size: var(--dd-type-8);
     line-height: 1.1;
-    letter-spacing: -0.035em;
+    letter-spacing: var(--dd-track-display);
     font-weight: var(--dd-weight-figure);
     margin: 0 0 calc(var(--dd-base) / 2);
     text-wrap: balance;
@@ -71,7 +71,7 @@
     grid-column: 1 / 7;
     font-size: var(--dd-type-3);
     line-height: 1.6;
-    letter-spacing: -0.01em;
+    letter-spacing: var(--dd-track-head);
     color: var(--dd-fg-muted);
     margin: 0 0 var(--dd-base);
   }
@@ -120,7 +120,7 @@
     display: block;
     font-size: var(--dd-type-1);
     font-weight: var(--dd-weight-label);
-    letter-spacing: 0.16em;
+    letter-spacing: var(--dd-track-eyebrow);
     color: var(--dd-fg-subtle);
     margin-bottom: calc(var(--dd-base) / 2);
   }
@@ -160,7 +160,7 @@
     font-size: clamp(1.75rem, 22cqi, var(--dd-type-7));
     line-height: 0.92;
     font-weight: var(--dd-weight-figure);
-    letter-spacing: -0.045em;
+    letter-spacing: var(--dd-track-display);
     overflow-wrap: normal;
     word-break: keep-all;
     text-wrap: nowrap;
@@ -193,7 +193,7 @@
     font-size: clamp(1.5rem, 16cqi, var(--dd-type-6));
     line-height: 1.2;
     font-weight: var(--dd-weight-figure);
-    letter-spacing: -0.025em;
+    letter-spacing: var(--dd-track-large);
   }
 
   .was .claim { color: var(--dd-fg-subtle); }
@@ -223,7 +223,7 @@
     font-size: var(--dd-type-1);
     line-height: 1.7;
     font-weight: var(--dd-weight-label);
-    letter-spacing: 0.12em;
+    letter-spacing: var(--dd-track-eyebrow);
     color: var(--dd-fg-subtle);
     padding-top: 6px;
   }
@@ -234,7 +234,7 @@
     text-wrap: balance;
     font-size: var(--dd-type-4);
     line-height: 1.45;
-    letter-spacing: -0.02em;
+    letter-spacing: var(--dd-track-large);
     font-weight: var(--dd-weight-label);
     margin: 0 0 calc(var(--dd-base) * 1.5);
   }

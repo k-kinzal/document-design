@@ -38,7 +38,7 @@
     border: none;
     font-size: var(--dd-type-4);
     line-height: 1.45;
-    letter-spacing: -0.02em;
+    letter-spacing: var(--dd-track-large);
     font-weight: var(--dd-weight-label);
     color: var(--dd-fg);
   }

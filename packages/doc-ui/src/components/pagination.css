@@ -41,7 +41,7 @@
     display: block;
     font-size: var(--dd-text-xs);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: var(--dd-track-label);
     color: var(--dd-fg-subtle);
     margin-bottom: var(--dd-sp-1);
   }
