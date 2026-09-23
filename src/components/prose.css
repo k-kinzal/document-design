@@ -1,0 +1,137 @@
+/*
+ * Prose — rendered markdown. A README, a design note, a skill description:
+ * text written by a person and rendered into a page otherwise made of
+ * generated tables.
+ *
+ *   <article class="prose">
+ *     <h2>…</h2><p>…</p><ul><li>…</li></ul>
+ *   </article>
+ *
+ * This is the one place in the system where headings are a reading hierarchy
+ * rather than labels on bands of rows, so it restates them. It sits in the
+ * component layer, which is after the layout layer, so `.prose h2` wins over
+ * `.doc h2` without either having to know about the other.
+ *
+ * The measure is held at 72ch. Long-form text set to the full width of a
+ * catalog's content column is roughly 140 characters a line, at which point
+ * the eye loses its place returning to the left edge.
+ */
+
+@layer dd.component {
+  .prose {
+    max-width: 72ch;
+    font-size: var(--dd-text-lg);
+    line-height: 1.75;
+  }
+
+  .prose-wide { max-width: none; }
+
+  /* ---- headings ---- */
+
+  .prose :is(h1, h2, h3, h4, h5, h6) {
+    font-weight: 650;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    display: block;
+    border: none;
+    padding: 0;
+    scroll-margin-top: calc(var(--dd-topbar-height) + var(--dd-sp-4));
+  }
+
+  .prose h1 { font-size: 28px; margin: 0 0 var(--dd-sp-5); }
+  .prose h2 { font-size: 21px; margin: var(--dd-sp-7) 0 var(--dd-sp-4); }
+  .prose h3 { font-size: 17px; margin: var(--dd-sp-6) 0 var(--dd-sp-3); }
+  .prose h4 { font-size: 15px; margin: var(--dd-sp-5) 0 var(--dd-sp-3); }
+  .prose :is(h5, h6) { font-size: var(--dd-text-lg); margin: var(--dd-sp-5) 0 var(--dd-sp-2); }
+
+  /* A heading that opens the article has nothing to separate itself from. */
+  .prose > :is(h1, h2, h3, h4):first-child { margin-top: 0; }
+
+  /* A rule under the top two levels, to make the shape of a long document
+     legible while scrolling past it. */
+  .prose :is(h1, h2) {
+    padding-bottom: var(--dd-sp-2);
+    border-bottom: 1px solid var(--dd-border);
+  }
+
+  /* ---- blocks ---- */
+
+  .prose p { margin: 0 0 var(--dd-sp-5); }
+
+  .prose :is(ul, ol) { margin: 0 0 var(--dd-sp-5); padding-left: var(--dd-sp-6); }
+  .prose li { margin-bottom: var(--dd-sp-2); }
+  .prose li > :is(ul, ol) { margin: var(--dd-sp-2) 0 0; }
+  .prose li::marker { color: var(--dd-fg-subtle); }
+
+  .prose :is(dl) { margin: 0 0 var(--dd-sp-5); }
+  .prose dt { font-weight: 650; margin-top: var(--dd-sp-4); }
+  .prose dd { margin: 0 0 0 var(--dd-sp-5); color: var(--dd-fg-muted); }
+
+  .prose hr {
+    border: none;
+    border-top: 1px solid var(--dd-border);
+    margin: var(--dd-sp-7) 0;
+  }
+
+  .prose blockquote {
+    margin: 0 0 var(--dd-sp-5);
+    padding-left: var(--dd-sp-5);
+    border-left: 3px solid var(--dd-border-strong);
+    color: var(--dd-fg-muted);
+  }
+
+  .prose blockquote > :last-child { margin-bottom: 0; }
+
+  .prose pre {
+    background: var(--dd-surface);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius);
+    padding: var(--dd-sp-4);
+    margin: 0 0 var(--dd-sp-5);
+    overflow-x: auto;
+    line-height: 1.6;
+    font-size: var(--dd-text-sm);
+  }
+
+  .prose table { margin: 0 0 var(--dd-sp-5); font-size: var(--dd-text-md); }
+
+  .prose :is(img, video) {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--dd-radius);
+  }
+
+  .prose figure { margin: 0 0 var(--dd-sp-5); }
+
+  .prose figcaption {
+    margin-top: var(--dd-sp-2);
+    font-size: var(--dd-text-sm);
+    color: var(--dd-fg-subtle);
+  }
+
+  .prose > :last-child { margin-bottom: 0; }
+
+  /*
+   * A badge in a README is an image from a service that a generated,
+   * archived page should not be reaching out to. The generator replaces it
+   * with the alt text and keeps the URL in a title, so the line still reads
+   * as a row of badges without the page making five requests to render it.
+   */
+  .md-target {
+    display: inline-block;
+    padding: 0 var(--dd-sp-2);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius-sm);
+    background: var(--dd-surface);
+    font-size: var(--dd-text-xs);
+    color: var(--dd-fg-muted);
+    line-height: 17px;
+    cursor: help;
+  }
+
+  a .md-target { color: var(--dd-link); border-color: var(--dd-link); }
+
+  /* A checklist written in markdown. */
+  .prose li:has(> input[type="checkbox"]) { list-style: none; margin-left: calc(var(--dd-sp-6) * -1); }
+  .prose li > input[type="checkbox"] { margin-right: var(--dd-sp-2); }
+}

@@ -1,0 +1,148 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Principles" />
+
+# What this design is
+
+A design system for **documents a program wrote**. Not an app, not a website —
+an API reference with 542 symbols, a SQL catalog with 844 statements and 978
+findings, a report a run produced at 14:02 and nobody has read yet.
+
+That subject has properties an interface design usually does not, and they are
+what the system is shaped by:
+
+- **Nobody chose to come here.** A tool produced the page and someone followed
+  a link into the middle of it, holding one question.
+- **The volume is unbounded and unedited.** No one curated the 844 statements.
+  Some are 200 lines long. One table has 77 rows and another has 3.
+- **The page is an artifact, not a session.** It gets archived, mailed,
+  printed, opened from disk two years later, diffed against last month's.
+- **It was written by string concatenation**, in PHP, in Rust, in a shell
+  script — so the markup is the API, and it has to be writable that way.
+
+Eight principles follow from that.
+
+---
+
+## 1. The reader arrived with a question
+
+Every page answers "what am I looking at" before it answers anything else, and
+every page says where else there is to go. A generated reference that shows
+only the thing you asked for strands a reader who asked for the wrong thing —
+which, arriving from a search engine, they usually have.
+
+This is why `.card` carries a hint and not just a list, why `.lede` exists as
+a distinct register, and why the sidebar shows counts. *Statements 844* and
+*Statements* are different amounts of help.
+
+## 2. Say what is not known
+
+**This is the principle the rest of the system bends around.**
+
+An analyzer that cannot resolve a statement has learned something, and the
+page has to be able to say it. If the design can only render success, the
+generator will round up — a lower bound gets printed as a total, an
+unreachable branch gets counted as covered, and the document becomes
+confidently wrong.
+
+So absence is a first-class mark, not an error state:
+
+- `.hole` — a gap *inside* a value, with the reason on hover
+- `.meter-part.is-open` — "as far as we got", drawn differently from a finished
+  category
+- `.empty` — nothing here, and *why*, and the way out
+- `.caveat` — something the reader would be wrong to assume still holds
+- `.is-open` on a timeline — the run has not finished
+
+It is also why the hue budget reserves red. Red never appears in syntax
+highlighting, never marks a kind, never means "delete key". The one red on a
+page always means *something here needs looking at* — and that is only true if
+nothing else is allowed to use it.
+
+## 3. A number carries its question
+
+`978` is not information. `978 findings` is. `978 findings, 709 of them
+dynamic SQL` is better.
+
+Counts never float free: `.count` attaches to a heading, `.facet-count` rides
+on the filter, `.legend-count` sits between the chip and the sentence defining
+it, `.stat-label` is part of `.stat`. A filter that turns out to match nothing
+is a dead end the reader has to reverse out of — a count on the control means
+they never take it.
+
+## 4. Two speeds, two scales
+
+A catalog is **scanned**: the reader is looking for one row among hundreds, so
+it is dense — 13px body, small space steps, one line per item, clipped rather
+than wrapped.
+
+A report is **read**: it makes an argument once, start to finish, so it has
+air — 16px body, a 28px baseline, twelve columns, and exactly one figure large
+enough to be the point.
+
+Forcing both onto one scale costs the catalog its density or the report its
+air. So there are two scales and two genres, and a page picks one.
+
+## 5. Colour is vocabulary, not decoration
+
+Ten hues, each spoken for:
+
+**Identity** — `blue` `violet` `amber` `teal` `pink` `indigo` `slate` — say
+what a thing *is*. A SELECT, a trait, a layer. No judgement: a page full of
+identity colour is not a page full of warnings.
+
+**State** — `green` `gold` `red` — say how a thing is *going*.
+
+Mixing them is how a catalog ends up looking like an alarm panel. Syntax
+highlighting reuses identity hues at text weight only, and never red.
+
+## 6. Every mark says it twice
+
+Colour is never the only carrier. A diff line has a `+` as well as a tint. An
+active facet has an outline as well as more opacity. The current sidebar item
+has a bar on its edge as well as a wash. An unsupported graph edge is dashed as
+well as amber.
+
+Partly this is contrast and colour vision. Mostly it is that **these documents
+get printed**, and on paper the tint is gone.
+
+## 7. The page outlives the tool
+
+No build step, no JavaScript requirement, no network at render time. One
+`<link>`.
+
+The behaviour layer is optional and additive — take it away and nothing
+breaks, it is a classic script rather than a module because a module fails
+outright on `file://`, and a README badge is rendered as text rather than as
+an image request to a service that may not exist next year.
+
+Printing is a supported output, not an afterthought: the report a run produced
+is exactly the kind of thing that gets attached to a ticket as a PDF.
+
+## 8. The cascade is structural, not a convention
+
+The system is entirely inside `@layer dd`. Layers rank below unlayered CSS
+regardless of specificity, so a consumer overrides anything by writing an
+ordinary rule.
+
+That is what buys plain class names. `.chip` and `.sidebar` are not defended
+by a `dd-` prefix, because the question a prefix was answering — *who wins* —
+is answered by the cascade instead. Custom properties **are** prefixed, because
+they inherit through the whole document and no layer contains them.
+
+Naming discipline is a convention that each generator has to keep. A layer is
+a rule the browser keeps.
+
+---
+
+## What this system is not
+
+- **Not a UI kit.** There are almost no controls, because a document is read,
+  not operated. The few that exist — a theme toggle, a filter, a copy button —
+  are there because all three source projects had written them separately.
+- **Not responsive-first.** These pages are read on a desktop, next to an
+  editor. They work down to a phone; they are not designed for one.
+- **Not animated.** A disclosure triangle turns and a tooltip fades. That is
+  the whole of it, and both stop under `prefers-reduced-motion`.
+- **Not opinionated about your vocabulary.** The tone system carries colour;
+  `.k-select` and `.k-class` stay yours, as one-line aliases.

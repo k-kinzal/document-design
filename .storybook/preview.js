@@ -32,7 +32,12 @@ export default {
       storySort: {
         order: [
           "Getting started",
-          "Foundations", ["Colour", "Type", "Tone"],
+          "Foundations",
+          [
+            "Principles",
+            "Colour", "Type", "Space", "Surface", "Grid",
+            "Tone", "Cascade", "Accessibility",
+          ],
           "Layouts",
           "Components",
           "Examples",
@@ -70,9 +75,16 @@ export default {
 
       const node = story();
 
-      /* The layer binds on DOMContentLoaded, which has long since fired by
-         the time a story renders, so it is (re)started per story. */
-      ensureBehaviour();
+      /*
+       * After the next frame, not now: a decorator *returns* its node and
+       * Storybook appends it afterwards, so anything that queries the DOM at
+       * this point queries a document the story is not in yet. Started here
+       * directly, every initializer that binds by selector — sort, filter,
+       * facets, tabs, the table of contents — found nothing and silently did
+       * nothing, while the document-level delegates (theme, copy, nav) kept
+       * working and hid it.
+       */
+      requestAnimationFrame(ensureBehaviour);
 
       const root = document.documentElement;
       if (theme === "auto") root.removeAttribute("data-dd-theme");

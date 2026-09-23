@@ -1,0 +1,97 @@
+/*
+ * Diff — what changed between two versions of a generated document.
+ *
+ *   <div class="diff-summary">
+ *     <span class="chip tone-ok">+12 added</span>
+ *     <span class="chip tone-danger">−3 removed</span>
+ *     <span class="chip tone-warn">7 changed</span>
+ *   </div>
+ *
+ *   <pre class="code diff"><span class="dl dl-add">+ public function build(): Statement</span>
+ *   <span class="dl dl-del">- public function build(): string</span></pre>
+ *
+ * Diff marks take state hues only — green adds, red removes, gold changes.
+ * Identity hues stay with the symbols they belong to, so a changed class is
+ * never read as a different kind of class.
+ *
+ * Every mark carries a character as well as a colour. A diff distinguished
+ * only by background tint is unreadable to a reader who cannot separate the
+ * two tints, and unreadable to anyone at all once the page is printed.
+ */
+
+@layer dd.component {
+  .diff-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--dd-sp-2);
+    margin: 0 0 var(--dd-sp-4);
+  }
+
+  /* ---- a changed line ---- */
+
+  .diff .dl { display: block; padding: 0 var(--dd-sp-2); margin: 0 calc(var(--dd-sp-4) * -1); }
+  .diff .dl { padding-left: var(--dd-sp-4); padding-right: var(--dd-sp-4); }
+
+  .dl-add { background: var(--dd-added-tint); color: var(--dd-added); }
+  .dl-del { background: var(--dd-removed-tint); color: var(--dd-removed); }
+  .dl-mod { background: var(--dd-modified-tint); color: var(--dd-modified); }
+
+  /* ---- a changed run inside a line ---- */
+
+  .d-add, .d-del, .d-mod {
+    border-radius: var(--dd-radius-sm);
+    padding: 0 2px;
+    font-weight: 600;
+  }
+
+  .d-add { background: var(--dd-added-tint); color: var(--dd-added); }
+  .d-del { background: var(--dd-removed-tint); color: var(--dd-removed); text-decoration: line-through; }
+  .d-mod { background: var(--dd-modified-tint); color: var(--dd-modified); }
+
+  /* ---- a changed entry in a listing ---- */
+
+  /*
+   * The status sits in the gutter rather than tinting the whole row: a
+   * listing where every row is washed green or red stops being a listing and
+   * becomes a diff, and the reader still needs to read the rows.
+   */
+  .is-added,
+  .is-removed,
+  .is-modified { position: relative; padding-left: var(--dd-sp-5); }
+
+  .is-added::before,
+  .is-removed::before,
+  .is-modified::before {
+    position: absolute;
+    left: 0;
+    font-family: var(--dd-font-mono);
+    font-weight: 700;
+  }
+
+  .is-added::before   { content: "+"; color: var(--dd-added); }
+  .is-removed::before { content: "−"; color: var(--dd-removed); }
+  .is-modified::before { content: "~"; color: var(--dd-modified); }
+
+  .is-removed { color: var(--dd-fg-muted); }
+
+  /* ---- the two versions being compared ---- */
+
+  .diff-range {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--dd-sp-3);
+    font-family: var(--dd-font-mono);
+    font-size: var(--dd-text-sm);
+    color: var(--dd-fg-muted);
+  }
+
+  .diff-arrow { color: var(--dd-fg-subtle); }
+
+  .diff-empty {
+    color: var(--dd-fg-subtle);
+    font-style: italic;
+    padding: var(--dd-sp-5) 0;
+  }
+}

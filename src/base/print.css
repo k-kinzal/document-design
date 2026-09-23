@@ -1,0 +1,76 @@
+/*
+ * Print.
+ *
+ * A run report is the kind of thing that gets printed to PDF and attached to
+ * a ticket, and a catalog page gets printed when someone takes it into a
+ * review. Neither survives screen styling untouched: the sidebar takes a
+ * quarter of the page, the sticky bar repeats on every sheet, and every
+ * chip's tint is either wasted ink or invisible.
+ *
+ * This layer is last, so it wins over anything a component says.
+ */
+
+@layer dd.print {
+  @media print {
+    /*
+     * Force the light palette. `color-scheme: dark` on paper means a reader
+     * who happened to have dark mode on prints white text on nothing, and
+     * then prints it again after finding the setting.
+     */
+    :root { color-scheme: light; }
+
+    html, body { background: #fff; }
+
+    /* Controls do nothing on paper. */
+    .topbar, .sidebar, .facets, .search-results, .nav-toggle,
+    .btn, .copy, .anchor, .pager, .pages, .to-top { display: none !important; }
+
+    .doc { display: block; }
+    .doc .content { max-width: none; padding: 0; }
+    .sheet { padding: 0; max-width: none; }
+
+    /* Tints cost ink and are unreliable on a printer that is short of it, so
+       marks are redrawn as outlines. */
+    .chip {
+      background: none !important;
+      border: 1px solid currentColor;
+      padding: 0 4px;
+    }
+
+    .meter { border: 1px solid #000; height: 10px; }
+    .meter-part { background: none !important; border-right: 1px solid #000; }
+
+    /* A link's destination is not recoverable from paper, so it is written
+       out — but only for links that leave the document. An in-page anchor
+       printed as "(#method.byFile)" is noise. */
+    .prose a[href^="http"]::after,
+    .content a[href^="http"]::after {
+      content: " (" attr(href) ")";
+      font-size: 0.85em;
+      color: #555;
+      word-break: break-all;
+    }
+
+    /* Everything the reader left open stays open; everything else is a
+       heading with nothing under it, which is worse than showing it. */
+    details { display: block; }
+    details > summary { list-style: none; }
+    details:not([open]) > summary::after { content: " (collapsed)"; color: #555; font-weight: 400; }
+
+    /* Break control: a heading at the foot of a page, or a figure split down
+       the middle, is the usual way a printed report becomes unreadable. */
+    :is(h1, h2, h3, h4) { break-after: avoid-page; }
+    :is(pre, table, figure, .card, .stat, .hold, .graph-wrap) { break-inside: avoid; }
+    .sec { break-inside: auto; }
+    tr, .row { break-inside: avoid; }
+
+    thead { display: table-header-group; }
+
+    /* A wrapper that scrolls on screen has nowhere to scroll on paper. */
+    .table-wrap, .graph-wrap, .terminal { overflow: visible !important; }
+
+    pre.code, pre.code-scroll { white-space: pre-wrap; word-break: break-word; }
+
+    @page { margin: 16mm; }
+  }
+}

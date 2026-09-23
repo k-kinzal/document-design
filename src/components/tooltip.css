@@ -1,0 +1,63 @@
+/*
+ * Tooltip — the long form of something the page can only show short.
+ *
+ *   <span class="hint" data-dd-hint="A dependency the analyzer does not model">
+ *     incomplete-model
+ *   </span>
+ *
+ * CSS only. These documents are read offline and printed, and a tooltip that
+ * needs JavaScript to appear is one more thing that is not there when the
+ * page is a file on disk.
+ *
+ * It is an *addition*, never the only copy of something. Anything a reader
+ * must have is written on the page: a tooltip cannot be reached by touch, by
+ * find-in-page, or by print.
+ */
+
+@layer dd.component {
+  .hint {
+    position: relative;
+    border-bottom: 1px dotted var(--dd-fg-subtle);
+    cursor: help;
+  }
+
+  .hint::after {
+    content: attr(data-dd-hint);
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 6px);
+    z-index: 50;
+    width: max-content;
+    max-width: 32ch;
+    padding: var(--dd-sp-2) var(--dd-sp-3);
+    border-radius: var(--dd-radius-sm);
+    background: var(--dd-ink);
+    color: var(--dd-bg);
+    font-size: var(--dd-text-xs);
+    font-weight: 400;
+    line-height: 1.5;
+    white-space: normal;
+    text-align: left;
+    box-shadow: var(--dd-shadow);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 100ms ease;
+  }
+
+  .hint:hover::after,
+  .hint:focus-visible::after { opacity: 1; visibility: visible; }
+
+  /* Near the right edge the box would be cut off by the content column. */
+  .hint-end::after { left: auto; right: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hint::after { transition: none; }
+  }
+
+  @media print {
+    .hint::after { display: none; }
+    /* In print the short form is all there is, so the long form is spelled
+       out beside it rather than lost. */
+    .hint::before { content: " (" attr(data-dd-hint) ")"; font-size: 0.9em; color: var(--dd-fg-muted); }
+  }
+}

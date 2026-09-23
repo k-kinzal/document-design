@@ -1,0 +1,62 @@
+/*
+ * File tree — where something lives, as a shape rather than as a path.
+ *
+ *   <ul class="filetree">
+ *     <li class="ft-dir">src
+ *       <ul>
+ *         <li class="ft-file"><a href="#">QueryBuilder.php</a><span class="ft-note">318</span></li>
+ *       </ul>
+ *     </li>
+ *   </ul>
+ *
+ * Guides are drawn with a border on the nested list rather than with box
+ * characters in the text, so the names are still selectable and searchable as
+ * names.
+ */
+
+@layer dd.component {
+  .filetree {
+    list-style: none;
+    margin: 0 0 var(--dd-sp-5);
+    padding: 0;
+    font-family: var(--dd-font-mono);
+    font-size: var(--dd-text-sm);
+    line-height: 1.9;
+  }
+
+  .filetree ul {
+    list-style: none;
+    margin: 0;
+    padding-left: var(--dd-sp-4);
+    border-left: 1px solid var(--dd-border);
+    margin-left: var(--dd-sp-3);
+  }
+
+  .filetree li {
+    display: grid;
+    grid-template-columns: 1.4em 1fr auto;
+    align-items: baseline;
+    column-gap: var(--dd-sp-2);
+  }
+
+  .filetree li > ul { grid-column: 1 / -1; }
+
+  .filetree li::before {
+    color: var(--dd-fg-subtle);
+    font-size: 0.9em;
+  }
+
+  .ft-dir::before  { content: "▸"; }
+  .ft-dir.is-open::before { content: "▾"; }
+  .ft-file::before { content: "·"; }
+
+  .ft-dir > :nth-child(1) { font-weight: 600; color: var(--dd-fg); }
+
+  .ft-note {
+    color: var(--dd-fg-subtle);
+    font-size: var(--dd-text-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .filetree li.is-current > a { color: var(--dd-accent); font-weight: 600; }
+}

@@ -1,0 +1,96 @@
+/*
+ * Pagination — the next thing along, when the things have an order.
+ *
+ *   <nav class="pager">
+ *     <a class="pager-prev" href="#"><span class="pager-dir">Previous</span>
+ *        <span class="pager-name">ErrorGrouping</span></a>
+ *     <a class="pager-next" href="#"><span class="pager-dir">Next</span>
+ *        <span class="pager-name">ErrorSourceReader</span></a>
+ *   </nav>
+ *
+ * Each link names its destination. "Next ›" on its own makes the reader click
+ * to find out where they are going, and on a generated reference the answer is
+ * usually "not where I wanted".
+ */
+
+@layer dd.component {
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--dd-sp-4);
+    margin: var(--dd-sp-7) 0 0;
+    padding-top: var(--dd-sp-4);
+    border-top: 1px solid var(--dd-border);
+  }
+
+  .pager > a {
+    display: block;
+    padding: var(--dd-sp-3) var(--dd-sp-4);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius);
+    color: var(--dd-fg);
+    min-width: 0;
+  }
+
+  .pager > a:hover { border-color: var(--dd-accent); text-decoration: none; }
+  .pager > a:hover .pager-name { color: var(--dd-link); }
+
+  .pager-next { grid-column: 2; text-align: right; }
+
+  .pager-dir {
+    display: block;
+    font-size: var(--dd-text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--dd-fg-subtle);
+    margin-bottom: var(--dd-sp-1);
+  }
+
+  .pager-prev .pager-dir::before { content: "← "; }
+  .pager-next .pager-dir::after { content: " →"; }
+
+  .pager-name {
+    display: block;
+    font-family: var(--dd-font-mono);
+    font-size: var(--dd-text-md);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ---- numbered pages, for a listing that is split ---- */
+
+  .pages {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--dd-sp-2);
+    margin: var(--dd-sp-5) 0;
+    font-size: var(--dd-text-md);
+  }
+
+  .pages a, .pages span {
+    min-width: 30px;
+    padding: var(--dd-sp-1) var(--dd-sp-3);
+    border: 1px solid transparent;
+    border-radius: var(--dd-radius-sm);
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pages a:hover { background: var(--dd-hover); text-decoration: none; }
+
+  .pages .is-current {
+    border-color: var(--dd-border);
+    background: var(--dd-surface);
+    font-weight: 600;
+    color: var(--dd-fg);
+  }
+
+  .pages .pages-gap { color: var(--dd-fg-subtle); border: none; }
+
+  @media (max-width: 720px) {
+    .pager { grid-template-columns: 1fr; }
+    .pager-next { grid-column: 1; }
+  }
+}

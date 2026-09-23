@@ -1,0 +1,58 @@
+/*
+ * Callout — a paragraph that steps out of the flow to say something the
+ * surrounding text depends on: a caveat, a prerequisite, a warning.
+ *
+ *   <div class="callout tone-warn">
+ *     <p class="callout-title">Not a lower bound</p>
+ *     <p>…</p>
+ *   </div>
+ *
+ * Distinct from `.notice`, which is about the *page* — "this listing is
+ * filtered", "the analysis did not finish". A callout is about the *text it
+ * sits in*, so it lives inside prose and takes prose's measure.
+ */
+
+@layer dd.component {
+  .callout {
+    margin: 0 0 var(--dd-sp-5);
+    padding: var(--dd-sp-4) var(--dd-sp-5);
+    border-radius: var(--dd-radius);
+    border-left: 3px solid var(--dd-tone, var(--dd-border-strong));
+    background: var(--dd-tone-tint, var(--dd-surface));
+    font-size: var(--dd-text-md);
+  }
+
+  .callout-title {
+    font-weight: 650;
+    color: var(--dd-tone, var(--dd-fg));
+    margin: 0 0 var(--dd-sp-2);
+    display: flex;
+    align-items: baseline;
+    gap: var(--dd-sp-2);
+  }
+
+  .callout > :last-child { margin-bottom: 0; }
+  .callout p { margin-bottom: var(--dd-sp-3); }
+
+  /* A margin note: the same remark, when it is genuinely an aside and should
+     not interrupt the column. Folds back into the flow when there is no room
+     beside the text for it. */
+  .callout-margin {
+    border: none;
+    background: none;
+    padding: 0;
+    color: var(--dd-fg-muted);
+    font-size: var(--dd-text-sm);
+  }
+
+  @media (min-width: 1100px) {
+    .prose .callout-margin {
+      float: right;
+      clear: right;
+      width: 15rem;
+      margin: 0 -17rem var(--dd-sp-4) var(--dd-sp-5);
+      border-top: 2px solid var(--dd-tone, var(--dd-border-strong));
+      padding-top: var(--dd-sp-2);
+    }
+  }
+}

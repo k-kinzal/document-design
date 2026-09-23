@@ -1,0 +1,53 @@
+/*
+ * Tabs — one subject, several views of it: a signature and its source, a
+ * statement as resolved and as written.
+ *
+ *   <div class="tabs" data-dd-tabs>
+ *     <div class="tablist" role="tablist">
+ *       <button class="tab" role="tab" aria-selected="true" aria-controls="p1">Resolved</button>
+ *       <button class="tab" role="tab" aria-selected="false" aria-controls="p2">As written</button>
+ *     </div>
+ *     <div class="tabpanel" id="p1" role="tabpanel">…</div>
+ *     <div class="tabpanel" id="p2" role="tabpanel" hidden>…</div>
+ *   </div>
+ *
+ * Only for views of the *same* thing. Content a reader might want to find
+ * without knowing it is there belongs in a disclosure or on the page, because
+ * an inactive tab panel is invisible to the browser's find-in-page and to
+ * anyone who arrived from a search engine.
+ */
+
+@layer dd.component {
+  .tablist {
+    display: flex;
+    gap: var(--dd-sp-4);
+    border-bottom: 1px solid var(--dd-border);
+    margin-bottom: var(--dd-sp-4);
+    overflow-x: auto;
+  }
+
+  .tab {
+    appearance: none;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    padding: var(--dd-sp-3) 0;
+    cursor: pointer;
+    font-size: var(--dd-text-md);
+    font-weight: 600;
+    color: var(--dd-fg-muted);
+    white-space: nowrap;
+  }
+
+  .tab:hover { color: var(--dd-fg); }
+
+  .tab[aria-selected="true"] {
+    color: var(--dd-fg);
+    border-bottom-color: var(--dd-accent);
+  }
+
+  .tab .count { margin-left: var(--dd-sp-2); }
+
+  .tabpanel:focus-visible { outline-offset: 4px; }
+}

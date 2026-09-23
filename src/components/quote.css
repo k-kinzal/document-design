@@ -1,0 +1,51 @@
+/*
+ * Quote — someone else's words, or the page's own, lifted out.
+ *
+ *   <blockquote class="quote">
+ *     <p>…</p>
+ *     <cite class="quote-source">deptrac.yaml</cite>
+ *   </blockquote>
+ *
+ * The pull variant is for a report: one line of the argument set large, so a
+ * reader skimming the page still collects the point. It is quiet about being
+ * a quote — no marks, no italics — because it is usually the page quoting
+ * itself.
+ */
+
+@layer dd.component {
+  .quote {
+    margin: 0 0 var(--dd-sp-5);
+    padding-left: var(--dd-sp-5);
+    border-left: 3px solid var(--dd-tone, var(--dd-border-strong));
+    color: var(--dd-fg-muted);
+  }
+
+  .quote > :last-child { margin-bottom: 0; }
+
+  .quote-source {
+    display: block;
+    margin-top: var(--dd-sp-2);
+    font-size: var(--dd-text-sm);
+    font-style: normal;
+    color: var(--dd-fg-subtle);
+  }
+
+  .quote-source::before { content: "— "; }
+
+  .pull {
+    margin: calc(var(--dd-base) * 1.5) 0;
+    padding: 0;
+    border: none;
+    font-size: var(--dd-type-4);
+    line-height: 1.45;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: var(--dd-fg);
+  }
+
+  .pull .quote-source {
+    font-size: var(--dd-type-1);
+    font-weight: 400;
+    margin-top: var(--dd-sp-4);
+  }
+}

@@ -1,0 +1,36 @@
+/*
+ * Definitions — terms and what they mean here.
+ *
+ *   <dl class="defs">
+ *     <div><dt>lower bound</dt>
+ *       <dd>The call may issue more statements than are listed.</dd></div>
+ *   </dl>
+ *
+ * A generated reference invents vocabulary — "resolved", "incomplete-model",
+ * "lower bound" — and then uses it in every row. Somewhere the words have to
+ * be defined, or the chips are decoration.
+ */
+
+@layer dd.component {
+  .defs { margin: 0 0 var(--dd-sp-5); font-size: var(--dd-text-md); }
+
+  .defs > div {
+    display: grid;
+    grid-template-columns: minmax(8rem, 14rem) 1fr;
+    gap: var(--dd-sp-3) var(--dd-sp-5);
+    padding: var(--dd-sp-3) 0;
+    border-top: 1px solid var(--dd-border);
+    align-items: baseline;
+  }
+
+  .defs dt { font-weight: 650; }
+  .defs dd { margin: 0; color: var(--dd-fg-muted); }
+  .defs dd > :last-child { margin-bottom: 0; }
+
+  /* Stacked, where the terms are long or the column is narrow. */
+  .defs-stacked > div { grid-template-columns: 1fr; gap: var(--dd-sp-1); }
+
+  @media (max-width: 720px) {
+    .defs > div { grid-template-columns: 1fr; gap: var(--dd-sp-1); }
+  }
+}

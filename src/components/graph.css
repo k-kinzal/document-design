@@ -1,0 +1,98 @@
+/*
+ * Graph — boxes and arrows: which layer may depend on which, which module
+ * pulls in which.
+ *
+ *   <div class="graph-wrap">
+ *     <svg class="graph" viewBox="0 0 800 260" role="img" aria-label="…">
+ *       <path class="edge" d="M …"/>
+ *       <circle class="edge-tip" cx="…" cy="…" r="2.6"/>
+ *       <a href="…"><rect class="node" …/><text …>DocGen (169)</text></a>
+ *     </svg>
+ *   </div>
+ *
+ * The layout is the generator's job — it knows the graph and can run a proper
+ * ranking pass. What is here is what a drawn graph should look like: the
+ * tokens, the weights, and the fact that a node is a link.
+ *
+ * Edges are drawn before nodes in document order so that a node sits on top
+ * of the lines that reach it; SVG has no z-index to fix it afterwards.
+ */
+
+@layer dd.component {
+  .graph-wrap {
+    overflow-x: auto;
+    margin: 0 0 var(--dd-sp-5);
+    padding: var(--dd-sp-3) 0;
+  }
+
+  .graph { display: block; height: auto; }
+
+  .graph text {
+    fill: var(--dd-fg);
+    font-family: var(--dd-font-sans);
+    font-size: 12px;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    pointer-events: none;
+  }
+
+  .node {
+    fill: var(--dd-surface);
+    stroke: var(--dd-border-strong);
+    stroke-width: 1;
+  }
+
+  .graph a:hover .node { fill: var(--dd-hover); stroke: var(--dd-accent); }
+
+  /* A node that carries identity takes a tone, like everything else. */
+  .node-toned {
+    fill: var(--dd-tone-tint, var(--dd-surface));
+    stroke: var(--dd-tone, var(--dd-border-strong));
+  }
+
+  /* Something outside the project: drawn, but not claimed. */
+  .node-outside {
+    fill: none;
+    stroke: var(--dd-border);
+    stroke-dasharray: 4 3;
+  }
+
+  .graph a:hover .node-outside { stroke: var(--dd-accent); }
+
+  .edge {
+    fill: none;
+    stroke: var(--dd-rule);
+    stroke-width: 1.2;
+  }
+
+  .edge-tip { fill: var(--dd-rule); stroke: none; }
+
+  /*
+   * An edge's kind is dashing as well as colour. On a graph of thirty edges,
+   * "the amber ones are dev dependencies" is a legend the reader has to hold
+   * in their head and cannot check; a dash pattern is visible in the line
+   * itself.
+   */
+  .edge-dev { stroke: var(--dd-amber); stroke-dasharray: 5 4; }
+  .edge-dev + .edge-tip { fill: var(--dd-amber); }
+
+  .edge-weak { stroke: var(--dd-fg-subtle); stroke-dasharray: 2 3; }
+  .edge-weak + .edge-tip { fill: var(--dd-fg-subtle); }
+
+  .edge-bad { stroke: var(--dd-danger); stroke-width: 1.6; }
+  .edge-bad + .edge-tip { fill: var(--dd-danger); }
+
+  /* ---- what the drawing's marks mean ---- */
+
+  .graph-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dd-sp-3) var(--dd-sp-5);
+    font-size: var(--dd-text-sm);
+    color: var(--dd-fg-muted);
+    margin: 0 0 var(--dd-sp-5);
+  }
+
+  .graph-legend > * { display: flex; align-items: center; gap: var(--dd-sp-2); }
+  .graph-legend svg { width: 28px; height: 8px; flex: none; }
+}

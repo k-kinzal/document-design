@@ -38,17 +38,18 @@
  * buy nothing and cost every generated line that mentions a class.
  */
 
-@layer dd.reset, dd.tokens, dd.base, dd.layout, dd.component, dd.utility;
+@layer dd.reset, dd.tokens, dd.base, dd.layout, dd.component, dd.utility, dd.print;
 
 /* tokens — the palette, what the hues mean, and the scales */
 @import url("./tokens/palette.css") layer(dd.tokens);
 @import url("./tokens/role.css") layer(dd.tokens);
 @import url("./tokens/scale.css") layer(dd.tokens);
 
-/* base — the reset, the type, and the one modifier system */
+/* base — the reset, the type, the one modifier system, and the aids */
 @import url("./base/reset.css") layer(dd.reset);
 @import url("./base/text.css") layer(dd.base);
 @import url("./base/tone.css") layer(dd.base);
+@import url("./base/skip.css") layer(dd.base);
 
 /* layout — the two genres and the arrangements they share */
 @import url("./layout/doc.css") layer(dd.layout);
@@ -70,3 +71,32 @@
 @import url("./components/search.css") layer(dd.component);
 @import url("./components/facts.css") layer(dd.component);
 @import url("./components/symbol.css") layer(dd.component);
+
+/* components — reading */
+@import url("./components/prose.css") layer(dd.component);
+@import url("./components/callout.css") layer(dd.component);
+@import url("./components/quote.css") layer(dd.component);
+@import url("./components/deflist.css") layer(dd.component);
+
+/* components — code and change */
+@import url("./components/diff.css") layer(dd.component);
+@import url("./components/terminal.css") layer(dd.component);
+@import url("./components/filetree.css") layer(dd.component);
+
+/* components — structure */
+@import url("./components/tree.css") layer(dd.component);
+@import url("./components/graph.css") layer(dd.component);
+@import url("./components/disclosure.css") layer(dd.component);
+@import url("./components/tabs.css") layer(dd.component);
+@import url("./components/pagination.css") layer(dd.component);
+
+/* components — status */
+@import url("./components/banner.css") layer(dd.component);
+@import url("./components/empty.css") layer(dd.component);
+@import url("./components/stat.css") layer(dd.component);
+@import url("./components/timeline.css") layer(dd.component);
+@import url("./components/keys.css") layer(dd.component);
+@import url("./components/tooltip.css") layer(dd.component);
+
+/* print — last, so it wins over anything a component says */
+@import url("./base/print.css") layer(dd.print);

@@ -1,0 +1,67 @@
+/*
+ * Disclosure — something the page has, but does not lead with.
+ *
+ *   <details class="disclosure">
+ *     <summary>Called by <span class="count">143</span></summary>
+ *     …
+ *   </details>
+ *
+ * Native <details>: it works with no JavaScript, prints open if the reader
+ * left it open, and is findable by the browser's own in-page search in
+ * engines that expand it to reach a match.
+ *
+ * The count belongs on the summary. "Called by" tells a reader nothing about
+ * whether opening it is worth the scroll; "Called by 143" does.
+ */
+
+@layer dd.component {
+  .disclosure {
+    border-top: 1px solid var(--dd-border);
+    margin: 0;
+  }
+
+  .disclosure > summary {
+    display: flex;
+    align-items: baseline;
+    gap: var(--dd-sp-2);
+    cursor: pointer;
+    padding: var(--dd-sp-3) 0;
+    font-size: var(--dd-text-md);
+    font-weight: 600;
+    list-style: none;
+  }
+
+  .disclosure > summary::-webkit-details-marker { display: none; }
+
+  .disclosure > summary::before {
+    content: "▸";
+    color: var(--dd-fg-subtle);
+    font-size: 0.85em;
+    display: inline-block;
+    transition: transform 120ms ease;
+  }
+
+  .disclosure[open] > summary::before { transform: rotate(90deg); }
+
+  .disclosure > summary:hover { color: var(--dd-link); }
+
+  .disclosure-body { padding: 0 0 var(--dd-sp-4) var(--dd-sp-4); }
+
+  /* Several in a row read as one control if they share their edges. */
+  .disclosure-group > .disclosure:last-child { border-bottom: 1px solid var(--dd-border); }
+
+  /* Boxed, for a disclosure that is a thing rather than a section. */
+  .disclosure-boxed {
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius);
+    margin-bottom: var(--dd-sp-3);
+  }
+
+  .disclosure-boxed > summary { padding: var(--dd-sp-3) var(--dd-sp-4); }
+  .disclosure-boxed[open] > summary { border-bottom: 1px solid var(--dd-border); }
+  .disclosure-boxed > .disclosure-body { padding: var(--dd-sp-4); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .disclosure > summary::before { transition: none; }
+  }
+}

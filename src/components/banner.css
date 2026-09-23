@@ -1,0 +1,44 @@
+/*
+ * Banner — a fact about the whole page, carried at the top of it.
+ *
+ *   <div class="banner tone-warn">
+ *     <span class="banner-label">Diff</span>
+ *     <span class="banner-body">Comparing <code>v1.4.0</code> against <code>main</code>.</span>
+ *     <a class="banner-action" href="#">Show the full reference</a>
+ *   </div>
+ *
+ * Distinct from `.notice`, which sits in the flow next to what it qualifies.
+ * A banner is the page's mode — "this is a diff", "this build is stale" — and
+ * applies to everything under it, so it sits above the content and stays
+ * there when the content scrolls past.
+ */
+
+@layer dd.component {
+  .banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--dd-sp-2) var(--dd-sp-4);
+    padding: var(--dd-sp-3) var(--dd-sp-6);
+    background: var(--dd-tone-tint, var(--dd-surface));
+    border-bottom: 1px solid var(--dd-tone, var(--dd-border));
+    font-size: var(--dd-text-md);
+    color: var(--dd-fg-muted);
+  }
+
+  .banner-label {
+    font-size: var(--dd-text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--dd-tone, var(--dd-fg-subtle));
+  }
+
+  .banner-body { flex: 1; min-width: 0; }
+  .banner-action { margin-left: auto; white-space: nowrap; }
+
+  @media (max-width: 900px) {
+    .banner { padding: var(--dd-sp-3) var(--dd-sp-4); }
+    .banner-action { margin-left: 0; }
+  }
+}

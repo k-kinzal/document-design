@@ -1,0 +1,42 @@
+/*
+ * Empty — nothing here, and why.
+ *
+ *   <div class="empty">
+ *     <p class="empty-title">No statements match</p>
+ *     <p class="empty-note">Five filters are active.</p>
+ *     <button class="btn" data-dd-facet-clear>Clear filters</button>
+ *   </div>
+ *
+ * The reason and the way out are the component. A generated page that says
+ * only "No results" leaves the reader unable to tell whether they filtered
+ * everything away or the analysis found nothing — and those call for opposite
+ * next moves.
+ */
+
+@layer dd.component {
+  .empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--dd-sp-3);
+    text-align: center;
+    padding: var(--dd-sp-7) var(--dd-sp-5);
+    border: 1px dashed var(--dd-border);
+    border-radius: var(--dd-radius);
+    color: var(--dd-fg-muted);
+  }
+
+  .empty-title { margin: 0; font-weight: 650; color: var(--dd-fg); font-size: var(--dd-text-lg); }
+  .empty-note { margin: 0; font-size: var(--dd-text-md); max-width: 46ch; }
+
+  /* Inline, for an empty section inside a page that is otherwise full. */
+  .empty-inline {
+    display: block;
+    text-align: left;
+    padding: var(--dd-sp-4) 0;
+    border: none;
+    font-size: var(--dd-text-md);
+    color: var(--dd-fg-subtle);
+    font-style: italic;
+  }
+}

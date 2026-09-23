@@ -1,0 +1,53 @@
+/*
+ * Skip link and the other navigation aids.
+ *
+ * A catalog page puts a sidebar of a hundred links before its content. For
+ * anyone tabbing through the page, or hearing it read, that is a hundred
+ * items between arriving and reading — on every page of the catalog.
+ *
+ *   <a class="skip" href="#content">Skip to content</a>
+ *
+ * Hidden until focused, which is the one case where hiding something from
+ * sight but not from the keyboard is right.
+ */
+
+@layer dd.base {
+  .skip {
+    position: absolute;
+    left: var(--dd-sp-3);
+    top: calc(var(--dd-sp-3) * -1);
+    z-index: 100;
+    transform: translateY(-150%);
+    padding: var(--dd-sp-3) var(--dd-sp-4);
+    background: var(--dd-raised);
+    border: 1px solid var(--dd-accent);
+    border-radius: var(--dd-radius);
+    box-shadow: var(--dd-shadow);
+    font-size: var(--dd-text-md);
+    font-weight: 600;
+  }
+
+  .skip:focus {
+    transform: translateY(calc(var(--dd-sp-3) * 2));
+    text-decoration: none;
+  }
+
+  /* Back to the top of a long generated listing. */
+  .to-top {
+    position: fixed;
+    right: var(--dd-sp-5);
+    bottom: var(--dd-sp-5);
+    z-index: 25;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 150ms ease;
+    background: var(--dd-raised);
+    box-shadow: var(--dd-shadow);
+  }
+
+  .to-top.is-shown { opacity: 1; visibility: visible; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skip, .to-top { transition: none; }
+  }
+}

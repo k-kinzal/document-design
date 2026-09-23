@@ -448,6 +448,64 @@
     });
   }
 
+  /* --------------------------------------------------------------- tabs */
+
+  /*
+   * Tabs. Arrow keys move between them, which is what the tab pattern says
+   * and what a reader who navigates by keyboard expects; only the selected
+   * tab is in the tab order, so Tab leaves the strip rather than walking
+   * every view of the same thing.
+   */
+  function initTabs() {
+    each("[data-dd-tabs]", function (root) {
+      var tabs = [].slice.call(root.querySelectorAll('[role="tab"]'));
+      if (!tabs.length) return;
+
+      function select(tab) {
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute("aria-selected", on ? "true" : "false");
+          t.tabIndex = on ? 0 : -1;
+          var panel = document.getElementById(t.getAttribute("aria-controls"));
+          if (panel) panel.hidden = !on;
+        });
+      }
+
+      tabs.forEach(function (tab, i) {
+        tab.tabIndex = tab.getAttribute("aria-selected") === "true" ? 0 : -1;
+        tab.addEventListener("click", function () { select(tab); });
+        tab.addEventListener("keydown", function (ev) {
+          var next = null;
+          if (ev.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+          else if (ev.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+          else if (ev.key === "Home") next = tabs[0];
+          else if (ev.key === "End") next = tabs[tabs.length - 1];
+          if (!next) return;
+          ev.preventDefault();
+          select(next);
+          next.focus();
+        });
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------- to top */
+
+  function initToTop() {
+    var btn = document.querySelector("[data-dd-to-top]");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    });
+    var onScroll = function () {
+      btn.classList.toggle("is-shown", window.scrollY > window.innerHeight);
+    };
+    /* Passive: this runs on every scroll frame and never calls preventDefault,
+       and saying so is what keeps it off the main thread's critical path. */
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
   /* ---------------------------------------------------------------- toc */
 
   /*
@@ -499,6 +557,8 @@
     initFilter();
     initFacets();
     initSearch();
+    initTabs();
+    initToTop();
     initToc();
   }
 

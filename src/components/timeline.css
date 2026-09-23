@@ -1,0 +1,76 @@
+/*
+ * Timeline — what happened, in order.
+ *
+ *   <ol class="timeline">
+ *     <li class="tl-item tone-ok">
+ *       <span class="tl-time">14:02</span>
+ *       <p class="tl-title">Analysis finished</p>
+ *       <p class="tl-note">542 symbols in 4.2s</p>
+ *     </li>
+ *   </ol>
+ *
+ * For a run: the steps it took, which one failed, how long each took. The
+ * spine is drawn on the list rather than per item, so a list of two does not
+ * grow a line with nothing to join.
+ */
+
+@layer dd.component {
+  .timeline {
+    list-style: none;
+    margin: 0 0 var(--dd-sp-5);
+    padding: 0 0 0 var(--dd-sp-6);
+    position: relative;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: var(--dd-border);
+  }
+
+  .tl-item { position: relative; padding: 0 0 var(--dd-sp-5); }
+  .tl-item:last-child { padding-bottom: 0; }
+
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--dd-sp-6) * -1 + 2px);
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--dd-tone, var(--dd-rule));
+    box-shadow: 0 0 0 3px var(--dd-bg);
+  }
+
+  /* Still going: an outline rather than a filled mark, so a reader can see at
+     a glance where the run got to. */
+  .tl-item.is-open::before { background: var(--dd-bg); box-shadow: 0 0 0 3px var(--dd-bg), inset 0 0 0 2px var(--dd-rule); }
+
+  .tl-time {
+    display: block;
+    font-size: var(--dd-text-xs);
+    font-family: var(--dd-font-mono);
+    color: var(--dd-fg-subtle);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tl-title {
+    margin: var(--dd-sp-1) 0 0;
+    font-size: var(--dd-text-md);
+    font-weight: 600;
+    color: var(--dd-tone, var(--dd-fg));
+  }
+
+  .tl-note {
+    margin: var(--dd-sp-1) 0 0;
+    font-size: var(--dd-text-sm);
+    color: var(--dd-fg-muted);
+  }
+
+  .tl-item > .terminal, .tl-item > .code-block { margin-top: var(--dd-sp-3); }
+}

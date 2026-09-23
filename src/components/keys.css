@@ -1,0 +1,35 @@
+/*
+ * Keys — what the keyboard does on this page.
+ *
+ *   <dl class="keys">
+ *     <div><dt><kbd>/</kbd></dt><dd>Focus search</dd></div>
+ *     <div><dt><kbd>j</kbd> <kbd>k</kbd></dt><dd>Move through results</dd></div>
+ *   </dl>
+ *
+ * Worth having because the behaviour layer binds `/` whether or not the page
+ * says so, and an undiscoverable shortcut is one nobody uses.
+ */
+
+@layer dd.component {
+  .keys {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--dd-sp-2) var(--dd-sp-4);
+    margin: 0 0 var(--dd-sp-5);
+    font-size: var(--dd-text-md);
+    align-items: baseline;
+  }
+
+  .keys > div { display: contents; }
+  .keys dt { white-space: nowrap; }
+  .keys dd { margin: 0; color: var(--dd-fg-muted); }
+
+  .keys kbd + kbd { margin-left: var(--dd-sp-1); }
+
+  /* Inline, for a hint beside a control. */
+  .key-hint {
+    font-size: var(--dd-text-xs);
+    color: var(--dd-fg-subtle);
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,80 @@
+/*
+ * Stat — a figure that is the answer to something, with the question under it.
+ *
+ *   <div class="stats">
+ *     <div class="stat"><b class="stat-fig">844</b><span class="stat-label">statements</span></div>
+ *     <div class="stat tone-warn"><b class="stat-fig">978</b>
+ *       <span class="stat-label">findings</span>
+ *       <span class="stat-note">709 of them dynamic SQL</span></div>
+ *   </div>
+ *
+ * The catalog counterpart of the report sheet's `.hold`. Kept separate
+ * because they are sized for different reading: a hold is one of four figures
+ * on a page read straight through, and a stat is one of several on a page
+ * that continues underneath it.
+ *
+ * Figures are tabular here, unlike the report's lead number — these sit in a
+ * row and are meant to be compared, which is exactly when digits should line
+ * up.
+ */
+
+@layer dd.component {
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--dd-sp-4);
+    margin: 0 0 var(--dd-sp-5);
+  }
+
+  .stat {
+    padding: var(--dd-sp-4);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius);
+    background: var(--dd-raised);
+    min-width: 0;
+  }
+
+  .stat-fig {
+    display: block;
+    font-size: 28px;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--dd-tone, var(--dd-fg));
+  }
+
+  .stat-label {
+    display: block;
+    margin-top: var(--dd-sp-2);
+    font-size: var(--dd-text-md);
+    color: var(--dd-fg-muted);
+  }
+
+  .stat-note {
+    display: block;
+    margin-top: var(--dd-sp-1);
+    font-size: var(--dd-text-xs);
+    color: var(--dd-fg-subtle);
+  }
+
+  /* A direction, where one exists. Never on its own — a lone arrow does not
+     say whether up is good. */
+  .stat-delta {
+    display: inline-block;
+    margin-left: var(--dd-sp-2);
+    font-size: var(--dd-text-sm);
+    font-weight: 600;
+    vertical-align: middle;
+  }
+
+  .stat-up::before   { content: "↑ "; }
+  .stat-down::before { content: "↓ "; }
+  .stat-flat::before { content: "→ "; }
+
+  a.stat { color: inherit; display: block; }
+  a.stat:hover { border-color: var(--dd-accent); text-decoration: none; }
+
+  /* Bare, for a row of figures that does not want four boxes. */
+  .stats-plain .stat { border: none; background: none; padding: 0; }
+}

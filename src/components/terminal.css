@@ -1,0 +1,64 @@
+/*
+ * Terminal — a command and what it printed.
+ *
+ *   <div class="terminal">
+ *     <p class="term-cmd">composer docgen -- --diff</p>
+ *     <pre class="term-out">Analyzed 542 symbols in 4.2s</pre>
+ *     <p class="term-exit tone-ok">exit 0</p>
+ *   </div>
+ *
+ * The prompt mark is generated rather than written into the text, so copying
+ * the command copies the command and not a `$` the shell will refuse.
+ */
+
+@layer dd.component {
+  .terminal {
+    background: var(--dd-sunken);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius);
+    padding: var(--dd-sp-4);
+    margin: 0 0 var(--dd-sp-5);
+    font-family: var(--dd-font-mono);
+    font-size: var(--dd-text-sm);
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+
+  .term-cmd {
+    margin: 0;
+    color: var(--dd-fg);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .term-cmd::before {
+    content: "$ ";
+    color: var(--dd-accent);
+    user-select: none;
+  }
+
+  .term-out {
+    margin: var(--dd-sp-2) 0 0;
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--dd-fg-muted);
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: inherit;
+  }
+
+  .term-err { color: var(--dd-danger); }
+
+  .term-exit {
+    margin: var(--dd-sp-3) 0 0;
+    font-size: var(--dd-text-xs);
+    color: var(--dd-tone, var(--dd-fg-subtle));
+  }
+
+  .terminal > .term-cmd:not(:first-child) {
+    margin-top: var(--dd-sp-4);
+    padding-top: var(--dd-sp-3);
+    border-top: 1px solid var(--dd-border);
+  }
+}

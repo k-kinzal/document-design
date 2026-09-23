@@ -20,3 +20,45 @@ export function specimen(label, markup) {
 
 export const HUES = ["blue", "violet", "amber", "teal", "pink", "indigo", "slate"];
 export const STATES = ["ok", "warn", "danger", "neutral"];
+
+/* ---- measuring, for the foundation stories ---- */
+
+/*
+ * Contrast measured from what the browser actually computed, not from the hex
+ * values the source happens to say. Tints are a color-mix and the theme is a
+ * light-dark(), so the only honest number is the resolved one.
+ */
+export function relativeLuminance(rgb) {
+  const [r, g, b] = rgb.map((c) => {
+    const s = c / 255;
+    return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+export function parseColor(value) {
+  const probe = document.createElement("span");
+  probe.style.color = value;
+  document.body.appendChild(probe);
+  const resolved = getComputedStyle(probe).color;
+  probe.remove();
+  const m = resolved.match(/-?[\d.]+/g);
+  return m ? m.slice(0, 3).map(Number) : [0, 0, 0];
+}
+
+export function contrast(a, b) {
+  const la = relativeLuminance(parseColor(a));
+  const lb = relativeLuminance(parseColor(b));
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+
+export function token(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+/** Renders after the stylesheet has resolved, so measurements are real. */
+export function measured(build) {
+  const host = document.createElement("div");
+  requestAnimationFrame(() => { host.innerHTML = build(); });
+  return host;
+}

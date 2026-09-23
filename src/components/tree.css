@@ -1,0 +1,95 @@
+/*
+ * Tree — a hierarchy you navigate: namespaces, packages, layers.
+ *
+ *   <ul class="tree">
+ *     <li>
+ *       <details open>
+ *         <summary>PhpAiToolkit<span class="tree-count">542</span></summary>
+ *         <ul>
+ *           <li><a href="#">DocGen</a><span class="tree-count">169</span></li>
+ *         </ul>
+ *       </details>
+ *     </li>
+ *   </ul>
+ *
+ * Built on <details>, so a branch opens with no JavaScript, keeps its state
+ * in the DOM, and is reachable by keyboard because <summary> already is. A
+ * tree built from divs and a click handler has to re-earn all three.
+ */
+
+@layer dd.component {
+  .tree {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--dd-text-md);
+  }
+
+  .tree ul {
+    list-style: none;
+    margin: 0;
+    padding-left: var(--dd-sp-4);
+    border-left: 1px solid var(--dd-border);
+    margin-left: var(--dd-sp-4);
+  }
+
+  .tree li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--dd-sp-2);
+    padding: 2px 0;
+  }
+
+  .tree li > a {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tree details { flex: 1; min-width: 0; }
+
+  .tree summary {
+    display: flex;
+    align-items: baseline;
+    gap: var(--dd-sp-2);
+    cursor: pointer;
+    padding: 2px 0;
+    list-style: none;
+    font-weight: 600;
+  }
+
+  /* The default marker is a filled triangle in one engine and a chevron in
+     another; drawing it makes the tree the same shape everywhere. */
+  .tree summary::-webkit-details-marker { display: none; }
+
+  .tree summary::before {
+    content: "▸";
+    color: var(--dd-fg-subtle);
+    font-size: 0.85em;
+    transition: transform 120ms ease;
+    display: inline-block;
+  }
+
+  .tree details[open] > summary::before { transform: rotate(90deg); }
+
+  .tree summary > :first-of-type { flex: 1; min-width: 0; }
+
+  .tree-count {
+    color: var(--dd-fg-subtle);
+    font-size: var(--dd-text-xs);
+    font-variant-numeric: tabular-nums;
+    font-weight: 400;
+  }
+
+  .tree li.is-current > a,
+  .tree details.is-current > summary { color: var(--dd-accent); }
+
+  .tree-mono :is(a, summary) { font-family: var(--dd-font-mono); font-size: var(--dd-text-sm); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tree summary::before { transition: none; }
+  }
+}
