@@ -39,6 +39,8 @@
 
   .stat-fig {
     display: block;
+    overflow-wrap: normal;
+    word-break: keep-all;
     font-size: var(--dd-text-3xl);
     line-height: 1.1;
     font-weight: var(--dd-weight-figure);

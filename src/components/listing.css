@@ -12,10 +12,18 @@
 
   .peek { list-style: none; margin: 0; padding: 0; font-size: var(--dd-text-md); }
 
+  /*
+   * Wraps. The name and its figures shared one non-wrapping line, and since
+   * the name was the only shrinkable thing on it, a long path in the figures
+   * slot squeezed the name to nothing: the row kept "wp-admin/includes/
+   * upgrade.php · 36 medium" and lost the function it was about. The figures
+   * drop to a second line instead.
+   */
   .peek li {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
-    gap: var(--dd-sp-3);
+    gap: 0 var(--dd-sp-3);
     padding: 6px 0;
     border-top: 1px solid var(--dd-border);
   }
@@ -24,7 +32,7 @@
      because a count that has moved to its own line no longer belongs to the
      row it describes. */
   .peek li > a:first-child {
-    flex: 1;
+    flex: 1 1 55%;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -38,6 +46,10 @@
     font-size: var(--dd-text-xs);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
+    margin-left: auto;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* The same list, carrying chips instead of names. */

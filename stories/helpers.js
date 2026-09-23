@@ -36,14 +36,33 @@ export function relativeLuminance(rgb) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
+/*
+ * Resolved through a canvas, not by reading numbers out of the serialization.
+ *
+ * The tints are `color-mix(in oklab, …)`, and a computed value keeps its
+ * colour space: `oklab(0.93 -0.006 -0.019)`. Taking the first three numbers as
+ * 0–255 RGB — which this used to do — turned that into black, so the table
+ * that claimed to measure contrast was reporting fiction. Painting the colour
+ * and reading the pixel back asks the browser to do the conversion it already
+ * knows how to do, whatever syntax arrives.
+ */
+const probeCanvas = document.createElement("canvas");
+probeCanvas.width = probeCanvas.height = 1;
+const probeCtx = probeCanvas.getContext("2d", { willReadFrequently: true });
+
 export function parseColor(value) {
   const probe = document.createElement("span");
   probe.style.color = value;
   document.body.appendChild(probe);
   const resolved = getComputedStyle(probe).color;
   probe.remove();
-  const m = resolved.match(/-?[\d.]+/g);
-  return m ? m.slice(0, 3).map(Number) : [0, 0, 0];
+
+  probeCtx.clearRect(0, 0, 1, 1);
+  probeCtx.fillStyle = "#000";
+  probeCtx.fillStyle = resolved;
+  probeCtx.fillRect(0, 0, 1, 1);
+  const [r, g, b] = probeCtx.getImageData(0, 0, 1, 1).data;
+  return [r, g, b];
 }
 
 export function contrast(a, b) {

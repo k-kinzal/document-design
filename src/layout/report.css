@@ -26,6 +26,7 @@
 
 @layer dd.layout {
   .sheet {
+    container: dd-sheet / inline-size;
     font-size: var(--dd-type-2);
     line-height: 1.75;
     max-width: var(--dd-sheet-max);
@@ -85,10 +86,14 @@
     border-bottom: 1px solid var(--dd-border);
   }
 
+  /* Each side is a container, so its figure sizes to the column it is in
+     rather than to the sheet — the spans can change and the number still
+     fits. */
   .hero > div {
     display: grid;
     grid-row: 1 / 4;
     grid-template-rows: subgrid;
+    container-type: inline-size;
   }
 
   .hero .was { grid-column: 1 / 4; }
@@ -117,13 +122,31 @@
    * tabular digits are for columns that have to line up, and make a large
    * standalone number look loose.
    */
+  /*
+   * Sized to the sheet, and never broken.
+   *
+   * At a fixed 76px the BEFORE column — three of twelve — only fits a
+   * five-character figure when the sheet is at its full 1128px. At an 800px
+   * viewport the column is 158px and `68.97` wants 191px, so the inherited
+   * `overflow-wrap: anywhere` split the page's headline number across two
+   * lines. Below 720px the hero stacks; between the two it did neither.
+   *
+   * So the figure scales to its own column — 28% of it, which keeps a
+   * five-digit figure at about seventy percent of the track and leaves room
+   * for a longer one — capped at the scale's top step. And it is exempted from
+   * the breaking rule the rest of the document needs: a number that wraps is
+   * not a smaller number, it is a different one.
+   */
   .fig {
     display: block;
     align-self: end;
-    font-size: var(--dd-type-9);
+    font-size: clamp(2.25rem, 28cqi, var(--dd-type-9));
     line-height: 0.92;
     font-weight: var(--dd-weight-figure);
     letter-spacing: -0.045em;
+    overflow-wrap: normal;
+    word-break: keep-all;
+    text-wrap: nowrap;
   }
 
   .was .fig { color: var(--dd-fg-subtle); }
@@ -140,7 +163,7 @@
   .claim {
     display: block;
     align-self: end;
-    font-size: var(--dd-type-6);
+    font-size: clamp(1.5rem, 16cqi, var(--dd-type-6));
     line-height: 1.2;
     font-weight: var(--dd-weight-figure);
     letter-spacing: -0.025em;

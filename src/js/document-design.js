@@ -36,6 +36,21 @@
     } catch (e) { /* not available; the setting simply does not persist */ }
   }
 
+  /*
+   * Everything below is called again on refresh(), which a host like Storybook
+   * runs on every render. Document-level listeners must therefore be installed
+   * exactly once, and per-element work must not be repeated: bound twice, a
+   * nav toggle opened and immediately closed the sidebar, and a theme click
+   * advanced two states at a time.
+   */
+  var installed = false;
+
+  function once(el, flag) {
+    if (el.hasAttribute(flag)) return false;
+    el.setAttribute(flag, "");
+    return true;
+  }
+
   function each(selector, fn, context) {
     var list = (context || document).querySelectorAll(selector);
     for (var i = 0; i < list.length; i++) fn(list[i], i);
@@ -69,17 +84,31 @@
     });
   }
 
+  /*
+   * The current theme lives in memory; storage is where it is *remembered*,
+   * not where it is kept. Reading it back on every click meant that wherever
+   * storage throws — a sandboxed frame, a locked-down private mode — every
+   * click restarted from "auto" and landed on "light" again, so the toggle
+   * appeared dead after the first press.
+   */
+  var theme = null;
+
   function currentTheme() {
-    var stored = readStore(THEME_KEY);
-    return THEMES.indexOf(stored) === -1 ? "auto" : stored;
+    if (theme === null) {
+      var stored = readStore(THEME_KEY);
+      theme = THEMES.indexOf(stored) === -1 ? "auto" : stored;
+    }
+    return theme;
   }
 
   function initTheme() {
     applyTheme(currentTheme());
+    if (installed) return;
     document.addEventListener("click", function (ev) {
       var btn = ev.target.closest && ev.target.closest("[data-dd-theme-toggle]");
       if (!btn) return;
       var next = THEMES[(THEMES.indexOf(currentTheme()) + 1) % THEMES.length];
+      theme = next;
       writeStore(THEME_KEY, next === "auto" ? null : next);
       applyTheme(next);
     });
@@ -93,13 +122,17 @@
    * navigation and a hidden tab panel is unreachable content. Both are gated
    * on a flag set here, so the no-JavaScript rendering stays complete.
    */
-  function markReady(selector, attr) {
-    each(selector, function (el) { el.setAttribute(attr, ""); });
-  }
-
   function initNav() {
-    markReady(".doc", "data-dd-nav-ready");
+    /* Only a frame that actually has a working toggle may collapse its
+       sidebar. A .doc with navigation and no toggle — a tree in a sidebar with
+       no topbar, which the Tree story is — would otherwise hide its navigation
+       below 900px with nothing to bring it back. */
+    each(".doc", function (doc) {
+      if (doc.querySelector("[data-dd-nav-toggle]")) doc.setAttribute("data-dd-nav-ready", "");
+      else doc.removeAttribute("data-dd-nav-ready");
+    });
 
+    if (installed) return;
     document.addEventListener("click", function (ev) {
       var btn = ev.target.closest && ev.target.closest("[data-dd-nav-toggle]");
       if (btn) {
@@ -118,6 +151,7 @@
   /* --------------------------------------------------------------- copy */
 
   function initCopy() {
+    if (installed) return;
     document.addEventListener("click", function (ev) {
       var btn = ev.target.closest && ev.target.closest("[data-dd-copy]");
       if (!btn) return;
@@ -181,6 +215,7 @@
 
   function initSort() {
     each("table[data-dd-sortable]", function (table) {
+      if (!once(table, "data-dd-sort-bound")) return;
       each("th[data-dd-sort]", function (th, index) {
         th.setAttribute("tabindex", "0");
         th.setAttribute("role", "button");
@@ -222,6 +257,7 @@
 
   function initFilter() {
     each("[data-dd-filter]", function (input) {
+      if (!once(input, "data-dd-filter-bound")) return;
       var target = document.querySelector(input.getAttribute("data-dd-filter"));
       if (!target) return;
       var rows = target.tagName === "TABLE"
@@ -270,6 +306,7 @@
    */
   function initFacets() {
     each("[data-dd-facets]", function (bar) {
+      if (!once(bar, "data-dd-facets-bound")) return;
       var target = document.querySelector(bar.getAttribute("data-dd-facets"));
       if (!target) return;
       var rows = target.children;
@@ -336,16 +373,31 @@
         });
       }, bar);
 
+      function clearAll() {
+        each("[data-dd-facet]", function (f) {
+          f.classList.remove("is-on");
+          f.setAttribute("aria-pressed", "false");
+        }, bar);
+        if (search) search.value = "";
+        apply();
+      }
+
       each("[data-dd-facet-clear]", function (btn) {
-        btn.addEventListener("click", function () {
-          each("[data-dd-facet]", function (f) {
-            f.classList.remove("is-on");
-            f.setAttribute("aria-pressed", "false");
-          }, bar);
-          if (search) search.value = "";
-          apply();
-        });
+        btn.addEventListener("click", clearAll);
       }, bar);
+
+      /*
+       * The empty state's own recovery button is outside the bar — it sits
+       * with the listing it is explaining — so binding only within the bar
+       * left the one control a stranded reader would actually reach doing
+       * nothing at all.
+       */
+      var emptyBox = optional(bar, "data-dd-empty") || document.querySelector("[data-dd-empty]");
+      if (emptyBox) {
+        each("[data-dd-facet-clear]", function (btn) {
+          btn.addEventListener("click", clearAll);
+        }, emptyBox);
+      }
 
       if (search) search.addEventListener("input", debounce(apply, 80));
 
@@ -388,7 +440,7 @@
    */
   function initSearch() {
     var input = document.querySelector("[data-dd-search]");
-    if (!input) return;
+    if (!input || !once(input, "data-dd-search-bound")) return;
     var panel = document.querySelector("[data-dd-search-results], #search-results");
     if (!panel) return;
 
@@ -511,6 +563,7 @@
    */
   function initTabs() {
     each("[data-dd-tabs]", function (root) {
+      if (!once(root, "data-dd-tabs-bound")) return;
       var all = [].slice.call(root.querySelectorAll('[role="tab"]'));
       /* A disabled tab is neither reachable by arrow key nor selectable, but
          it stays in the strip so the reader can see the view exists. */
@@ -556,7 +609,7 @@
 
   function initToTop() {
     var btn = document.querySelector("[data-dd-to-top]");
-    if (!btn) return;
+    if (!btn || !once(btn, "data-dd-to-top-bound")) return;
     btn.addEventListener("click", function () {
       window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     });
@@ -593,7 +646,7 @@
     if (!targets.length) return;
 
     var visible = new Set();
-    var observer = new IntersectionObserver(function (entries) {
+    var observer = tocObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) visible.add(entry.target.id);
         else visible.delete(entry.target.id);
@@ -620,9 +673,18 @@
    * reader's page is unchanged when the dialog closes.
    */
   function initPrint() {
+    if (installed) return;
     var opened = [];
 
+    var expanded = false;
+
     function expand() {
+      /* Both `beforeprint` and the print media query fire in some engines. The
+         second call used to find everything already open and overwrite the
+         restore list with an empty one, so disclosures the reader had closed
+         stayed open after the dialog closed. */
+      if (expanded) return;
+      expanded = true;
       opened = [];
       each("details:not([open])", function (d) {
         opened.push(d);
@@ -637,6 +699,7 @@
     }
 
     function restore() {
+      expanded = false;
       opened.forEach(function (d) { d.open = false; });
       opened = [];
       each("[data-dd-print-shown]", function (p) {
@@ -668,6 +731,7 @@
     initToTop();
     initToc();
     initPrint();
+    installed = true;
   }
 
   if (document.readyState === "loading") {
@@ -677,5 +741,8 @@
   }
 
   /* One escape hatch, for a page that builds part of itself. */
-  window.documentDesign = { refresh: start, applyTheme: applyTheme };
+  window.documentDesign = {
+    refresh: start,
+    applyTheme: function (t) { theme = t; applyTheme(t); },
+  };
 })();

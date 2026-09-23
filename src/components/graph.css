@@ -42,7 +42,10 @@
     display: block;
     height: auto;
     max-width: none;
-    min-width: min(var(--dd-graph-min, 40rem), 100%);
+    /* Not min(…, 100%) — that is the container width whenever the container is
+       the smaller of the two, which is exactly the case this exists for. In a
+       320px column it resolved to 320px and the labels went back under 5px. */
+    min-width: var(--dd-graph-min, 40rem);
   }
 
   .graph text {

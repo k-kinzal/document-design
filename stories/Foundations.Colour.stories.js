@@ -144,8 +144,14 @@ export const Tints = {
  * the hex values in the source. The tints are a `color-mix` and the theme is a
  * `light-dark`, so a number taken from the source would be a guess.
  *
+ * Both columns are held to **4.5:1**. A chip is 12px at weight 600, which is
+ * normal text: WCAG's large-text exception starts at 18.66px bold. Holding the
+ * tint column to 3:1 — as this table and the CI check both once did — passed
+ * nine pairs that were failing.
+ *
  * Switch the theme in the toolbar and the table re-measures. `npm run
- * check:contrast` asserts the same 58 pairs in CI.
+ * check:contrast` asserts 150 pairs in CI, including every hue on all five
+ * surfaces.
  */
 export const Measured = {
   render: () =>
@@ -164,7 +170,7 @@ export const Measured = {
             `<td class="num" style="color:var(--dd-${v >= t ? "green" : "red"})">${v.toFixed(2)}</td>`;
           return `<tr>
             <td class="tight"><span class="chip tone-${h}">${h}</span></td>
-            ${mark(onTint, 3)}
+            ${mark(onTint, 4.5)}
             ${mark(onBg, 4.5)}
           </tr>`;
         })
@@ -174,7 +180,7 @@ export const Measured = {
           <table>
             <thead><tr>
               <th>hue</th>
-              <th class="num">on its tint <span class="count">AA 3.0</span></th>
+              <th class="num">on its tint <span class="count">AA 4.5</span></th>
               <th class="num">on the page <span class="count">AA 4.5</span></th>
             </tr></thead>
             <tbody>${body}</tbody>

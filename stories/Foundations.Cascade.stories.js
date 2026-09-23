@@ -72,15 +72,23 @@ export const Overriding = {
 
 /**
  * To sit *between* two of the library's layers rather than above all of them,
- * re-declare the order first. The names are stable and part of the contract.
+ * insert a **sublayer of `dd`** and re-declare the complete order first.
  *
  * ```css
- * @layer dd.tokens, dd.base, mine, dd.component;
+ * @layer dd.reset, dd.tokens, dd.base, dd.layout,
+ *        dd.mine, dd.component, dd.utility, dd.print;
  *
- * @layer mine {
- *   .chip { … }   ·  loses to dd.component, beats dd.base
+ * @layer dd.mine {
+ *   .chip { … }   ·  loses to dd.component, beats dd.layout
  * }
  * ```
+ *
+ * Two things to get right, both easy to get wrong. A top-level `mine` declared
+ * after `dd` outranks **everything** inside `dd`, sublayers included — it
+ * cannot sit between two of them, only above all of them. And the list must
+ * name every existing sublayer: declaring a partial list reorders the ones
+ * left out, because they are then first created wherever they happen to be
+ * used.
  */
 export const Inserting = { render: () => html`<div class="muted">See the description.</div>` };
 
