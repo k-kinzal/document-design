@@ -58,7 +58,7 @@
     cursor: pointer;
     padding: 2px 0;
     list-style: none;
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
   }
 
   /* The default marker is a filled triangle in one engine and a chevron in
@@ -81,11 +81,19 @@
     color: var(--dd-fg-subtle);
     font-size: var(--dd-text-xs);
     font-variant-numeric: tabular-nums;
-    font-weight: 400;
+    font-weight: var(--dd-weight-normal);
   }
 
+  /* A bar on the edge as well as the colour, matching the sidebar's current
+     item — colour alone is not a mark this system accepts. */
   .tree li.is-current > a,
-  .tree details.is-current > summary { color: var(--dd-accent); }
+  .tree details.is-current > summary {
+    color: var(--dd-accent);
+    font-weight: var(--dd-weight-label);
+    box-shadow: inset 2px 0 0 var(--dd-accent);
+    padding-left: var(--dd-sp-3);
+    margin-left: calc(var(--dd-sp-3) * -1);
+  }
 
   .tree-mono :is(a, summary) { font-family: var(--dd-font-mono); font-size: var(--dd-text-sm); }
 

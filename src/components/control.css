@@ -4,7 +4,7 @@
  *
  *   <button class="btn">Copy</button>
  *   <button class="btn btn-quiet" data-dd-theme-toggle>◐</button>
- *   <input type="search" class="field-input" placeholder="Find…">
+ *   <input type="search" class="input" placeholder="Find…">
  */
 
 @layer dd.component {
@@ -23,35 +23,43 @@
     white-space: nowrap;
   }
 
-  .btn:hover { background: var(--dd-hover); }
+  .btn:enabled:hover, a.btn:hover { background: var(--dd-hover); }
 
-  .btn:disabled { opacity: 0.5; cursor: default; }
+  .btn:disabled,
+  .facet:disabled,
+  .tab:disabled { opacity: 0.5; cursor: default; }
 
   .btn-quiet { background: none; border-color: transparent; }
-  .btn-quiet:hover { background: var(--dd-hover); border-color: var(--dd-border); }
+  .btn-quiet:enabled:hover { background: var(--dd-hover); border-color: var(--dd-border); }
 
   /* A button that has just done its one job, and says so for a moment. */
   .btn.is-done { color: var(--dd-ok); border-color: var(--dd-ok); }
 
-  .field-input {
+  .input {
     padding: var(--dd-sp-2) var(--dd-sp-4);
     font-size: var(--dd-text-md);
     color: var(--dd-fg);
     background: var(--dd-surface);
     border: 1px solid var(--dd-border);
     border-radius: var(--dd-radius);
-    outline: none;
     min-width: 0;
   }
 
-  .field-input:focus { border-color: var(--dd-accent); }
+  /*
+   * The border colour is additional feedback, not the whole of it. This used
+   * to carry `outline: none`, which removed the one focus indicator the reset
+   * guarantees and replaced it with a hue change — invisible to anyone who
+   * cannot separate those two greys, and gone entirely in forced-colours mode.
+   */
+  .input:focus-visible { border-color: var(--dd-accent); }
+  .input:disabled { opacity: 0.5; cursor: default; }
 
-  .field-input::placeholder { color: var(--dd-fg-subtle); }
+  .input::placeholder { color: var(--dd-fg-subtle); }
 
-  .field-search { width: 340px; }
-  .field-block { width: 100%; max-width: 420px; display: block; }
+  .input-search { width: 340px; }
+  .input-block { width: 100%; max-width: 420px; display: block; }
 
   @media (max-width: 900px) {
-    .field-search { width: 160px; }
+    .input-search { width: 160px; }
   }
 }

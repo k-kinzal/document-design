@@ -23,12 +23,30 @@
     /* ---- the report's baseline; every block gap is a multiple of it ---- */
     --dd-base: 28px;
 
-    /* ---- type, the catalog's steps ---- */
-    --dd-text-xs: 11px;
-    --dd-text-sm: 12px;
-    --dd-text-md: 13px;
-    --dd-text-lg: 14px;
-    --dd-text-xl: 16px;
+    /*
+     * Type, the catalog's steps.
+     *
+     * In rem, not px: a reader who has set a larger default font has said
+     * something, and an archived document read years later on someone else's
+     * machine is exactly where that setting matters.
+     *
+     * The floor moved up. The previous ramp bottomed out at 11px for a chip,
+     * 10px for a small one and 10.5px for a sidebar label, and inline code —
+     * .86em of a 13px cell — landed at 11.18px. That is buying density with
+     * the reader's eyesight, which is not a trade a reference document gets to
+     * make: it is read for minutes at a time, by people looking for one row.
+     *
+     * The density comes back out of spacing instead. A statement row was
+     * spending 36px on vertical padding to present three clipped lines; it now
+     * spends 16px and presents them larger. Same rows per screen, larger text.
+     */
+    --dd-text-xs: 0.75rem;     /* 12 — a chip, a count, a facet's number     */
+    --dd-text-sm: 0.8125rem;   /* 13 — a caption, a legend note, meta        */
+    --dd-text-md: 0.875rem;    /* 14 — the catalog's body, cells, sidebar    */
+    --dd-text-lg: 1rem;        /* 16 — a lede, prose body, a small heading   */
+    --dd-text-xl: 1.125rem;    /* 18 — the catalog's h2                      */
+    --dd-text-2xl: 1.375rem;   /* 22 — the catalog's h1, prose h2            */
+    --dd-text-3xl: 1.75rem;    /* 28 — prose h1, a stat figure               */
 
     /* ---- type, the report's major third from 16px ---- */
     --dd-type-1: 13px;
@@ -40,6 +58,21 @@
     --dd-type-7: 49px;
     --dd-type-8: 61px;
     --dd-type-9: 76px;
+
+    /*
+     * Weight, named by what it is for.
+     *
+     * Three "bolds" were in use — 600, 650 and 700 — chosen ad hoc and
+     * therefore inconsistent: the same kind of label was 600 in one component
+     * and 650 in another. Naming them settles which is which. 650 is a real
+     * step on a variable system font and snaps to 700 on a static one, which
+     * is the right failure.
+     */
+    --dd-weight-normal: 400;
+    --dd-weight-medium: 500;   /* a literal in a ghost chip               */
+    --dd-weight-label:  600;   /* a chip, an eyebrow, a column header     */
+    --dd-weight-head:   650;   /* a heading                               */
+    --dd-weight-figure: 700;   /* a number that is the point              */
 
     /* ---- shape ---- */
     --dd-radius-sm: 4px;

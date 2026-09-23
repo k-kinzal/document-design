@@ -28,7 +28,7 @@
 
   .banner-label {
     font-size: var(--dd-text-xs);
-    font-weight: 700;
+    font-weight: var(--dd-weight-figure);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--dd-tone, var(--dd-fg-subtle));

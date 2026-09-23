@@ -41,7 +41,15 @@
     text-decoration: none;
   }
 
-  .hit-name { font-weight: 600; }
+  /* Keyboard selection is also underlined: on a results panel the background
+     shift is the only thing distinguishing the selected row, and it is the
+     row someone pressing Enter is about to open. */
+  .search-results a.is-selected {
+    box-shadow: inset 2px 0 0 var(--dd-accent);
+  }
+  .search-results a.is-selected .hit-name { text-decoration: underline; }
+
+  .hit-name { font-weight: var(--dd-weight-label); }
 
   .hit-where {
     color: var(--dd-fg-subtle);

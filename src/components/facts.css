@@ -1,7 +1,7 @@
 /*
  * Facts — the short, labelled answers about one thing.
  *
- *   <dl class="facts-grid">
+ *   <dl class="facts">
  *     <div><dt>Resolution</dt><dd><span class="chip tone-ok">resolved</span></dd></div>
  *     <div><dt>Issued at</dt><dd><a class="mono" href="…">wp-includes/post.php:1240</a></dd></div>
  *   </dl>
@@ -12,7 +12,7 @@
  */
 
 @layer dd.component {
-  .facts-grid {
+  .facts {
     margin: 0 0 var(--dd-sp-5);
     display: grid;
     grid-template-columns: 1fr;
@@ -20,21 +20,21 @@
     font-size: var(--dd-text-md);
   }
 
-  .facts-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .facts-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .facts-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .facts-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-  .facts-grid dt {
+  .facts dt {
     font-size: var(--dd-text-xs);
-    font-weight: 700;
+    font-weight: var(--dd-weight-figure);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--dd-fg-subtle);
     margin-bottom: var(--dd-sp-2);
   }
 
-  .facts-grid dd { margin: 0; line-height: 1.7; }
+  .facts dd { margin: 0; line-height: 1.7; }
 
   @media (max-width: 900px) {
-    .facts-grid-2, .facts-grid-3 { grid-template-columns: 1fr; }
+    .facts-cols-2, .facts-cols-3 { grid-template-columns: 1fr; }
   }
 }

@@ -7,7 +7,7 @@ export default {
       description: {
         component:
           "A figure that is the answer to something, with the question under " +
-          "it. The catalog counterpart of the report sheet's `.hold` — kept " +
+          "it. The catalog counterpart of the report sheet's `.stat` — kept " +
           "separate because they are sized for different reading.\n\n" +
           "Figures are tabular here, unlike the report's lead number: these sit " +
           "in a row and are meant to be compared, which is exactly when digits " +

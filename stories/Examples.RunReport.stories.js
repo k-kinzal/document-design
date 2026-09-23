@@ -136,7 +136,7 @@ export const Report = {
         <text x="630" y="212" text-anchor="middle" font-size="11" fill="var(--dd-warn)">空 1</text>
       </svg>
     </div>
-    <div class="three">
+    <div class="figures">
       <figure>
         <svg viewBox="0 0 260 96" role="img" aria-label="対応と理由付き非対応を足して計上する。">
           <rect x="16" y="28" width="112" height="40" rx="8" fill="var(--dd-accent)" fill-opacity=".12" stroke="var(--dd-accent)" stroke-width="1.5"/>
@@ -215,7 +215,7 @@ export const Report = {
         <text x="594" y="204" text-anchor="middle" font-size="12" fill="var(--dd-accent)">Symbols セレクタに example を足す</text>
       </svg>
     </div>
-    <div class="three">
+    <div class="figures">
       <figure>
         <svg viewBox="0 0 260 96" role="img" aria-label="出典の箱から仕様の箱へ実線。">
           <rect x="16" y="28" width="88" height="40" rx="8" fill="var(--dd-surface)" stroke="var(--dd-border)" stroke-width="1.5"/>
@@ -253,11 +253,11 @@ export const Report = {
     <div class="field">
       <p class="lead">ローカルは通った。作業ディレクトリは空のまま。</p>
     </div>
-    <div class="holds">
-      <div class="hold"><b>16/16</b><span>変更 unit の差分カバレッジ。lint 23 件、Behat 307 がローカルで通過。</span></div>
-      <div class="hold"><b>6</b><span>ファイル。baseline、ゲート、README、定義2、feature 1。パーサ src は無し。</span></div>
-      <div class="hold"><b>393</b><span>PR。fetch が拒否されたため GitHub git data API で main 直上に同じ6ファイルを載せた。</span></div>
-      <div class="hold"><b>0</b><span>作業ディレクトリの差分。開始 tree と終了 tree は同一。変更は worktree と PR 側。</span></div>
+    <div class="stats">
+      <div class="stat"><b class="stat-fig">16/16</b><span class="stat-label">変更 unit の差分カバレッジ。lint 23 件、Behat 307 がローカルで通過。</span></div>
+      <div class="stat"><b class="stat-fig">6</b><span class="stat-label">ファイル。baseline、ゲート、README、定義2、feature 1。パーサ src は無し。</span></div>
+      <div class="stat"><b class="stat-fig">393</b><span class="stat-label">PR。fetch が拒否されたため GitHub git data API で main 直上に同じ6ファイルを載せた。</span></div>
+      <div class="stat"><b class="stat-fig">0</b><span class="stat-label">作業ディレクトリの差分。開始 tree と終了 tree は同一。変更は worktree と PR 側。</span></div>
     </div>
     <p class="caveat">CI は作成時点で pending。このランでは成功未確認。空 blob アップロードは JSON 本文を付けて再送した。throwaway の autoload パス誤りは成果物ではない。ローカル worktree は PR #380 相当の古い基点のままなので、続けるなら fetch 後にリモートへ合わせる。</p>
   </section>

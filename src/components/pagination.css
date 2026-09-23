@@ -83,7 +83,7 @@
   .pages .is-current {
     border-color: var(--dd-border);
     background: var(--dd-surface);
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     color: var(--dd-fg);
   }
 

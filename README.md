@@ -2,7 +2,7 @@
 
 Shared CSS for generated documentation, catalogs and reports.
 
-Factored out of three generators that had each grown their own stylesheet:
+Factored out of figures generators that had each grown their own stylesheet:
 [php-ai-toolkit](https://github.com/k-kinzal/php-ai-toolkit)'s API reference,
 [ztd-query-php](https://github.com/k-kinzal/ztd-query-php)'s SQL catalog, and
 QuuuAI's run reports. They had converged on the same ideas and drifted on the

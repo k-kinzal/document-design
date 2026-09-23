@@ -27,7 +27,7 @@
     cursor: pointer;
     padding: var(--dd-sp-3) 0;
     font-size: var(--dd-text-md);
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     list-style: none;
   }
 
@@ -43,7 +43,11 @@
 
   .disclosure[open] > summary::before { transform: rotate(90deg); }
 
-  .disclosure > summary:hover { color: var(--dd-link); }
+  /* Every summary in the system behaves the same way, wherever it lives. */
+  .disclosure > summary:hover,
+  .tree summary:hover,
+  .usage-details > summary:hover,
+  details.as-written > summary:hover { color: var(--dd-link); }
 
   .disclosure-body { padding: 0 0 var(--dd-sp-4) var(--dd-sp-4); }
 

@@ -37,8 +37,13 @@
       padding: 0 4px;
     }
 
-    .meter { border: 1px solid #000; height: 10px; }
-    .meter-part { background: none !important; border-right: 1px solid #000; }
+    /*
+     * The bar is dropped, not redrawn. Stripped of fills it becomes a row of
+     * unlabelled outlines, which says less than nothing; the legend beneath it
+     * carries every category, its count and its definition, and is the more
+     * truthful artifact on paper.
+     */
+    .meter { display: none; }
 
     /* A link's destination is not recoverable from paper, so it is written
        out — but only for links that leave the document. An in-page anchor
@@ -51,25 +56,86 @@
       word-break: break-all;
     }
 
-    /* Everything the reader left open stays open; everything else is a
-       heading with nothing under it, which is worse than showing it. */
+    /*
+     * A printed page is a record, and a record is the whole document.
+     *
+     * Everything this system hides on screen it hides for a screen reason: a
+     * filter the reader set, a tab they were not looking at, a disclosure they
+     * had not opened, three lines of a statement that was two hundred long.
+     * None of those reasons survive onto paper, where there is no way to open
+     * anything. A PDF missing the rows someone filtered out is not a smaller
+     * record; it is a misleading one.
+     */
     details { display: block; }
     details > summary { list-style: none; }
-    details:not([open]) > summary::after { content: " (collapsed)"; color: #555; font-weight: 400; }
+    details > summary::marker { content: ""; }
+    details > *, .disclosure-body { display: revert; }
 
-    /* Break control: a heading at the foot of a page, or a figure split down
-       the middle, is the usual way a printed report becomes unreadable. */
+    .tabpanel[hidden] { display: block !important; }
+    .tabpanel > .tabpanel-title { display: block !important; }
+    .tablist { display: none !important; }
+
+    .row.is-hidden, .group.is-empty, .is-hidden { display: block !important; }
+    tr.is-hidden { display: table-row !important; }
+
+    /* Clamped previews open to their full text. */
+    .row-body {
+      display: block !important;
+      -webkit-line-clamp: unset;
+      line-clamp: none;
+      overflow: visible;
+    }
+
+    /* Nothing is truncated with an ellipsis that cannot be hovered. */
+    .sidebar-list a, .peek li > a:first-child, .pager-name,
+    .breadcrumbs, .tree li > a, th, td, .item-name {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    /*
+     * Break control. A heading at the foot of a page is the usual way a
+     * printed report becomes hard to follow — but asking the printer to keep a
+     * 200-line table or a long code block together is worse: it cannot, so it
+     * leaves most of a page blank and breaks it anyway. Only things that are
+     * small by construction get break-inside: avoid.
+     */
     :is(h1, h2, h3, h4) { break-after: avoid-page; }
-    :is(pre, table, figure, .card, .stat, .hold, .graph-wrap) { break-inside: avoid; }
-    .sec { break-inside: auto; }
-    tr, .row { break-inside: avoid; }
+    :is(figure, .stat, .stat, .card, .graph-wrap) { break-inside: avoid; }
+    :is(pre, table, .rows, .sec) { break-inside: auto; }
+    tr, .row, .member { break-inside: auto; }
+    p { orphans: 3; widows: 3; }
 
     thead { display: table-header-group; }
 
     /* A wrapper that scrolls on screen has nowhere to scroll on paper. */
     .table-wrap, .graph-wrap, .terminal { overflow: visible !important; }
 
-    pre.code, pre.code-scroll { white-space: pre-wrap; word-break: break-word; }
+    /* Every pre wraps, including signatures and prose code, which previously
+       ran off the right edge of the sheet and were simply lost. */
+    pre, pre.code, pre.code-scroll, pre.signature, .terminal-output {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      overflow: visible;
+    }
+
+    /* Deferred rendering is a screen optimisation; on paper it can only lose
+       content. Belt and braces: the CSSWG resolved that printing treats
+       content-visibility: auto as visible, but engines have differed. */
+    [data-dd-defer] > * {
+      content-visibility: visible !important;
+      contain-intrinsic-size: none !important;
+    }
+
+    /* A tooltip cannot be hovered on paper, so its text is spelled out.
+       Lives here rather than in the component, because print is a layer. */
+    .hint::after { display: none; }
+    .hint::before {
+      content: " (" attr(data-dd-hint) ")";
+      font-size: 0.9em;
+      color: var(--dd-fg-muted);
+    }
 
     @page { margin: 16mm; }
   }

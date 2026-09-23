@@ -20,23 +20,23 @@ export const Layout = {
     <div class="doc"><div class="main"><main class="content" style="max-width:520px">
       <h2>Where the statements are</h2>
       <ul class="filetree">
-        <li class="ft-dir is-open">wp-admin
+        <li class="filetree-directory is-open">wp-admin
           <ul>
-            <li class="ft-dir is-open">includes
+            <li class="filetree-directory is-open">includes
               <ul>
-                <li class="ft-file is-current"><a href="#">upgrade.php</a><span class="ft-note">162</span></li>
-                <li class="ft-file"><a href="#">deprecated.php</a><span class="ft-note">57</span></li>
-                <li class="ft-file"><a href="#">post.php</a><span class="ft-note">20</span></li>
+                <li class="filetree-file is-current"><a href="#">upgrade.php</a><span class="filetree-meta">162</span></li>
+                <li class="filetree-file"><a href="#">deprecated.php</a><span class="filetree-meta">57</span></li>
+                <li class="filetree-file"><a href="#">post.php</a><span class="filetree-meta">20</span></li>
               </ul>
             </li>
           </ul>
         </li>
-        <li class="ft-dir is-open">wp-includes
+        <li class="filetree-directory is-open">wp-includes
           <ul>
-            <li class="ft-file"><a href="#">post.php</a><span class="ft-note">49</span></li>
-            <li class="ft-file"><a href="#">taxonomy.php</a><span class="ft-note">39</span></li>
-            <li class="ft-dir">class-wp-query
-              <ul><li class="ft-file"><a href="#">query.php</a><span class="ft-note">23</span></li></ul>
+            <li class="filetree-file"><a href="#">post.php</a><span class="filetree-meta">49</span></li>
+            <li class="filetree-file"><a href="#">taxonomy.php</a><span class="filetree-meta">39</span></li>
+            <li class="filetree-directory">class-wp-query
+              <ul><li class="filetree-file"><a href="#">query.php</a><span class="filetree-meta">23</span></li></ul>
             </li>
           </ul>
         </li>

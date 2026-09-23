@@ -42,23 +42,31 @@
 
   .eyebrow {
     font-size: var(--dd-type-1);
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     letter-spacing: 0.16em;
     color: var(--dd-fg-subtle);
     margin: 0 0 var(--dd-base);
   }
 
+  /*
+   * text-wrap: balance evens the lines of a title the generator did not get to
+   * see. Report titles are written by a run, not by a designer, so the only
+   * alternative is a hard <br> in generated text — a line break chosen for one
+   * viewport and wrong at every other. Unsupported: ordinary wrapping.
+   */
   .sheet h1 {
     grid-column: 1 / 10;
     font-size: var(--dd-type-8);
     line-height: 1.1;
     letter-spacing: -0.035em;
-    font-weight: 700;
+    font-weight: var(--dd-weight-figure);
     margin: 0 0 var(--dd-base);
+    text-wrap: balance;
   }
 
   /* The sentence under the title that says what the reader is about to learn. */
   .stand {
+    text-wrap: balance;
     grid-column: 1 / 7;
     font-size: var(--dd-type-3);
     line-height: 1.6;
@@ -96,7 +104,7 @@
   .cap {
     display: block;
     font-size: var(--dd-type-1);
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     letter-spacing: 0.16em;
     color: var(--dd-fg-subtle);
     margin-bottom: calc(var(--dd-base) / 2);
@@ -114,7 +122,7 @@
     align-self: end;
     font-size: var(--dd-type-9);
     line-height: 0.92;
-    font-weight: 700;
+    font-weight: var(--dd-weight-figure);
     letter-spacing: -0.045em;
   }
 
@@ -134,7 +142,7 @@
     align-self: end;
     font-size: var(--dd-type-6);
     line-height: 1.2;
-    font-weight: 700;
+    font-weight: var(--dd-weight-figure);
     letter-spacing: -0.025em;
   }
 
@@ -164,19 +172,20 @@
     grid-column: 1 / 3;
     font-size: var(--dd-type-1);
     line-height: 1.7;
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     letter-spacing: 0.12em;
     color: var(--dd-fg-subtle);
     padding-top: 6px;
   }
 
-  .field { grid-column: 4 / -1; }
+  .field { grid-column: 4 / -1; container: dd-field / inline-size; }
 
   .lead {
+    text-wrap: balance;
     font-size: var(--dd-type-4);
     line-height: 1.45;
     letter-spacing: -0.02em;
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     margin: 0 0 calc(var(--dd-base) * 1.5);
   }
 
@@ -188,18 +197,42 @@
   }
 
   /*
-   * Something the reader would be wrong to assume still holds. Kept to the end
-   * of a section and set small, because it is a correction to what was just
-   * claimed and not a claim of its own.
+   * Something the reader would be wrong to assume still holds.
+   *
+   * This used to be set at the smallest size in the scale, in muted grey, at
+   * the foot of the section — the page's largest type saying "96.67" and its
+   * smallest saying "but". That is precisely how a lower bound gets remembered
+   * as a total, which is the failure this whole system claims to exist to
+   * prevent.
+   *
+   * It is now body size, in ink, on the warn tint with a dashed edge: the same
+   * dashed vocabulary every other absence in the system uses. It is still last
+   * in the section, because it qualifies what came before it, but it is no
+   * longer whispered.
    */
   .caveat {
     grid-column: 4 / -1;
-    margin: var(--dd-base) 0 0;
-    padding-left: 20px;
-    border-left: 2px solid var(--dd-warn);
-    font-size: var(--dd-type-1);
-    line-height: 1.75;
-    color: var(--dd-fg-muted);
+    margin: calc(var(--dd-base) / 2) 0 0;
+    padding: var(--dd-sp-4) var(--dd-sp-5);
+    border-left: 3px dashed var(--dd-warn);
+    border-radius: 0 var(--dd-radius) var(--dd-radius) 0;
+    background: var(--dd-warn-tint);
+    font-size: var(--dd-type-2);
+    line-height: 1.7;
+    color: var(--dd-fg);
+  }
+
+  /*
+   * A figure that is a lower bound says so in the figure, not underneath it.
+   * `≥` costs one character and survives being read at a glance, quoted in a
+   * ticket, or skimmed in a PDF — which is more than a caption manages.
+   */
+  .fig-bound::before,
+  .stat-fig.is-bound::before {
+    content: "≥";
+    margin-right: 0.08em;
+    opacity: 0.75;
+    font-weight: var(--dd-weight-head);
   }
 
   /*
@@ -218,7 +251,39 @@
     }
     .sheet h1 { grid-column: 1 / -1; font-size: var(--dd-type-6); }
     .stand, .label, .field, .caveat { grid-column: 1 / -1; }
-    .hero > div { grid-column: 1 / -1 !important; }
+
+    /*
+     * The hero stacks rather than merely widening.
+     *
+     * Its children are pinned to `grid-row: 1 / 4` so that the caption, the
+     * figure and the unit line up across the three of them. Widening both to
+     * the full width without releasing that row pin puts BEFORE and AFTER in
+     * the same three cells: at 700px the two figures printed on top of each
+     * other, which is the one thing on the page a reader came for. The rows
+     * have to be released at the same time as the columns.
+     */
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
+      row-gap: var(--dd-base);
+    }
+    /*
+     * Matched to `.hero .was` / `.hero .now` above, not written as
+     * `.hero > div` — that is one class plus a type, and loses to the two
+     * classes it is trying to override. The row pin released but the columns
+     * did not, so the two figures sat side by side in a 600px sheet with the
+     * larger of them overflowing its track.
+     */
+    .hero .was,
+    .hero .mid,
+    .hero .now {
+      grid-column: 1 / -1;
+      grid-row: auto;
+      grid-template-rows: auto auto auto;
+    }
+    .hero:has(.claim) .was,
+    .hero:has(.claim) .mid,
+    .hero:has(.claim) .now { grid-column: 1 / -1; }
     .hero .mid { display: none; }
   }
 }

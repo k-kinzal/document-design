@@ -48,7 +48,7 @@ export const AtTheEdge = {
   render: () => html`
     <div class="doc"><div class="main"><main class="content">
       <div style="display:flex;justify-content:flex-end">
-        <span class="hint hint-end" data-dd-hint="Anchored to the right so the box stays inside the column." tabindex="0">at the edge</span>
+        <span class="hint tooltip-end" data-dd-hint="Anchored to the right so the box stays inside the column." tabindex="0">at the edge</span>
       </div>
     </main></div></div>`,
 };

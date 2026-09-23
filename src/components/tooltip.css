@@ -34,7 +34,7 @@
     background: var(--dd-ink);
     color: var(--dd-bg);
     font-size: var(--dd-text-xs);
-    font-weight: 400;
+    font-weight: var(--dd-weight-normal);
     line-height: 1.5;
     white-space: normal;
     text-align: left;
@@ -48,16 +48,9 @@
   .hint:focus-visible::after { opacity: 1; visibility: visible; }
 
   /* Near the right edge the box would be cut off by the content column. */
-  .hint-end::after { left: auto; right: 0; }
+  .tooltip-end::after { left: auto; right: 0; }
 
   @media (prefers-reduced-motion: reduce) {
     .hint::after { transition: none; }
-  }
-
-  @media print {
-    .hint::after { display: none; }
-    /* In print the short form is all there is, so the long form is spelled
-       out beside it rather than lost. */
-    .hint::before { content: " (" attr(data-dd-hint) ")"; font-size: 0.9em; color: var(--dd-fg-muted); }
   }
 }

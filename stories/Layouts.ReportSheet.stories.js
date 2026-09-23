@@ -76,7 +76,7 @@ export const ClaimInsteadOfFigure = {
 };
 
 /** A section: its name on the left, its content on the right, and a caveat at
- *  the end for something the reader would be wrong to assume still holds. */
+ *  the end for something the reader would be wrong to assume still stats. */
 export const Section = {
   render: () => html`
     <article class="sheet">
@@ -87,7 +87,7 @@ export const Section = {
           <p class="note">対応と理由付き非対応を足して計上する。空の単位は見えるままにして、
             斜線の非対応にはしない。</p>
         </div>
-        <div class="three">
+        <div class="figures">
           <figure><h3>計上</h3><p>解釈がある単位。検証済みと、理由付き非対応を足す。</p></figure>
           <figure><h3>未カバーは見える</h3><p>導入文は空。非対応ラベルで消さない。</p></figure>
           <figure><h3>非対応は生成系</h3><p><code>BISON-RUNTIME-001–003</code> は据え置き。リーダーの外。</p></figure>
@@ -104,11 +104,11 @@ export const Holds = {
       <section class="sec">
         <div class="label">04<br>検証</div>
         <div class="field"><p class="lead">ローカルは通った。作業ディレクトリは空のまま。</p></div>
-        <div class="holds">
-          <div class="hold"><b>16/16</b><span>変更 unit の差分カバレッジ。</span></div>
-          <div class="hold"><b>6</b><span>ファイル。パーサ src は無し。</span></div>
-          <div class="hold tone-warn"><b>393</b><span>PR。トーンを足すと数字がその色になる。</span></div>
-          <div class="hold"><b>0</b><span>作業ディレクトリの差分。</span></div>
+        <div class="stats">
+          <div class="stat"><b class="stat-fig">16/16</b><span class="stat-label">変更 unit の差分カバレッジ。</span></div>
+          <div class="stat"><b class="stat-fig">6</b><span class="stat-label">ファイル。パーサ src は無し。</span></div>
+          <div class="stat tone-warn"><b class="stat-fig">393</b><span class="stat-label">PR。トーンを足すと数字がその色になる。</span></div>
+          <div class="stat"><b class="stat-fig">0</b><span class="stat-label">作業ディレクトリの差分。</span></div>
         </div>
       </section>
     </article>`,

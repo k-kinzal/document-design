@@ -60,7 +60,7 @@ export const Items = {
             <tr>
               <td class="item-name"><a href="#">WP_Query</a><br><span class="item-ns">wp-includes</span></td>
               <td><span class="chip chip-sm tone-blue">class</span></td>
-              <td class="item-summary">The main query class: turns query vars into a SQL statement and holds the result.</td>
+              <td class="item-summary">The main query class: turns query vars into a SQL statement and stats the result.</td>
             </tr>
             <tr>
               <td class="item-name"><a href="#">QueryBuilder</a><br><span class="item-ns">Ztd\\Query</span></td>

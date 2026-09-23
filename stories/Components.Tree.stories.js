@@ -20,8 +20,8 @@ export const Namespaces = {
   render: () => html`
     <div class="doc">
       <nav class="sidebar">
-        <div class="sb-block">
-          <p class="sb-title">Namespaces</p>
+        <div class="sidebar-section">
+          <p class="sidebar-title">Namespaces</p>
           <ul class="tree tree-mono">
             <li>
               <details open>

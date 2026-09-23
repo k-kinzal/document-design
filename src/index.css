@@ -10,11 +10,17 @@
  * Every rule below sits inside `dd`. Cascade layers rank below unlayered CSS
  * no matter how specific the layered selector is, so a consumer who writes
  *
- *     .chip { font-weight: 400 }
+ *     .chip { font-weight: var(--dd-weight-normal) }
  *
  * in their own stylesheet wins — against `.doc .card h2`, against anything.
- * That is the whole override story: no !important, no specificity ladder, and
- * no defensive prefix on the class names to keep out of anyone's way.
+ * That is the whole override story: you never need !important to beat this
+ * stylesheet, there is no specificity ladder to climb, and the class names
+ * carry no defensive prefix to keep out of your way.
+ *
+ * The system uses !important in exactly two places, both of which are meant to
+ * beat everything including you: the prefers-reduced-motion block in dd.reset,
+ * because a reader asking for less movement outranks any page, and dd.print,
+ * because paper is not the medium the components were written for.
  *
  * The sublayers are ordered so that later beats earlier, which lets a
  * component override the base without either one caring about selector shape.
@@ -40,63 +46,73 @@
 
 @layer dd.reset, dd.tokens, dd.base, dd.layout, dd.component, dd.utility, dd.print;
 
+/*
+ * The imports below carry no layer() annotation: every file declares its own
+ * layer in its own text. Doing both produced dd.component.dd.component — the
+ * import's layer wrapping the file's identical one — which still behaved,
+ * because an un-sublayered rule beats a sublayered one inside the same layer,
+ * but left the published file full of doubled @layer blocks. Declaring it in
+ * the file is the more robust half: it survives the file being imported
+ * without the annotation, or simply concatenated.
+ */
+
 /* tokens — the palette, what the hues mean, and the scales */
-@import url("./tokens/palette.css") layer(dd.tokens);
-@import url("./tokens/role.css") layer(dd.tokens);
-@import url("./tokens/scale.css") layer(dd.tokens);
+@import url("./tokens/palette.css");
+@import url("./tokens/role.css");
+@import url("./tokens/scale.css");
 
 /* base — the reset, the type, the one modifier system, and the aids */
-@import url("./base/reset.css") layer(dd.reset);
-@import url("./base/text.css") layer(dd.base);
-@import url("./base/tone.css") layer(dd.base);
-@import url("./base/skip.css") layer(dd.base);
+@import url("./base/reset.css");
+@import url("./base/text.css");
+@import url("./base/tone.css");
+@import url("./base/skip.css");
 
 /* layout — the two genres and the arrangements they share */
-@import url("./layout/doc.css") layer(dd.layout);
-@import url("./layout/report.css") layer(dd.layout);
-@import url("./layout/arrange.css") layer(dd.layout);
+@import url("./layout/doc.css");
+@import url("./layout/report.css");
+@import url("./layout/arrange.css");
 
 /* components */
-@import url("./components/chip.css") layer(dd.component);
-@import url("./components/sidebar.css") layer(dd.component);
-@import url("./components/topbar.css") layer(dd.component);
-@import url("./components/control.css") layer(dd.component);
-@import url("./components/table.css") layer(dd.component);
-@import url("./components/code.css") layer(dd.component);
-@import url("./components/notice.css") layer(dd.component);
-@import url("./components/meter.css") layer(dd.component);
-@import url("./components/card.css") layer(dd.component);
-@import url("./components/listing.css") layer(dd.component);
-@import url("./components/facets.css") layer(dd.component);
-@import url("./components/search.css") layer(dd.component);
-@import url("./components/facts.css") layer(dd.component);
-@import url("./components/symbol.css") layer(dd.component);
+@import url("./components/chip.css");
+@import url("./components/sidebar.css");
+@import url("./components/topbar.css");
+@import url("./components/control.css");
+@import url("./components/table.css");
+@import url("./components/code.css");
+@import url("./components/notice.css");
+@import url("./components/meter.css");
+@import url("./components/card.css");
+@import url("./components/listing.css");
+@import url("./components/facets.css");
+@import url("./components/search.css");
+@import url("./components/facts.css");
+@import url("./components/symbol.css");
 
 /* components — reading */
-@import url("./components/prose.css") layer(dd.component);
-@import url("./components/callout.css") layer(dd.component);
-@import url("./components/quote.css") layer(dd.component);
-@import url("./components/deflist.css") layer(dd.component);
+@import url("./components/prose.css");
+@import url("./components/callout.css");
+@import url("./components/quote.css");
+@import url("./components/deflist.css");
 
 /* components — code and change */
-@import url("./components/diff.css") layer(dd.component);
-@import url("./components/terminal.css") layer(dd.component);
-@import url("./components/filetree.css") layer(dd.component);
+@import url("./components/diff.css");
+@import url("./components/terminal.css");
+@import url("./components/filetree.css");
 
 /* components — structure */
-@import url("./components/tree.css") layer(dd.component);
-@import url("./components/graph.css") layer(dd.component);
-@import url("./components/disclosure.css") layer(dd.component);
-@import url("./components/tabs.css") layer(dd.component);
-@import url("./components/pagination.css") layer(dd.component);
+@import url("./components/tree.css");
+@import url("./components/graph.css");
+@import url("./components/disclosure.css");
+@import url("./components/tabs.css");
+@import url("./components/pagination.css");
 
 /* components — status */
-@import url("./components/banner.css") layer(dd.component);
-@import url("./components/empty.css") layer(dd.component);
-@import url("./components/stat.css") layer(dd.component);
-@import url("./components/timeline.css") layer(dd.component);
-@import url("./components/keys.css") layer(dd.component);
-@import url("./components/tooltip.css") layer(dd.component);
+@import url("./components/banner.css");
+@import url("./components/empty.css");
+@import url("./components/stat.css");
+@import url("./components/timeline.css");
+@import url("./components/keys.css");
+@import url("./components/tooltip.css");
 
 /* print — last, so it wins over anything a component says */
-@import url("./base/print.css") layer(dd.print);
+@import url("./base/print.css");

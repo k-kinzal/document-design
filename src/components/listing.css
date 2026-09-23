@@ -49,7 +49,15 @@
 
   .rows { list-style: none; margin: 0 0 var(--dd-sp-5); padding: 0; }
 
-  .row { padding: var(--dd-sp-5) 0; border-top: 1px solid var(--dd-border); }
+  /* A statement row is about five lines once its metadata is counted. */
+  .rows[data-dd-defer] { --dd-defer-size: 6rem; }
+
+  /*
+   * 8px above and below, not 18. The row was spending 36px of vertical space
+   * to present three clipped lines of SQL; the space is better spent on the
+   * SQL being legible. Same rows per screen, larger text.
+   */
+  .row { padding: var(--dd-sp-3) 0; border-top: 1px solid var(--dd-border); }
 
   .row-main {
     display: flex;
@@ -95,7 +103,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: var(--dd-sp-2) var(--dd-sp-4);
-    margin: var(--dd-sp-3) 0 0 78px;
+    margin: var(--dd-sp-2) 0 0 78px;
     font-size: var(--dd-text-sm);
     color: var(--dd-fg-subtle);
   }

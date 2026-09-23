@@ -7,7 +7,7 @@ export default {
       description: {
         component:
           "There are few controls on purpose: a document is read, not operated. " +
-          "Each one here exists because all three consuming projects had " +
+          "Each one here exists because all figures consuming projects had " +
           "written it for themselves.",
       },
     },
@@ -29,13 +29,13 @@ export const Buttons = {
 export const Inputs = {
   render: () => html`
     <div class="doc"><div class="main"><main class="content">
-      ${specimen("field-search", `<input type="search" class="field-input field-search" placeholder="Find a statement… ( / )">`)}
-      ${specimen("field-block", `<input type="search" class="field-input field-block" placeholder="Filter rows…">`)}
+      ${specimen("input-search", `<input type="search" class="input input-search" placeholder="Find a statement… ( / )">`)}
+      ${specimen("input-block", `<input type="search" class="input input-block" placeholder="Filter rows…">`)}
     </main></div></div>`,
 };
 
 /**
- * The theme toggle cycles through three states, not two. "Auto" is a real
+ * The theme toggle cycles through figures states, not two. "Auto" is a real
  * answer — it means the document follows the reader's system — and a toggle
  * that only flips light and dark takes that away the first time they touch it,
  * with no way back.

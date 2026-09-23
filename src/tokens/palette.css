@@ -26,7 +26,7 @@
      * block further down has to repeat.
      */
     color-scheme: light dark;
-    --dd-tint-mix: 13%;
+    --dd-tint-mix: 6%;
     --dd-shadow: 0 8px 24px rgb(15 23 42 / 0.12);
 
     /* ---- neutrals ---- */
@@ -37,7 +37,7 @@
     --dd-hover:   light-dark(#eceef2, #32353b);
     --dd-ink:     light-dark(#1b1e24, #d9dbdd);
     --dd-sub:     light-dark(#4d535d, #a7abb3);
-    --dd-dim:     light-dark(#686d78, #8c919b);
+    --dd-dim:     light-dark(#5f6572, #a1a7b2);
     --dd-hair:    light-dark(#d9dbe0, #363940);
     --dd-rule:    light-dark(#b8bcc4, #4d515a);
 
@@ -45,7 +45,7 @@
     /* blue, violet, amber and slate are the report sheet's own values. */
     --dd-blue:   light-dark(#006bb2, #5eabf1);
     --dd-violet: light-dark(#7d5eaf, #aa8ddd);
-    --dd-amber:  light-dark(#975d00, #e8a750);
+    --dd-amber:  light-dark(#707117, #babc5e);
     --dd-slate:  light-dark(#676d79, #8d94a2);
     /* teal, pink and indigo are added for the catalog genre, which has more
        kinds than the report has accents. Matched to the sheet's lightness
@@ -57,10 +57,22 @@
     /* ---- state hues ---- */
     --dd-green:  light-dark(#1b7c4a, #5dac7b);
     --dd-red:    light-dark(#ac011a, #fe6863);
-    /* Gold, so that "needs attention" is not read as the amber that marks a
-       trait. They part company in dark, where amber goes orange and this
-       stays gold. */
-    --dd-yellow: light-dark(#7d5200, #cf9b2e);
+    /*
+     * Gold — "needs attention", and kept where a reader expects to find it.
+     *
+     * Identity-amber (a trait, a variable) and this used to sit 5.9 degrees
+     * apart in OKLCH hue, which is to say they were the same colour: nobody
+     * could tell a trait chip from a warning chip at a glance, and a glance is
+     * all a chip gets.
+     *
+     * Which of the two moves is not arbitrary. A state hue carries a
+     * convention — warnings are orange-gold — and spending that convention to
+     * make room is a real cost. An identity hue carries none: nothing about a
+     * PHP trait demands a particular colour. So warn stayed and amber moved,
+     * to citron at H110. The warm range now reads red 25, gold 78, citron 110,
+     * green 155 — evenly spread, and the one that had to stay put did.
+     */
+    --dd-yellow: light-dark(#7d5300, #d6981a);
 
     /*
      * Tints — the wash a chip or a marker sits on.
@@ -71,6 +83,14 @@
      * hue into the page background cannot drift, and follows the theme for
      * free. --dd-tint-mix leans heavier in dark, where the hues are light and
      * a light wash on a dark page would read as a block of colour.
+     *
+     * The mix is what sets chip contrast, so it is set by the contrast target
+     * rather than by taste. A chip is 11px at weight 600, which is NORMAL text
+     * under WCAG — the large-text exception starts at 18.66px bold — so it owes
+     * 4.5:1, not 3:1. At the earlier 13%/22% nine hue/tint pairs sat between
+     * 3.9 and 4.5 and were shipped as passing because the check asked for the
+     * wrong number. 6%/12% puts the worst pair at 4.63 (light) and 4.58 (dark).
+     * scripts/contrast.mjs is the authority and runs in CI.
      */
     --dd-blue-tint:   color-mix(in oklab, var(--dd-blue)   var(--dd-tint-mix), var(--dd-bg));
     --dd-violet-tint: color-mix(in oklab, var(--dd-violet) var(--dd-tint-mix), var(--dd-bg));
@@ -93,13 +113,13 @@
 
   :root[data-dd-theme="dark"] {
     color-scheme: dark;
-    --dd-tint-mix: 22%;
+    --dd-tint-mix: 12%;
     --dd-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
   }
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-dd-theme="light"]) {
-      --dd-tint-mix: 22%;
+      --dd-tint-mix: 12%;
       --dd-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
     }
   }

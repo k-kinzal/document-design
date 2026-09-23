@@ -18,7 +18,7 @@ export default {
  * The catalog frame. A 260px rail that does not move, and a column that takes
  * the rest up to 1180px.
  *
- * The rail is fixed rather than proportional because it holds names — a
+ * The rail is fixed rather than proportional because it stats names — a
  * namespace, a file path — and a column that changes width changes where every
  * name clips, which makes the same sidebar look different on every screen.
  */
@@ -80,7 +80,7 @@ export const Subgrid = {
         <div class="field">
           <p class="lead">The three below sit on the sheet's columns, not on their own.</p>
         </div>
-        <div class="three">
+        <div class="figures">
           <figure><h3>4 – 6</h3><p>First of the row.</p></figure>
           <figure><h3>7 – 9</h3><p>Second.</p></figure>
           <figure><h3>10 – 12</h3><p>Third. A fourth would start the next row.</p></figure>
@@ -93,7 +93,7 @@ export const Subgrid = {
  *  flow; under 720px the sheet collapses to one column. */
 export const Breakpoints = {
   render: () => html`
-    <div class="defs" style="max-width:640px">
+    <div class="definitions" style="max-width:640px">
       <div><dt><code>900px</code></dt><dd>The sidebar leaves the flow and opens over the page.
         It stays in the DOM in its reading order, so a screen reader and a keyboard
         still reach it in the same place. Facets stop being sticky.</dd></div>

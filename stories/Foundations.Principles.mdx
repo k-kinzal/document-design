@@ -51,7 +51,7 @@ So absence is a first-class mark, not an error state:
 - `.meter-part.is-open` — "as far as we got", drawn differently from a finished
   category
 - `.empty` — nothing here, and *why*, and the way out
-- `.caveat` — something the reader would be wrong to assume still holds
+- `.caveat` — something the reader would be wrong to assume still stats
 - `.is-open` on a timeline — the run has not finished
 
 It is also why the hue budget reserves red. Red never appears in syntax
@@ -65,7 +65,7 @@ nothing else is allowed to use it.
 dynamic SQL` is better.
 
 Counts never float free: `.count` attaches to a heading, `.facet-count` rides
-on the filter, `.legend-count` sits between the chip and the sentence defining
+on the filter, `.meter-legend-count` sits between the chip and the sentence defining
 it, `.stat-label` is part of `.stat`. A filter that turns out to match nothing
 is a dead end the reader has to reverse out of — a count on the control means
 they never take it.

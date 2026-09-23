@@ -7,8 +7,8 @@
  *   </div>
  *   <ul class="legend">
  *     <li><a class="chip tone-ok" href="…">resolved</a>
- *         <span class="legend-count">35</span>
- *         <span class="legend-note">The statement text is fully determined.</span></li>
+ *         <span class="meter-legend-count">35</span>
+ *         <span class="meter-legend-description">The statement text is fully determined.</span></li>
  *   </ul>
  *
  * The bar is the shape of the answer and the legend is the answer; neither
@@ -27,18 +27,41 @@
     margin: var(--dd-sp-3) 0 var(--dd-sp-4);
   }
 
+  /*
+   * A segment is exactly its share. It used to carry min-width: 4px so that a
+   * one-in-nine-hundred category stayed clickable — which drew that category
+   * at roughly nine times its true size, and shrank every other segment to pay
+   * for it. A bar whose job is to show proportion cannot lie about proportion
+   * to stay interactive. The legend below is the interactive surface, and it
+   * lists every category including the ones too small to see here.
+   */
   .meter-part {
     display: block;
-    width: var(--dd-part, 0%);
-    min-width: 4px;
+    flex: 0 0 var(--dd-part, 0%);
+    min-width: 0;
     height: 100%;
     background: var(--dd-tone, var(--dd-neutral));
   }
 
   .meter-part:hover { filter: brightness(1.15); }
+  .meter-part:focus-visible { outline-offset: -2px; }
 
-  /* A part that stands for "as far as we got", not for a finished category. */
-  .meter-part.is-open { background: var(--dd-slate); opacity: 0.55; }
+  /*
+   * "As far as we got", drawn as a gap rather than as a paler fill. Two
+   * adjacent unfinished categories at 55% grey merged into one band, so the
+   * bar said "most of this is unknown" without saying it was two different
+   * kinds of unknown. Hatching separates them and reads as provisional, the
+   * same way every other absence in this system is dashed.
+   */
+  .meter-part.is-open {
+    opacity: 1;
+    background: repeating-linear-gradient(
+      135deg,
+      var(--dd-rule) 0 2px,
+      transparent 2px 5px
+    );
+    box-shadow: inset 0 0 0 1px var(--dd-rule);
+  }
 
   .meter-lg { height: 20px; }
 
@@ -62,11 +85,11 @@
      label of a particular length. */
   .legend li > .chip { justify-self: start; }
 
-  .legend-count { text-align: right; font-variant-numeric: tabular-nums; }
-  .legend-note { color: var(--dd-fg-muted); font-size: var(--dd-text-sm); }
+  .meter-legend-count { text-align: right; font-variant-numeric: tabular-nums; }
+  .meter-legend-description { color: var(--dd-fg-muted); font-size: var(--dd-text-sm); }
 
   @media (max-width: 900px) {
     .legend li { grid-template-columns: 130px 50px; }
-    .legend-note { grid-column: 1 / -1; }
+    .meter-legend-description { grid-column: 1 / -1; }
   }
 }

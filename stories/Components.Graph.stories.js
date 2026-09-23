@@ -58,7 +58,7 @@ export const Layers = {
   render: () => html`
     <div class="doc"><div class="main"><main class="content">
       <h2>Layers<a class="anchor" href="#">§</a></h2>
-      <p class="section-note">Layers and allowed dependencies from <code>deptrac.yaml</code>.
+      <p class="section-description">Layers and allowed dependencies from <code>deptrac.yaml</code>.
         Layers without an arrow are dependency-free by rule.</p>
 
       <div class="graph-legend">

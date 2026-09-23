@@ -28,7 +28,7 @@ export const Faceted = {
   render: () => html`
     <div class="doc"><div class="main"><main class="content">
       <div class="facets" data-dd-facets="#listing">
-        <input type="search" class="field-input" placeholder="Find a statement…" data-dd-facet-search>
+        <input type="search" class="input" placeholder="Find a statement…" data-dd-facet-search>
         <div class="facet-group">
           ${[["select", "SELECT", 639, "blue"], ["update", "UPDATE", 44, "violet"], ["insert", "INSERT", 35, "teal"], ["delete", "DELETE", 28, "pink"]]
             .map(([v, label, n, tone]) =>

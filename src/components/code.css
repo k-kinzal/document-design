@@ -61,16 +61,21 @@
     user-select: none;
   }
 
-  .src-line.is-target { background: var(--dd-warn-tint); }
+  /* The line someone was linked to. A tint alone disappears in print and in
+     forced colours, so it also carries a rule in the gutter. */
+  .code-line.is-target {
+    background: var(--dd-warn-tint);
+    box-shadow: inset 3px 0 0 var(--dd-warn);
+  }
 
   /* ---- syntax ---- */
 
-  .tok-kw  { color: var(--dd-syn-kw); font-weight: 600; }
+  .tok-kw  { color: var(--dd-syn-kw); font-weight: var(--dd-weight-label); }
   .tok-str { color: var(--dd-syn-str); }
   .tok-num { color: var(--dd-syn-num); }
   .tok-com { color: var(--dd-syn-com); font-style: italic; }
-  .tok-var { color: var(--dd-syn-var); font-weight: 600; }
-  .tok-ph  { color: var(--dd-syn-var); font-weight: 600; }
+  .tok-var { color: var(--dd-syn-var); font-weight: var(--dd-weight-label); }
+  .tok-ph  { color: var(--dd-syn-var); font-weight: var(--dd-weight-label); }
   .tok-id  { color: var(--dd-syn-id); }
 
   /* ---- a gap in what could be determined ---- */
@@ -86,7 +91,7 @@
     border: 1px dashed var(--dd-tone, var(--dd-warn));
     border-radius: var(--dd-radius-sm);
     padding: 0 var(--dd-sp-2);
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     font-size: 0.92em;
     cursor: help;
   }

@@ -87,7 +87,19 @@
 
   /* ------------------------------------------------------------ sidebar */
 
+  /*
+   * The collapsed sidebar and the tab strip are both CSS that only makes sense
+   * once this file is running: without it, a hidden sidebar is unreachable
+   * navigation and a hidden tab panel is unreachable content. Both are gated
+   * on a flag set here, so the no-JavaScript rendering stays complete.
+   */
+  function markReady(selector, attr) {
+    each(selector, function (el) { el.setAttribute(attr, ""); });
+  }
+
   function initNav() {
+    markReady(".doc", "data-dd-nav-ready");
+
     document.addEventListener("click", function (ev) {
       var btn = ev.target.closest && ev.target.closest("[data-dd-nav-toggle]");
       if (btn) {
@@ -224,6 +236,8 @@
           if (hit) shown++;
         }
         report(input, shown, rows.length);
+        var empty = document.querySelector(input.getAttribute("data-dd-empty") || "");
+        if (empty) empty.hidden = shown !== 0;
       }, 80));
     });
   }
@@ -282,8 +296,22 @@
 
         var out = bar.querySelector(".facet-shown");
         if (out) out.textContent = shown === rows.length ? rows.length + "" : shown + " / " + rows.length;
+
+        /*
+         * Zero matches is an answer, and it needs saying. Hiding every row and
+         * leaving a blank column makes the reader wonder whether the page
+         * failed; the empty state says which filters did it and offers the way
+         * back. Markup: an element with [data-dd-empty] next to the listing.
+         */
+        var empty = document.querySelector(bar.getAttribute("data-dd-empty") || "[data-dd-empty]");
+        if (empty) empty.hidden = shown !== 0;
+
         syncUrl(bar, groups);
       }
+
+      /* The URL is read first: initialising aria-pressed before restoring the
+         selection announced "not pressed" for facets that were visibly on. */
+      readUrl(bar);
 
       each("[data-dd-facet]", function (btn) {
         btn.setAttribute("aria-pressed", btn.classList.contains("is-on") ? "true" : "false");
@@ -307,7 +335,6 @@
 
       if (search) search.addEventListener("input", debounce(apply, 80));
 
-      readUrl(bar);
       apply();
     });
   }
@@ -458,11 +485,16 @@
    */
   function initTabs() {
     each("[data-dd-tabs]", function (root) {
-      var tabs = [].slice.call(root.querySelectorAll('[role="tab"]'));
+      var all = [].slice.call(root.querySelectorAll('[role="tab"]'));
+      /* A disabled tab is neither reachable by arrow key nor selectable, but
+         it stays in the strip so the reader can see the view exists. */
+      var tabs = all.filter(function (t) { return !t.disabled; });
       if (!tabs.length) return;
+      root.setAttribute("data-dd-tabs-ready", "");
 
       function select(tab) {
-        tabs.forEach(function (t) {
+        if (!tab || tab.disabled) return;
+        all.forEach(function (t) {
           var on = t === tab;
           t.setAttribute("aria-selected", on ? "true" : "false");
           t.tabIndex = on ? 0 : -1;
@@ -470,6 +502,11 @@
           if (panel) panel.hidden = !on;
         });
       }
+
+      /* Panels ship visible so that they are readable without this script;
+         collapsing them is the first thing the script does. */
+      var first = tabs.filter(function (t) { return t.getAttribute("aria-selected") === "true"; })[0] || tabs[0];
+      select(first);
 
       tabs.forEach(function (tab, i) {
         tab.tabIndex = tab.getAttribute("aria-selected") === "true" ? 0 : -1;
@@ -515,7 +552,7 @@
    * only when a heading crosses the band.
    */
   function initToc() {
-    var toc = document.querySelector("[data-dd-toc], .sb-context");
+    var toc = document.querySelector("[data-dd-toc], .sidebar-context");
     if (!toc || !("IntersectionObserver" in window)) return;
 
     var links = {};

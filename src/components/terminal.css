@@ -2,9 +2,9 @@
  * Terminal — a command and what it printed.
  *
  *   <div class="terminal">
- *     <p class="term-cmd">composer docgen -- --diff</p>
- *     <pre class="term-out">Analyzed 542 symbols in 4.2s</pre>
- *     <p class="term-exit tone-ok">exit 0</p>
+ *     <p class="terminal-command">composer docgen -- --diff</p>
+ *     <pre class="terminal-output">Analyzed 542 symbols in 4.2s</pre>
+ *     <p class="terminal-exit tone-ok">exit 0</p>
  *   </div>
  *
  * The prompt mark is generated rather than written into the text, so copying
@@ -24,20 +24,20 @@
     overflow-x: auto;
   }
 
-  .term-cmd {
+  .terminal-command {
     margin: 0;
     color: var(--dd-fg);
     white-space: pre-wrap;
     word-break: break-word;
   }
 
-  .term-cmd::before {
+  .terminal-command::before {
     content: "$ ";
     color: var(--dd-accent);
     user-select: none;
   }
 
-  .term-out {
+  .terminal-output {
     margin: var(--dd-sp-2) 0 0;
     padding: 0;
     background: none;
@@ -48,15 +48,15 @@
     font-size: inherit;
   }
 
-  .term-err { color: var(--dd-danger); }
+  .terminal-error { color: var(--dd-danger); }
 
-  .term-exit {
+  .terminal-exit {
     margin: var(--dd-sp-3) 0 0;
     font-size: var(--dd-text-xs);
     color: var(--dd-tone, var(--dd-fg-subtle));
   }
 
-  .terminal > .term-cmd:not(:first-child) {
+  .terminal > .terminal-command:not(:first-child) {
     margin-top: var(--dd-sp-4);
     padding-top: var(--dd-sp-3);
     border-top: 1px solid var(--dd-border);

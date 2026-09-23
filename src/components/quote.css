@@ -39,13 +39,13 @@
     font-size: var(--dd-type-4);
     line-height: 1.45;
     letter-spacing: -0.02em;
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     color: var(--dd-fg);
   }
 
   .pull .quote-source {
     font-size: var(--dd-type-1);
-    font-weight: 400;
+    font-weight: var(--dd-weight-normal);
     margin-top: var(--dd-sp-4);
   }
 }

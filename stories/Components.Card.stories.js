@@ -21,7 +21,7 @@ export const Routes = {
       <div class="cards">
         <section class="card">
           <h2><a href="#">Tables</a><span class="count">12</span></h2>
-          <p class="card-hint">Which statements read, write or alter a table, and where each is issued. Start here before changing a schema.</p>
+          <p class="card-description">Which statements read, write or alter a table, and where each is issued. Start here before changing a schema.</p>
           <ol class="peek">
             <li><a href="#">{$}cache_data</a><span class="peek-figures">13 · 4 read · 8 write</span></li>
             <li><a href="#">{$}items</a><span class="peek-figures">7 · 4 read · 2 write</span></li>
@@ -31,7 +31,7 @@ export const Routes = {
         </section>
         <section class="card">
           <h2><a href="#">Statements</a><span class="count">844</span></h2>
-          <p class="card-hint">Every statement, to narrow down by what it does, how far the analysis got and what was reported.</p>
+          <p class="card-description">Every statement, to narrow down by what it does, how far the analysis got and what was reported.</p>
           <ol class="peek peek-chips">
             <li><a class="chip tone-blue" href="#">SELECT</a><span class="peek-figures">639</span></li>
             <li><a class="chip tone-indigo" href="#">ALTER</a><span class="peek-figures">63</span></li>

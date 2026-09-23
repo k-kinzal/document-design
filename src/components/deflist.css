@@ -1,7 +1,7 @@
 /*
  * Definitions — terms and what they mean here.
  *
- *   <dl class="defs">
+ *   <dl class="definitions">
  *     <div><dt>lower bound</dt>
  *       <dd>The call may issue more statements than are listed.</dd></div>
  *   </dl>
@@ -12,25 +12,27 @@
  */
 
 @layer dd.component {
-  .defs { margin: 0 0 var(--dd-sp-5); font-size: var(--dd-text-md); }
+  .definitions { margin: 0 0 var(--dd-sp-5); font-size: var(--dd-text-md); }
 
-  .defs > div {
+  .definitions > div {
     display: grid;
-    grid-template-columns: minmax(8rem, 14rem) 1fr;
-    gap: var(--dd-sp-3) var(--dd-sp-5);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--dd-sp-1) var(--dd-sp-5);
     padding: var(--dd-sp-3) 0;
     border-top: 1px solid var(--dd-border);
     align-items: baseline;
   }
 
-  .defs dt { font-weight: 650; }
-  .defs dd { margin: 0; color: var(--dd-fg-muted); }
-  .defs dd > :last-child { margin-bottom: 0; }
+  @container dd-content (min-width: 34rem) {
+    .definitions > div { grid-template-columns: minmax(8rem, 13rem) minmax(0, 1fr); gap: var(--dd-sp-3) var(--dd-sp-5); }
+  }
+
+  .definitions dt { font-weight: var(--dd-weight-head); }
+  .definitions dd { margin: 0; color: var(--dd-fg-muted); }
+  .definitions dd > :last-child { margin-bottom: 0; }
 
   /* Stacked, where the terms are long or the column is narrow. */
-  .defs-stacked > div { grid-template-columns: 1fr; gap: var(--dd-sp-1); }
+  .definitions-stacked > div { grid-template-columns: 1fr; gap: var(--dd-sp-1); }
 
-  @media (max-width: 720px) {
-    .defs > div { grid-template-columns: 1fr; gap: var(--dd-sp-1); }
-  }
+
 }

@@ -15,16 +15,33 @@
  * without knowing it is there belongs in a disclosure or on the page, because
  * an inactive tab panel is invisible to the browser's find-in-page and to
  * anyone who arrived from a search engine.
+ *
+ * Generate every panel visible, each with its own heading, and let the
+ * behaviour layer collapse them into tabs. The documented markup used to ship
+ * `hidden` on the inactive panels, which meant that without JavaScript two
+ * thirds of the content was permanently unreachable — in an archived document,
+ * permanently lost. The tab strip is therefore hidden until [data-dd-tabs-ready]
+ * says the script is in charge.
  */
 
 @layer dd.component {
   .tablist {
+    display: none;
+  }
+
+  [data-dd-tabs-ready] > .tablist {
     display: flex;
     gap: var(--dd-sp-4);
     border-bottom: 1px solid var(--dd-border);
     margin-bottom: var(--dd-sp-4);
     overflow-x: auto;
   }
+
+  /* Until then the panels are simply sections, each keeping its heading. */
+  .tabpanel + .tabpanel { margin-top: var(--dd-sp-5); }
+  [data-dd-tabs-ready] .tabpanel + .tabpanel { margin-top: 0; }
+  .tabpanel > .tabpanel-title { font-weight: var(--dd-weight-head); margin: 0 0 var(--dd-sp-3); }
+  [data-dd-tabs-ready] .tabpanel > .tabpanel-title { display: none; }
 
   .tab {
     appearance: none;
@@ -35,12 +52,16 @@
     padding: var(--dd-sp-3) 0;
     cursor: pointer;
     font-size: var(--dd-text-md);
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     color: var(--dd-fg-muted);
     white-space: nowrap;
   }
 
-  .tab:hover { color: var(--dd-fg); }
+  .tab:enabled:hover { color: var(--dd-fg); }
+
+  /* The strip scrolls, so an outward ring on the first or last tab is clipped
+     by it. Inset instead. */
+  .tab:focus-visible { outline-offset: -3px; }
 
   .tab[aria-selected="true"] {
     color: var(--dd-fg);

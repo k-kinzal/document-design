@@ -24,9 +24,9 @@ export const RedundantEncoding = {
     <div class="sb-grid" style="gap:24px;max-width:680px">
       <div>
         <p class="sb-label">diff — a character, not just a tint</p>
-        <pre class="code diff" style="margin:0"><span class="dl dl-add">+ public function build(): Statement</span>
-<span class="dl dl-del">- public function build(): string</span>
-<span class="dl dl-mod">~ @throws QueryException</span></pre>
+        <pre class="code diff" style="margin:0"><span class="dl diff-line-add">+ public function build(): Statement</span>
+<span class="dl diff-line-del">- public function build(): string</span>
+<span class="dl diff-line-mod">~ @throws QueryException</span></pre>
       </div>
       <div>
         <p class="sb-label">facets — an outline, not just more opacity</p>
@@ -63,7 +63,7 @@ export const Focus = {
     <div class="sb-row" style="gap:12px">
       <a href="#">a link</a>
       <button class="btn">a button</button>
-      <input class="field-input" placeholder="an input">
+      <input class="input" placeholder="an input">
       <span class="chip tone-blue" tabindex="0">a focusable chip</span>
     </div>`,
 };
@@ -80,12 +80,12 @@ export const SkipLink = {
     <div class="doc" style="min-height:0;border:1px solid var(--dd-border);position:relative">
       <a class="skip" href="#sk-content">Skip to content</a>
       <nav class="sidebar" style="height:180px;position:static">
-        <div class="sb-block">
-          <p class="sb-title">Browse</p>
-          <ul class="sb-list">
+        <div class="sidebar-section">
+          <p class="sidebar-title">Browse</p>
+          <ul class="sidebar-list">
             <li><a href="#">Overview</a></li>
-            <li><a href="#">Statements</a><span class="sb-count">844</span></li>
-            <li><a href="#">Tables</a><span class="sb-count">12</span></li>
+            <li><a href="#">Statements</a><span class="sidebar-count">844</span></li>
+            <li><a href="#">Tables</a><span class="sidebar-count">12</span></li>
           </ul>
         </div>
       </nav>
@@ -106,7 +106,7 @@ export const SkipLink = {
  */
 export const Semantics = {
   render: () => html`
-    <div class="defs" style="max-width:720px">
+    <div class="definitions" style="max-width:720px">
       <div><dt><code>aria-sort</code></dt><dd>set on the sorted column header by the behaviour layer</dd></div>
       <div><dt><code>aria-pressed</code></dt><dd>on every facet, reflecting whether it is narrowing the listing</dd></div>
       <div><dt><code>role="tab"</code> + arrows</dt><dd>only the selected tab is in the tab order</dd></div>

@@ -14,26 +14,29 @@
 @layer dd.component {
   .chip {
     display: inline-block;
-    padding: 0 var(--dd-sp-3);
-    border-radius: var(--dd-radius-pill);
+    padding: 1px var(--dd-sp-3);
+    border-radius: var(--dd-radius-sm);
     font-size: var(--dd-text-xs);
-    font-weight: 600;
-    line-height: 19px;
+    font-weight: var(--dd-weight-label);
+    line-height: 1.45;
     white-space: nowrap;
     vertical-align: middle;
     color: var(--dd-tone, var(--dd-neutral));
     background: var(--dd-tone-tint, var(--dd-neutral-tint));
   }
 
+  /*
+   * Small is less bulk, not smaller text. The size step used to go to 10px,
+   * which is below anything this system is willing to ask a reader to
+   * decipher; what a secondary marker actually needs is to take less room.
+   */
   .chip-sm {
     padding: 0 var(--dd-sp-2);
-    line-height: 16px;
-    font-size: 10px;
+    line-height: 1.35;
   }
 
   .chip-lg {
-    padding: 0 var(--dd-sp-4);
-    line-height: 24px;
+    padding: 2px var(--dd-sp-4);
     font-size: var(--dd-text-sm);
   }
 
@@ -46,13 +49,12 @@
     background: none;
     border: 1px solid var(--dd-border);
     color: var(--dd-tone, var(--dd-fg-muted));
-    font-weight: 500;
+    font-weight: var(--dd-weight-medium);
     font-family: var(--dd-font-mono);
-    line-height: 17px;
   }
 
-  /* Square, for a chip that sits against code and should not look pill-like. */
-  .chip-square { border-radius: var(--dd-radius-sm); }
+  /* A pill, for the few places a chip is a status rather than a label. */
+  .chip-pill { border-radius: var(--dd-radius-pill); }
 
   a.chip:hover { text-decoration: none; filter: brightness(0.94); }
   a.chip-ghost:hover { border-color: var(--dd-link); color: var(--dd-link); filter: none; }

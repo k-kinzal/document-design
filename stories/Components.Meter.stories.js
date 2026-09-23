@@ -25,16 +25,16 @@ export const Coverage = {
         <a class="meter-part tone-neutral" style="--dd-part:1%" href="#" title="not-analyzed: 5"></a>
       </div>
       <ul class="legend">
-        <li><a class="chip tone-ok" href="#">resolved</a><span class="legend-count">35</span>
-            <span class="legend-note">The statement text is fully determined.</span></li>
-        <li><a class="chip tone-danger" href="#">external-input</a><span class="legend-count">0</span>
-            <span class="legend-note">The values were followed to runtime input, so the text cannot be fixed.</span></li>
-        <li><a class="chip chip-ghost" href="#">incomplete-model</a><span class="legend-count">709</span>
-            <span class="legend-note">A dependency the analyzer does not model was reached.</span></li>
-        <li><a class="chip chip-ghost" href="#">incomplete</a><span class="legend-count">95</span>
-            <span class="legend-note">A cycle or an analysis budget stopped the search before it closed.</span></li>
-        <li><a class="chip tone-neutral" href="#">not-analyzed</a><span class="legend-count">5</span>
-            <span class="legend-note">The call was found but never examined.</span></li>
+        <li><a class="chip tone-ok" href="#">resolved</a><span class="meter-legend-count">35</span>
+            <span class="meter-legend-description">The statement text is fully determined.</span></li>
+        <li><a class="chip tone-danger" href="#">external-input</a><span class="meter-legend-count">0</span>
+            <span class="meter-legend-description">The values were followed to runtime input, so the text cannot be fixed.</span></li>
+        <li><a class="chip chip-ghost" href="#">incomplete-model</a><span class="meter-legend-count">709</span>
+            <span class="meter-legend-description">A dependency the analyzer does not model was reached.</span></li>
+        <li><a class="chip chip-ghost" href="#">incomplete</a><span class="meter-legend-count">95</span>
+            <span class="meter-legend-description">A cycle or an analysis budget stopped the search before it closed.</span></li>
+        <li><a class="chip tone-neutral" href="#">not-analyzed</a><span class="meter-legend-count">5</span>
+            <span class="meter-legend-description">The call was found but never examined.</span></li>
       </ul>
     </main></div></div>`,
 };

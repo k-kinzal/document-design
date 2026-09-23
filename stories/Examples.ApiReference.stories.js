@@ -7,7 +7,7 @@ export default {
       description: {
         component:
           "php-ai-toolkit's DocGen output, rebuilt on this stylesheet. Same " +
-          "page, same content: the class `ErrorGrouping`, its three methods, " +
+          "page, same content: the class `ErrorGrouping`, its figures methods, " +
           "their signatures, coverage and callers. The markup differs — kinds " +
           "come from tone classes instead of a per-project `.k-*` set, and the " +
           "frame is `.doc` rather than a class on `<body>`.",
@@ -20,7 +20,7 @@ const T = {
   key: (s) => `<span class="t-key">${s}</span>`,
   ext: (s, full) => `<span class="t-ext" title="${full}">${s}</span>`,
   var: (s) => `<span class="t-var">${s}</span>`,
-  name: (s) => `<span class="sig-name">${s}</span>`,
+  name: (s) => `<span class="signature-name">${s}</span>`,
 };
 
 const listError = `${T.key("list")}&lt;${T.ext("Error", "PHPStan\\Analyser\\Error")}&gt;`;
@@ -33,7 +33,7 @@ function method({ id, name, params, returns, summary, cov, covTone, covTitle, li
       <pre class="member-sig"><code>${T.key("public")} ${T.key("function")} ${T.name(name)}(${params}): ${returns}</code></pre>
       <div class="member-meta">
         <span class="chip chip-sm ${covTone}" title="${covTitle}">${cov}</span>
-        <a class="src-link" href="#">source</a>
+        <a class="source-link" href="#">source</a>
         <a class="anchor" href="#${id}">§</a>
       </div>
     </div>
@@ -79,16 +79,16 @@ export const ClassPage = {
   render: () => html`
     <div class="doc">
       <nav class="sidebar">
-        <div class="sb-head"><a class="sb-site" href="#">k-kinzal/php-ai-toolkit</a></div>
-        <nav class="sb-block">
-          <p class="sb-title">Packages</p>
-          <ul class="sb-list">
-            <li class="is-active"><a href="#">k-kinzal/php-ai-toolkit</a><span class="sb-count">542</span></li>
+        <div class="sidebar-header"><a class="sidebar-site" href="#">k-kinzal/php-ai-toolkit</a></div>
+        <nav class="sidebar-section">
+          <p class="sidebar-title">Packages</p>
+          <ul class="sidebar-list">
+            <li class="is-active"><a href="#">k-kinzal/php-ai-toolkit</a><span class="sidebar-count">542</span></li>
           </ul>
         </nav>
-        <nav class="sb-block">
-          <p class="sb-title">Layers</p>
-          <ul class="sb-list">
+        <nav class="sidebar-section">
+          <p class="sidebar-title">Layers</p>
+          <ul class="sidebar-list">
             <li><a href="#">DocGen</a></li>
             <li class="is-active"><a href="#">PhpStanErrorFormatter</a></li>
             <li><a href="#">PhpStanRule</a></li>
@@ -100,9 +100,9 @@ export const ClassPage = {
             <li><a href="#">Shared</a></li>
           </ul>
         </nav>
-        <nav class="sb-block">
-          <p class="sb-title">On this page</p>
-          <ul class="sb-list sb-context">
+        <nav class="sidebar-section">
+          <p class="sidebar-title">On this page</p>
+          <ul class="sidebar-list sidebar-context">
             <li><a href="#methods">Methods</a></li>
             <li data-dd-level="3"><a href="#method.byFile">byFile</a></li>
             <li data-dd-level="3"><a href="#method.byIdentifier">byIdentifier</a></li>
@@ -114,14 +114,14 @@ export const ClassPage = {
       <div class="main">
         <header class="topbar">
           <button class="btn btn-quiet nav-toggle" data-dd-nav-toggle title="Toggle navigation">☰</button>
-          <nav class="crumbs">
-            <a href="#">k-kinzal/php-ai-toolkit</a><span class="crumb-sep">/</span>
-            <a href="#">PhpAiToolkit\\PhpStan\\ErrorFormatter</a><span class="crumb-sep">/</span>
-            <span class="crumb-current">ErrorGrouping</span>
+          <nav class="breadcrumbs">
+            <a href="#">k-kinzal/php-ai-toolkit</a><span class="breadcrumb-sep">/</span>
+            <a href="#">PhpAiToolkit\\PhpStan\\ErrorFormatter</a><span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-current">ErrorGrouping</span>
           </nav>
           <div class="topbar-tools">
-            <input type="search" class="field-input field-search" placeholder="Search… ( / )" data-dd-search autocomplete="off" spellcheck="false">
-            <a class="src-link" href="#">github.com</a>
+            <input type="search" class="input input-search" placeholder="Search… ( / )" data-dd-search autocomplete="off" spellcheck="false">
+            <a class="source-link" href="#">github.com</a>
             <button class="btn btn-quiet" data-dd-theme-toggle title="Toggle theme">◐</button>
           </div>
         </header>
@@ -132,7 +132,7 @@ export const ClassPage = {
             <h1><span class="chip tone-blue">class</span>ErrorGrouping</h1>
             <div class="symbol-meta">
               <a class="chip chip-ghost tone-indigo" href="#" title="deptrac layer">PhpStanErrorFormatter</a>
-              <a class="src-link" href="#">src/PhpStan/ErrorFormatter/ErrorGrouping.php:12</a>
+              <a class="source-link" href="#">src/PhpStan/ErrorFormatter/ErrorGrouping.php:12</a>
             </div>
           </div>
 
@@ -142,7 +142,7 @@ export const ClassPage = {
 
           <section>
             <h2 id="methods">Methods<a class="anchor" href="#methods">§</a></h2>
-            <p class="section-note">Public methods, with the coverage the test suite reports for each and the tests that reach it.</p>
+            <p class="section-description">Public methods, with the coverage the test suite reports for each and the tests that reach it.</p>
 
             ${method({
               id: "method.byFile",

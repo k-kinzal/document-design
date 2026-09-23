@@ -71,20 +71,20 @@ export const Overview = {
   render: () => html`
     <div class="doc">
       <nav class="sidebar">
-        <div class="sb-block">
-          <p class="sb-title">Browse</p>
-          <ul class="sb-list">
+        <div class="sidebar-section">
+          <p class="sidebar-title">Browse</p>
+          <ul class="sidebar-list">
             <li class="is-active"><a href="#">Overview</a></li>
-            <li><a href="#">Statements</a><span class="sb-count">844</span></li>
-            <li><a href="#">Tables</a><span class="sb-count">12</span></li>
-            <li><a href="#">Namespaces</a><span class="sb-count">2</span></li>
-            <li><a href="#">Files</a><span class="sb-count">77</span></li>
-            <li><a href="#">Findings</a><span class="sb-count">978</span></li>
+            <li><a href="#">Statements</a><span class="sidebar-count">844</span></li>
+            <li><a href="#">Tables</a><span class="sidebar-count">12</span></li>
+            <li><a href="#">Namespaces</a><span class="sidebar-count">2</span></li>
+            <li><a href="#">Files</a><span class="sidebar-count">77</span></li>
+            <li><a href="#">Findings</a><span class="sidebar-count">978</span></li>
           </ul>
         </div>
-        <div class="sb-block">
-          <p class="sb-title">On this page</p>
-          <ul class="sb-list sb-context">
+        <div class="sidebar-section">
+          <p class="sidebar-title">On this page</p>
+          <ul class="sidebar-list sidebar-context">
             <li><a href="#attention" title="Needs attention">Needs attention</a></li>
             <li><a href="#coverage" title="How far the analysis got">How far the analysis got</a></li>
           </ul>
@@ -94,9 +94,9 @@ export const Overview = {
       <div class="main">
         <header class="topbar">
           <button class="btn btn-quiet nav-toggle" data-dd-nav-toggle title="Toggle navigation">☰</button>
-          <nav class="crumbs"><span class="crumb-current">Overview</span></nav>
+          <nav class="breadcrumbs"><span class="breadcrumb-current">Overview</span></nav>
           <div class="topbar-tools">
-            <input type="search" class="field-input field-search" placeholder="Find a statement… ( / )"
+            <input type="search" class="input input-search" placeholder="Find a statement… ( / )"
                    title="Search by SQL text, table, function or file" data-dd-search autocomplete="off" spellcheck="false">
             <button class="btn btn-quiet" data-dd-theme-toggle title="Toggle theme">◐</button>
           </div>
@@ -107,17 +107,17 @@ export const Overview = {
           <h1>Overview</h1>
           <p class="lede">Every statement this source can issue, read back from the calls that receive it.
             Start from the table, class or file you are working on, or from what the analysis flagged.</p>
-          <p class="facts">
-            <a href="#">844 statements</a><span class="facts-sep">·</span>
-            <a href="#">12 tables</a><span class="facts-sep">·</span>
-            <a href="#">240 functions</a><span class="facts-sep">·</span>
+          <p class="page-counts">
+            <a href="#">844 statements</a><span class="page-counts-sep">·</span>
+            <a href="#">12 tables</a><span class="page-counts-sep">·</span>
+            <a href="#">240 functions</a><span class="page-counts-sep">·</span>
             <a href="#">77 files</a>
           </p>
 
           <div class="cards">
             <section class="card">
               <h2><a href="#">Tables</a><span class="count">12</span></h2>
-              <p class="card-hint">Which statements read, write or alter a table, and where each is issued.
+              <p class="card-description">Which statements read, write or alter a table, and where each is issued.
                 Start here before changing a schema.</p>
               <ol class="peek">${peek(TABLES)}</ol>
               <p class="card-more"><a href="#">All 12 tables</a></p>
@@ -125,7 +125,7 @@ export const Overview = {
 
             <section class="card">
               <h2><a href="#">Namespaces</a><span class="count">2</span></h2>
-              <p class="card-hint">The statements each class and function issues, method by method.
+              <p class="card-description">The statements each class and function issues, method by method.
                 Start here before refactoring code that talks to the database.</p>
               <ol class="peek">${peek(CLASSES)}</ol>
               <p class="card-more"><a href="#">All 2 namespaces</a></p>
@@ -133,14 +133,14 @@ export const Overview = {
 
             <section class="card">
               <h2><a href="#">Files</a><span class="count">77</span></h2>
-              <p class="card-hint">The statements written in each file, function by function.</p>
+              <p class="card-description">The statements written in each file, function by function.</p>
               <ol class="peek">${peek(FILES)}</ol>
               <p class="card-more"><a href="#">All 77 files</a></p>
             </section>
 
             <section class="card">
               <h2><a href="#">Statements</a><span class="count">844</span></h2>
-              <p class="card-hint">Every statement, to narrow down by what it does, how far the analysis got
+              <p class="card-description">Every statement, to narrow down by what it does, how far the analysis got
                 and what was reported.</p>
               <ol class="peek peek-chips">
                 ${KINDS.map(
@@ -194,8 +194,8 @@ export const Overview = {
               ([name, cls, n, note]) => `
               <li>
                 <a class="chip ${cls}" href="#" title="${note}">${name}</a>
-                <span class="legend-count">${n}</span>
-                <span class="legend-note">${note}</span>
+                <span class="meter-legend-count">${n}</span>
+                <span class="meter-legend-description">${note}</span>
               </li>`
             ).join("")}
           </ul>
@@ -211,31 +211,31 @@ export const Statements = {
   render: () => html`
     <div class="doc">
       <nav class="sidebar">
-        <div class="sb-block">
-          <p class="sb-title">Browse</p>
-          <ul class="sb-list">
+        <div class="sidebar-section">
+          <p class="sidebar-title">Browse</p>
+          <ul class="sidebar-list">
             <li><a href="#">Overview</a></li>
-            <li class="is-active"><a href="#">Statements</a><span class="sb-count">844</span></li>
-            <li><a href="#">Tables</a><span class="sb-count">12</span></li>
-            <li><a href="#">Namespaces</a><span class="sb-count">2</span></li>
-            <li><a href="#">Files</a><span class="sb-count">77</span></li>
-            <li><a href="#">Findings</a><span class="sb-count">978</span></li>
+            <li class="is-active"><a href="#">Statements</a><span class="sidebar-count">844</span></li>
+            <li><a href="#">Tables</a><span class="sidebar-count">12</span></li>
+            <li><a href="#">Namespaces</a><span class="sidebar-count">2</span></li>
+            <li><a href="#">Files</a><span class="sidebar-count">77</span></li>
+            <li><a href="#">Findings</a><span class="sidebar-count">978</span></li>
           </ul>
         </div>
       </nav>
       <div class="main">
         <header class="topbar">
           <button class="btn btn-quiet nav-toggle" data-dd-nav-toggle>☰</button>
-          <nav class="crumbs"><a href="#">Overview</a><span class="crumb-sep">/</span><span class="crumb-current">Statements</span></nav>
+          <nav class="breadcrumbs"><a href="#">Overview</a><span class="breadcrumb-sep">/</span><span class="breadcrumb-current">Statements</span></nav>
           <div class="topbar-tools">
-            <input type="search" class="field-input field-search" placeholder="Find a statement… ( / )" data-dd-search>
+            <input type="search" class="input input-search" placeholder="Find a statement… ( / )" data-dd-search>
             <button class="btn btn-quiet" data-dd-theme-toggle>◐</button>
           </div>
         </header>
         <main class="content">
           <h1>Statements<span class="count">844</span></h1>
           <div class="facets" data-dd-facets="#stmts">
-            <input type="search" class="field-input" placeholder="Filter…" data-dd-facet-search>
+            <input type="search" class="input" placeholder="Filter…" data-dd-facet-search>
             <div class="facet-group">
               ${KINDS.slice(0, 5)
                 .map(

@@ -69,9 +69,9 @@ export const Variants = {
       )}
       ${specimen(
         "with line numbers",
-        `<pre class="code code-scroll"><span class="src-line"><span class="ln">1238</span>  public function query( $query ) {</span>
-<span class="src-line is-target"><span class="ln">1240</span>      $this->result = $this->dbh->query( $query );</span>
-<span class="src-line"><span class="ln">1241</span>  }</span></pre>`
+        `<pre class="code code-scroll"><span class="code-line"><span class="ln">1238</span>  public function query( $query ) {</span>
+<span class="code-line is-target"><span class="ln">1240</span>      $this->result = $this->dbh->query( $query );</span>
+<span class="code-line"><span class="ln">1241</span>  }</span></pre>`
       )}
       ${specimen(
         "details.as-written — the raw form, if wanted",

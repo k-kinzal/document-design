@@ -27,8 +27,8 @@
   .doc {
     display: flex;
     min-height: 100vh;
-    font-size: var(--dd-text-lg);
-    line-height: 1.55;
+    font-size: var(--dd-text-md);
+    line-height: 1.6;
   }
 
   .doc .main {
@@ -38,7 +38,15 @@
     flex-direction: column;
   }
 
+  /*
+   * The content column is a container. A 1400px window can hold a 320px
+   * column — a catalog inside a preview pane, a sheet inside another frame —
+   * and components that ask the window how wide they are get that wrong every
+   * time. Asking the column instead is what makes the genres nestable, which
+   * the system already promised they were.
+   */
   .doc .content {
+    container: dd-content / inline-size;
     padding: var(--dd-sp-5) var(--dd-sp-6) var(--dd-sp-8);
     max-width: var(--dd-content-max);
     width: 100%;
@@ -55,8 +63,8 @@
   /* ---- headings ---- */
 
   .doc h1 {
-    font-size: 21px;
-    font-weight: 650;
+    font-size: var(--dd-text-2xl);
+    font-weight: var(--dd-weight-head);
     display: flex;
     align-items: center;
     gap: var(--dd-sp-3);
@@ -64,11 +72,11 @@
     min-width: 0;
   }
 
-  .doc h1 code { font-size: 19px; }
+  .doc h1 code { font-size: 0.92em; }
 
   .doc h2 {
-    font-size: 15px;
-    font-weight: 650;
+    font-size: var(--dd-text-xl);
+    font-weight: var(--dd-weight-head);
     margin: var(--dd-sp-7) 0 var(--dd-sp-5);
     padding-bottom: var(--dd-sp-2);
     border-bottom: 1px solid var(--dd-border);
@@ -80,6 +88,7 @@
 
   .doc h3 {
     font-size: var(--dd-text-lg);
+    font-weight: var(--dd-weight-head);
     margin: var(--dd-sp-6) 0 var(--dd-sp-4);
     display: flex;
     align-items: baseline;
@@ -87,11 +96,12 @@
     flex-wrap: wrap;
   }
 
-  .doc h2 code { font-size: var(--dd-text-lg); }
-  .doc h3 code { font-size: var(--dd-text-md); }
+  .doc h2 code { font-size: 0.92em; }
+  .doc h3 code { font-size: 0.92em; }
 
   /* The one paragraph that says what this page is. */
   .doc .lede {
+    font-size: var(--dd-text-lg);
     color: var(--dd-fg-muted);
     margin: var(--dd-sp-4) 0 var(--dd-sp-6);
     max-width: 84ch;
@@ -105,19 +115,39 @@
    * that is mostly headings, a permanent § at every one of them reads as
    * decoration and competes with the headings themselves.
    */
+  /*
+   * opacity, not visibility. `visibility: hidden` takes an element out of the
+   * tab order entirely, so `.anchor:focus-visible` could never match — the
+   * link was unreachable by keyboard and the rule that was meant to reveal it
+   * was dead. On a device with no hover it stays visible, because there is no
+   * pointer to reveal it with.
+   */
   .anchor {
     margin-left: auto;
     font-size: var(--dd-text-sm);
     color: var(--dd-fg-subtle);
-    font-weight: 400;
-    visibility: hidden;
+    font-weight: var(--dd-weight-normal);
+    opacity: 0;
   }
 
   :is(h1, h2, h3, h4):hover .anchor,
-  .anchor:focus-visible { visibility: visible; }
+  :is(h1, h2, h3, h4):focus-within .anchor,
+  .anchor:focus-visible { opacity: 1; }
 
-  /* A row of counts under the title: what this page is made of. */
-  .facts {
+  @media (hover: none) {
+    .anchor { opacity: 1; }
+  }
+
+  /*
+   * A row of counts under the title: what this page is made of.
+   *
+   * Named .page-counts, not .facts. It used to be .facts, and so did the
+   * facts component — one name, two components, in two different layers. The
+   * component won, because dd.component outranks dd.layout, and the counts
+   * row silently became a one-column grid: four links stacked down the page
+   * with a bullet marooned between each pair.
+   */
+  .page-counts {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
@@ -127,7 +157,7 @@
     color: var(--dd-fg-muted);
   }
 
-  .facts-sep { color: var(--dd-fg-subtle); padding: 0 var(--dd-sp-2); }
+  .page-counts-sep { color: var(--dd-fg-subtle); padding: 0 var(--dd-sp-2); }
 
   @media (max-width: 900px) {
     .doc .content { padding: var(--dd-sp-4) var(--dd-sp-4) var(--dd-sp-7); }

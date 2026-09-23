@@ -3,12 +3,12 @@
  *
  *   <header class="topbar">
  *     <button class="btn nav-toggle" data-dd-nav-toggle>☰</button>
- *     <nav class="crumbs">
- *       <a href="…">Tables</a><span class="crumb-sep">/</span>
- *       <span class="crumb-current">wp_posts</span>
+ *     <nav class="breadcrumbs">
+ *       <a href="…">Tables</a><span class="breadcrumb-sep">/</span>
+ *       <span class="breadcrumb-current">wp_posts</span>
  *     </nav>
  *     <div class="topbar-tools">
- *       <input type="search" class="field-input" data-dd-search>
+ *       <input type="search" class="input" data-dd-search>
  *       <button class="btn" data-dd-theme-toggle>◐</button>
  *     </div>
  *   </header>
@@ -28,7 +28,7 @@
     border-bottom: 1px solid var(--dd-border);
   }
 
-  .crumbs {
+  .breadcrumbs {
     flex: 1;
     min-width: 0;
     font-size: var(--dd-text-md);
@@ -37,10 +37,10 @@
     text-overflow: ellipsis;
   }
 
-  .crumb-sep { color: var(--dd-fg-subtle); padding: 0 var(--dd-sp-2); }
+  .breadcrumb-sep { color: var(--dd-fg-subtle); padding: 0 var(--dd-sp-2); }
 
   /* Where you are is not a link, so it is not coloured as one. */
-  .crumb-current { color: var(--dd-fg-muted); }
+  .breadcrumb-current { color: var(--dd-fg-muted); }
 
   .topbar-tools {
     display: flex;
@@ -48,10 +48,19 @@
     gap: var(--dd-sp-3);
   }
 
-  .nav-toggle { display: none; }
+  /*
+   * Scoped to .topbar so it outranks .btn's own display.
+   *
+   * `.nav-toggle { display: none }` and `.btn { display: inline-flex }` are
+   * both one class, and control.css is imported after this file — so the
+   * button won, and a toggle that does nothing was showing at every width.
+   */
+  .topbar .nav-toggle { display: none; }
 
   @media (max-width: 900px) {
     .topbar { padding: var(--dd-sp-3) var(--dd-sp-4); }
-    .nav-toggle { display: inline-flex; }
+    /* A toggle that toggles nothing is worse than no toggle, so it appears
+       only once the behaviour layer has taken charge of the sidebar. */
+    .doc[data-dd-nav-ready] .topbar .nav-toggle { display: inline-flex; }
   }
 }

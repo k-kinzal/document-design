@@ -24,7 +24,7 @@
     border-radius: var(--dd-radius);
     box-shadow: var(--dd-shadow);
     font-size: var(--dd-text-md);
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
   }
 
   .skip:focus {

@@ -19,13 +19,23 @@
     overflow-wrap: anywhere;
   }
 
+  /*
+   * `pretty` only where a person wrote the words. It costs layout passes, and
+   * it is aimed at ragged edges and orphans in running prose — which is the
+   * prose component and the report's body, not a table of 844 rows.
+   */
+  .prose p, .prose li, .note, .lede { text-wrap: pretty; }
+
   code, pre, kbd, samp, .mono {
     font-family: var(--dd-font-mono);
   }
 
   /* Inline code, on a wash so it reads as a quoted thing rather than as bold. */
+  /* .92, not .86: monospace runs optically smaller than the sans around it,
+     and at .86 of a 14px cell inline code landed at 12.0px — under the floor
+     the rest of the scale just cleared. */
   :where(code):not(pre code) {
-    font-size: 0.86em;
+    font-size: 0.92em;
     background: var(--dd-sunken);
     border: 1px solid var(--dd-border);
     border-radius: var(--dd-radius-sm);
@@ -33,7 +43,7 @@
   }
 
   kbd {
-    font-size: 0.86em;
+    font-size: 0.92em;
     background: var(--dd-surface);
     border: 1px solid var(--dd-border);
     border-bottom-width: 2px;
@@ -43,6 +53,49 @@
 
   .mono { font-family: var(--dd-font-mono); }
 
+  /*
+   * Deferred rendering for listings the generator knows are long.
+   *
+   * A catalog page can carry 844 statement rows or 978 findings; the browser
+   * lays out and paints every one of them before the reader sees the first.
+   * `content-visibility: auto` lets it skip what is off screen and do the work
+   * when it scrolls there. Opt-in via an attribute, because it is only correct
+   * where the children are uniform enough for an intrinsic size to be a decent
+   * guess, and it must not go on a sticky or overflowing container.
+   *
+   * Find-in-page and keyboard navigation still reach the deferred content.
+   * Unsupported: the declarations are ignored and everything renders eagerly,
+   * exactly as before. Print is handled in dd.print.
+   */
+  @media screen {
+    [data-dd-defer] > * {
+      content-visibility: auto;
+      contain-intrinsic-size: auto var(--dd-defer-size, 5rem);
+    }
+  }
+
+  /*
+   * Japanese line breaking at phrase boundaries rather than anywhere a
+   * character happens to fall. Reports are written in Japanese by a run, so
+   * nobody is going to hand-tune the breaks. Chromium-only today; everywhere
+   * else this is simply `normal`, which is what it was before.
+   */
+  :lang(ja) :is(h1, h2, h3, .lead, .stand, .claim, .caveat) {
+    word-break: auto-phrase;
+  }
+
+}
+
+/*
+ * Utilities — single-purpose classes that exist to beat a component.
+ *
+ * They live in dd.utility, the last layer before print, which is the whole
+ * point of them: .muted on a table cell has to win over the table's own
+ * colour, and .is-hidden has to win over every component's display. Sitting in
+ * dd.base, as these did, they lost to any component that touched the same
+ * property and the layer was declared but empty.
+ */
+@layer dd.utility {
   .muted  { color: var(--dd-fg-muted); }
   .subtle { color: var(--dd-fg-subtle); }
   /* Nothing to report, as opposed to something reported as zero. */
@@ -53,12 +106,15 @@
   /* A number that sits next to a heading or a link, and is not the point. */
   .count {
     color: var(--dd-fg-subtle);
-    font-weight: 400;
+    font-weight: var(--dd-weight-normal);
     font-size: var(--dd-text-sm);
     font-variant-numeric: tabular-nums;
   }
 
   .num, .tabular { font-variant-numeric: tabular-nums; }
+
+  /* Hidden by a filter, a facet or a tab. Must beat any component's display. */
+  .is-hidden { display: none; }
 
   /* Visible only to a screen reader. */
   .sr-only {

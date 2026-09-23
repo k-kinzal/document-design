@@ -26,7 +26,7 @@
     color: var(--dd-fg-muted);
   }
 
-  .empty-title { margin: 0; font-weight: 650; color: var(--dd-fg); font-size: var(--dd-text-lg); }
+  .empty-title { margin: 0; font-weight: var(--dd-weight-head); color: var(--dd-fg); font-size: var(--dd-text-lg); }
   .empty-note { margin: 0; font-size: var(--dd-text-md); max-width: 46ch; }
 
   /* Inline, for an empty section inside a page that is otherwise full. */

@@ -28,7 +28,7 @@
   th {
     color: var(--dd-fg-muted);
     font-size: var(--dd-text-sm);
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     white-space: nowrap;
   }
 
@@ -57,6 +57,5 @@
   .sortable th.is-desc::after { content: " ↓"; }
 
   /* ---- filtering ---- */
-
-  tr.is-hidden, .is-hidden { display: none; }
+  /* .is-hidden itself is a utility; see base/text.css. */
 }

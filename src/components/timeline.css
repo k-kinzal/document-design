@@ -2,10 +2,10 @@
  * Timeline — what happened, in order.
  *
  *   <ol class="timeline">
- *     <li class="tl-item tone-ok">
- *       <span class="tl-time">14:02</span>
- *       <p class="tl-title">Analysis finished</p>
- *       <p class="tl-note">542 symbols in 4.2s</p>
+ *     <li class="timeline-item tone-ok">
+ *       <span class="timeline-time">14:02</span>
+ *       <p class="timeline-title">Analysis finished</p>
+ *       <p class="timeline-description">542 symbols in 4.2s</p>
  *     </li>
  *   </ol>
  *
@@ -32,10 +32,10 @@
     background: var(--dd-border);
   }
 
-  .tl-item { position: relative; padding: 0 0 var(--dd-sp-5); }
-  .tl-item:last-child { padding-bottom: 0; }
+  .timeline-item { position: relative; padding: 0 0 var(--dd-sp-5); }
+  .timeline-item:last-child { padding-bottom: 0; }
 
-  .tl-item::before {
+  .timeline-item::before {
     content: "";
     position: absolute;
     left: calc(var(--dd-sp-6) * -1 + 2px);
@@ -49,9 +49,9 @@
 
   /* Still going: an outline rather than a filled mark, so a reader can see at
      a glance where the run got to. */
-  .tl-item.is-open::before { background: var(--dd-bg); box-shadow: 0 0 0 3px var(--dd-bg), inset 0 0 0 2px var(--dd-rule); }
+  .timeline-item.is-open::before { background: var(--dd-bg); box-shadow: 0 0 0 3px var(--dd-bg), inset 0 0 0 2px var(--dd-rule); }
 
-  .tl-time {
+  .timeline-time {
     display: block;
     font-size: var(--dd-text-xs);
     font-family: var(--dd-font-mono);
@@ -59,18 +59,18 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .tl-title {
+  .timeline-title {
     margin: var(--dd-sp-1) 0 0;
     font-size: var(--dd-text-md);
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     color: var(--dd-tone, var(--dd-fg));
   }
 
-  .tl-note {
+  .timeline-description {
     margin: var(--dd-sp-1) 0 0;
     font-size: var(--dd-text-sm);
     color: var(--dd-fg-muted);
   }
 
-  .tl-item > .terminal, .tl-item > .code-block { margin-top: var(--dd-sp-3); }
+  .timeline-item > .terminal, .timeline-item > .code-block { margin-top: var(--dd-sp-3); }
 }

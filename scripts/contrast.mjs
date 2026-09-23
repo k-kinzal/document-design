@@ -10,30 +10,41 @@
  * mix the stylesheet uses, so what is measured is what ships.
  */
 
-const TARGET_TEXT = 4.5;   /* WCAG AA, normal text */
-const TARGET_LARGE = 3.0;  /* AA for large/bold text, which chips are */
+/*
+ * WCAG AA. The large-text exception (3:1) begins at 24px regular or 18.66px
+ * bold — NOT at "it is bold and small". Everything this system sets is below
+ * that, so everything owes 4.5:1.
+ *
+ * This file previously held chips to 3:1 on the grounds that they are bold,
+ * and reported 58 passing pairs. A chip is 12px at weight 600. Nine pairs were
+ * between 3.9 and 4.5 and were shipped as passing because the check asked for
+ * the wrong number. The tint mix is now set by this target rather than by eye.
+ */
+const TARGET_TEXT = 4.5;
+const TARGET_LARGE = 3.0;   /* reserved for genuinely large text; nothing uses it yet */
 
 const PALETTE = {
   light: {
     bg: "#fcfcfe", surface: "#f6f7f9", sunken: "#eef0f3", raised: "#ffffff", hover: "#eceef2",
-    ink: "#1b1e24", sub: "#4d535d", dim: "#686d78", hair: "#d9dbe0", rule: "#b8bcc4",
-    blue: "#006bb2", violet: "#7d5eaf", amber: "#975d00", slate: "#676d79",
+    ink: "#1b1e24", sub: "#4d535d", dim: "#5f6572", hair: "#d9dbe0", rule: "#b8bcc4",
+    blue: "#006bb2", violet: "#7d5eaf", amber: "#707117", slate: "#676d79",
     teal: "#0f7478", pink: "#b0356f", indigo: "#4a55bd",
-    green: "#1b7c4a", red: "#ac011a", yellow: "#7d5200",
-    mix: 0.13,
+    green: "#1b7c4a", red: "#ac011a", yellow: "#7d5300",
+    mix: 0.06,
   },
   dark: {
     bg: "#1f2023", surface: "#292c30", sunken: "#25272b", raised: "#2f3238", hover: "#32353b",
-    ink: "#d9dbdd", sub: "#a7abb3", dim: "#8c919b", hair: "#363940", rule: "#4d515a",
-    blue: "#5eabf1", violet: "#aa8ddd", amber: "#e8a750", slate: "#8d94a2",
+    ink: "#d9dbdd", sub: "#a7abb3", dim: "#a1a7b2", hair: "#363940", rule: "#4d515a",
+    blue: "#5eabf1", violet: "#aa8ddd", amber: "#babc5e", slate: "#8d94a2",
     teal: "#4fbcc0", pink: "#f085b4", indigo: "#949cf0",
-    green: "#5dac7b", red: "#fe6863", yellow: "#cf9b2e",
-    mix: 0.22,
+    green: "#5dac7b", red: "#fe6863", yellow: "#d6981a",
+    mix: 0.12,
   },
 };
 
 const HUES = ["blue", "violet", "amber", "teal", "pink", "indigo", "slate", "green", "red", "yellow"];
 const TEXT = ["ink", "sub", "dim"];
+const SURFACES = ["bg", "surface", "sunken", "raised", "hover"];
 
 /* ---- colour maths ---- */
 
@@ -90,13 +101,16 @@ let failures = 0;
 const rows = [];
 
 for (const [theme, p] of Object.entries(PALETTE)) {
+  /* Every text colour against every surface it can land on. `dim` used to be
+     checked at 3:1 and only against three surfaces; it is a count, a path and
+     a timestamp — normal text — and a row can be hovered while a popover is
+     open above it, so it owes 4.5 on all five. */
   for (const name of TEXT) {
-    for (const surface of ["bg", "surface", "sunken"]) {
+    for (const surface of SURFACES) {
       const r = ratio(p[name], p[surface]);
-      const target = name === "dim" ? TARGET_LARGE : TARGET_TEXT;
-      const ok = r >= target;
+      const ok = r >= TARGET_TEXT;
       if (!ok) failures++;
-      rows.push([theme, `${name} on ${surface}`, r, target, ok]);
+      rows.push([theme, `${name} on ${surface}`, r, TARGET_TEXT, ok]);
     }
   }
 
@@ -104,11 +118,9 @@ for (const [theme, p] of Object.entries(PALETTE)) {
     const tint = mix(p[hue], p.bg, p.mix);
     const onTint = ratio(p[hue], tint);
     const onBg = ratio(p[hue], p.bg);
-    /* A chip is 11px at weight 600 — large-text AA is the honest target for it;
-       the same hue used as a link or as syntax is normal text and is held to AA. */
-    if (onTint < TARGET_LARGE) failures++;
+    if (onTint < TARGET_TEXT) failures++;
     if (onBg < TARGET_TEXT) failures++;
-    rows.push([theme, `${hue} chip on ${hue}-tint`, onTint, TARGET_LARGE, onTint >= TARGET_LARGE]);
+    rows.push([theme, `${hue} chip on ${hue}-tint`, onTint, TARGET_TEXT, onTint >= TARGET_TEXT]);
     rows.push([theme, `${hue} text on bg`, onBg, TARGET_TEXT, onBg >= TARGET_TEXT]);
   }
 }

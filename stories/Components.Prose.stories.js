@@ -21,7 +21,7 @@ export const Readme = {
     <div class="doc"><div class="main"><main class="content">
       <div class="symbol-head">
         <h1><span class="chip tone-slate">document</span>php-ai-toolkit</h1>
-        <div class="symbol-meta"><span class="src-link">README.md</span></div>
+        <div class="symbol-meta"><span class="source-link">README.md</span></div>
       </div>
       <article class="prose">
         <h2>php-ai-toolkit</h2>

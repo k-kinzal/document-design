@@ -32,7 +32,7 @@ export const Hint = {
   render: () => html`
     <div class="doc"><div class="main"><main class="content">
       <div class="sb-row">
-        <input type="search" class="field-input field-search" placeholder="Find a statement…">
+        <input type="search" class="input input-search" placeholder="Find a statement…">
         <span class="key-hint">Press <kbd>/</kbd></span>
       </div>
     </main></div></div>`,

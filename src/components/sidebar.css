@@ -2,12 +2,12 @@
  * Sidebar — what else is here, and where you are in it.
  *
  *   <nav class="sidebar" id="sidebar">
- *     <div class="sb-head"><a class="sb-site" href="…">owner/repo</a></div>
- *     <nav class="sb-block">
- *       <p class="sb-title">Browse</p>
- *       <ul class="sb-list">
+ *     <div class="sidebar-header"><a class="sidebar-site" href="…">owner/repo</a></div>
+ *     <nav class="sidebar-section">
+ *       <p class="sidebar-title">Browse</p>
+ *       <ul class="sidebar-list">
  *         <li class="is-active"><a href="…">Overview</a></li>
- *         <li><a href="…">Statements</a><span class="sb-count">844</span></li>
+ *         <li><a href="…">Statements</a><span class="sidebar-count">844</span></li>
  *       </ul>
  *     </nav>
  *   </nav>
@@ -31,41 +31,41 @@
     font-size: var(--dd-text-md);
   }
 
-  .sb-head { padding: var(--dd-sp-3) var(--dd-sp-4); }
+  .sidebar-header { padding: var(--dd-sp-3) var(--dd-sp-4); }
 
-  .sb-site {
-    font-weight: 650;
+  .sidebar-site {
+    font-weight: var(--dd-weight-head);
     color: var(--dd-fg);
     font-size: var(--dd-text-lg);
   }
 
-  .sb-block {
+  .sidebar-section {
     padding: var(--dd-sp-3) 0;
     border-bottom: 1px solid var(--dd-border);
   }
 
-  .sb-block:last-child { border-bottom: none; }
+  .sidebar-section:last-child { border-bottom: none; }
 
-  .sb-title {
+  .sidebar-title {
     padding: 0 var(--dd-sp-4) var(--dd-sp-2);
     margin: 0;
-    font-size: 10.5px;
-    font-weight: 700;
+    font-size: var(--dd-text-xs);
+    font-weight: var(--dd-weight-figure);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--dd-fg-subtle);
   }
 
-  .sb-list { list-style: none; margin: 0; padding: 0; }
+  .sidebar-list { list-style: none; margin: 0; padding: 0; }
 
-  .sb-list li {
+  .sidebar-list li {
     display: flex;
     gap: var(--dd-sp-3);
     align-items: baseline;
     padding: 3px var(--dd-sp-4);
   }
 
-  .sb-list a {
+  .sidebar-list a {
     color: var(--dd-fg);
     flex: 1;
     min-width: 0;
@@ -74,56 +74,81 @@
     white-space: nowrap;
   }
 
-  .sb-list a:hover { color: var(--dd-link); }
+  .sidebar-list a:hover { color: var(--dd-link); }
 
   /*
    * Where you are. Marked with a bar on the inside edge as well as a wash,
    * because a wash alone disappears against the sidebar's own surface for
    * anyone who has trouble telling two near neighbours apart.
    */
-  .sb-list li.is-active {
+  .sidebar-list li.is-active {
     background: var(--dd-hover);
     box-shadow: inset 2px 0 0 var(--dd-accent);
   }
 
-  .sb-list li.is-active > a { font-weight: 600; }
+  .sidebar-list li.is-active > a { font-weight: var(--dd-weight-label); }
 
-  .sb-count {
+  .sidebar-count {
     color: var(--dd-fg-subtle);
     font-size: var(--dd-text-xs);
     font-variant-numeric: tabular-nums;
   }
 
   /* The headings of the page you are on. Mono, because they are usually names. */
-  .sb-context li { padding: 2px var(--dd-sp-4); }
-  .sb-context a { font-family: var(--dd-font-mono); font-size: var(--dd-text-sm); }
-  .sb-context li.is-active > a { color: var(--dd-link); }
+  .sidebar-context li { padding: 2px var(--dd-sp-4); }
+  .sidebar-context a { font-family: var(--dd-font-mono); font-size: var(--dd-text-sm); }
+  .sidebar-context li.is-active > a { color: var(--dd-link); }
 
   /* Indented entries, for a heading under a heading. */
-  .sb-context li[data-dd-level="3"] { padding-left: calc(var(--dd-sp-4) + var(--dd-sp-4)); }
-  .sb-context li[data-dd-level="4"] { padding-left: calc(var(--dd-sp-4) + var(--dd-sp-6)); }
+  .sidebar-context li[data-dd-level="3"] { padding-left: calc(var(--dd-sp-4) + var(--dd-sp-4)); }
+  .sidebar-context li[data-dd-level="4"] { padding-left: calc(var(--dd-sp-4) + var(--dd-sp-6)); }
 
-  .sb-more a { font-family: inherit; color: var(--dd-link); font-size: var(--dd-text-sm); }
+  .sidebar-more a { font-family: inherit; color: var(--dd-link); font-size: var(--dd-text-sm); }
 
-  .sb-note {
+  .sidebar-description {
     padding: var(--dd-sp-2) var(--dd-sp-4);
     color: var(--dd-fg-subtle);
     font-size: var(--dd-text-xs);
   }
 
   /*
-   * Under 900px the sidebar leaves the flow and is opened over the page. It
-   * stays in the DOM in its reading order, so a screen reader and a keyboard
-   * still reach it in the same place.
+   * Under 900px the sidebar collapses into an overlay — but only once the
+   * behaviour layer has said it can.
+   *
+   * Previously this hid the sidebar unconditionally and revealed it on a class
+   * that only JavaScript sets. On a phone with no JavaScript — or an archived
+   * page whose script was never copied alongside it — the navigation was
+   * simply gone, on every page of the catalog. "The CSS is complete on its
+   * own" has to survive the narrow viewport too.
+   *
+   * So the default at this width is a stacked, fully visible sidebar, and the
+   * overlay behaviour is gated on [data-dd-nav-ready], which the behaviour
+   * layer sets after its handlers are attached.
    */
   @media (max-width: 900px) {
+    .doc { display: block; }
+
     .sidebar {
+      width: auto;
+      height: auto;
+      position: static;
+      border-right: none;
+      border-bottom: 1px solid var(--dd-border);
+    }
+
+    .doc[data-dd-nav-ready] .sidebar {
       display: none;
       position: fixed;
+      inset: 0 auto 0 0;
       z-index: 40;
+      width: var(--dd-sidebar-width);
       height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid var(--dd-border);
+      border-bottom: none;
       box-shadow: var(--dd-shadow);
     }
-    body.nav-open .sidebar { display: block; }
+
+    body.nav-open .doc[data-dd-nav-ready] .sidebar { display: block; }
   }
 }

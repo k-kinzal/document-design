@@ -26,7 +26,7 @@ export default {
  */
 export const Layers = {
   render: () => html`
-    <div class="defs" style="max-width:720px">
+    <div class="definitions" style="max-width:720px">
       ${[
         ["dd.reset", "box-sizing, margins, the focus ring, reduced motion"],
         ["dd.tokens", "the palette, the roles, the scales, the theme switch"],

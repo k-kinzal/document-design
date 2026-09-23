@@ -8,9 +8,9 @@
  *       <span class="stat-note">709 of them dynamic SQL</span></div>
  *   </div>
  *
- * The catalog counterpart of the report sheet's `.hold`. Kept separate
- * because they are sized for different reading: a hold is one of four figures
- * on a page read straight through, and a stat is one of several on a page
+ * The catalog counterpart of the report sheet's `.stat`. Kept separate
+ * because they are sized for different reading: a sheet stat is one of four figures
+ * on a page read straight through, and a catalog stat is one of several on a page
  * that continues underneath it.
  *
  * Figures are tabular here, unlike the report's lead number — these sit in a
@@ -27,18 +27,21 @@
   }
 
   .stat {
-    padding: var(--dd-sp-4);
-    border: 1px solid var(--dd-border);
-    border-radius: var(--dd-radius);
-    background: var(--dd-raised);
+    border-top: 2px solid var(--dd-border-strong);
+    padding: var(--dd-sp-3) 0 0;
+    background: none;
     min-width: 0;
   }
 
+  /* A toned stat carries its tone on the rule, where it reads as a property of
+     the figure rather than as a wash behind it. */
+  .stat[class*="tone-"] { border-top-color: var(--dd-tone); }
+
   .stat-fig {
     display: block;
-    font-size: 28px;
+    font-size: var(--dd-text-3xl);
     line-height: 1.1;
-    font-weight: 700;
+    font-weight: var(--dd-weight-figure);
     letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
     color: var(--dd-tone, var(--dd-fg));
@@ -64,7 +67,7 @@
     display: inline-block;
     margin-left: var(--dd-sp-2);
     font-size: var(--dd-text-sm);
-    font-weight: 600;
+    font-weight: var(--dd-weight-label);
     vertical-align: middle;
   }
 
@@ -73,8 +76,9 @@
   .stat-flat::before { content: "→ "; }
 
   a.stat { color: inherit; display: block; }
-  a.stat:hover { border-color: var(--dd-accent); text-decoration: none; }
+  a.stat:hover { border-top-color: var(--dd-accent); text-decoration: none; }
+  a.stat:hover .stat-label { color: var(--dd-link); }
 
-  /* Bare, for a row of figures that does not want four boxes. */
-  .stats-plain .stat { border: none; background: none; padding: 0; }
+  /* No rule at all, for a row of figures that is an aside rather than a menu. */
+  .stats-plain .stat { border-top: none; padding-top: 0; }
 }

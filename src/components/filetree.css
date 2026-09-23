@@ -2,9 +2,9 @@
  * File tree — where something lives, as a shape rather than as a path.
  *
  *   <ul class="filetree">
- *     <li class="ft-dir">src
+ *     <li class="filetree-directory">src
  *       <ul>
- *         <li class="ft-file"><a href="#">QueryBuilder.php</a><span class="ft-note">318</span></li>
+ *         <li class="filetree-file"><a href="#">QueryBuilder.php</a><span class="filetree-meta">318</span></li>
  *       </ul>
  *     </li>
  *   </ul>
@@ -46,17 +46,17 @@
     font-size: 0.9em;
   }
 
-  .ft-dir::before  { content: "▸"; }
-  .ft-dir.is-open::before { content: "▾"; }
-  .ft-file::before { content: "·"; }
+  .filetree-directory::before  { content: "▸"; }
+  .filetree-directory.is-open::before { content: "▾"; }
+  .filetree-file::before { content: "·"; }
 
-  .ft-dir > :nth-child(1) { font-weight: 600; color: var(--dd-fg); }
+  .filetree-directory > :nth-child(1) { font-weight: var(--dd-weight-label); color: var(--dd-fg); }
 
-  .ft-note {
+  .filetree-meta {
     color: var(--dd-fg-subtle);
     font-size: var(--dd-text-xs);
     font-variant-numeric: tabular-nums;
   }
 
-  .filetree li.is-current > a { color: var(--dd-accent); font-weight: 600; }
+  .filetree li.is-current > a { color: var(--dd-accent); font-weight: var(--dd-weight-label); }
 }

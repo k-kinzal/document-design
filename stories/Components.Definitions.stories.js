@@ -20,7 +20,7 @@ export const Glossary = {
     <div class="doc"><div class="main"><main class="content">
       <h1>Terms</h1>
       <p class="lede">What the words on every other page mean here.</p>
-      <dl class="defs">
+      <dl class="definitions">
         <div>
           <dt><span class="chip tone-ok">resolved</span></dt>
           <dd>The statement text is fully determined by the source. What is shown is
@@ -48,7 +48,7 @@ export const Glossary = {
 export const Stacked = {
   render: () => html`
     <div style="padding:24px;max-width:420px">
-      <dl class="defs defs-stacked">
+      <dl class="definitions definitions-stacked">
         <div><dt>identity hue</dt><dd>Says what a thing is. Carries no judgement.</dd></div>
         <div><dt>state hue</dt><dd>Says how a thing is going. Green, gold, red.</dd></div>
         <div><dt>tone</dt><dd>The two custom properties every coloured component reads.</dd></div>

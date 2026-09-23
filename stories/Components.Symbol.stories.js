@@ -23,10 +23,10 @@ export const Head = {
       </div>
       <p class="lede">Builds a statement from a set of conditions. Implementations decide
         how a condition becomes SQL; the analysis follows whichever one the call site names.</p>
-      <pre class="signature"><span class="t-key">interface</span> <span class="sig-name">QueryBuilder</span>
+      <pre class="signature"><span class="t-key">interface</span> <span class="signature-name">QueryBuilder</span>
 {
-    <span class="t-key">public function</span> <span class="sig-name">where</span>(<span class="t-name">string</span> <span class="sig-param">$column</span>, <span class="t-name">mixed</span> <span class="sig-param">$value</span>): <span class="t-key">static</span>;
-    <span class="t-key">public function</span> <span class="sig-name">build</span>(): <span class="t-name">Statement</span>;
+    <span class="t-key">public function</span> <span class="signature-name">where</span>(<span class="t-name">string</span> <span class="signature-param">$column</span>, <span class="t-name">mixed</span> <span class="signature-param">$value</span>): <span class="t-key">static</span>;
+    <span class="t-key">public function</span> <span class="signature-name">build</span>(): <span class="t-name">Statement</span>;
 }</pre>
     </main></div></div>`,
 };
@@ -46,7 +46,7 @@ export const Members = {
           <span class="member-meta">src/Query/QueryBuilder.php:24</span>
         </div>
         <div class="member-body">
-          <p class="member-sig"><span class="t-key">public function</span> where(<span class="t-name">string</span> <span class="sig-param">$column</span>, <span class="t-name">mixed</span> <span class="sig-param">$value</span>): <span class="t-key">static</span></p>
+          <p class="member-sig"><span class="t-key">public function</span> where(<span class="t-name">string</span> <span class="signature-param">$column</span>, <span class="t-name">mixed</span> <span class="signature-param">$value</span>): <span class="t-key">static</span></p>
           <p>Adds an equality condition. The value is bound, never spliced.</p>
           <div class="table-wrap">
             <table class="param-table">
@@ -72,7 +72,7 @@ export const Members = {
           <span class="member-meta">src/Query/QueryBuilder.php:88</span>
         </div>
         <div class="member-body">
-          <p class="member-sig"><span class="t-key">private function</span> compile(<span class="t-name">array</span> <span class="sig-param">$conditions</span>): <span class="t-name">string</span></p>
+          <p class="member-sig"><span class="t-key">private function</span> compile(<span class="t-name">array</span> <span class="signature-param">$conditions</span>): <span class="t-name">string</span></p>
           <p>Joins the conditions. Not part of the surface; shown because the
              analysis follows it.</p>
         </div>
@@ -84,11 +84,11 @@ export const Members = {
 export const Types = {
   render: () => html`
     <div class="doc"><div class="main"><main class="content">
-      <pre class="signature"><span class="t-key">public function</span> <span class="sig-name">find</span>(
-    <span class="t-name">Statement</span>|<span class="t-key">null</span> <span class="sig-param">$statement</span>,
-    <span class="t-name">array</span>&lt;<span class="t-name">string</span>, <span class="t-gen">mixed</span>&gt; <span class="sig-param">$bindings</span> = [],
-    <span class="t-lit">'strict'</span>|<span class="t-lit">'loose'</span> <span class="sig-param">$mode</span> = <span class="t-lit">'strict'</span>,
-    <span class="t-alias">ResolutionSet</span> <span class="sig-param">$only</span> = <span class="t-alias">ResolutionSet</span>::All,
+      <pre class="signature"><span class="t-key">public function</span> <span class="signature-name">find</span>(
+    <span class="t-name">Statement</span>|<span class="t-key">null</span> <span class="signature-param">$statement</span>,
+    <span class="t-name">array</span>&lt;<span class="t-name">string</span>, <span class="t-gen">mixed</span>&gt; <span class="signature-param">$bindings</span> = [],
+    <span class="t-lit">'strict'</span>|<span class="t-lit">'loose'</span> <span class="signature-param">$mode</span> = <span class="t-lit">'strict'</span>,
+    <span class="t-alias">ResolutionSet</span> <span class="signature-param">$only</span> = <span class="t-alias">ResolutionSet</span>::All,
 ): <span class="t-name">Result</span></pre>
       <div class="sb-row">
         <span class="mono t-name">.t-name</span><span class="mono t-key">.t-key</span>

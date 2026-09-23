@@ -29,7 +29,7 @@ export const Summary = {
         <a class="banner-action" href="#">Show the full reference</a>
       </div>
       <main class="content">
-        <div class="diff-summary">
+        <div class="diff-counts">
           <span class="chip tone-ok">+12 added</span>
           <span class="chip tone-danger">−3 removed</span>
           <span class="chip tone-warn">7 changed</span>
@@ -44,9 +44,9 @@ export const Summary = {
 export const Lines = {
   render: () => html`
     <div class="doc"><div class="main"><main class="content">
-      <pre class="code diff"><span class="dl dl-del">- public function build(): <span class="d-del">string</span></span>
-<span class="dl dl-add">+ public function build(): <span class="d-add">Statement</span></span>
-<span class="dl dl-mod">~ @throws <span class="d-mod">QueryException</span></span>
+      <pre class="code diff"><span class="dl diff-line-del">- public function build(): <span class="diff-run-del">string</span></span>
+<span class="dl diff-line-add">+ public function build(): <span class="diff-run-add">Statement</span></span>
+<span class="dl diff-line-mod">~ @throws <span class="diff-run-mod">QueryException</span></span>
   public function where(string $column, mixed $value): static</pre>
     </main></div></div>`,
 };

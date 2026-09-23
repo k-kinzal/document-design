@@ -3,7 +3,7 @@
  *
  *   <section class="card">
  *     <h2><a href="tables.html">Tables</a><span class="count">12</span></h2>
- *     <p class="card-hint">Which statements read, write or alter a table.</p>
+ *     <p class="card-description">Which statements read, write or alter a table.</p>
  *     <ol class="peek">…</ol>
  *     <p class="card-more"><a href="tables.html">All 12 tables</a></p>
  *   </section>
@@ -14,17 +14,31 @@
  */
 
 @layer dd.component {
+  /* One column until the column itself is wide enough for two. */
   .cards {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--dd-sp-4);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--dd-sp-5) var(--dd-sp-6);
   }
 
+  @container dd-content (min-width: 46rem) {
+    .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  /*
+   * A rule above, not a box around.
+   *
+   * Boxed cards on a white page gave a route, a quantity and a classification
+   * the same treatment — three rounded, bordered, raised rectangles — so the
+   * overview read as busy without reading as organised. The report genre had
+   * already solved this with a rule over each figure; using the same device
+   * here is what makes the two genres look like one system rather than two
+   * that happen to share a palette.
+   */
   .card {
-    border: 1px solid var(--dd-border);
-    border-radius: var(--dd-radius);
-    padding: var(--dd-sp-4) var(--dd-sp-5);
-    background: var(--dd-raised);
+    border-top: 2px solid var(--dd-border-strong);
+    padding: var(--dd-sp-4) 0 0;
+    background: none;
     display: flex;
     flex-direction: column;
   }
@@ -33,10 +47,10 @@
     margin: 0 0 var(--dd-sp-2);
     border: none;
     padding: 0;
-    font-size: 16px;
+    font-size: var(--dd-text-lg);
   }
 
-  .card-hint {
+  .card-description {
     color: var(--dd-fg-muted);
     font-size: var(--dd-text-md);
     margin: 0 0 var(--dd-sp-4);
@@ -47,16 +61,15 @@
   .card-more { margin: auto 0 0; padding-top: var(--dd-sp-3); font-size: var(--dd-text-sm); }
 
   /* A card that supports the thing beside it rather than being a route. */
+  /* An aside is a different thing from a route, so it keeps a surface — that
+     is what says "this supports the thing beside it". */
   .aside {
-    border: 1px solid var(--dd-border);
     border-radius: var(--dd-radius);
-    padding: var(--dd-sp-3) var(--dd-sp-4);
+    padding: var(--dd-sp-4) var(--dd-sp-5);
     background: var(--dd-surface);
   }
 
   .doc .aside h3 { margin: 0 0 var(--dd-sp-3); font-size: var(--dd-text-md); }
 
-  @media (max-width: 900px) {
-    .cards { grid-template-columns: 1fr; }
-  }
+
 }

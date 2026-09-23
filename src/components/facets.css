@@ -2,7 +2,7 @@
  * Facets — narrowing a long listing without leaving the page.
  *
  *   <div class="facets" data-dd-facets="#rows">
- *     <input type="search" class="field-input" data-dd-facet-search>
+ *     <input type="search" class="input" data-dd-facet-search>
  *     <div class="facet-group">
  *       <button class="chip facet tone-blue" data-dd-facet="kind:select">
  *         SELECT<span class="facet-count">639</span>
@@ -39,26 +39,34 @@
     border-left: 1px solid var(--dd-border);
   }
 
+  /*
+   * Off is an outline; on is the tint plus that outline in the facet's own
+   * colour. Neither state is carried by opacity.
+   *
+   * Opacity was doing the work here, and it was quietly destroying the thing
+   * the palette is measured for: at .75 a blue facet fell from 5.03:1 to
+   * 3.23:1, and its count — nested inside a second .8 — reached 2.49:1. A
+   * translucent control is a control with unknown contrast, because what
+   * shows through it is whatever happens to be behind.
+   */
   button.facet {
-    border: 1px solid transparent;
     cursor: pointer;
-    font-weight: 600;
-    opacity: 0.75;
+    font-weight: var(--dd-weight-label);
+    background: none;
+    border: 1px solid var(--dd-border);
+    color: var(--dd-fg-muted);
   }
 
-  button.facet:hover { opacity: 1; }
+  button.facet:hover { border-color: var(--dd-tone, var(--dd-fg-muted)); color: var(--dd-tone, var(--dd-fg)); }
 
-  /* On means outlined in its own colour, not merely brighter: "brighter than
-     the ones next to it" is not readable when only one facet is on. */
   button.facet.is-on {
-    opacity: 1;
+    background: var(--dd-tone-tint, var(--dd-neutral-tint));
+    color: var(--dd-tone, var(--dd-neutral));
     border-color: currentColor;
-    box-shadow: 0 0 0 1px currentColor inset;
   }
 
   .facet-count {
-    font-weight: 400;
-    opacity: 0.8;
+    font-weight: var(--dd-weight-normal);
     margin-left: var(--dd-sp-2);
     font-variant-numeric: tabular-nums;
   }

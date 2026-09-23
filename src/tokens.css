@@ -7,6 +7,6 @@
 
 @layer dd.tokens;
 
-@import url("./tokens/palette.css") layer(dd.tokens);
-@import url("./tokens/role.css") layer(dd.tokens);
-@import url("./tokens/scale.css") layer(dd.tokens);
+@import url("./tokens/palette.css");
+@import url("./tokens/role.css");
+@import url("./tokens/scale.css");

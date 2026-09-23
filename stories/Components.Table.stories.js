@@ -40,7 +40,7 @@ export const Default = {
 export const Sortable = {
   render: () => html`
     <div class="doc"><div class="main"><main class="content">
-      <input type="search" class="field-input field-block" placeholder="Filter rules…" data-dd-filter="#rules">
+      <input type="search" class="input input-block" placeholder="Filter rules…" data-dd-filter="#rules">
       <div class="table-wrap">
         <table class="sortable" data-dd-sortable>
           <thead><tr>
