@@ -74,9 +74,9 @@
      * the font has no 水, 1ic falls back to 1em, which lands in the same
      * place.)
      *
-     * Measured, at 16px: 36ic = 576px = 36 和文字 = 77 latin characters. Both
+     * Measured at 16px: 36ic = 576px = 36 Japanese or 77 Latin characters. Both
      * sit inside their bands — 30–40 for Japanese, 45–75 for latin. The
-     * previous `72ch` was 725.6px, which is 45 和文字 and 99 latin: outside
+     * previous `72ch` was 725.6px: 45 Japanese or 99 Latin characters, outside
      * both. `ch` is the advance of "0", so it measures neither script's
      * characters and reads as a round number while being neither.
      *

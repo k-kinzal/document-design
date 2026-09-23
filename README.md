@@ -3,10 +3,15 @@
 A design system for making information clear: dense catalogs you can scan and
 reports you can understand at a glance.
 
+This is an English-language project. Documentation, development tools, and default
+Storybook examples use English. The output also supports Japanese, including
+Japanese typography and localized product pages. Dedicated Japanese stories keep
+those behaviours visible and verifiable.
+
 ```
 packages/
   doc-ui/     CSS, optional behaviors, tokens and Storybook
-  doc-site/   Japanese / English product site and documentation, built with doc-ui
+  doc-site/   English product site and documentation with Japanese translations
 scripts/
   pages.mjs   assembles both packages for GitHub Pages
 ```

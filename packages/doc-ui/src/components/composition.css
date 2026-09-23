@@ -35,7 +35,7 @@
     margin-right: var(--dd-sp-3);
   }
   /*
-   * 欄外注 — a note set beside the thing it annotates.
+   * Margin notes — a note set beside the thing it annotates.
    *
    * One class, two placements: the sheet's rail (layout/report.css puts it
    * there) and a plate's caption column. It was two — `.sidenote` in the
@@ -116,7 +116,8 @@
    * The other form of components/plate.css's `.ref`: an identity letter
    * rather than a figure number, carried by both a passage and the panel it
    * belongs to. Use it where a number would be a second sequence the reader
-   * has to keep — two sides of one comparison are A and B, not 図3 and 図4.
+   * has to keep. The two sides of one comparison are A and B, rather than
+   * Figure 3 and Figure 4.
    *
    * Written as `.ref ref-mark`, so the underline, the hover and the
    * no-wrapping come from the same place as a numbered reference.

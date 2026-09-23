@@ -102,8 +102,8 @@ export const Density = {
         <div style="border:1px solid var(--dd-border);border-radius:6px;overflow:hidden">
           <article class="sheet" style="padding:28px">
             <p class="eyebrow">findings</p>
-            <p class="lead" style="margin-bottom:14px">709 のうち 1 件だけが本当の穴。</p>
-            <p class="note">残りは解析が届かなかった箇所で、実装の問題ではない。</p>
+            <p class="lead" style="margin-bottom:14px">Only 1 of the 709 findings was a genuine gap.</p>
+            <p class="note">The others were beyond the analysis, not defects in the implementation.</p>
           </article>
         </div>
       </div>

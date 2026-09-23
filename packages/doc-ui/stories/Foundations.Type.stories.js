@@ -30,7 +30,7 @@ export const CatalogScale = {
           ([s, use]) => `
         <div style="display:flex;gap:16px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--dd-border)">
           <code style="min-width:130px">--dd-text-${s}</code>
-          <span style="font-size:var(--dd-text-${s});flex:1">仕様が出典に触れていなかった · Statements 844</span>
+          <span style="font-size:var(--dd-text-${s});flex:1">Specifications omitted the sources · 844 statements</span>
           <span class="count" style="max-width:220px;text-align:right">${use}</span>
         </div>`
         )
@@ -61,7 +61,7 @@ export const ReportScale = {
           ([s, use]) => `
         <div style="display:flex;gap:16px;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--dd-border)">
           <code style="min-width:110px">--dd-type-${s}</code>
-          <span style="font-size:var(--dd-type-${s});line-height:1.1;letter-spacing:-0.02em;flex:1">挙動がある単位</span>
+          <span style="font-size:var(--dd-type-${s});line-height:1.1;letter-spacing:-0.02em;flex:1">Units with behaviour</span>
           <span class="count" style="max-width:200px;text-align:right">${use}</span>
         </div>`
         )
@@ -104,7 +104,7 @@ export const Registers = {
  *
  * So it is applied by role, not globally: headings, leads, figures and labels
  * get `palt` and `font-kerning: normal`; prose, cells and listings are left as
- * the font designed them (ベタ組). It used to sit on `<body>`, which meant
+ * the font designed them (solid setting). It used to sit on `<body>`, which meant
  * every line on every page was set the display way.
  *
  * `line-break: strict` applies everywhere — keeping small kana and closing
@@ -115,19 +115,19 @@ export const JapaneseSetting = {
     <div class="sb-grid" style="gap:28px;max-width:46ch">
       ${specimen(
         "heading \u2014 palt on, as shipped",
-        `<p style="font-size:25px;font-weight:600;line-height:1.45;margin:0;font-feature-settings:'palt' 1;font-kerning:normal;letter-spacing:-0.025em">出典 29/30 · ゲート 96 / 93 / 100 は Behat へ</p>`
+        `<p lang="ja" style="font-size:25px;font-weight:600;line-height:1.45;margin:0;font-feature-settings:'palt' 1;font-kerning:normal;letter-spacing:-0.025em">出典 29/30 · ゲート 96 / 93 / 100 は Behat へ</p>`
       )}
       ${specimen(
         "the same heading without palt \u2014 holes around the latin",
-        `<p style="font-size:25px;font-weight:600;line-height:1.45;margin:0;font-feature-settings:normal;letter-spacing:-0.025em">出典 29/30 · ゲート 96 / 93 / 100 は Behat へ</p>`
+        `<p lang="ja" style="font-size:25px;font-weight:600;line-height:1.45;margin:0;font-feature-settings:normal;letter-spacing:-0.025em">出典 29/30 · ゲート 96 / 93 / 100 は Behat へ</p>`
       )}
       ${specimen(
-        "prose \u2014 no palt, as shipped (ベタ組)",
-        `<p style="margin:0;font-feature-settings:normal;line-break:strict">未カバーの9単位を調べたところ、8つは仕様が出典に触れていない箇所だった。残る1つは導入文で、挙動がない。これは空のまま残す。水増しはしない。</p>`
+        "prose \u2014 no palt, as shipped (solid setting)",
+        `<p lang="ja" style="margin:0;font-feature-settings:normal;line-break:strict">未カバーの9単位を調べたところ、8つは仕様が出典に触れていない箇所だった。残る1つは導入文で、挙動がない。これは空のまま残す。水増しはしない。</p>`
       )}
       ${specimen(
         "the same prose with palt \u2014 evener, and harder to hold your place in",
-        `<p style="margin:0;font-feature-settings:'palt' 1;line-break:strict">未カバーの9単位を調べたところ、8つは仕様が出典に触れていない箇所だった。残る1つは導入文で、挙動がない。これは空のまま残す。水増しはしない。</p>`
+        `<p lang="ja" style="margin:0;font-feature-settings:'palt' 1;line-break:strict">未カバーの9単位を調べたところ、8つは仕様が出典に触れていない箇所だった。残る1つは導入文で、挙動がない。これは空のまま残す。水増しはしない。</p>`
       )}
     </div>`,
 };
@@ -158,7 +158,7 @@ export const Tracking = {
         <div style="display:flex;gap:16px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--dd-border)">
           <code style="min-width:170px">--dd-track-${name}</code>
           <span class="count" style="min-width:64px">${value}</span>
-          <span style="flex:1;font-size:${size}px;font-weight:${weight};letter-spacing:var(--dd-track-${name});${caps ? "text-transform:uppercase;" : ""}">挙動がある単位 Behat</span>
+          <span style="flex:1;font-size:${size}px;font-weight:${weight};letter-spacing:var(--dd-track-${name});${caps ? "text-transform:uppercase;" : ""}">Units with behaviour · Behat</span>
           <span class="count" style="max-width:210px;text-align:right">${use}</span>
         </div>`
         )
@@ -170,14 +170,7 @@ export const Tracking = {
 export const Measure = {
   render: () => html`
     <div>
-      <p class="sb-label">--dd-measure — 36ric = 36 和文字 = 77 latin</p>
-      <div class="prose" lang="ja" style="border-left:2px solid var(--dd-accent);padding-left:16px">
-        <p>出典 29 単位のうち 9 が空だった。到達点は 96.67 であり、100 は非対応への
-           付け替えで作らない。行が長すぎるのは、行末から次の行頭へ目が戻れなくなる
-           からで、その限界は px ではなく文字数で数える。</p>
-      </div>
-
-      <p class="sb-label" style="margin-top:24px">the same rule, latin</p>
+      <p class="sb-label">--dd-measure — 36ric, approximately 77 Latin characters</p>
       <div class="prose" style="border-left:2px solid var(--dd-accent);padding-left:16px">
         <p>A PHPStan extension that detects anti-patterns commonly introduced by AI
            code generation, plus output formatters optimized for both AI agents and
@@ -185,7 +178,7 @@ export const Measure = {
            deduplicates once an identifier passes a threshold.</p>
       </div>
 
-      <p class="sb-label" style="margin-top:24px">unconstrained — 45 和文字 / 99 latin at the old 72ch, and worse in a wide column</p>
+      <p class="sb-label" style="margin-top:24px">unconstrained — 45 Japanese characters / 99 Latin characters at the old 72ch, and worse in a wide column</p>
       <div class="prose prose-wide" style="border-left:2px solid var(--dd-danger);padding-left:16px">
         <p>A PHPStan extension that detects anti-patterns commonly introduced by AI
            code generation, plus output formatters optimized for both AI agents and
@@ -202,6 +195,19 @@ export const Measure = {
           <figcaption>--dd-measure-wide · 48ric · a drawing, a wide table, a code block</figcaption></figure>
         <figure class="plate plate-unnumbered plate-full"><div style="height:8px;background:var(--dd-accent-tint);border:1px solid var(--dd-accent)"></div>
           <figcaption>.plate-full · the whole column</figcaption></figure>
+      </div>
+    </div>`,
+};
+
+/** The same measure in Japanese, with the language-specific setting enabled. */
+export const JapaneseMeasure = {
+  render: () => html`
+    <div>
+      <p class="sb-label">--dd-measure — 36ric = 36 Japanese characters = 77 Latin characters</p>
+      <div class="prose" lang="ja" style="border-left:2px solid var(--dd-accent);padding-left:16px">
+        <p>出典 29 単位のうち 9 が空だった。到達点は 96.67 であり、100 は非対応への
+           付け替えで作らない。行が長すぎるのは、行末から次の行頭へ目が戻れなくなる
+           からで、その限界は px ではなく文字数で数える。</p>
       </div>
     </div>`,
 };

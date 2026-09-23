@@ -26,9 +26,9 @@ export default {
   },
 };
 
-const scale = (w = 520) => `
+const scale = (w = 520, lang = "en") => `
   <svg class="draw" style="--dd-draw-width:${w}px" viewBox="0 0 ${w} 120" role="img"
-       aria-label="0から100の尺。68.97が変更前、96.67が上限。">
+       aria-label="${lang === "ja" ? "0から100の尺。68.97が変更前、96.67が上限。" : "A scale from 0 to 100. Before: 68.97. Ceiling: 96.67."}">
     <text x="16" y="18" text-anchor="start" class="draw-cap">BEFORE / AFTER</text>
     <line class="draw-line" x1="16" y1="62" x2="${w - 16}" y2="62"/>
     <circle class="plot-before" cx="${Math.round((w - 32) * 0.69) + 16}" cy="62" r="5"/>
@@ -36,23 +36,23 @@ const scale = (w = 520) => `
     <text x="${Math.round((w - 32) * 0.69) + 16}" y="44" text-anchor="middle" class="draw-value draw-note">68.97</text>
     <text x="${Math.round((w - 32) * 0.967) + 16}" y="44" text-anchor="end" class="draw-value draw-accent">96.67</text>
     <text x="16" y="92" text-anchor="start" class="draw-note">0</text>
-    <text x="${w - 16}" y="92" text-anchor="end" class="draw-warn">100 にはしない</text>
+    <text x="${w - 16}" y="92" text-anchor="end" class="draw-warn">${lang === "ja" ? "100 にはしない" : "Do not force 100"}</text>
   </svg>`;
 
 /** The parts, and a sentence that points at them. */
 export const Anatomy = {
   render: () => html`
-<div class="prose" lang="ja">
-  <p>出典 29 単位のうち 9 が空だった。到達点は <a class="ref" href="#plate-anatomy">図 1</a> のとおりで、
-  96.67 が正直な上限であり、100 は非対応への付け替えで作らない。</p>
+<div class="prose" lang="en">
+  <p>Nine of 29 source units were empty. <a class="ref" href="#plate-anatomy">Figure 1</a> shows the result:
+  96.67 is the honest ceiling. Do not reach 100 by relabelling gaps as unsupported.</p>
 
   <figure class="plate plate-wide" id="plate-anatomy">
     <div class="draw-wrap">${scale(520)}</div>
-    <figcaption>カバレッジの尺。96.67 は到達した値であり、100 は取れる値ではない。<span class="plate-source">bison-parser 3.8.2 · 2026-02-11 時点 · ゲート 96 / 93 / 100</span></figcaption>
+    <figcaption>Coverage scale. The result is 96.67; 100 is not attainable under these conditions.<span class="plate-source">bison-parser 3.8.2 · As of 2026-02-11 · Gates 96 / 93 / 100</span></figcaption>
   </figure>
 
-  <p>番号はカウンタが振る。本文の「図 1」は著者が書く — CSS のカウンタは宣言した場所でしか読めないので、
-  生成側が番号を持つなら <code>.plate-unnumbered</code> で両方を生成側が持つ。</p>
+  <p>CSS assigns the caption number; the author writes “Figure 1” in the prose. Counters cannot supply that reference,
+  so a generator that owns the numbering should use <code>.plate-unnumbered</code> and write both numbers.</p>
 </div>`,
 };
 
@@ -97,7 +97,7 @@ export const Table = {
   </figure>
   <p>A figure's caption goes under it and a table's goes over it: a table is read downward from
   its heading, and a caption arriving after forty rows arrives too late to say what was being read.
-  The two number on separate sequences, because a reader looking for 表 2 does not want to count figures.</p>
+  The two number on separate sequences, because a reader looking for Table 2 does not want to count figures.</p>
 </div>`,
 };
 
@@ -108,7 +108,7 @@ export const Labels = {
   ${specimen(
     "The roles — all one size (--dd-text-md, 14px), distinguished by weight, colour and family",
     `<div class="draw-wrap"><svg class="draw" style="--dd-draw-width:660px" viewBox="0 0 660 260" role="img"
-       aria-label="draw.css の各ロールの見本。">
+       aria-label="Examples of the text roles in draw.css.">
       <text x="20" y="24" text-anchor="start" class="draw-cap">DRAW ROLES</text>
       ${[
         [".draw-label", "a name on a box", "draw-label"],
@@ -116,8 +116,8 @@ export const Labels = {
         [".draw-note", "a second line", "draw-note"],
         [".draw-value", "29 / 30", "draw-value"],
         [".draw-mono", "BISON-RUNTIME-001", "draw-mono draw-note"],
-        [".draw-accent", "最終", "draw-accent"],
-        [".draw-warn", "空のまま", "draw-warn"],
+        [".draw-accent", "After", "draw-accent"],
+        [".draw-warn", "Left empty", "draw-warn"],
       ]
         .map(
           ([name, sample, cls], i) =>
@@ -130,7 +130,7 @@ export const Labels = {
   ${specimen(
     "The marks",
     `<div class="draw-wrap"><svg class="draw" style="--dd-draw-width:660px" viewBox="0 0 660 96" role="img"
-       aria-label="draw.css の図形の見本。">
+       aria-label="Examples of the drawing marks in draw.css.">
       <rect class="draw-box" x="16" y="28" width="120" height="40" rx="8"/>
       <text x="76" y="54" text-anchor="middle" class="draw-label">.draw-box</text>
       <rect class="draw-box-toned" style="--dd-tone:var(--dd-accent);--dd-tone-tint:var(--dd-accent-tint)" x="164" y="28" width="150" height="40" rx="8"/>
@@ -147,37 +147,54 @@ export const Labels = {
 /** Two drawings, one figure: a comparison that never has to be scrolled. */
 export const Panels = {
   render: () => html`
-<div class="prose" lang="ja">
-  <p>変更前と変更後は一つの説明です。番号もキャプションも一つ。ただし図は二枚で、
-  一枚の固定幅に両方を載せると、その幅を持たない読者は片側を記憶しながらもう片側を見ることになります。</p>
+<div class="prose" lang="en">
+  <p>Before and after form one explanation, with one number and one caption. Keep the two drawings separate:
+  putting both in a single fixed-width drawing makes readers in narrow containers remember one side while scrolling to the other.</p>
 
   <figure class="plate plate-full" id="plate-compare">
     <div class="compare compare-draw">
-      <div class="was"><span class="cap">変更前 · 9 空</span>
-        <div class="draw-wrap"><svg class="draw" style="--dd-draw-width:268px" viewBox="0 0 268 168" role="img" aria-label="9単位すべてが空。">
+      <div class="was"><span class="cap">Before · 9 empty</span>
+        <div class="draw-wrap"><svg class="draw" style="--dd-draw-width:268px" viewBox="0 0 268 168" role="img" aria-label="All nine units are empty.">
           <rect class="draw-group" x="16" y="16" width="236" height="136" rx="12"/>
           ${[0,1,2,3,4].map(i=>`<rect class="draw-box-open tone-neutral" x="${36+i*36}" y="36" width="28" height="28" rx="6"/>`).join('')}
           ${[0,1,2,3].map(i=>`<rect class="draw-box-open tone-neutral" x="${54+i*36}" y="72" width="28" height="28" rx="6"/>`).join('')}
           <text x="134" y="132" text-anchor="middle" class="draw-mono draw-note">20 / 29</text>
         </svg></div>
       </div>
-      <div class="now"><span class="cap">最終 · 7 結ぶ / 1 試す / 1 残す</span>
-        <div class="draw-wrap"><svg class="draw" style="--dd-draw-width:340px" viewBox="0 0 340 168" role="img" aria-label="7を結び、1を新設し、1は空のまま。">
+      <div class="now"><span class="cap">After · 7 linked / 1 tested / 1 left</span>
+        <div class="draw-wrap"><svg class="draw" style="--dd-draw-width:340px" viewBox="0 0 340 168" role="img" aria-label="Seven linked, one new scenario, and one left empty.">
           <rect class="draw-group tone-accent" x="16" y="16" width="308" height="136" rx="12"/>
           ${[0,1,2,3,4,5,6].map(i=>`<rect class="draw-box-toned tone-accent" x="${36+i*32}" y="36" width="24" height="24" rx="6"/>`).join('')}
           <rect class="draw-box-alt tone-accent" x="268" y="36" width="24" height="24" rx="6"/>
           <rect class="draw-box-open" x="300" y="36" width="24" height="24" rx="6"/>
-          <text x="140" y="84" text-anchor="middle" class="draw-accent">既存シナリオへ 7</text>
+          <text x="140" y="84" text-anchor="middle" class="draw-accent">7 existing scenarios</text>
           <text x="140" y="108" text-anchor="middle" class="draw-mono draw-accent">005–008 · RULE-007</text>
-          <text x="290" y="84" text-anchor="middle" class="draw-warn">空 1</text>
+          <text x="290" y="84" text-anchor="middle" class="draw-warn">1 empty</text>
           <text x="170" y="140" text-anchor="middle" class="draw-mono draw-accent">29 / 30</text>
         </svg></div>
       </div>
     </div>
-    <figcaption>出典 9 単位の行き先。<span class="plate-source">bison-parser 3.8.2 · 2026-02-11 時点</span></figcaption>
+    <figcaption>Where the nine source units went.<span class="plate-source">bison-parser 3.8.2 · As of 2026-02-11</span></figcaption>
   </figure>
 
-  <p>パネルは自分の作図幅で並び、両方が入らなくなった時点で折り返します。
-  折り返しても隣り合っており、番号もキャプションも一つのままです。</p>
+  <p>Panels use their drawing widths and wrap as soon as they no longer fit side by side.
+  They stay adjacent, sharing one number and one caption.</p>
+</div>`,
+};
+
+/** Japanese figure prefix, reference, and caption at the same drawing scale. */
+export const JapaneseCaption = {
+  render: () => html`
+<div class="prose" lang="ja">
+  <p>出典 29 単位のうち 9 が空だった。到達点は <a class="ref" href="#plate-anatomy-ja">図 1</a> のとおりで、
+  96.67 が正直な上限であり、100 は非対応への付け替えで作らない。</p>
+
+  <figure class="plate plate-wide" id="plate-anatomy-ja">
+    <div class="draw-wrap">${scale(520, "ja")}</div>
+    <figcaption>カバレッジの尺。96.67 は到達した値であり、100 は取れる値ではない。<span class="plate-source">bison-parser 3.8.2 · 2026-02-11 時点 · ゲート 96 / 93 / 100</span></figcaption>
+  </figure>
+
+  <p>番号はカウンタが振る。本文の「図 1」は著者が書く — CSS のカウンタは宣言した場所でしか読めないので、
+  生成側が番号を持つなら <code>.plate-unnumbered</code> で両方を生成側が持つ。</p>
 </div>`,
 };

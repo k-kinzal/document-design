@@ -234,7 +234,7 @@
   }
 
   /*
-   * 欄外注 — the left rail, carrying something.
+   * Margin notes — the left rail, carrying something.
    *
    * Three of the sheet's twelve columns are the rail, and until now they held
    * a two-line section number and then nothing for the height of the section.
@@ -262,7 +262,7 @@
    * meets both. What is here is only where the rail puts it.
    */
   /*
-   * Three tracks, not the label's two. `.label` holds "01 / 仕様" and two
+   * Three tracks, not the label's two. `.label` holds "01 / Spec" and two
    * columns is enough for that; a sentence in 152px is eleven Japanese
    * characters a line, which is a column of syllables rather than a note.
    * The third track is free — the field starts at four — so taking it costs
@@ -285,8 +285,8 @@
      *
      * Folded as one block it kept its internal order, so the reader met the
      * section number, then the version a figure was measured on, and only
-     * then what the section is claiming — measured at 900px: 01 仕様 →
-     * 出典 bison 3.8.2… → the lead → the body. The support arrived before
+     * then what the section is claiming — measured at 900px: 01 Spec →
+     * Source bison 3.8.2… → the lead → the body. The support arrived before
      * the subject, which is the one thing a report is not allowed to do.
      *
      * `display: contents` drops the rail as a box and hands its children to

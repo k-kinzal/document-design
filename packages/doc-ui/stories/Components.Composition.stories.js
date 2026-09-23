@@ -25,7 +25,7 @@ export const ReadingPath = {
 };
 
 export const NarrowColumn = {
-  render: () => html`<div class="split"><div>${figure('A paper with a longer descriptive title')}</div><article class="prose"><h2>A note stays with its figure.</h2><p>The same figure sits in a narrower column. Its labels remain readable, and the annotation follows the caption.</p><p lang="ja">本文・図・注釈の関係を保ちながら、狭い表示領域へ配置を変えます。図中の文字を縮小して収めません。</p></article></div>`,
+  render: () => html`<div class="split"><div>${figure('A paper with a longer descriptive title')}</div><article class="prose"><h2>A note stays with its figure.</h2><p>The same figure sits in a narrower column. Its labels remain readable, and the annotation follows the caption.</p><p>The layout adapts to a narrow container while preserving the relationship between prose, figures, and notes. Drawing labels keep their size.</p></article></div>`,
 };
 
 export const Comparison = {

@@ -153,7 +153,7 @@ export const LongestNames = {
  *  sample the design was drawn with. */
 export const LongJapanese = {
   render: () => html`
-    <article class="sheet">
+    <article class="sheet" lang="ja">
       <section class="sec" style="margin-top:0">
         <div class="label">04<br>検証</div>
         <div class="field">

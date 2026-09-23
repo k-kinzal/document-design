@@ -7,12 +7,12 @@
  *       <svg class="draw" style="--dd-draw-width: 820px" …>…</svg>
  *     </div>
  *     <figcaption>
- *       出典単位の解決先。
- *       <span class="plate-source">bison-parser 3.8.2 · 2026-02-11 時点</span>
+ *       Where the source units were resolved.
+ *       <span class="plate-source">bison-parser 3.8.2 · As of 2026-02-11</span>
  *     </figcaption>
  *   </figure>
  *
- * and, from the text: <a class="ref" href="#fig-coverage">図 2</a>
+ * and, from the text: <a class="ref" href="#fig-coverage">Figure 2</a>
  *
  * ---------------------------------------------------------------------------
  * What a figure is made of
@@ -46,7 +46,7 @@
 @layer dd.component {
   /*
    * The counters are reset per document, not per section and not per prose
-   * block: 図 7 is the seventh figure in the document, and a reader who finds
+   * block: Figure 7 is the seventh figure in the document, and a reader who finds
    * two of them has been given a worse reference than no number at all.
    *
    * The reset sits on the genre root's FIRST CHILD, not on the root.
@@ -58,13 +58,13 @@
    * comes out as the first one.
    *
    * Measured, Chrome 154, three plates in one sheet: reset on `.sheet` gave
-   * 図1 図1 図1. So did moving it to `:root`, to `body`, and removing it
-   * altogether — the containment hides all three. Removing
-   * `container-type` from `.sheet` gave 図1 図2 図3, which is what identified
-   * it. Resetting on an element *inside* the container creates a counter
+   * Figure 1 / Figure 1 / Figure 1. Moving it to `:root`, to `body`, or
+   * removing it altogether did the same — the containment hides all three. Removing
+   * `container-type` from `.sheet` gave Figure 1 / Figure 2 / Figure 3,
+   * which identified the cause. Resetting on an element *inside* the container creates a counter
    * whose scope is that element, its following siblings and their
-   * descendants — every section of the sheet — and that gives 図1 図2 図3
-   * with the container left alone.
+   * descendants — every section of the sheet. That gives Figure 1 / Figure 2 /
+   * Figure 3 with the container left alone.
    *
    * `.prose` is not a container, so it resets on itself.
    */
@@ -110,7 +110,7 @@
    * vocabularies for one idea and exactly what principle 7 is about.
    */
 
-  /* A table's plate numbers on its own sequence — 表 1 and 図 1 are different
+  /* A table's plate numbers on its own sequence — Table 1 and Figure 1 are different
      things and a reader looking for one does not want to count the other. */
   .plate-table {
     counter-increment: dd-table;
@@ -180,7 +180,7 @@
    *
    * A generated document that cross-references its figures has to write the
    * number into the reference — CSS can read a counter where it is declared
-   * and nowhere else, so the text saying "see 図 2" cannot ask the caption
+   * and nowhere else, so the text saying "see Figure 2" cannot ask the caption
    * what it ended up being. When the generator owns one number it must own
    * both, or the two drift apart on the next figure someone inserts. This
    * class is how it says so.
@@ -204,12 +204,12 @@
   /* ---- the reference in the running text ---- */
 
   /*
-   * Set so it survives being skimmed: a reader who hits 図 2 in the middle of
+   * Set so it survives being skimmed: a reader who hits Figure 2 in the middle of
    * a sentence should see at once that it is a pointer, without the line
    * acquiring a link's underline every few words.
    *
    * This is the base for both ways of pointing at a figure. `.ref` alone
-   * carries a number — 図 2 — and is the form for a figure the text refers
+   * carries a number — Figure 2 — and is the form for a figure the text refers
    * to from a distance. `.ref-mark` (components/composition.css) adds the
    * other form: an identity letter shared by a passage and the panel it
    * belongs to, where a number would be a second sequence to keep track of.

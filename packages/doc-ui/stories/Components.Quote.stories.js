@@ -35,13 +35,13 @@ export const Pull = {
   render: () => html`
     <article class="sheet">
       <section class="sec" style="margin-top:0">
-        <div class="label">02<br>概念</div>
+        <div class="label">02<br>Concept</div>
         <div class="field">
-          <p class="note">未カバーの9単位を調べたところ、8つは仕様が出典に触れていない箇所だった。</p>
+          <p class="note">Of nine uncovered units, eight were missing links from specifications to sources.</p>
           <blockquote class="quote pull">
-            <p>未カバーは実装漏れではなかった。仕様が出典に触れていなかった。</p>
+            <p>The implementation was present. The specifications did not reference the sources.</p>
           </blockquote>
-          <p class="note">残る1つは導入文で、挙動がない。これは空のまま残す。</p>
+          <p class="note">The remaining unit is introductory prose with no behaviour to test. Leave it empty.</p>
         </div>
       </section>
     </article>`,

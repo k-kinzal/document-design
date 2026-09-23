@@ -90,6 +90,8 @@ export default {
       /* Set synchronously as well, so anything a story schedules in its own
          frame already sees the right theme rather than the previous one. */
       const root = document.documentElement;
+      // English is the preview default; Japanese specimens set their own lang.
+      root.lang = "en";
       if (theme === "auto") root.removeAttribute("data-dd-theme");
       else root.setAttribute("data-dd-theme", theme);
 

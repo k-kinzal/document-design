@@ -1,6 +1,7 @@
 # doc-site
 
-The Japanese and English product and documentation site for doc-ui. The homepage is a paper; the
+The English product and documentation site for doc-ui, with Japanese translations.
+The homepage is a paper; the
 component index and usage guides are the documentation. A visual index leads to 43
 component and layout guides, each with a rendered example, highlighted HTML,
 classes and usage notes.
@@ -68,7 +69,7 @@ crawler rules are controlled by the host's domain-root robots file.
 
 ## Languages and typography
 
-English keeps the existing URLs. Japanese uses `/ja/`, `/ja/start/`, and
+English is the source language and uses the default URLs. Japanese uses `/ja/`, `/ja/start/`, and
 `/ja/components/…`. The header links to the same page in the other language;
 navigation, search results and downloadable examples stay in the chosen language.
 Storybook, CSS and JavaScript distributions are shared at the repository root.

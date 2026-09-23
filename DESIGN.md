@@ -202,7 +202,7 @@ of 水, falling back to 1em where the font has none), so a measure can be stated
 the way Japanese typesetting states it — JLREQ puts a line at an integer
 multiple of the character size.
 
-| token | value | at 16px | 和文 | latin |
+| token | value | at 16px | Japanese | Latin |
 |---|---|---|---|---|
 | `--dd-measure` | `36ric` | 576px | 36 | 77 |
 | `--dd-measure-wide` | `48ric` | 768px | 48 | 103 |
@@ -234,7 +234,7 @@ and kana, and that alternation of dark and light is what the eye follows down a
 paragraph.
 
 So headings, leads, figures and labels get `palt` and `font-kerning: normal`;
-prose, cells and listings are left as the font designed them (ベタ組). Do not
+prose, cells and listings retain the font's natural spacing (solid setting). Do not
 put `palt` on `body`. `line-break: strict` applies everywhere, and headings
 additionally get `word-break: auto-phrase`.
 

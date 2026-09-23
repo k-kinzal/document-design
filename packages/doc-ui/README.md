@@ -2,6 +2,11 @@
 
 Shared CSS for generated documentation, catalogs and reports.
 
+The project and its default Storybook examples use English. Japanese output is
+also supported and optimized for Japanese typography. Use `lang="ja"` on Japanese
+content; named Japanese stories cover typesetting, figure labels, localized
+controls, and a complete report while keeping their documentation in English.
+
 Factored out of figures generators that had each grown their own stylesheet:
 [php-ai-toolkit](https://github.com/k-kinzal/php-ai-toolkit)'s API reference,
 [ztd-query-php](https://github.com/k-kinzal/ztd-query-php)'s SQL catalog, and

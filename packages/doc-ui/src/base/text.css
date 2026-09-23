@@ -32,8 +32,8 @@
     /*
      * Space between Japanese and what is set inside it.
      *
-     * 和欧間アキ: a run of latin or digits inside Japanese takes a small space
-     * on each side, so "844件" and "のstatementを" read as separate words
+     * Inter-script spacing gives Latin text or digits inside Japanese a small
+     * space on each side, so "844件" and "のstatementを" read as separate words
      * rather than as one run. JLREQ asks for a quarter em; CSS specifies an
      * eighth and that is what the engines do.
      *
@@ -60,7 +60,7 @@
    * which is what proportional metrics and pair kerning give.
    *
    * "Short or large" is the test, and it is worth applying rather than
-   * assuming. Measured across the stories: `.claim` tops out at 12
+   * assuming. In the original Japanese stories, `.claim` tops out at 12
    * characters, `.cap` at 40, `.unit` at 58 — short. `.lead` runs to 133 and
    * `.stand` to 120, but they are set at 25px and 20px, and at that size the
    * gaps a font leaves around latin inside Japanese do read as holes.
@@ -80,7 +80,7 @@
   }
 
   /*
-   * Read through, not looked at: left as the font designed it (ベタ組).
+   * Read through, not looked at: left as the font designed it (solid setting).
    * Mono is excluded from tracking as well — a monospaced column that is not
    * monospaced is not a column.
    */
@@ -91,8 +91,8 @@
   }
 
   /*
-   * Mono keeps its cells. Tracking, kerning and 和欧間アキ all move glyphs off
-   * the column they are supposed to sit in, and a monospaced column that is
+   * Mono keeps its cells. Tracking, kerning and inter-script spacing move
+   * glyphs off the column they are supposed to sit in, and a monospaced column that is
    * not monospaced is not a column — a diff stops lining up, a signature stops
    * hanging on its indent.
    */

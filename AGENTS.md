@@ -1,160 +1,187 @@
 # AGENTS
 
+## Project language
+
+This is an English-language project with Japanese support and typography
+optimized for Japanese output.
+
+- Write project documentation, contributor instructions, code comments, developer
+  tooling messages, and default examples in English.
+- Storybook titles, descriptions, and default stories are English. Keep Japanese
+  typography and localization checks as explicitly named Japanese variants, with
+  English explanations and `lang="ja"` on the Japanese content.
+- The product site's source language and default routes are English. Maintain
+  Japanese translations under `/ja/` and in the Japanese message catalog.
+- Preserve Japanese typography, localized labels, and tests. Japanese text is
+  appropriate in translations, language-specific specimens, and quoted source
+  material; mark its language explicitly in HTML.
+
 ## Vision
 
-k-kinzalの作るドキュメント、ペーパー用のデザインシステムを作成します。
-情報密度、視覚情報の視認性を重視して情報をどう見やすくするのかにフォーカスしたデザインを提供します。
+Build a design system for the documents and papers produced by k-kinzal.
+Focus on making information easy to see, with high information density and
+clear visual presentation.
 
-これは組版、タイポグラフィに特化したデザインシステムです。その前提の上で図やグラフといった見せるものまでもシステムの範囲として扱います。
-それを元にドキュメントやペーパーが組まれ、美しく、読みやすいサイトを実現するデザインシステムになります。
+This system specializes in typesetting and typography. Figures and graphs are
+part of that same system. It provides the foundation for beautiful, readable
+sites composed from documents and papers.
 
 ## Architecture
 
 ### Design System
 
-#### 目的
+#### Purpose
 
-**情報を見やすくすること。** 目的はこれだけで、以下はすべてここから導かれます。
+**Make information easy to see.** This is the sole purpose; everything below
+follows from it.
 
-扱う面は2種類あり、どちらも「見やすい」の中身が違います。
+There are two kinds of page, and clarity means something different in each:
 
-- **ドキュメント（カタログ）** — 情報密度が高い。読者は大量の中から目的の1件を探す。<br>
-  見やすい＝**高い密度のまま走査できる**こと
-- **ペーパー（レポート）** — 情報密度が低い。読者は初見で全体を掴む。<br>
-  見やすい＝**何が書いてあるかが一目でわかる**こと
+- **Documents (catalogs)** have high information density. Readers search for one
+  item among many. Clarity means **remaining scannable at high density**.
+- **Papers (reports)** have low information density. Readers need to grasp the
+  whole on first encounter. Clarity means **showing what the page says at a glance**.
 
-この2つは要求が逆を向いています。密度を上げれば一目性は落ち、余白を取れば走査効率は落ちる。**1つのスケールでは両立しない**ので、ジャンルが2つあり、型スケールも余白スケールも2組あります。
+These requirements pull in opposite directions. More density reduces immediate
+comprehension; more whitespace reduces scanning efficiency. **One scale cannot
+serve both**, so there are two genres, each with its own type and spacing scales.
 
-#### そこから導かれること
+#### Principles derived from that purpose
 
-1. **密度は可読性と引き換えにしない。** 文字を小さくして詰めるのは密度ではなく劣化。密度は余白から取る
-2. **階層が一目でわかる。** 最も重要なものが最も大きい。但し書きが小さすぎて読まれないのは「控えめ」ではなく階層の失敗
-3. **数字は問いを伴う。** `978` は情報ではない。`978 findings` が情報。カウントを単独で置かない
-4. **色は語彙であって装飾ではない。** 識別（何であるか／無評価）と状態（どうなっているか）を混ぜない。混ぜた瞬間にカタログは警報盤になり、走査できなくなる
-5. **不在も情報。** 「解決できなかった」が表現できないと、読者は誤った完全性を受け取る。下限が合計として読まれる。だから不在は一級の表現（`.hole` `.meter-part.is-open` `.empty` `.caveat`）であり、**赤は他の用途に一切使わない**（構文強調にも種別にも使わない。ページ上の唯一の赤が常に「ここを見ろ」を意味するため）
-6. **すべての印は二重に言う。** 色だけの符号化は印刷・色覚・強制カラーで消える。消えれば情報が消える。diffは `+`、ファセットは枠線、現在地はバー
-7. **一貫性は基礎品質。** 同じものが同じ見た目でないと、読者はページごとに学び直す。見やすさ以前の前提
-8. **「見るもの」と「読むもの」で組み方を変える。** 見出し・数字・ラベルは*見られる*ので字間が均一であるべき。本文は*読まれる*ので、漢字と仮名の濃度差を残す。この濃度の交替が、長文で目が行を追う手がかりになる
-9. **数値上の正しさは、目で見た正しさではない。** 同じ字間が76pxの数字では緩く11pxの追込みラベルでは詰まって見える。字間は大きさとの相対で判断されるため、サイズ帯ごとに調整する
-10. **行長は字数で決まる。** 行が長すぎるのは、行末から次の行頭へ目が戻れなくなるから。その限界はpxではなく**文字数**で数える。だから `ic`/`ric` で持つ（JLREQ「行長は文字サイズの整数倍」）
-11. **図の中の文字も本文である。** 同じ読者が、同じ距離で、同じ1分のうちに読む。図のラベルだけ作者が毎回決め直すなら、それは型組みの外にある。**図は絵を置く枠ではなく、説明の単位**（本体・ラベル・キャプション・番号・出典・本文からの参照）
-12. **紙面の右端は少ないほどよい。** 本文幅・図版幅・全幅の3段だけ。「この要素にちょうどいい幅」を要素ごとに決めると、端が要素の数だけ増え、揃っているものが何もなくなる
+1. **Never trade readability for density.** Smaller text is degradation, not density. Recover density from spacing.
+2. **Make hierarchy immediately visible.** The most important thing is the largest. A caveat too small to read is a failed hierarchy, not subtlety.
+3. **Numbers answer a question.** `978` says nothing on its own; `978 findings` does. Never leave a count without a label.
+4. **Colour is vocabulary, not decoration.** Separate identity (what something is, without judgement) from state (how it is going). Mixing them turns a catalog into an alarm panel that cannot be scanned.
+5. **Absence is information.** If the page cannot say “could not resolve”, readers infer false completeness: a lower bound looks like a total. Absence is a first-class expression (`.hole`, `.meter-part.is-open`, `.empty`, `.caveat`). **Reserve red exclusively for it**, never for syntax highlighting or categories, so the page's only red always means “look here”.
+6. **Encode every mark twice.** Colour alone disappears in print, with some colour vision, or in forced colours. A diff also has `+`, a facet has a border, and the current location has a bar.
+7. **Consistency is basic quality.** If the same thing looks different, readers must relearn it on every page. Consistency comes before clarity.
+8. **Set things that are seen differently from things that are read.** Headings, figures, and labels are *seen* and need even spacing. Prose is *read*: preserve the density contrast between kanji and kana. That alternating density helps the eye follow long Japanese text.
+9. **Numerical correctness is not optical correctness.** The same tracking looks loose on a 76px figure and tight on an 11px label. Adjust tracking by size band because spacing is perceived relative to type size.
+10. **Measure line length in characters.** Long lines make it hard to return from the line end to the next start. The limit is in **characters**, not pixels, so use `ic`/`ric` (JLREQ specifies line lengths in multiples of the character size).
+11. **Text inside a figure is still text.** The same reader reads it at the same distance in the same minute. If each author chooses label styles again, the figure is outside the type system. **A figure is a unit of explanation**, including its body, labels, caption, number, source, and references from the prose.
+12. **Keep the number of right edges small.** Use three widths: prose, figures, and full width. Choosing an ideal width for each element creates as many edges as elements, leaving nothing aligned.
 
-#### 前提条件
+#### Constraints
 
-設計の理由ではありませんが、満たさなければ上記が成立しない制約です。
+These are not design rationales, but conditions required for the design to work:
 
-- **生成物である** → **HTMLの形がそのまま公開API**。PHP / Rust / シェルの文字列連結で書ける形に保つ
-- **持ち運ばれる** → ビルド不要・JS不要・ネットワーク不要。`file://` で開け、印刷できる
-- **量が選別されていない** → 3行の1件と200行の1件が同じリストに並ぶ。どちらでも走査できること
+- **The pages are generated.** The **shape of the HTML is the public API**. Keep it writable through string concatenation in PHP, Rust, or shell.
+- **The pages travel.** No build, JavaScript, or network is required to read them. They open over `file://` and can be printed.
+- **The content is not curated by length.** A three-line item and a 200-line item share the same list. Both must remain scannable.
 
-#### 技術的にどう実現しているか
+#### Technical implementation
 
-| 課題 | 手段 | なぜそれか |
+| Problem | Mechanism | Rationale |
 |---|---|---|
-| 2つの密度 | `--dd-text-*`（走査用）と `--dd-type-*`（通読用）、`.doc` と `.sheet` | 1つのスケールはどちらかの要求を必ず裏切る |
-| 密度の取り方 | 型は rem で1ノッチ上げ、余白を削って回収 | 画面あたりの行数を保ったまま文字を大きくする。視力で密度を買わない |
-| 和文の組み | `palt` + `font-kerning` を**見出し・数字・ラベルにだけ**適用。本文はベタ組 | `body` に全体適用すると、本文の漢字と仮名の濃度差まで潰れる。均一になった日本語は読みやすくならず、行を見失いやすくなる |
-| 和欧間 | `text-autospace: normal`（mono だけ除外） | 既定は `no-autospace`。生成された日本語の中の欧文は識別子と数値で、アキを手で入れる人はいない。実測で行数は1行も増えず、溢れもしない。`text-spacing-trim` は既定が `normal` なので**書かない** |
-| 行長 | `--dd-measure` 36ric / `--dd-measure-wide` 48ric | 和文36字・欧文77字で両方の可読域に入る。以前の `72ch` は45字/99字で**両方とも域外**だった。`ch` は "0" の幅で、どちらの文字も測っていない |
-| 端を増やさない | `ric`（ルート基準）であって `ic`（要素基準）ではない | `ic` だと同じトークンが見出しでは広くなる。実測で本文576・h3 720・h2 768と**右端が5本**できた。1本ずつは正しい字数だが、紙面としては壊れている |
-| 図の文字 | `components/draw.css` のロール（`.draw-label` `.draw-value` `.draw-cap` …） | 手打ちの 14/15/16/20 は、実は**1サイズ＋濃淡と太さ**だった。`scripts/drawing-type.mjs` が手打ちの再発を落とす |
-| 図の**線と面** | `.draw-box` `.draw-box-toned` `.draw-box-alt` `.draw-box-open` `.draw-group` `.draw-fill` `.draw-line` `.draw-line-open` `.draw-guide` `.draw-focus` | 文字のロールは2周守られて**146個中0個**が手打ちだった。同じ図の**マークは146個中78個**が手打ちで、`--dd-red` を stroke に直接書いた箇所まであった。読者は同じ1分で両方を見る |
-| 図の向き | `.draw-arrow` ＋ 文書に1つの `<marker id="dd-arrow">`（`.draw-defs`） | 矢印の頭は1本ごとに手計算した3点だった。ノードを動かすと9点が黙って古くなる。`fill="context-stroke"` で線の色に付いてくる |
-| 図の部分を指す | `components/annotate.css`（`.mark` `.leader` `.legend-key`） | 図全体には番号もキャプションも出典もあったが、**部分を指す手段が無かった**。逃げ道は説明文を `<text>` で絵の中に入れることで、それは図を「文字の画像」にする |
-| 凡例 | `components/legend.css` の `.legend` 一つ（`.legend-inline` `.legend-key`） | `.legend`（meter）と `.graph-legend`（graph）で**同じ問いに2つの答え**。サイズも色も間隔も違い、両方載ったページは同じことを二声で言っていた |
-| 図が縮むこと | 図は `--dd-draw-width` で**等倍固定**。狭ければ包みがスクロール | SVGは箱に合わせて拡縮し、文字も一緒に拡縮する。実測で 15 が 13.8（全幅）〜8.8px（820px）で描かれていた。作者が丁寧に14を選んでも、後から掛け算される数には届かない |
-| 図の参照 | `.plate` がカウンタで採番、`.ref` が本文から指す | 番号のない図は本文から指せない。ただし**採番はCSS、参照は著者**なので、生成側が番号を書くなら `.plate-unnumbered` で両方を生成側が持つ |
-| 比較 | `.compare`（文章）と `.compare-draw`（図版）。側の名前は `.was` / `.now` / `.cap` | 比較は側が文章でも図版でも比較。等幅トラックは図版には誤りで、実測で532pxの図が504pxのトラックに入りスクロールした |
-| 欄外注 | `.sidenote` 一つ（レールにも、キャプション脇にも） | 同じ注を読者は両方の場所で見る。名前が2つあると2つの約束になる |
-| 図を指す | `.ref`（番号）と `.ref ref-mark`（識別記号） | 同じ下線・同じホバー。番号が第2の数列になる場面（比較のA・B）だけ記号を使う |
-| レールの仕事 | `.rail`（3桁＝240px）が節番号と欄外注を持つ | 12桁のうち3桁が、節番号の2行のあとは節の高さぶん空いていた。注を本文に挟むと、注釈している議論そのものを中断する |
-| 字間 | `--dd-track-*` の6帯（display −0.04em 〜 eyebrow +0.16em） | 視覚調整をシステムに載せる。以前は8種の負値と4種の正値が、必要になるたび目分量で決められ互いに比較されていなかった |
-| 禁則 | `line-break: strict` を全体に | 行頭の小書き仮名・閉じ括弧は好みではなく正しさの問題 |
-| 誰が勝つか | `@layer dd.{reset,tokens,base,layout,component,utility,print}` | 命名規約は各ジェネレータが守り続ける約束。層はブラウザが守る規則。**これがクラス名を素のままにできる根拠** |
-| 名前の衝突 | カスタムプロパティのみ `--dd-` | `--*` は文書全体を継承で貫き、`@layer` も `@scope` も止められない。かつテーマAPIなので安定名が要る |
-| テーマ | `light-dark()` + `color-scheme` | パレットを1回だけ書く。手動切替も `color-scheme` を変えるだけ |
-| 色の可読性 | `color-mix(in oklab, hue var(--dd-tint-mix), bg)` | `--dd-tint-mix` は**コントラスト目標から逆算**した値であって好みではない |
-| 主張の検証 | `scripts/contrast.mjs`（CI必須、150ペア＝全色相×5サーフェス＋tint） | 「見やすい」は検査できて初めて主張になる |
-| 色の直交 | `--dd-tone` / `--dd-tone-tint` を各コンポーネントが読む | 種別が増えてもコンポーネントは増えない。`.k-select` 等は利用側が1行でエイリアス |
-| 幅への応答 | コンテナクエリ（**無名**＝最近傍） | 1400pxの窓に320pxの列がありうる。ジャンルを入れ子にできる約束を守るため |
-| 長大リスト | `[data-dd-defer]` → `content-visibility` | 844行の初期描画。未対応でも見た目は不変 |
-| 振る舞い | data属性駆動の**クラシックスクリプト**（任意） | ESモジュールは `file://` で失敗する。JSを外しても何も壊れない |
-| 印刷 | 独立した最終層 `dd.print` | 画面都合で隠したものは紙では開けない。フィルタ済み行・閉じた details・非活性タブは全部開く |
+| Two densities | `--dd-text-*` for scanning, `--dd-type-*` for reading; `.doc` and `.sheet` | A single scale inevitably fails one reading task. |
+| Recovering density | Raise rem-based type by one step and reclaim the space from gaps | Keep the same rows per screen with larger letters; do not buy density with eyesight. |
+| Japanese setting | Apply `palt` + `font-kerning` **only to headings, figures, and labels**; keep natural spacing in prose | Applying them to `body` flattens the density contrast between kanji and kana and makes it harder to follow a line. |
+| Japanese/Latin spacing | `text-autospace: normal`, excluding mono | The default is `no-autospace`. Generated Japanese contains Latin identifiers and numbers with no author to insert spaces. Measurements added no lines or overflow. **Do not declare** `text-spacing-trim`: its default is already `normal`. |
+| Line length | `--dd-measure` 36ric / `--dd-measure-wide` 48ric | 36 Japanese or 77 Latin characters keeps both readable. The old `72ch` produced 45/99 characters, **outside both ranges**. `ch` measures “0”, not either script's text. |
+| Shared right edges | Root-relative `ric`, not element-relative `ic` | With `ic`, the same token becomes wider in headings. Measured widths of 576 for prose, 720 for h3, and 768 for h2 created **five right edges**. Each character count was correct; the page was not. |
+| Figure text | Roles in `components/draw.css` (`.draw-label`, `.draw-value`, `.draw-cap`, …) | Handwritten 14/15/16/20 sizes were really **one size plus weight and colour**. `scripts/drawing-type.mjs` prevents their return. |
+| Figure **lines and fills** | `.draw-box`, `.draw-box-toned`, `.draw-box-alt`, `.draw-box-open`, `.draw-group`, `.draw-fill`, `.draw-line`, `.draw-line-open`, `.draw-guide`, `.draw-focus` | Two review rounds left **0 of 146** text elements with handwritten styles, but **78 of 146** marks still had them, including direct `--dd-red` strokes. Readers see both in the same minute. |
+| Direction in figures | `.draw-arrow` and one `<marker id="dd-arrow">` per document (`.draw-defs`) | Each arrowhead used to have three manually calculated points. Moving nodes silently left nine stale points. `fill="context-stroke"` follows the line's colour. |
+| Referring to part of a figure | `components/annotate.css` (`.mark`, `.leader`, `.legend-key`) | Figures had numbers, captions, and sources but **no way to point at a part**. Authors put explanatory sentences in `<text>`, turning the figure into an image of text. |
+| Legends | One `.legend` in `components/legend.css` (`.legend-inline`, `.legend-key`) | Meter `.legend` and graph `.graph-legend` answered the same question with different sizes, colours, and gaps. A page containing both spoke in two voices. |
+| Figure shrinkage | Fix the drawing at **1:1 scale** with `--dd-draw-width`; scroll the wrapper when narrow | SVG scales its text with its box. A nominal 15px label was measured at 13.8px at full width and 8.8px at 820px. Choosing a label size cannot control a later scaling factor. |
+| Figure references | `.plate` numbers with a counter; `.ref` points to it from prose | Unnumbered figures cannot be referenced. **CSS owns numbering; the author owns references.** If a generator writes a number, use `.plate-unnumbered` and let it own both. |
+| Comparisons | `.compare` for prose, `.compare-draw` for figures; `.was` / `.now` / `.cap` name the sides | Both are comparisons. Equal tracks were wrong for figures: a 532px drawing scrolled inside a 504px track. |
+| Margin notes | One `.sidenote`, both in the rail and beside captions | Readers encounter the same kind of note in both places. Two names would make two contracts. |
+| Pointing to figures | `.ref` for numbers; `.ref ref-mark` for identifiers | Same underline and hover. Use letters only where numbering would introduce a second sequence, as with comparison sides A and B. |
+| The rail's job | `.rail` occupies three columns (240px), holding section numbers and margin notes | Three of twelve columns used to stay empty for the section's height after a two-line label. Inserting notes into the body interrupts the argument they qualify. |
+| Tracking | Six `--dd-track-*` bands, from display −0.04em to eyebrow +0.16em | Put optical adjustments in the system. Previously eight negative and four positive values were chosen independently by eye. |
+| Japanese line-breaking rules | `line-break: strict` throughout | Keeping small kana and closing brackets off line starts is correctness, not taste. |
+| Cascade precedence | `@layer dd.{reset,tokens,base,layout,component,utility,print}` | Naming conventions rely on every generator's discipline; layers are browser-enforced rules. **This is why class names can remain unprefixed.** |
+| Naming collisions | Prefix custom properties only with `--dd-` | Custom properties inherit across the entire document; neither `@layer` nor `@scope` contains them. They are also a theme API and need stable names. |
+| Themes | `light-dark()` + `color-scheme` | Write the palette once; manual switching changes only `color-scheme`. |
+| Colour readability | `color-mix(in oklab, hue var(--dd-tint-mix), bg)` | Derive `--dd-tint-mix` from **contrast targets**, not preference. |
+| Verifying claims | `scripts/contrast.mjs`, required in CI; 150 pairs across all hues, five surfaces, and tints | “Easy to see” is a claim only when it can be checked. |
+| Orthogonal colour | Components read `--dd-tone` / `--dd-tone-tint` | New categories need no new components. Consumers can alias `.k-select` and similar names in one line. |
+| Responding to width | **Unnamed** container queries target the nearest container | A 1400px window can contain a 320px column. This preserves the promise that genres can be nested. |
+| Long lists | `[data-dd-defer]` → `content-visibility` | Speeds initial rendering of 844 rows; unsupported browsers keep the same appearance. |
+| Behaviour | Optional, data-attribute-driven **classic scripts** | ES modules fail over `file://`. Removing JavaScript must not break the content. |
+| Print | A separate final layer, `dd.print` | Paper cannot open content hidden for the screen. Show filtered rows, closed details, and inactive tabs. |
 
-#### 触るときの約束
+#### Rules for changes
 
-- **`@scope` を基盤に使わない。** Baseline入りは2026年1月。未対応環境では at-rule ごと破棄され、**完全に無スタイル**になる。劣化ではなく全崩壊
-- **`!important` は2箇所だけ。** `dd.reset` の `prefers-reduced-motion` と `dd.print`。どちらも利用側にも勝つべきもの。それ以外に書いたら設計を間違えている
-- **ジャンル変種はコンポーネント層に置く。** 層の順序は詳細度より**先に**決まるので、`dd.layout` に書いた `.sheet .stat` は `dd.component` の既定に負ける
-- **チップも 4.5:1。** WCAGの大文字例外は 18.66px bold から。12px/600 は通常テキスト
-- **数字は折らない。** `.fig` `.stat-fig` は `overflow-wrap: normal`。折れた数字は小さい数字ではなく別の数字
-- **クラス名を長くしない。** `.tok-kw` は1ページに数千回出る。生成物のバイト数は読者に効くが、BEM的な長名は効かない
-- **例には本物を使う。数字を作らない。** プロダクトページは当初、カバレッジ **96%** という発明した数字で「不確かさを表現できる」ことを実演していた。実データは **35/844 = 4%**。形（`.caveat`）はあるのに中身が逆転しており、システムの中心原則をシステム自身のサイトが裏切っていた。<br>
-  手元には本物がある — WordPress の 844 statements / 978 findings、bison-parser の 68.97→96.67。**媚びない実数の方が、作った成功例より強い**（4% を出して但し書きを主役にする方が、96% を出すより「わからないことを言える」の実演になる）
-- **レビュー提案はそのまま当てない。** 詳細度や `min()` の向きを外した提案が実際に複数あった。**ブラウザで再現→修正→再計測**が手順
-- **本文に `palt` を効かせない。** 見出し用の設定であり、走り読みされる文章に当てると濃度の手がかりが消える
-- **`:lang(ja)` は生成側が必ず付ける。** `word-break: auto-phrase`・図表キャプションの「図/表」・和文の組みがここに乗っている。ストーリーに `lang` が無かったため、**`auto-phrase` は一度も効かないまま日本語の作例を検証していた**（`:lang(ja)` が一致していなかった）
-- **オプトアウトは「後から打ち消す」のではなく「選択子から外す」。** `.plate-unnumbered > figcaption::before { content: none }` は英語では効いて**日本語では効かなかった** — `:lang(ja) .plate > figcaption::before` (0,2,1) に (0,1,1) が負ける。カウンタの加算だけ止まり接頭辞が残るので、生成側が番号を書く公開された使い方で**図番号が二重になる**。`:not(.plate-unnumbered)` を採番側に付ける
-- **`palt` の条件は「短い、または大きい」。** 実測で `.claim` 12字・`.cap` 40字・`.unit` 58字は短く、`.lead`(133字) `.stand`(120字) は25px/20pxで大きい。`.stat-label`(108字・8件が複数文) と `.card-description`(109字) は**どちらでもない本文**だったので外した
-- **一覧は「全体の何件か」を言う（`.listing-range`）。** 見出しが844、ファセットが639、実際の行が6で、どれが検索できる範囲かページが言っていなかった。これはレポートの `.caveat` と同じ失敗（下限が合計として読まれる）のカタログ版で、ページ送りがある分こちらの方が頻度が高い
-- **1つの概念に名前を2つ作らない。** 実際に作った: `.sidenote`／`.margin-note`、`.plate-panels`／`.compare`、`.panel-cap`／`.cap`、`.ref`／`.ref-mark`。**`.cap` `.was` `.now` はすでに比較の語彙**（ヒーローのBEFORE/AFTER）で、`.now .cap { color: accent }` は場所を問わず効く。新しい名前を作る前に、既存の語彙で言えないかを見る
-- **コンポーネント層で `margin` を打たない。** `.sidenote { margin: 0 }` は `dd.reset` と重複しているだけでなく、`dd.layout` に書いた全ての配置規則に勝つ。実測でレールの `margin-top` が 0 になった。**どう組むか**はコンポーネント、**どこに置くか**はレイアウト
-- **既定はロールより弱く書く（`:where()`）。** `.draw text` は (0,1,1)、`.draw-warn` は (0,1,0)。**既定が全ロールに勝っていた** — 実測で `draw-accent` も `draw-warn` も `draw-cap` も `draw-mono` も fill #1b1e24 / weight 400 / tracking normal に潰れ、ロール体系が丸ごと死んでいた。`:where(.draw text)` で (0,0,0) にする。**上書きできない既定は既定ではなく天井**
-- **SVGの整列をCSSで書かない。** `text-anchor` / `dominant-baseline` は「どこに置くか」であって「どう組むか」ではない。しかもCSS宣言は presentation attribute に**必ず勝つ**ので、1行書くと全図の `text-anchor="end"` が黙って無効になる
-- **図は縮むのと同じくらい伸びてはいけない。** `min-width` だけ書いて `width` を書かないと、広い列で拡大する。実測で820の図が1124pxの列で1.37倍になり、14pxのラベルが19.2pxで描かれていた（そのページの見出しより大きい）
-- **カウンタのリセットをコンテナ自身に置かない。** `container-type: inline-size` は style containment を伴い、**その要素をカウンタのスコープ根にする**。同じ要素に `counter-reset` を書くと、子孫が増やすスコープの外になる。実測（Chrome 154）で、1枚のシート内の図3点が全部「図1」。`:root` でも `body` でもリセット無しでも同じで、**コンテナの内側**（`.sheet > :first-child`）に置いて初めて 図1/図2/図3 になった
-- **図に手で `font-size` を書かない。** `scripts/drawing-type.mjs` が落とす。サイズを変えたくなったらロールが足りていない
-- **図に手で `fill` / `stroke` を書かない。** 同じチェッカが落とす（`fill="none"` だけ例外 — 色ではなく形の指定だから）。実測で `<text>` は2周守られて0/146、`<rect>` `<path>` `<circle>` は78/146が手打ちだった。**文字のためにした議論は、そのまま線と面の議論**である
-- **CSSはSVGの属性に必ず勝つ。だから既定は `:not([attr])` で書く。** `draw.css` はこれを注意書きにしていたが、`graph.css` 自身が `:where(.graph text) { text-anchor: middle }` で違反していた — `:where()` は詳細度を消すだけで、**宣言が属性に勝つことは止められない**。生成側が書いた `text-anchor="end"` は無言で無効になる。`:where(.graph text:not([text-anchor]))` なら、著者が言わなかったときだけ既定が出る
-- **既定値は「値」ではなく「フォールバック」として書く。** `.mark-open { --dd-tone: var(--dd-warn) }` は既定ではない。`.tone-danger` は `dd.base`、`.mark-open` は `dd.component` で、層順は詳細度より先に決まるので `class="mark mark-open tone-danger"` は琥珀色のまま出た。`stroke: var(--dd-tone, var(--dd-warn))` と書けば、言われたときだけ譲る
-- **マーカーを `display: none` にしない。** 印刷で `.draw-defs` を隠すのは自然に見えて、**ページ上の矢印の頭を全部消す**。`<marker>` はリソースであってその場に描かれるものではないので、隠すものが無い。押さえるのは寸法だけ（幅の無い `<svg>` は 300×150 になる）
-- **矢印の頭は開いた「V」にしない。** 実測で 5 深さ × 10 幅 ＝ 半角45°。1.5pxの線に10pxの翼が2枚付いて、線から外れた2本のストロークに見えた。8×6（半角20.6°）で、塗りつぶし — 6pxの図形に1.5pxの輪郭を描くとほとんど輪郭になる
-- **図の説明を図の中に書かない。** `<text>` の文は折り返さない・検索されない・図と一緒に拡縮する。**番号は図の中、文は下のキーに**（`.mark` ＋ `.legend-key`）。図には `709` の場所はあっても、それを説明する節の場所は無い
-- **図を「ちょうど収まる幅」で描かない。** 枠の寸法はシステムが言う（`--dd-measure-wide` 48ric ＝ 768px、レポートの欄と同値）。260幅の図が240の枠に置かれ、全幅でも0.923倍で描かれていた
-- **欄外注を絶対配置にしない。** 一度そうした。文どおりの位置に並ぶので組版としては上だが、**高さを持たないので誰にも存在が見えない** — 最初の1件が次の行の全幅図に重なった。著者にも予測できず、システムにも警告できない
-- **`text-align: justify` は採らない。** 検討し、計測したうえでの判断。和文組版の定石ではあるが、ここの日本語は和欧混植で、かつブロックが短い（caveat・note・lead）。実測で2行ブロックの最終行以外にしか効かず差は4px、一方で latin の語間だけが伸びる。分配する余地がない場所に均等配置を入れても、揃うのは端だけ
+- **Do not use `@scope` as the foundation.** It reached Baseline in January 2026. Unsupported environments discard the entire at-rule, leaving a **completely unstyled page**, not a degraded one.
+- **Allow `!important` in only two places:** reduced-motion rules in `dd.reset`, and `dd.print`. Both must override consumer styles. Elsewhere, it signals a design mistake.
+- **Put genre variants in the component layer.** Layer order wins **before** specificity. `.sheet .stat` in `dd.layout` loses to defaults in `dd.component`.
+- **Chips also require 4.5:1 contrast.** WCAG's large-text exception starts at 18.66px bold. 12px/600 is ordinary text.
+- **Never wrap figures.** `.fig` and `.stat-fig` use `overflow-wrap: normal`. A broken number is a different number, not a smaller one.
+- **Keep class names short.** `.tok-kw` can appear thousands of times per page. Generated bytes affect the reader; BEM-style long names do not help them.
+- **Use real examples; never invent numbers.** The product page once demonstrated uncertainty using an invented **96%** coverage figure. The data was actually **35/844 = 4%**. The `.caveat` existed, but its content contradicted the system's central principle.<br>
+  Real data is available: WordPress's 844 statements / 978 findings and bison-parser's 68.97→96.67. **Honest figures are stronger than fabricated success.** Showing 4% with a prominent caveat demonstrates uncertainty better than showing 96%.
+- **Do not apply review suggestions without checking them.** Several proposals got specificity or the direction of `min()` wrong. Follow **reproduce in the browser → fix → measure again**.
+- **Do not apply `palt` to prose.** It is for display text; applying it to running prose removes density cues.
+- **Generators must mark Japanese content with `lang="ja"`.** `:lang(ja)` enables `word-break: auto-phrase`, Japanese figure/table labels, and Japanese setting. Stories once lacked `lang`, so **Japanese specimens were being checked with `auto-phrase` never active**.
+- **Exclude opt-outs from selectors instead of cancelling them later.** `.plate-unnumbered > figcaption::before { content: none }` worked in English but failed in Japanese: `:lang(ja) .plate > figcaption::before` (0,2,1) beat (0,1,1). The counter stopped incrementing but its prefix remained, **duplicating figure numbers** in the generator-owned numbering API. Add `:not(.plate-unnumbered)` to the numbering selector.
+- **Apply `palt` only to text that is short or large.** Measured Japanese lengths were 12 characters for `.claim`, 40 for `.cap`, and 58 for `.unit`; `.lead` (133 characters) and `.stand` (120) were large at 25px/20px. `.stat-label` (108 characters, eight instances with multiple sentences) and `.card-description` (109) were **neither**, so they were excluded.
+- **Listings must say how many items are shown out of the total (`.listing-range`).** A heading said 844, facets said 639, and six rows appeared, without stating the searchable range. This is the catalog equivalent of a missing report `.caveat`: a lower bound looks like a total. Pagination makes it even more common.
+- **Do not give one concept two names.** Past duplicates included `.sidenote` / `.margin-note`, `.plate-panels` / `.compare`, `.panel-cap` / `.cap`, and `.ref` / `.ref-mark`. **`.cap`, `.was`, and `.now` already express comparison** in the hero's BEFORE/AFTER. `.now .cap { color: accent }` applies everywhere. Check existing vocabulary before adding a name.
+- **Do not set `margin` in the component layer.** `.sidenote { margin: 0 }` duplicated `dd.reset` and overrode all placement rules in `dd.layout`. The rail's measured `margin-top` became zero. Components control **how something is set**; layout controls **where it goes**.
+- **Make defaults weaker than roles with `:where()`.** `.draw text` (0,1,1) beat `.draw-warn` (0,1,0). The default collapsed `draw-accent`, `draw-warn`, `draw-cap`, and `draw-mono` to fill #1b1e24, weight 400, and normal tracking, disabling the entire role system. `:where(.draw text)` has (0,0,0). **A default that cannot be overridden is a ceiling.**
+- **Do not set SVG alignment in CSS.** `text-anchor` and `dominant-baseline` describe placement, not typesetting. CSS declarations **always override** presentation attributes, silently disabling every `text-anchor="end"`.
+- **Prevent figures from growing as well as shrinking.** `min-width` without `width` lets a figure expand. An 820px drawing grew to 1124px (1.37×), making 14px labels render at 19.2px, larger than the page's headings.
+- **Do not reset counters on the container itself.** `container-type: inline-size` implies style containment and **makes that element a counter scope root**. A reset there sits outside the scope incremented by its descendants. In Chrome 154, three figures in one sheet all read “Figure 1”. Moving the reset to `:root` or `body`, or removing it, did not help. Resetting **inside the container** (`.sheet > :first-child`) produced Figure 1/2/3.
+- **Do not handwrite `font-size` in figures.** `scripts/drawing-type.mjs` rejects it. If another size is needed, a role is missing.
+- **Do not handwrite `fill` or `stroke` in figures.** The same checker rejects them, except `fill="none"`, which specifies geometry rather than colour. Across two review rounds, text had 0/146 handwritten styles while `<rect>`, `<path>`, and `<circle>` had 78/146. **The reasoning for text applies equally to lines and fills.**
+- **CSS always overrides SVG attributes, so use `:not([attr])` for defaults.** `draw.css` documented this, but `graph.css` violated it with `:where(.graph text) { text-anchor: middle }`. `:where()` removes specificity; it **does not stop CSS from overriding attributes**. Use `:where(.graph text:not([text-anchor]))` to supply a default only when the author supplied none.
+- **Write defaults as fallbacks, not assigned values.** `.mark-open { --dd-tone: var(--dd-warn) }` is not a default. `.tone-danger` is in `dd.base`, while `.mark-open` is in `dd.component`, so `class="mark mark-open tone-danger"` stayed amber. `stroke: var(--dd-tone, var(--dd-warn))` yields when a tone is supplied.
+- **Do not hide markers with `display: none`.** Hiding `.draw-defs` in print **removes every arrowhead**. A `<marker>` is a resource, not something drawn at its location. Constrain dimensions only: an SVG without a width defaults to 300×150.
+- **Do not draw arrowheads as open Vs.** A measured head 5 deep and 10 wide had a 45° half-angle. Its two 10px wings looked detached from a 1.5px line. Use a filled 8×6 head (20.6° half-angle); a 1.5px outline on a 6px shape would be mostly outline.
+- **Keep figure explanations outside the drawing.** Sentences in `<text>` do not wrap, are not searchable in the intended reading flow, and scale with the figure. **Put numbers in the drawing and sentences in the key below** (`.mark` + `.legend-key`). A figure has room for `709`, not for the section explaining it.
+- **Do not draw to an arbitrary width that happens to fit.** The system supplies the frame: `--dd-measure-wide` is 48ric = 768px, matching the report column. A 260px drawing in a 240px frame was rendered at 0.923× even at full width.
+- **Do not absolutely position margin notes.** This was tried. It aligned notes closely to their sentences, but **their height was invisible to the layout**. The first note overlapped the next row's full-width figure, with no predictable warning for authors or the system.
+- **Do not use `text-align: justify`.** This was considered and measured. Although conventional in Japanese typesetting, these pages mix Japanese and Latin in short blocks (`caveat`, `note`, `lead`). In a two-line block, only the non-final line changed, by 4px, while Latin word spaces stretched. With no room to distribute, justification aligns edges without improving the text.
 
 ### Product Page
 
-doc-ui が何であり、なぜそう作られているかを見せる日本語・英語のサイトです。
-`packages/doc-site` がプロダクトページ、導入ガイド、コンポーネントの実物付き一覧、
-個別の使い方ページを持ち、Vite+ で静的HTMLを生成します。
+An English product and documentation site, with a Japanese translation, showing
+what doc-ui is and why it is designed this way. `packages/doc-site` owns the
+product page, start guide, component index with live examples, and individual
+usage pages. Vite+ generates static HTML.
 
-- **doc-ui 自身で作る。** 独自CSSやサイト専用コンポーネントで不足を埋めず、
-  doc-ui の公開コンポーネントを強化し、Storybook と利用例を追加します
-- **各パッケージで完結する。** 依存、ソース、設定、開発・検査・ビルドコマンドは
-  各パッケージが持ちます。PJルートは全体作業とショートカットに限定します
-- **ルートの `npm run dev` はサイトを開く。** コンポーネント開発は
-  `npm run storybook` で分けて起動できます
-- **配布条件を価値として売らない。** 伝える価値は情報の走査性、一目性、意味の明確さです
-- **一覧は実物で示す。** 個別ページには構文強調したコピー可能なHTMLと使い方を添えます
+- **Build it with doc-ui itself.** Fill gaps by improving public doc-ui components
+  and adding Storybook and usage examples, rather than site-specific CSS or components.
+- **Keep each package self-contained.** Each owns its dependencies, source,
+  configuration, and development/check/build commands. The project root handles
+  cross-package work and shortcuts only.
+- **Root `npm run dev` opens the site.** Use `npm run storybook` separately for
+  component development.
+- **Do not sell distribution constraints as product value.** Communicate
+  scannability, immediate comprehension, and clear meaning.
+- **Show real components in the index.** Individual pages include highlighted,
+  copyable HTML and usage guidance.
 
-これは同時に**最初の外部利用者**になります。ここで書きにくいものは php-ai-toolkit や
-ztd-query-php でも書きにくい、という検知器として機能させます。
+The site is also the **first external consumer**. Anything awkward to author here
+will also be awkward in php-ai-toolkit and ztd-query-php, making the site a useful
+way to discover API gaps.
 
-### 公開レイアウト
+### Public layout
 
 ```
-/                  doc-site のプロダクトページ
-/start/            導入ガイド
-/components/       実物プレビュー付き一覧と個別の使い方
-/ja/               日本語版（同じ構成で /ja/start/、/ja/components/ を持つ）
-/storybook/        doc-ui の開発用ストーリーとバリエーション
-/v1/  /latest/     doc-ui のスタイルシート本体
+/                  doc-site product page (English)
+/start/            getting started
+/components/       live component index and individual usage guides
+/ja/               Japanese versions, including /ja/start/ and /ja/components/
+/storybook/        doc-ui development stories and variations (English by default)
+/v1/  /latest/     doc-ui stylesheets
 ```
 
-`/v1/` は、既に書かれたページの見た目が変わるような更新をしません。利用者は
-アーカイブされる生成文書だからです。破壊的変更は `/v2/` へ。
+Do not update `/v1/` in a way that changes the appearance of pages already
+written. Consumers are generated documents that get archived. Breaking changes
+belong in `/v2/`.
 
 ## Examples
 
-元になるデザインのサンプルです。これらに適用するためのものであり既存のデザインを踏襲する必要はありませんが、よりよいデザインにする必要があります。
+These source designs are the intended consumers. The system need not reproduce
+their current design, but it must improve on it.
 
 - [PHP DocGen](https://github.com/k-kinzal/php-ai-toolkit)
-    - https://k-kinzal.github.io/ztd-query-php/pr/393/
+  - https://k-kinzal.github.io/ztd-query-php/pr/393/
 - [SQL Catalog](https://github.com/k-kinzal/ztd-query-php)
-    - /Users/ab/Desktop/wordpress-sql-catalog/index.html
+  - `/Users/ab/Desktop/wordpress-sql-catalog/index.html`
 - [QuuuAI](https://github.com/k-kinzal/quuu)
-    - /Users/ab/Library/Application                            
-  Support/taskd/reports/tsk_bc4869e9ddf54c998b18/rpt_2f13da82c39248859bc8.html
+  - `/Users/ab/Library/Application Support/taskd/reports/tsk_bc4869e9ddf54c998b18/rpt_2f13da82c39248859bc8.html`
