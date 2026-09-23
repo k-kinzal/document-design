@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chip — 分類ラベル — doc-ui</title>
+<meta name="description" content="種別や状態を示す小さなラベル。意味と見た目を別々に指定します。 Chipの実例、コピーできるHTML、クラス、使い方を紹介します。">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fcfcfe" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1f2023" media="(prefers-color-scheme: dark)">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://k-kinzal.github.io/document-design/ja/components/chip/">
+<link rel="alternate" hreflang="en" href="https://k-kinzal.github.io/document-design/components/chip/">
+<link rel="alternate" hreflang="ja" href="https://k-kinzal.github.io/document-design/ja/components/chip/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="doc-ui">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:title" content="Chip — 分類ラベル — doc-ui">
+<meta property="og:description" content="種別や状態を示す小さなラベル。意味と見た目を別々に指定します。 Chipの実例、コピーできるHTML、クラス、使い方を紹介します。">
+<meta property="og:url" content="https://k-kinzal.github.io/document-design/ja/components/chip/">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chip — 分類ラベル — doc-ui">
+<meta name="twitter:description" content="種別や状態を示す小さなラベル。意味と見た目を別々に指定します。 Chipの実例、コピーできるHTML、クラス、使い方を紹介します。">
+
+<link rel="icon" href="../../../assets/favicon.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="../../../assets/apple-touch-icon.png" sizes="180x180">
+<link  rel="stylesheet" href="../../../v1.0.0/document-design.min.css">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","@id":"https://k-kinzal.github.io/document-design/ja/components/chip/","url":"https://k-kinzal.github.io/document-design/ja/components/chip/","name":"Chip — 分類ラベル — doc-ui","headline":"Chip — 分類ラベル","description":"種別や状態を示す小さなラベル。意味と見た目を別々に指定します。 Chipの実例、コピーできるHTML、クラス、使い方を紹介します。","inLanguage":"ja","author":{"@type":"Person","name":"k-kinzal","url":"https://github.com/k-kinzal"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"doc-ui","item":"https://k-kinzal.github.io/document-design/ja/"},{"@type":"ListItem","position":2,"name":"コンポーネント","item":"https://k-kinzal.github.io/document-design/ja/components/"},{"@type":"ListItem","position":3,"name":"Chip — 分類ラベル","item":"https://k-kinzal.github.io/document-design/ja/components/chip/"}]}]</script>
+<script  src="../../../ja/assets/search.js" defer></script>
+<script  src="../../../v1.0.0/document-design.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+<svg class="draw-defs" aria-hidden="true" focusable="false">
+<marker id="dd-arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 6" refX="8" refY="3"
+        markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+  <path class="draw-arrowhead" d="M0 0L8 3L0 6Z"/>
+</marker>
+</svg>
+<div class="doc doc-quiet"><nav class="sidebar" id="navigation" aria-label="ドキュメントのナビゲーション"><div class="sidebar-header"><a class="brand" href="../../index.html">doc-ui</a></div><div class="sidebar-section"><p class="sidebar-title">はじめに</p><ul class="sidebar-list"><li><a href="../../start/index.html">はじめに</a></li><li><a href="../../components/index.html">コンポーネント</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">レイアウト</p><ul class="sidebar-list"><li><a href="../../components/document/index.html">Document</a></li><li><a href="../../components/report/index.html">Report</a></li><li><a href="../../components/publication/index.html">Publication</a></li><li><a href="../../components/composition/index.html">Composition</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">一覧とデータ</p><ul class="sidebar-list"><li><a href="../../components/table/index.html">Table</a></li><li><a href="../../components/listing/index.html">Listing</a></li><li class="is-active"><a href="../../components/chip/index.html" aria-current="page">Chip</a></li><li><a href="../../components/card/index.html">Card</a></li><li><a href="../../components/facts/index.html">Facts</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">図とグラフ</p><ul class="sidebar-list"><li><a href="../../components/meter/index.html">Meter</a></li><li><a href="../../components/graph/index.html">Graph</a></li><li><a href="../../components/bar-chart/index.html">Bar chart</a></li><li><a href="../../components/comparison-plot/index.html">Comparison plot</a></li><li><a href="../../components/line-plot/index.html">Line plot</a></li><li><a href="../../components/histogram/index.html">Histogram</a></li><li><a href="../../components/drawing/index.html">Drawing</a></li><li><a href="../../components/annotate/index.html">Annotate</a></li><li><a href="../../components/flow-graph/index.html">Flow graph</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">文章</p><ul class="sidebar-list"><li><a href="../../components/prose/index.html">Prose</a></li><li><a href="../../components/callout/index.html">Callout</a></li><li><a href="../../components/quote/index.html">Quote</a></li><li><a href="../../components/definitions/index.html">Definitions</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">コードと変更</p><ul class="sidebar-list"><li><a href="../../components/code/index.html">Code</a></li><li><a href="../../components/symbol/index.html">Symbol</a></li><li><a href="../../components/diff/index.html">Diff</a></li><li><a href="../../components/terminal/index.html">Terminal</a></li><li><a href="../../components/filetree/index.html">File tree</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">ナビゲーション</p><ul class="sidebar-list"><li><a href="../../components/tree/index.html">Tree</a></li><li><a href="../../components/control/index.html">Control</a></li><li><a href="../../components/facets/index.html">Facets</a></li><li><a href="../../components/search/index.html">Search</a></li><li><a href="../../components/sidebar/index.html">Sidebar</a></li><li><a href="../../components/topbar/index.html">Topbar</a></li><li><a href="../../components/tabs/index.html">Tabs</a></li><li><a href="../../components/disclosure/index.html">Disclosure</a></li><li><a href="../../components/pagination/index.html">Pagination</a></li><li><a href="../../components/keys/index.html">Keys</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">状態とフィードバック</p><ul class="sidebar-list"><li><a href="../../components/notice/index.html">Notice</a></li><li><a href="../../components/banner/index.html">Banner</a></li><li><a href="../../components/empty/index.html">Empty</a></li><li><a href="../../components/stat/index.html">Stat</a></li><li><a href="../../components/timeline/index.html">Timeline</a></li><li><a href="../../components/tooltip/index.html">Tooltip</a></li></ul></div><div class="sidebar-section"><ul class="sidebar-list"><li><a href="../../../storybook/index.html">Storybook ↗</a></li><li><a href="https://github.com/k-kinzal/document-design">GitHub ↗</a></li></ul></div></nav><div class="main">
+  <header class="topbar"><button class="btn nav-toggle" data-dd-nav-toggle aria-label="ナビゲーションを開く" aria-controls="navigation" aria-expanded="false">☰ メニュー</button><nav class="breadcrumbs" aria-label="パンくずリスト"><a href="../../index.html">doc-ui</a><span class="breadcrumb-sep">/</span><a href="../../components/index.html">コンポーネント</a><span class="breadcrumb-sep">/</span><span class="breadcrumb-current">Chip</span></nav><div class="topbar-tools"><input type="search" class="input input-search" placeholder="検索 /" aria-label="コンポーネントを検索" data-dd-search data-dd-enhance hidden autocomplete="off"><a class="btn btn-quiet" href="../../../components/chip/index.html" lang="en" hreflang="en" rel="alternate" translate="no">English</a><button class="btn" data-dd-theme-toggle data-dd-enhance hidden aria-label="配色テーマを切り替える">◐</button></div></header>
+  <div class="search-results" data-dd-search-results hidden></div>
+  <main class="content" id="main"><p class="eyebrow">一覧とデータ / 分類ラベル</p><h1>Chip</h1><p class="lede">種別や状態を示す小さなラベル。意味と見た目を別々に指定します。</p>
+  <section aria-labelledby="example-0"><h2 id="example-0">基本的な使い方</h2><figure class="specimen"><figcaption class="specimen-bar">プレビュー</figcaption><div class="specimen-body doc doc-inset"><div class="chips">
+  <span class="chip tone-blue">SELECT</span>
+  <span class="chip tone-violet">INSERT</span>
+  <span class="chip tone-teal">UPDATE</span>
+  <span class="chip chip-ghost">v1.0.0</span>
+</div></div></figure><div class="code-block"><div class="code-head"><span>HTML</span><button class="btn" data-dd-copy="#source-0" data-dd-enhance hidden aria-label="HTMLをコピー" aria-live="polite">コピー</button></div><pre class="code" id="source-0"><code><span class="tok-id">&lt;</span><span class="tok-kw">div</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"chips"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"chip tone-blue"</span><span class="tok-id">&gt;SELECT&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"chip tone-violet"</span><span class="tok-id">&gt;INSERT&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"chip tone-teal"</span><span class="tok-id">&gt;UPDATE&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"chip chip-ghost"</span><span class="tok-id">&gt;v1.0.0&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">&lt;/</span><span class="tok-kw">div</span><span class="tok-id">&gt;</span></code></pre></div></section><section aria-labelledby="example-1"><h2 id="example-1">状態を示す</h2><figure class="specimen"><figcaption class="specimen-bar">プレビュー</figcaption><div class="specimen-body doc doc-inset"><div class="chips">
+  <span class="chip tone-ok">✓ 解決済み</span>
+  <span class="chip tone-warn">一部解決</span>
+  <span class="chip tone-danger">! 未解決</span>
+</div></div></figure><div class="code-block"><div class="code-head"><span>HTML</span><button class="btn" data-dd-copy="#source-1" data-dd-enhance hidden aria-label="HTMLをコピー" aria-live="polite">コピー</button></div><pre class="code" id="source-1"><code><span class="tok-id">&lt;</span><span class="tok-kw">div</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"chips"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"chip tone-ok"</span><span class="tok-id">&gt;✓ 解決済み&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"chip tone-warn"</span><span class="tok-id">&gt;一部解決&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"chip tone-danger"</span><span class="tok-id">&gt;! 未解決&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">&lt;/</span><span class="tok-kw">div</span><span class="tok-id">&gt;</span></code></pre></div></section>
+  <section><h2>クラスと属性</h2><div class="table-wrap"><table><thead><tr><th scope="col">クラス / 属性</th><th scope="col">用途</th></tr></thead><tbody><tr><td><code>.chip</code></td><td>標準の分類ラベル。</td></tr><tr><td><code>.chip-sm / .chip-lg</code></td><td>余白を減らしたラベル、または大きいラベル。小型でも文字の読みやすさは保ちます。</td></tr><tr><td><code>.chip-ghost</code></td><td>バージョンや識別子を示す輪郭。</td></tr><tr><td><code>.tone-blue / .tone-violet / .tone-teal</code></td><td>識別の色。amber・pink・indigo・slateも使えます。</td></tr><tr><td><code>.tone-ok / .tone-warn / .tone-danger</code></td><td>成功・注意・問題を示す状態の色。</td></tr></tbody></table></div></section>
+  <section><h2>使い方の注意</h2><div class="callout"><p>種別の識別に赤を使わないでください。色がなくても意味が残るよう、ラベルに言葉を添えます。</p></div><p class="note">作例はシステムの配色設定に従います。ヘッダーの◐で自動・ライト・ダークを試せます。</p></section>
+  <div class="actions"><a class="btn" href="../../../storybook/index.html?path=/story/components-chip--default">Storybookでバリエーションを見る ↗</a><a href="../index.html">すべてのコンポーネント →</a></div>
+  <nav class="pager" aria-label="前後のコンポーネント"><a class="pager-prev" href="../listing/index.html"><span class="pager-dir">前のコンポーネント</span><span class="pager-name">Listing — 走査しやすい一覧</span></a><a class="pager-next" href="../card/index.html"><span class="pager-dir">次のコンポーネント</span><span class="pager-name">Card — 内容への入口</span></a></nav></main>
+  <footer class="doc-footer">使用： <a href="../../index.html">doc-ui</a> · 制作： <a href="https://github.com/k-kinzal">k-kinzal</a> · MITライセンス <a href="https://github.com/k-kinzal/document-design">GitHub ↗</a></footer></div></div>
+</body>
+</html>

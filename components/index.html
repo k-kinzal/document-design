@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Components — doc-ui</title>
+<meta name="description" content="Explore 43 doc-ui components and layouts by purpose. See live previews, copy the HTML, and learn when to use each one.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fcfcfe" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1f2023" media="(prefers-color-scheme: dark)">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://k-kinzal.github.io/document-design/components/">
+<link rel="alternate" hreflang="en" href="https://k-kinzal.github.io/document-design/components/">
+<link rel="alternate" hreflang="ja" href="https://k-kinzal.github.io/document-design/ja/components/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="doc-ui">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
+<meta property="og:title" content="Components — doc-ui">
+<meta property="og:description" content="Explore 43 doc-ui components and layouts by purpose. See live previews, copy the HTML, and learn when to use each one.">
+<meta property="og:url" content="https://k-kinzal.github.io/document-design/components/">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Components — doc-ui">
+<meta name="twitter:description" content="Explore 43 doc-ui components and layouts by purpose. See live previews, copy the HTML, and learn when to use each one.">
+
+<link rel="icon" href="../assets/favicon.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" sizes="180x180">
+<link  rel="stylesheet" href="../v1.0.0/document-design.min.css">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","@id":"https://k-kinzal.github.io/document-design/components/","url":"https://k-kinzal.github.io/document-design/components/","name":"Components — doc-ui","headline":"Components","description":"Explore 43 doc-ui components and layouts by purpose. See live previews, copy the HTML, and learn when to use each one.","inLanguage":"en","author":{"@type":"Person","name":"k-kinzal","url":"https://github.com/k-kinzal"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"doc-ui","item":"https://k-kinzal.github.io/document-design/"},{"@type":"ListItem","position":2,"name":"Components","item":"https://k-kinzal.github.io/document-design/components/"}]}]</script>
+<script  src="../assets/search.js" defer></script>
+<script  src="../v1.0.0/document-design.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg class="draw-defs" aria-hidden="true" focusable="false">
+<marker id="dd-arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 6" refX="8" refY="3"
+        markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+  <path class="draw-arrowhead" d="M0 0L8 3L0 6Z"/>
+</marker>
+</svg>
+<div class="doc doc-quiet"><nav class="sidebar" id="navigation" aria-label="Documentation navigation"><div class="sidebar-header"><a class="brand" href="../index.html">doc-ui</a></div><div class="sidebar-section"><p class="sidebar-title">GET STARTED</p><ul class="sidebar-list"><li><a href="../start/index.html">Get started</a></li><li class="is-active"><a href="../components/index.html" aria-current="page">Components</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">Layouts</p><ul class="sidebar-list"><li><a href="../components/document/index.html">Document</a></li><li><a href="../components/report/index.html">Report</a></li><li><a href="../components/publication/index.html">Publication</a></li><li><a href="../components/composition/index.html">Composition</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">Lists & data</p><ul class="sidebar-list"><li><a href="../components/table/index.html">Table</a></li><li><a href="../components/listing/index.html">Listing</a></li><li><a href="../components/chip/index.html">Chip</a></li><li><a href="../components/card/index.html">Card</a></li><li><a href="../components/facts/index.html">Facts</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">Figures & graphs</p><ul class="sidebar-list"><li><a href="../components/meter/index.html">Meter</a></li><li><a href="../components/graph/index.html">Graph</a></li><li><a href="../components/bar-chart/index.html">Bar chart</a></li><li><a href="../components/comparison-plot/index.html">Comparison plot</a></li><li><a href="../components/line-plot/index.html">Line plot</a></li><li><a href="../components/histogram/index.html">Histogram</a></li><li><a href="../components/drawing/index.html">Drawing</a></li><li><a href="../components/annotate/index.html">Annotate</a></li><li><a href="../components/flow-graph/index.html">Flow graph</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">Reading</p><ul class="sidebar-list"><li><a href="../components/prose/index.html">Prose</a></li><li><a href="../components/callout/index.html">Callout</a></li><li><a href="../components/quote/index.html">Quote</a></li><li><a href="../components/definitions/index.html">Definitions</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">Code & changes</p><ul class="sidebar-list"><li><a href="../components/code/index.html">Code</a></li><li><a href="../components/symbol/index.html">Symbol</a></li><li><a href="../components/diff/index.html">Diff</a></li><li><a href="../components/terminal/index.html">Terminal</a></li><li><a href="../components/filetree/index.html">File tree</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">Navigation</p><ul class="sidebar-list"><li><a href="../components/tree/index.html">Tree</a></li><li><a href="../components/control/index.html">Control</a></li><li><a href="../components/facets/index.html">Facets</a></li><li><a href="../components/search/index.html">Search</a></li><li><a href="../components/sidebar/index.html">Sidebar</a></li><li><a href="../components/topbar/index.html">Topbar</a></li><li><a href="../components/tabs/index.html">Tabs</a></li><li><a href="../components/disclosure/index.html">Disclosure</a></li><li><a href="../components/pagination/index.html">Pagination</a></li><li><a href="../components/keys/index.html">Keys</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">Status & feedback</p><ul class="sidebar-list"><li><a href="../components/notice/index.html">Notice</a></li><li><a href="../components/banner/index.html">Banner</a></li><li><a href="../components/empty/index.html">Empty</a></li><li><a href="../components/stat/index.html">Stat</a></li><li><a href="../components/timeline/index.html">Timeline</a></li><li><a href="../components/tooltip/index.html">Tooltip</a></li></ul></div><div class="sidebar-section"><ul class="sidebar-list"><li><a href="../storybook/index.html">Storybook ↗</a></li><li><a href="https://github.com/k-kinzal/document-design">GitHub ↗</a></li></ul></div></nav><div class="main">
+  <header class="topbar"><button class="btn nav-toggle" data-dd-nav-toggle aria-label="Open navigation" aria-controls="navigation" aria-expanded="false">☰ Menu</button><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">doc-ui</a><span class="breadcrumb-sep">/</span><span class="breadcrumb-current">Components</span></nav><div class="topbar-tools"><input type="search" class="input input-search" placeholder="Search /" aria-label="Search components" data-dd-search data-dd-enhance hidden autocomplete="off"><a class="btn btn-quiet" href="../ja/components/index.html" lang="ja" hreflang="ja" rel="alternate" translate="no">日本語</a><button class="btn" data-dd-theme-toggle data-dd-enhance hidden aria-label="Switch color theme">◐</button></div></header>
+  <div class="search-results" data-dd-search-results hidden></div>
+  <main class="content" id="main"><h1>Components</h1><p class="lede">43 components and layouts.</p><nav class="index-nav" aria-label="Jump to a category"><a href="#group-0">Layouts</a><a href="#group-1">Lists & data</a><a href="#group-2">Figures & graphs</a><a href="#group-3">Reading</a><a href="#group-4">Code & changes</a><a href="#group-5">Navigation</a><a href="#group-6">Status & feedback</a></nav><section class="group" id="group-0"><h2>Layouts<span class="count">4 components</span></h2><div class="cards" id="cards-0"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="doc doc-inset">
+  <div class="main">
+    <div class="content">
+      <h2>Layout reference</h2>
+      <p class="lede">Choose by reading task.</p>
+      <dl class="definitions">
+        <div><dt><code>.doc</code></dt><dd>Find and compare entries.</dd></div>
+        <div><dt><code>.sheet</code></dt><dd>Follow a point and its evidence.</dd></div>
+      </dl>
+    </div>
+  </div>
+</div></div><h3><a class="card-link" href="./document/index.html">Document</a></h3><p class="card-description">A compact document layout for finding one item among hundreds.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><article class="sheet sheet-inset">
+  <p class="eyebrow">READING ORDER</p>
+  <h2>Give the idea a sequence.</h2>
+  <p class="stand">A point, its evidence, its meaning.</p>
+  <p class="note">Separate type and spacing scales bring the main idea forward, with room for the detail that supports it.</p>
+</article></div><h3><a class="card-link" href="./report/index.html">Report</a></h3><p class="card-description">A spacious report layout that puts the conclusion, evidence, and limits in view.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><section class="cover">
+  <div><p class="eyebrow">DOC-UI / PUBLICATION</p>
+    <h2 class="cover-title">Information, made clear.</h2></div>
+  <div class="cover-copy"><p>A design system for documentation and reports.</p>
+    <div class="actions"><a class="btn btn-primary btn-lg">Get started →</a></div></div>
+</section></div><h3><a class="card-link" href="./publication/index.html">Publication</a></h3><p class="card-description">Reusable covers, navigation, section headings, and frames for live examples.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><figure class="plate plate-full plate-side plate-unnumbered">
+  <div class="plate-body">
+    <h3 class="compare-title"><span class="ref ref-mark tone-teal">B</span> Paper</h3>
+    <ol class="flow tone-teal">
+      <li><span class="flow-mark" aria-hidden="true">01</span><strong class="flow-name">Question</strong><span class="flow-detail">Orient the reader</span></li>
+      <li><span class="flow-mark" aria-hidden="true">02</span><strong class="flow-name">Evidence</strong><span class="flow-detail">Connect the facts</span></li>
+      <li><span class="flow-mark" aria-hidden="true">03</span><strong class="flow-name">Meaning</strong><span class="flow-detail">Explain the result</span></li>
+    </ol>
+  </div>
+  <figcaption>
+    <p class="plate-summary"><span class="plate-label">Figure 1.</span>A paper gives a point, its evidence, and its meaning a clear reading order.</p>
+    <p class="sidenote">Arrows show a reading sequence, not a causal relationship.</p>
+  </figcaption>
+</figure></div><h3><a class="card-link" href="./composition/index.html">Composition</a></h3><p class="card-description">Keep a figure, its caption, and the notes that explain it in one reading order.</p></article></div></section><section class="group" id="group-1"><h2>Lists & data<span class="count">5 components</span></h2><div class="cards" id="cards-1"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="table-wrap">
+  <table class="sortable">
+    <caption class="sr-only">WordPress catalog: three tables and their statement counts</caption>
+    <thead><tr><th scope="col">Table</th><th scope="col" class="num">Statements</th></tr></thead>
+    <tbody><tr><td class="mono">{$}cache_data</td><td class="num">13</td></tr>
+      <tr><td class="mono">{$}items</td><td class="num">7</td></tr>
+      <tr><td class="mono">{$}posts</td><td class="num">3</td></tr></tbody>
+  </table>
+</div></div><h3><a class="card-link" href="./table/index.html">Table</a></h3><p class="card-description">Align values in columns so a reader can compare items without remembering them.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><ul class="rows">
+  <li class="row">
+    <a class="row-main">
+      <span class="chip tone-blue">SELECT</span>
+      <span class="row-body">SELECT id, title FROM posts WHERE status = 'published'</span>
+    </a>
+    <p class="row-meta">src/PostRepository.php:42 <span>2 columns</span></p>
+  </li>
+  <li class="row">
+    <a class="row-main">
+      <span class="chip tone-violet">INSERT</span>
+      <span class="row-body">INSERT INTO events (name) VALUES (:name)</span>
+    </a>
+    <p class="row-meta">src/EventRepository.php:18 <span>1 parameter</span></p>
+  </li>
+</ul></div><h3><a class="card-link" href="./listing/index.html">Listing</a></h3><p class="card-description">Keep short and long entries in the same rhythm so the right item is easy to find.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="chips">
+  <span class="chip tone-blue">SELECT</span>
+  <span class="chip tone-violet">INSERT</span>
+  <span class="chip tone-teal">UPDATE</span>
+  <span class="chip chip-ghost">v1.0.0</span>
+</div></div><h3><a class="card-link" href="./chip/index.html">Chip</a></h3><p class="card-description">A compact label that names a kind or state. Meaning and appearance are specified separately.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="cards">
+  <section class="card"><h3>Table</h3>
+    <p class="card-description">Which statements read from or write to each table.</p>
+    <p class="card-more"><a>Explore 12 tables →</a></p></section>
+  <section class="card"><h3>Symbols</h3>
+    <p class="card-description">Classes and functions, their signatures and callers.</p>
+    <p class="card-more"><a>Explore API references →</a></p></section>
+</div></div><h3><a class="card-link" href="./card/index.html">Card</a></h3><p class="card-description">Show where a route leads and what a reader can learn there.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><dl class="facts">
+  <div><dt>Dataset</dt><dd>WordPress SQL catalog</dd></div>
+  <div><dt>Source files</dt><dd>77 files</dd></div>
+  <div><dt>Analysis scope</dt><dd>Discovered database calls in WordPress</dd></div>
+</dl></div><h3><a class="card-link" href="./facts/index.html">Facts</a></h3><p class="card-description">A definition list for short answers about one thing: a version, scope, or source.</p></article></div></section><section class="group" id="group-2"><h2>Figures & graphs<span class="count">9 components</span></h2><div class="cards" id="cards-2"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="meter meter-lg" aria-hidden="true">
+  <span class="meter-part tone-ok" style="--dd-part:4.15%"></span>
+  <span class="meter-part is-open" style="--dd-part:95.85%"></span>
+</div>
+<ul class="legend">
+  <li><span class="chip tone-ok">Resolved</span><span class="meter-legend-count">35 statements</span><span class="meter-legend-description">Fully determined SQL</span></li>
+  <li><span class="chip chip-ghost">Unresolved</span><span class="meter-legend-count">809 statements</span><span class="meter-legend-description">Dependencies, analysis limits, or unexamined calls</span></li>
+</ul></div><h3><a class="card-link" href="./meter/index.html">Meter</a></h3><p class="card-description">Show proportions faithfully, including the part that remains unresolved.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="graph-wrap">
+  <svg class="graph" style="--dd-draw-width:400px" viewBox="0 0 400 140" role="img" aria-label="doc-site depends on doc-ui">
+    <path class="edge" d="M200 42 C200 62,200 72,200 88"/>
+    <circle class="edge-tip" cx="200" cy="90" r="2.6"/>
+    <rect class="node" x="130" y="8" width="140" height="34" rx="7"/>
+    <text x="200" y="25">doc-site</text>
+    <rect class="node node-toned tone-blue" x="130" y="92" width="140" height="34" rx="7"/>
+    <text x="200" y="109">doc-ui</text>
+  </svg>
+</div></div><h3><a class="card-link" href="./graph/index.html">Graph</a></h3><p class="card-description">Styles for generated SVG diagrams that show which things depend on which.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><figure class="plate plate-wide">
+  <p><strong>Which caller contains the most statements?</strong></p>
+  <p class="muted">Statements per caller · common scale: 0–8 statements</p>
+  <ul class="bars">
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::save</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:100%"></span></span>
+      <span class="bar-value">8 statements</span>
+    </li>
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::__construct</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
+      <span class="bar-value">1 statement</span>
+    </li>
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::load</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
+      <span class="bar-value">1 statement</span>
+    </li>
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::mtime</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
+      <span class="bar-value">1 statement</span>
+    </li>
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::touch</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
+      <span class="bar-value">1 statement</span>
+    </li>
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::unlink</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
+      <span class="bar-value">1 statement</span>
+    </li>
+  </ul>
+  <figcaption>MySQL::save contains 8 of the 13 statements; each other caller contains one.
+    <span class="plate-source">WordPress SQL catalog snapshot · cache_data · SimplePie/Cache/MySQL.php. Counts describe static call sites, not execution frequency.</span>
+  </figcaption>
+</figure></div><h3><a class="card-link" href="./bar-chart/index.html">Bar chart</a></h3><p class="card-description">Rank categories by magnitude, with aligned names, exact values, and a shared zero baseline.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><svg class="draw" style="--dd-draw-width:240px" viewBox="0 0 240 168" role="img" aria-label="Source coverage before 68.97 percent, after 96.67 percent. Full conditions in the comparison example.">
+  <text class="draw-note" x="8" y="20">Source coverage (%)</text>
+  <text class="draw-value" x="8" y="48">Before · 68.97%</text>
+  <text class="draw-value" x="232" y="72" text-anchor="end">After · 96.67%</text>
+  <path class="plot-axis" d="M16 120H224"/>
+  <path class="plot-span" d="M159.45 100H217.07"/>
+  <circle class="plot-before" cx="159.45" cy="100" r="5"/>
+  <circle class="plot-point" cx="217.07" cy="100" r="5"/>
+  <text class="draw-note" x="16" y="146">0</text>
+  <text class="draw-note" x="224" y="146" text-anchor="end">100%</text>
+</svg></div><h3><a class="card-link" href="./comparison-plot/index.html">Comparison plot</a></h3><p class="card-description">Show a before-and-after difference on one axis, with both endpoints and denominators visible.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><svg class="draw" style="--dd-draw-width:240px" viewBox="0 0 240 168" role="img" aria-label="13 cumulative statements across source lines 0 to 400. Full observations in the line plot example.">
+  <text class="draw-note" x="8" y="18">Statements by source line</text>
+  <path class="plot-axis" d="M32 28V128H216"/>
+  <path class="plot-line" d="M32 128 H73.40V120.62 H87.20V113.23 H94.10V105.85 H97.32V98.46 H99.16V91.08 H103.76V83.69 H125.84V76.31 H127.68V68.92 H131.36V61.54 H142.40V54.15 H168.62V46.77 H177.82V39.38 H186.10V32.00 H216"/>
+  <circle class="plot-point" cx="216" cy="32" r="4"/>
+  <text class="draw-note" x="24" y="37" text-anchor="end">13</text>
+  <text class="draw-note" x="24" y="133" text-anchor="end">0</text>
+  <text class="draw-note" x="32" y="152">0</text>
+  <text class="draw-note" x="216" y="152" text-anchor="end">400</text>
+</svg></div><h3><a class="card-link" href="./line-plot/index.html">Line plot</a></h3><p class="card-description">Trace a measure across time or position while keeping gaps and observation boundaries explicit.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><svg class="draw" style="--dd-draw-width:240px" viewBox="0 0 240 176" role="img" aria-label="Callers in two-statement bins: 1–2, five; 3–4, zero; 5–6, zero; 7–8, one.">
+  <text class="draw-note" x="8" y="18">Callers · n = 6</text>
+  <path class="plot-axis" d="M16 32V120H224"/>
+  <rect class="plot-bin" x="16" y="40" width="52" height="80"/>
+  <text class="draw-value" x="42" y="32" text-anchor="middle">5</text>
+  <text class="draw-note" x="42" y="143" text-anchor="middle">1–2</text>
+  <path class="plot-zero" d="M68 120h52"/>
+  <text class="draw-value" x="94" y="112" text-anchor="middle">0</text>
+  <text class="draw-note" x="94" y="143" text-anchor="middle">3–4</text>
+  <path class="plot-zero" d="M120 120h52"/>
+  <text class="draw-value" x="146" y="112" text-anchor="middle">0</text>
+  <text class="draw-note" x="146" y="143" text-anchor="middle">5–6</text>
+  <rect class="plot-bin" x="172" y="104" width="52" height="16"/>
+  <text class="draw-value" x="198" y="96" text-anchor="middle">1</text>
+  <text class="draw-note" x="198" y="143" text-anchor="middle">7–8</text>
+  <text class="draw-note" x="120" y="168" text-anchor="middle">Statements per caller</text>
+</svg></div><h3><a class="card-link" href="./histogram/index.html">Histogram</a></h3><p class="card-description">Show how observations fall into numeric bins, including empty intervals and sample size.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><svg class="draw" style="--dd-draw-width:240px" viewBox="0 0 240 120" role="img" aria-label="A thing, a thing with identity and something left open, joined by a directed line and a dashed one.">
+  <rect class="draw-box" x="8" y="16" width="64" height="36" rx="6"/>
+  <rect class="draw-box-toned tone-accent" x="88" y="16" width="64" height="36" rx="6"/>
+  <rect class="draw-box-open" x="168" y="16" width="64" height="36" rx="6"/>
+  <path class="draw-line draw-arrow" d="M76 34H84"/>
+  <path class="draw-line-open draw-arrow" d="M156 34H164"/>
+  <text class="draw-note" x="40" y="72" text-anchor="middle">thing</text>
+  <text class="draw-note" x="120" y="72" text-anchor="middle">identity</text>
+  <text class="draw-note" x="200" y="72" text-anchor="middle">left open</text>
+  <path class="draw-guide" d="M8 92H232"/>
+  <text class="draw-cap" x="8" y="112">MARKS</text>
+</svg></div><h3><a class="card-link" href="./drawing/index.html">Drawing</a></h3><p class="card-description">The marks a diagram is made of, and the size it is placed at, so a figure matches the page it is on.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><svg class="draw" style="--dd-draw-width:240px" viewBox="0 0 240 152" role="img" aria-label="Of 844 statements, 35 are fully determined; 809 stop at one of three exits.">
+  <rect class="draw-box" x="8" y="16" width="86" height="40" rx="6"/>
+  <text class="draw-value" x="51" y="34" text-anchor="middle">844</text>
+  <text class="draw-note" x="51" y="50" text-anchor="middle">statements</text>
+  <path class="draw-line draw-arrow" d="M98 36H130"/>
+  <rect class="draw-box-toned tone-accent" x="134" y="16" width="86" height="40" rx="6"/>
+  <text class="draw-value draw-accent" x="177" y="34" text-anchor="middle">35</text>
+  <text class="draw-note" x="177" y="50" text-anchor="middle">determined</text>
+  <path class="draw-line draw-arrow" d="M51 60V92"/>
+  <rect class="draw-box-open" x="8" y="96" width="120" height="40" rx="6"/>
+  <text class="draw-value" x="68" y="114" text-anchor="middle">809</text>
+  <text class="draw-note" x="68" y="130" text-anchor="middle">stop before the end</text>
+  <g class="mark mark-open" transform="translate(150 116)"><circle/><text>1</text></g>
+</svg></div><h3><a class="card-link" href="./annotate/index.html">Annotate</a></h3><p class="card-description">Number a part of a drawing and explain it underneath, so the sentence stays text and the picture stays a picture.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><svg class="draw" style="--dd-draw-width:240px" viewBox="0 0 240 168" role="img" aria-label="Reader’s task: find one entry, choose Catalog; understand the whole, choose Report.">
+  <!-- Short labels use one compact module: 96 × 40, with full-size type. -->
+  <path class="edge-flow draw-arrow" d="M72 28H16V96H56V112"/>
+  <path class="edge-flow draw-arrow" d="M168 28H224V96H184V112"/>
+  <path class="node-decision" d="M120 8L168 28L120 48L72 28Z"/>
+  <text class="draw-strong" x="120" y="28" text-anchor="middle" dominant-baseline="middle">Task</text>
+  <text class="draw-label edge-label" x="68" y="84" text-anchor="middle">Find one</text>
+  <text class="draw-label edge-label" x="172" y="84" text-anchor="middle">Understand</text>
+  <rect class="node-terminal tone-blue" x="8" y="120" width="96" height="40" rx="20"/>
+  <text class="draw-strong" x="56" y="140" text-anchor="middle" dominant-baseline="middle">Catalog</text>
+  <rect class="node-terminal tone-teal" x="136" y="120" width="96" height="40" rx="20"/>
+  <text class="draw-strong" x="184" y="140" text-anchor="middle" dominant-baseline="middle">Report</text>
+</svg></div><h3><a class="card-link" href="./flow-graph/index.html">Flow graph</a></h3><p class="card-description">Make a decision, its branches, and their outcomes readable without relying on color.</p></article></div></section><section class="group" id="group-3"><h2>Reading<span class="count">4 components</span></h2><div class="cards" id="cards-3"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="prose">
+  <h3>Make information clear</h3>
+  <p>Different ways of reading call for different densities. <strong>Finding a single entry</strong> in a catalog and understanding a report deserve different layouts.</p>
+  <ul><li>Take density from spacing.</li><li>Give numbers meaning.</li><li>Show what remains unknown.</li></ul>
+</div></div><h3><a class="card-link" href="./prose/index.html">Prose</a></h3><p class="card-description">Readable typography for paragraphs, headings, lists, and quotations.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><aside class="callout tone-warn">
+  <p class="callout-title">Analysis scope</p>
+  <p>Dynamically assembled SQL may be only partially resolved.</p>
+</aside></div><h3><a class="card-link" href="./callout/index.html">Callout</a></h3><p class="card-description">A note in the reading flow for a prerequisite, caveat, or important qualification.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><blockquote class="quote">
+  <p>Make information clear.</p>
+  <footer class="quote-source">The doc-ui design principles</footer>
+</blockquote></div><h3><a class="card-link" href="./quote/index.html">Quote</a></h3><p class="card-description">Keep a quotation and its source together, distinct from the surrounding argument.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><dl class="definitions">
+  <div><dt><span class="chip tone-ok">resolved</span></dt><dd>The complete statement is determined from the source.</dd></div>
+  <div><dt>lower bound</dt><dd>There may be more items than the number shown here.</dd></div>
+</dl></div><h3><a class="card-link" href="./definitions/index.html">Definitions</a></h3><p class="card-description">Define the terms used throughout a catalog so its labels have a shared meaning.</p></article></div></section><section class="group" id="group-4"><h2>Code & changes<span class="count">5 components</span></h2><div class="cards" id="cards-4"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><pre class="code"><code><span class="tok-kw">SELECT</span> id, title
+<span class="tok-kw">FROM</span> posts
+<span class="tok-kw">WHERE</span> status = <span class="tok-str">'published'</span></code></pre></div><h3><a class="card-link" href="./code/index.html">Code</a></h3><p class="card-description">Present SQL, signatures, and source excerpts clearly, including gaps in what is known.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><section class="member">
+  <div class="member-head"><h3><code>find()</code><span class="chip chip-ghost">public</span></h3><span class="member-meta">src/Repository.php:24</span></div>
+  <div class="member-body">
+    <pre class="signature"><span class="t-key">public function</span> <span class="signature-name">find</span>(<span class="t-name">int</span> <span class="signature-param">$id</span>): <span class="t-name">Post</span>|<span class="t-key">null</span></pre>
+    <p>Returns the post with the given ID, or null when it does not exist.</p>
+  </div>
+</section></div><h3><a class="card-link" href="./symbol/index.html">Symbol</a></h3><p class="card-description">Present declarations, parameters, return types, and members of an API.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><pre class="code diff"><span class="dl diff-line-del">- public function build(): string</span>
+<span class="dl diff-line-add">+ public function build(): Statement</span>
+<span class="dl diff-line-mod">~ @throws QueryException</span></pre></div><h3><a class="card-link" href="./diff/index.html">Diff</a></h3><p class="card-description">Show additions, removals, and modifications through both color and explicit marks.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="terminal">
+  <p class="terminal-command">npm run check</p>
+  <pre class="terminal-output">All 150 pairs meet their target.</pre>
+  <p class="terminal-exit tone-ok">exit 0 — checks passed</p>
+</div></div><h3><a class="card-link" href="./terminal/index.html">Terminal</a></h3><p class="card-description">Keep a command and its output together, with a prompt that stays out of copied text.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><ul class="filetree">
+  <li class="filetree-directory is-open"><span>src/</span><ul>
+    <li class="filetree-file"><span>index.css</span><span class="filetree-meta">entry point</span></li>
+    <li class="filetree-directory is-open"><span>components/</span><ul><li class="filetree-file"><span>chip.css</span></li><li class="filetree-file"><span>table.css</span></li></ul></li>
+  </ul></li>
+</ul></div><h3><a class="card-link" href="./filetree/index.html">File tree</a></h3><p class="card-description">Show where files and directories live as a hierarchy, rather than a collection of paths.</p></article></div></section><section class="group" id="group-5"><h2>Navigation<span class="count">10 components</span></h2><div class="cards" id="cards-5"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><ul class="tree">
+  <li><details open><summary><span>Components</span><span class="tree-count">2 items</span></summary>
+    <ul><li><a>Chip</a></li><li><a>Table</a></li></ul>
+  </details></li>
+</ul></div><h3><a class="card-link" href="./tree/index.html">Tree</a></h3><p class="card-description">Navigate namespaces and categories in an expandable hierarchy.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="actions">
+  <a class="btn btn-primary btn-lg">Quick start →</a>
+  <a class="btn btn-lg">Back to the list</a>
+  <button class="btn btn-quiet">◐</button>
+</div>
+<label>Filter by name <input class="input" type="search" placeholder="e.g. Chip"></label>
+<ul class="rows"><li class="row">Chip</li><li class="row">Table</li></ul></div><h3><a class="card-link" href="./control/index.html">Control</a></h3><p class="card-description">Quiet, consistent controls for the few actions a document needs.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="facets">
+  <div class="facet-group">
+    <button class="chip facet tone-blue">SELECT <span class="facet-count">2</span></button>
+    <button class="chip facet tone-violet">INSERT <span class="facet-count">1</span></button>
+  </div>
+  <button class="btn">Clear</button>
+  <span class="facet-shown" aria-live="polite"></span>
+</div>
+<ul class="rows">
+  <li class="row">SELECT id FROM posts</li>
+  <li class="row">SELECT name FROM users</li>
+  <li class="row">INSERT INTO events (name) VALUES (:name)</li>
+</ul>
+<p class="empty">No matching items.</p></div><h3><a class="card-link" href="./facets/index.html">Facets</a></h3><p class="card-description">Combine kinds and states to filter a large listing without leaving the page.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><label>Search components
+  <input type="search" class="input" placeholder="e.g. Chip / table / code" aria-label="Search components" autocomplete="off">
+</label>
+<div class="search-results"></div>
+<p class="note">Search the components on this site. <kbd>/</kbd>  to focus the search field.</p></div><h3><a class="card-link" href="./search/index.html">Search</a></h3><p class="card-description">Jump to the right item without losing your place in the current document.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><nav aria-label="Example navigation">
+  <div class="sidebar-section"><p class="sidebar-title">Lists & data</p>
+    <ul class="sidebar-list"><li class="is-active"><a aria-current="page">Sidebar</a></li>
+      <li><a>Table</a></li><li><a>Chip</a></li></ul>
+  </div>
+</nav></div><h3><a class="card-link" href="./sidebar/index.html">Sidebar</a></h3><p class="card-description">Keep the current location and the rest of the document within reach.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><header class="topbar">
+  <nav class="breadcrumbs" aria-label="Example breadcrumbs">
+    <a>Components</a><span class="breadcrumb-sep">/</span><span class="breadcrumb-current">Topbar</span>
+  </nav>
+  <div class="topbar-tools"><button class="btn" aria-label="Switch theme">◐</button></div>
+</header></div><h3><a class="card-link" href="./topbar/index.html">Topbar</a></h3><p class="card-description">Bring breadcrumbs, theme controls, and the mobile navigation toggle into one document header.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="tabs">
+  <div class="tablist" role="tablist" aria-label="Sample output format">
+    <button class="tab" role="tab" aria-selected="true">HTML</button>
+    <button class="tab" role="tab" aria-selected="false">CSS</button>
+  </div>
+  <section class="tabpanel" role="tabpanel"><h3 class="tabpanel-title">HTML</h3><p>Add classes to semantic HTML.</p></section>
+  <section class="tabpanel" role="tabpanel"><h3 class="tabpanel-title">CSS</h3><p>Load the stylesheet in your document.</p></section>
+</div></div><h3><a class="card-link" href="./tabs/index.html">Tabs</a></h3><p class="card-description">Switch between different views of one subject. Without JavaScript, all content stays visible.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><details class="disclosure">
+  <summary>Why analysis stopped <span class="count">2 reasons</span></summary>
+  <div class="disclosure-body"><ul><li>The statement depends on runtime input.</li><li>An external library definition is unavailable.</li></ul></div>
+</details></div><h3><a class="card-link" href="./disclosure/index.html">Disclosure</a></h3><p class="card-description">Keep secondary details available, with a clear indication of what is inside.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><nav class="pager" aria-label="Related components">
+  <a class="pager-prev"><span class="pager-dir">Previous</span><span class="pager-name">Tree — Navigate a hierarchy</span></a>
+  <a class="pager-next"><span class="pager-dir">Next</span><span class="pager-name">Tabs — Switch between views</span></a>
+</nav></div><h3><a class="card-link" href="./pagination/index.html">Pagination</a></h3><p class="card-description">Name the next destination before the reader needs to click it.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><dl class="keys">
+  <div><dt><kbd>/</kbd></dt><dd>Focus search</dd></div>
+  <div><dt><kbd>↑</kbd><kbd>↓</kbd></dt><dd>Move through results</dd></div>
+  <div><dt><kbd>Enter</kbd></dt><dd>Open the selected result</dd></div>
+  <div><dt><kbd>Esc</kbd></dt><dd>Close search results</dd></div>
+</dl></div><h3><a class="card-link" href="./keys/index.html">Keys</a></h3><p class="card-description">Match the available keys to what they do on this page.</p></article></div></section><section class="group" id="group-6"><h2>Status & feedback<span class="count">6 components</span></h2><div class="cards" id="cards-6"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="notice tone-warn">
+  <strong>These counts are lower bounds.</strong>
+  Dependency tracing stopped early. More calls may exist than the analysis could determine.
+</div></div><h3><a class="card-link" href="./notice/index.html">Notice</a></h3><p class="card-description">Explain a limitation or condition that affects how the entire page should be read.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="banner tone-warn">
+  <span class="banner-label">Archived</span>
+  <span class="banner-body">This is an archived v1.0 document.</span>
+  <a class="banner-action">View the product →</a>
+</div></div><h3><a class="card-link" href="./banner/index.html">Banner</a></h3><p class="card-description">A page-wide notice for an archived version, comparison view, or other document state.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="empty">
+  <p class="empty-title">No statements match.</p>
+  <p class="empty-note">Remove a filter or try a different keyword.</p>
+  <a class="btn">Back to components</a>
+</div></div><h3><a class="card-link" href="./empty/index.html">Empty</a></h3><p class="card-description">Distinguish no results, unmatched filters, and information that could not be determined.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="stats">
+  <div class="stat"><b class="stat-fig">844</b><span class="stat-label">statements</span><span class="stat-note">SQL statements analyzed</span></div>
+  <div class="stat tone-warn"><b class="stat-fig is-bound">978</b><span class="stat-label">findings</span><span class="stat-note">A lower bound on findings reached</span></div>
+</div></div><h3><a class="card-link" href="./stat/index.html">Stat</a></h3><p class="card-description">A figure that answers a question, with a label and any qualification it needs.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><ol class="timeline">
+  <li class="timeline-item tone-ok"><span class="timeline-time">Discovery</span><p class="timeline-title">844 statements found</p><p class="timeline-description">Database calls across 77 files in the WordPress catalog.</p></li>
+  <li class="timeline-item tone-ok"><span class="timeline-time">Resolution</span><p class="timeline-title">35 statements fully resolved</p><p class="timeline-description">The complete SQL text could be determined.</p></li>
+  <li class="timeline-item is-open"><span class="timeline-time">Open results</span><p class="timeline-title">809 statements not fully resolved</p><p class="timeline-description">Dependency models and analysis limits leave this catalog incomplete.</p></li>
+</ol></div><h3><a class="card-link" href="./timeline/index.html">Timeline</a></h3><p class="card-description">Show the order of events, their outcomes, and how far a run actually got.</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><p>A <span class="hint" tabindex="0">lower bound</span> describes what was determined, not a guaranteed total.</p></div><h3><a class="card-link" href="./tooltip/index.html">Tooltip</a></h3><p class="card-description">A CSS hint for the longer explanation behind an abbreviation or short label.</p></article></div></section></main>
+  <footer class="doc-footer">Built with <a href="../index.html">doc-ui</a> · by <a href="https://github.com/k-kinzal">k-kinzal</a> · MIT License <a href="https://github.com/k-kinzal/document-design">GitHub ↗</a></footer></div></div>
+</body>
+</html>

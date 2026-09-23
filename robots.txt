@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://k-kinzal.github.io/document-design/sitemap.xml

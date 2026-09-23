@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ja" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bar chart — 量を比較する — doc-ui</title>
+<meta name="description" content="名前・正確な値・共通のゼロ基準を揃え、カテゴリの量を比較します。 Bar chartの実例、コピーできるHTML、クラス、使い方を紹介します。">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fcfcfe" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1f2023" media="(prefers-color-scheme: dark)">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://k-kinzal.github.io/document-design/ja/components/bar-chart/">
+<link rel="alternate" hreflang="en" href="https://k-kinzal.github.io/document-design/components/bar-chart/">
+<link rel="alternate" hreflang="ja" href="https://k-kinzal.github.io/document-design/ja/components/bar-chart/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="doc-ui">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:title" content="Bar chart — 量を比較する — doc-ui">
+<meta property="og:description" content="名前・正確な値・共通のゼロ基準を揃え、カテゴリの量を比較します。 Bar chartの実例、コピーできるHTML、クラス、使い方を紹介します。">
+<meta property="og:url" content="https://k-kinzal.github.io/document-design/ja/components/bar-chart/">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bar chart — 量を比較する — doc-ui">
+<meta name="twitter:description" content="名前・正確な値・共通のゼロ基準を揃え、カテゴリの量を比較します。 Bar chartの実例、コピーできるHTML、クラス、使い方を紹介します。">
+
+<link rel="icon" href="../../../assets/favicon.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="../../../assets/apple-touch-icon.png" sizes="180x180">
+<link  rel="stylesheet" href="../../../v1.0.0/document-design.min.css">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","@id":"https://k-kinzal.github.io/document-design/ja/components/bar-chart/","url":"https://k-kinzal.github.io/document-design/ja/components/bar-chart/","name":"Bar chart — 量を比較する — doc-ui","headline":"Bar chart — 量を比較する","description":"名前・正確な値・共通のゼロ基準を揃え、カテゴリの量を比較します。 Bar chartの実例、コピーできるHTML、クラス、使い方を紹介します。","inLanguage":"ja","author":{"@type":"Person","name":"k-kinzal","url":"https://github.com/k-kinzal"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"doc-ui","item":"https://k-kinzal.github.io/document-design/ja/"},{"@type":"ListItem","position":2,"name":"コンポーネント","item":"https://k-kinzal.github.io/document-design/ja/components/"},{"@type":"ListItem","position":3,"name":"Bar chart — 量を比較する","item":"https://k-kinzal.github.io/document-design/ja/components/bar-chart/"}]}]</script>
+<script  src="../../../ja/assets/search.js" defer></script>
+<script  src="../../../v1.0.0/document-design.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+<svg class="draw-defs" aria-hidden="true" focusable="false">
+<marker id="dd-arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 6" refX="8" refY="3"
+        markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+  <path class="draw-arrowhead" d="M0 0L8 3L0 6Z"/>
+</marker>
+</svg>
+<div class="doc doc-quiet"><nav class="sidebar" id="navigation" aria-label="ドキュメントのナビゲーション"><div class="sidebar-header"><a class="brand" href="../../index.html">doc-ui</a></div><div class="sidebar-section"><p class="sidebar-title">はじめに</p><ul class="sidebar-list"><li><a href="../../start/index.html">はじめに</a></li><li><a href="../../components/index.html">コンポーネント</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">レイアウト</p><ul class="sidebar-list"><li><a href="../../components/document/index.html">Document</a></li><li><a href="../../components/report/index.html">Report</a></li><li><a href="../../components/publication/index.html">Publication</a></li><li><a href="../../components/composition/index.html">Composition</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">一覧とデータ</p><ul class="sidebar-list"><li><a href="../../components/table/index.html">Table</a></li><li><a href="../../components/listing/index.html">Listing</a></li><li><a href="../../components/chip/index.html">Chip</a></li><li><a href="../../components/card/index.html">Card</a></li><li><a href="../../components/facts/index.html">Facts</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">図とグラフ</p><ul class="sidebar-list"><li><a href="../../components/meter/index.html">Meter</a></li><li><a href="../../components/graph/index.html">Graph</a></li><li class="is-active"><a href="../../components/bar-chart/index.html" aria-current="page">Bar chart</a></li><li><a href="../../components/comparison-plot/index.html">Comparison plot</a></li><li><a href="../../components/line-plot/index.html">Line plot</a></li><li><a href="../../components/histogram/index.html">Histogram</a></li><li><a href="../../components/drawing/index.html">Drawing</a></li><li><a href="../../components/annotate/index.html">Annotate</a></li><li><a href="../../components/flow-graph/index.html">Flow graph</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">文章</p><ul class="sidebar-list"><li><a href="../../components/prose/index.html">Prose</a></li><li><a href="../../components/callout/index.html">Callout</a></li><li><a href="../../components/quote/index.html">Quote</a></li><li><a href="../../components/definitions/index.html">Definitions</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">コードと変更</p><ul class="sidebar-list"><li><a href="../../components/code/index.html">Code</a></li><li><a href="../../components/symbol/index.html">Symbol</a></li><li><a href="../../components/diff/index.html">Diff</a></li><li><a href="../../components/terminal/index.html">Terminal</a></li><li><a href="../../components/filetree/index.html">File tree</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">ナビゲーション</p><ul class="sidebar-list"><li><a href="../../components/tree/index.html">Tree</a></li><li><a href="../../components/control/index.html">Control</a></li><li><a href="../../components/facets/index.html">Facets</a></li><li><a href="../../components/search/index.html">Search</a></li><li><a href="../../components/sidebar/index.html">Sidebar</a></li><li><a href="../../components/topbar/index.html">Topbar</a></li><li><a href="../../components/tabs/index.html">Tabs</a></li><li><a href="../../components/disclosure/index.html">Disclosure</a></li><li><a href="../../components/pagination/index.html">Pagination</a></li><li><a href="../../components/keys/index.html">Keys</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">状態とフィードバック</p><ul class="sidebar-list"><li><a href="../../components/notice/index.html">Notice</a></li><li><a href="../../components/banner/index.html">Banner</a></li><li><a href="../../components/empty/index.html">Empty</a></li><li><a href="../../components/stat/index.html">Stat</a></li><li><a href="../../components/timeline/index.html">Timeline</a></li><li><a href="../../components/tooltip/index.html">Tooltip</a></li></ul></div><div class="sidebar-section"><ul class="sidebar-list"><li><a href="../../../storybook/index.html">Storybook ↗</a></li><li><a href="https://github.com/k-kinzal/document-design">GitHub ↗</a></li></ul></div></nav><div class="main">
+  <header class="topbar"><button class="btn nav-toggle" data-dd-nav-toggle aria-label="ナビゲーションを開く" aria-controls="navigation" aria-expanded="false">☰ メニュー</button><nav class="breadcrumbs" aria-label="パンくずリスト"><a href="../../index.html">doc-ui</a><span class="breadcrumb-sep">/</span><a href="../../components/index.html">コンポーネント</a><span class="breadcrumb-sep">/</span><span class="breadcrumb-current">Bar chart</span></nav><div class="topbar-tools"><input type="search" class="input input-search" placeholder="検索 /" aria-label="コンポーネントを検索" data-dd-search data-dd-enhance hidden autocomplete="off"><a class="btn btn-quiet" href="../../../components/bar-chart/index.html" lang="en" hreflang="en" rel="alternate" translate="no">English</a><button class="btn" data-dd-theme-toggle data-dd-enhance hidden aria-label="配色テーマを切り替える">◐</button></div></header>
+  <div class="search-results" data-dd-search-results hidden></div>
+  <main class="content" id="main"><p class="eyebrow">図とグラフ / 量を比較する</p><h1>Bar chart</h1><p class="lede">名前・正確な値・共通のゼロ基準を揃え、カテゴリの量を比較します。</p>
+  <section aria-labelledby="example-0"><h2 id="example-0">共通スケールで呼び出し元を比較</h2><figure class="specimen"><figcaption class="specimen-bar">プレビュー</figcaption><div class="specimen-body doc doc-inset"><figure class="plate plate-wide">
+  <p><strong>SQL文が最も多い呼び出し元は？</strong></p>
+  <p class="muted">呼び出し元ごとのSQL文 · 共通スケール：0〜8文</p>
+  <ul class="bars">
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::save</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:100%"></span></span>
+      <span class="bar-value">8文</span>
+    </li>
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::__construct</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
+      <span class="bar-value">1文</span>
+    </li>
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::load</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
+      <span class="bar-value">1文</span>
+    </li>
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::mtime</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
+      <span class="bar-value">1文</span>
+    </li>
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::touch</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
+      <span class="bar-value">1文</span>
+    </li>
+    <li class="bar-row">
+      <span class="bar-label mono">MySQL::unlink</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
+      <span class="bar-value">1文</span>
+    </li>
+  </ul>
+  <figcaption>13文のうち8文がMySQL::saveにあり、ほかの呼び出し元にはそれぞれ1文あります。<span class="plate-source">WordPress SQLカタログのスナップショット · cache_data · SimplePie/Cache/MySQL.php。件数は静的な呼び出し箇所であり、実行頻度ではありません。</span>
+  </figcaption>
+</figure></div></figure><div class="code-block"><div class="code-head"><span>HTML</span><button class="btn" data-dd-copy="#source-0" data-dd-enhance hidden aria-label="HTMLをコピー" aria-live="polite">コピー</button></div><pre class="code" id="source-0"><code><span class="tok-id">&lt;</span><span class="tok-kw">figure</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"plate plate-wide"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">p</span><span class="tok-id">&gt;&lt;</span><span class="tok-kw">strong</span><span class="tok-id">&gt;SQL文が最も多い呼び出し元は？&lt;/</span><span class="tok-kw">strong</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">p</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">p</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"muted"</span><span class="tok-id">&gt;呼び出し元ごとのSQL文 · 共通スケール：0〜8文&lt;/</span><span class="tok-kw">p</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">ul</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bars"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">li</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-row"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-label mono"</span><span class="tok-id">&gt;MySQL::save&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-track"</span><span class="tok-id"> </span><span class="tok-var">aria-hidden</span><span class="tok-id">=</span><span class="tok-str">"true"</span><span class="tok-id">&gt;&lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-fill"</span><span class="tok-id"> </span><span class="tok-var">style</span><span class="tok-id">=</span><span class="tok-str">"--dd-bar:100%"</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-value"</span><span class="tok-id">&gt;8文&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;/</span><span class="tok-kw">li</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">li</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-row"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-label mono"</span><span class="tok-id">&gt;MySQL::__construct&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-track"</span><span class="tok-id"> </span><span class="tok-var">aria-hidden</span><span class="tok-id">=</span><span class="tok-str">"true"</span><span class="tok-id">&gt;&lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-fill"</span><span class="tok-id"> </span><span class="tok-var">style</span><span class="tok-id">=</span><span class="tok-str">"--dd-bar:12.5%"</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-value"</span><span class="tok-id">&gt;1文&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;/</span><span class="tok-kw">li</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">li</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-row"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-label mono"</span><span class="tok-id">&gt;MySQL::load&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-track"</span><span class="tok-id"> </span><span class="tok-var">aria-hidden</span><span class="tok-id">=</span><span class="tok-str">"true"</span><span class="tok-id">&gt;&lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-fill"</span><span class="tok-id"> </span><span class="tok-var">style</span><span class="tok-id">=</span><span class="tok-str">"--dd-bar:12.5%"</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-value"</span><span class="tok-id">&gt;1文&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;/</span><span class="tok-kw">li</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">li</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-row"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-label mono"</span><span class="tok-id">&gt;MySQL::mtime&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-track"</span><span class="tok-id"> </span><span class="tok-var">aria-hidden</span><span class="tok-id">=</span><span class="tok-str">"true"</span><span class="tok-id">&gt;&lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-fill"</span><span class="tok-id"> </span><span class="tok-var">style</span><span class="tok-id">=</span><span class="tok-str">"--dd-bar:12.5%"</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-value"</span><span class="tok-id">&gt;1文&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;/</span><span class="tok-kw">li</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">li</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-row"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-label mono"</span><span class="tok-id">&gt;MySQL::touch&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-track"</span><span class="tok-id"> </span><span class="tok-var">aria-hidden</span><span class="tok-id">=</span><span class="tok-str">"true"</span><span class="tok-id">&gt;&lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-fill"</span><span class="tok-id"> </span><span class="tok-var">style</span><span class="tok-id">=</span><span class="tok-str">"--dd-bar:12.5%"</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-value"</span><span class="tok-id">&gt;1文&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;/</span><span class="tok-kw">li</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">li</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-row"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-label mono"</span><span class="tok-id">&gt;MySQL::unlink&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-track"</span><span class="tok-id"> </span><span class="tok-var">aria-hidden</span><span class="tok-id">=</span><span class="tok-str">"true"</span><span class="tok-id">&gt;&lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-fill"</span><span class="tok-id"> </span><span class="tok-var">style</span><span class="tok-id">=</span><span class="tok-str">"--dd-bar:12.5%"</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-value"</span><span class="tok-id">&gt;1文&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;/</span><span class="tok-kw">li</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;/</span><span class="tok-kw">ul</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">figcaption</span><span class="tok-id">&gt;13文のうち8文がMySQL::saveにあり、ほかの呼び出し元にはそれぞれ1文あります。&lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"plate-source"</span><span class="tok-id">&gt;WordPress SQLカタログのスナップショット · cache_data · SimplePie/Cache/MySQL.php。件数は静的な呼び出し箇所であり、実行頻度ではありません。&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;/</span><span class="tok-kw">figcaption</span><span class="tok-id">&gt;</span>
+<span class="tok-id">&lt;/</span><span class="tok-kw">figure</span><span class="tok-id">&gt;</span></code></pre></div></section><section aria-labelledby="example-1"><h2 id="example-1">測定されたゼロと不明な値</h2><figure class="specimen"><figcaption class="specimen-bar">プレビュー</figcaption><div class="specimen-body doc doc-inset"><figure class="plate plate-wide">
+  <p><strong>ゼロと不明は、異なる問いへの答えです。</strong></p>
+  <ul class="bars">
+    <li class="bar-row">
+      <span class="bar-label">実行時入力まで完全に追跡</span>
+      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:0%"></span></span>
+      <span class="bar-value">0文</span>
+      <span class="bar-note">844文の解析で観測されたゼロ。</span>
+    </li>
+    <li class="bar-row">
+      <span class="bar-label">実行時に実行されたSQL</span>
+      <span class="bar-track is-missing" aria-hidden="true"></span>
+      <span class="bar-value">未測定</span>
+      <span class="bar-note">静的解析では実行時の実行回数を記録しません。</span>
+    </li>
+  </ul>
+  <figcaption>測定がなければ棒の長さもありません。ゼロで代用しないでください。<span class="plate-source">WordPress SQLカタログのスナップショット · 解決状況と解析範囲。</span>
+  </figcaption>
+</figure></div></figure><div class="code-block"><div class="code-head"><span>HTML</span><button class="btn" data-dd-copy="#source-1" data-dd-enhance hidden aria-label="HTMLをコピー" aria-live="polite">コピー</button></div><pre class="code" id="source-1"><code><span class="tok-id">&lt;</span><span class="tok-kw">figure</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"plate plate-wide"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">p</span><span class="tok-id">&gt;&lt;</span><span class="tok-kw">strong</span><span class="tok-id">&gt;ゼロと不明は、異なる問いへの答えです。&lt;/</span><span class="tok-kw">strong</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">p</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">ul</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bars"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">li</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-row"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-label"</span><span class="tok-id">&gt;実行時入力まで完全に追跡&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-track"</span><span class="tok-id"> </span><span class="tok-var">aria-hidden</span><span class="tok-id">=</span><span class="tok-str">"true"</span><span class="tok-id">&gt;&lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-fill"</span><span class="tok-id"> </span><span class="tok-var">style</span><span class="tok-id">=</span><span class="tok-str">"--dd-bar:0%"</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-value"</span><span class="tok-id">&gt;0文&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-note"</span><span class="tok-id">&gt;844文の解析で観測されたゼロ。&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;/</span><span class="tok-kw">li</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">li</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-row"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-label"</span><span class="tok-id">&gt;実行時に実行されたSQL&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-track is-missing"</span><span class="tok-id"> </span><span class="tok-var">aria-hidden</span><span class="tok-id">=</span><span class="tok-str">"true"</span><span class="tok-id">&gt;&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-value"</span><span class="tok-id">&gt;未測定&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">      &lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"bar-note"</span><span class="tok-id">&gt;静的解析では実行時の実行回数を記録しません。&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;/</span><span class="tok-kw">li</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;/</span><span class="tok-kw">ul</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">figcaption</span><span class="tok-id">&gt;測定がなければ棒の長さもありません。ゼロで代用しないでください。&lt;</span><span class="tok-kw">span</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"plate-source"</span><span class="tok-id">&gt;WordPress SQLカタログのスナップショット · 解決状況と解析範囲。&lt;/</span><span class="tok-kw">span</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;/</span><span class="tok-kw">figcaption</span><span class="tok-id">&gt;</span>
+<span class="tok-id">&lt;/</span><span class="tok-kw">figure</span><span class="tok-id">&gt;</span></code></pre></div></section>
+  <section><h2>クラスと属性</h2><div class="table-wrap"><table><thead><tr><th scope="col">クラス / 属性</th><th scope="col">用途</th></tr></thead><tbody><tr><td><code>.bars / .bar-row</code></td><td>意味を持つリストと各行。広い場合は名前・棒・値を揃え、狭い場合は文字の下に棒を置きます。</td></tr><tr><td><code>.bar-label / .bar-value / .bar-note</code></td><td>カテゴリ、単位を添えた正確な量、任意の但し書き。長い名前は折り返し、数字は分割しません。</td></tr><tr><td><code>.bar-track / .bar-fill</code></td><td>共通のスケールと比例する印。--dd-barを値 / 共通の最大値 × 100%で指定します。一覧全体で同じ最大値を使います。</td></tr><tr><td><code>.bar-track.is-missing</code></td><td>取得できない測定値。bar-fillを省き、bar-valueに「未測定」と書きます。測定されたゼロは--dd-bar:0%です。</td></tr><tr><td><code>.tone-*</code></td><td>任意のカテゴリ識別。色がなくてもカテゴリ名で同じ意味が伝わるようにします。</td></tr></tbody></table></div></section>
+  <section><h2>使い方の注意</h2><div class="callout"><p>非負の量の比較に使います。棒は必ずゼロから始め、最大値と単位を示します。微小な値に最小表示幅を付けたり、棒ごとに正規化したりしません。内訳にはMeter、正確な値の検索には表を使います。印刷や支援技術でも、値とラベルはHTMLに残ります。</p></div><p class="note">作例はシステムの配色設定に従います。ヘッダーの◐で自動・ライト・ダークを試せます。</p></section>
+  <div class="actions"><a class="btn" href="../../../storybook/index.html?path=/story/components-bar-chart--callers">Storybookでバリエーションを見る ↗</a><a href="../index.html">すべてのコンポーネント →</a></div>
+  <nav class="pager" aria-label="前後のコンポーネント"><a class="pager-prev" href="../graph/index.html"><span class="pager-dir">前のコンポーネント</span><span class="pager-name">Graph — 依存関係</span></a><a class="pager-next" href="../comparison-plot/index.html"><span class="pager-dir">次のコンポーネント</span><span class="pager-name">Comparison plot — 二つの観測を比較する</span></a></nav></main>
+  <footer class="doc-footer">使用： <a href="../../index.html">doc-ui</a> · 制作： <a href="https://github.com/k-kinzal">k-kinzal</a> · MITライセンス <a href="https://github.com/k-kinzal/document-design">GitHub ↗</a></footer></div></div>
+</body>
+</html>

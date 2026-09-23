@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>doc-ui — 情報を、見やすく。</title>
+<meta name="description" content="ドキュメントとレポートのためのCSSデザインシステム。情報を見やすくするコンポーネント、レイアウト、HTMLを紹介します。">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fcfcfe" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1f2023" media="(prefers-color-scheme: dark)">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://k-kinzal.github.io/document-design/ja/">
+<link rel="alternate" hreflang="en" href="https://k-kinzal.github.io/document-design/">
+<link rel="alternate" hreflang="ja" href="https://k-kinzal.github.io/document-design/ja/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="doc-ui">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:title" content="doc-ui — 情報を、見やすく。">
+<meta property="og:description" content="ドキュメントとレポートのためのCSSデザインシステム。情報を見やすくするコンポーネント、レイアウト、HTMLを紹介します。">
+<meta property="og:url" content="https://k-kinzal.github.io/document-design/ja/">
+<meta property="og:image" content="https://k-kinzal.github.io/document-design/assets/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="doc-ui — Information, made clear. A diagram compares the reading paths of a reference and a paper.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="doc-ui — 情報を、見やすく。">
+<meta name="twitter:description" content="ドキュメントとレポートのためのCSSデザインシステム。情報を見やすくするコンポーネント、レイアウト、HTMLを紹介します。">
+<meta name="twitter:image" content="https://k-kinzal.github.io/document-design/assets/og.png">
+<meta name="twitter:image:alt" content="doc-ui — Information, made clear. A diagram compares the reading paths of a reference and a paper.">
+<link rel="icon" href="../assets/favicon.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" sizes="180x180">
+<link  rel="stylesheet" href="../v1.0.0/document-design.min.css">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebPage","@id":"https://k-kinzal.github.io/document-design/ja/","url":"https://k-kinzal.github.io/document-design/ja/","name":"doc-ui — 情報を、見やすく。","headline":"doc-ui — 情報を、見やすく。","description":"ドキュメントとレポートのためのCSSデザインシステム。情報を見やすくするコンポーネント、レイアウト、HTMLを紹介します。","inLanguage":"ja","author":{"@type":"Person","name":"k-kinzal","url":"https://github.com/k-kinzal"},"mainEntity":{"@type":"SoftwareSourceCode","name":"doc-ui","description":"ドキュメントとレポートのためのCSSデザインシステム。情報を見やすくするコンポーネント、レイアウト、HTMLを紹介します。","codeRepository":"https://github.com/k-kinzal/document-design","programmingLanguage":["CSS","HTML","JavaScript"],"license":"https://opensource.org/license/mit"}}]</script>
+
+<script  src="../v1.0.0/document-design.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+<svg class="draw-defs" aria-hidden="true" focusable="false">
+<marker id="dd-arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 6" refX="8" refY="3"
+        markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+  <path class="draw-arrowhead" d="M0 0L8 3L0 6Z"/>
+</marker>
+</svg>
+<div class="sheet sheet-wide"><header class="masthead"><a class="brand" href="./index.html" aria-label="doc-ui ホーム">doc-ui</a><span class="chip chip-ghost" translate="no">v1.0.0</span><nav aria-label="メインナビゲーション"><a href="./start/index.html" >はじめに</a><a href="./components/index.html" >コンポーネント</a><a href="https://github.com/k-kinzal/document-design">GitHub <span aria-hidden="true">↗</span></a><a class="btn btn-quiet" href="../index.html" lang="en" hreflang="en" rel="alternate" translate="no">English</a><button class="btn btn-quiet" data-dd-theme-toggle data-dd-enhance hidden aria-label="配色テーマを切り替える">◐</button></nav></header>
+<main class="sheet-body" id="main">
+  <header class="cover">
+    <div><p class="eyebrow">ドキュメントとレポートのためのCSS</p><h1 class="cover-title">情報を、<br>見やすく。</h1></div>
+    <div class="cover-copy">
+      <p>doc-uiは、情報量の多いページのために、組版・図・表・コードを一つにまとめたデザインシステムです。</p>
+      <p>リファレンスは探しやすく。レポートには明快な読む順序を。</p>
+      <div class="actions"><a class="btn btn-primary btn-lg" href="./components/index.html">コンポーネントを見る <span aria-hidden="true">→</span></a><a href="./start/index.html">はじめに</a></div>
+    </div>
+  </header>
+  <nav aria-label="このページの内容"><ul class="ribbon"><li><a href="#layouts">01 <b>読む順序</b></a></li><li><a href="#language">02 <b>視覚の語彙</b></a></li><li><a href="#components">03 <b>コンポーネント</b></a></li><li><a href="#building">04 <b>使いはじめる</b></a></li></ul></nav>
+
+  <section class="section" id="layouts" aria-labelledby="layouts-title">
+    <p class="eyebrow">01 / 読む順序</p>
+    <h2 class="section-title" id="layouts-title">一覧から探す。レポートを読む。</h2>
+    <figure class="plate plate-full plate-side plate-unnumbered" id="reading-paths">
+  <div class="plate-body compare">
+    <section id="path-reference" aria-labelledby="reference-title">
+      <h3 class="compare-title" id="reference-title"><span class="ref ref-mark tone-blue">A</span> ドキュメント</h3>
+      <ol class="flow tone-blue">
+        <li><span class="flow-mark" aria-hidden="true">01</span><strong class="flow-name">一覧</strong><span class="flow-detail">名前を探す</span></li>
+        <li><span class="flow-mark" aria-hidden="true">02</span><strong class="flow-name">項目</strong><span class="flow-detail">属性を比較する</span></li>
+        <li><span class="flow-mark" aria-hidden="true">03</span><strong class="flow-name">詳細</strong><span class="flow-detail">出典を確かめる</span></li>
+      </ol>
+    </section>
+    <section id="path-paper" aria-labelledby="paper-title">
+      <h3 class="compare-title" id="paper-title"><span class="ref ref-mark tone-teal">B</span> ペーパー</h3>
+      <ol class="flow tone-teal">
+        <li><span class="flow-mark" aria-hidden="true">01</span><strong class="flow-name">問い</strong><span class="flow-detail">全体をつかむ</span></li>
+        <li><span class="flow-mark" aria-hidden="true">02</span><strong class="flow-name">根拠</strong><span class="flow-detail">事実をつなぐ</span></li>
+        <li><span class="flow-mark" aria-hidden="true">03</span><strong class="flow-name">意味</strong><span class="flow-detail">結果を読み解く</span></li>
+      </ol>
+    </section>
+  </div>
+  <figcaption>
+    <p class="plate-summary"><span class="plate-label">図1.</span>読む順序が違えば、型と余白のスケールも変わる。リファレンスでは比較する情報を近くに置き、ペーパーでは主張・根拠・但し書きを順に読める余地をつくる。</p>
+    <p class="sidenote">矢印は読む順序を示します。情報をたどる道筋であり、ページ構成を強制するものではありません。</p>
+  </figcaption>
+</figure>
+    <div class="compare">
+      <div class="prose"><h3><a class="ref ref-mark tone-blue" href="#path-reference">A</a> 比べる情報を、近くに。</h3><p>リファレンスは名前・型・値を横断して読みます。余白を詰め、行を揃えることで、読んでいる場所を見失わずに項目を比較できます。</p><p><a href="./components/index.html">コンポーネントの一覧を見る →</a></p></div>
+      <div class="prose"><h3><a class="ref ref-mark tone-teal" href="#path-paper">B</a> 主張に、読む順序を。</h3><p>ペーパーは主張・根拠・意味を順に読みます。型と余白に別のスケールを用いて、最も伝えたいことを前に出し、注釈をその説明対象のそばに置きます。</p><p><a href="./components/report/index.html">レポートのレイアウトを使う →</a></p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="language" aria-labelledby="language-title">
+    <aside class="label"><h2 id="language-title">02 / 視覚の語彙</h2><p class="sidenote"><a class="ref" href="#reading-paths">図1</a>では、記号・色・揃えた段階が、図と本文の両方で同じ意味を担っています。</p></aside>
+    <div class="field">
+      <h3 class="lead">関係を見せることが、デザイン。</h3>
+      <div class="prose">
+      <p>見出しが問いを示し、図が関係を見せ、キャプションが読み取るべきことを説明する。その間の余白も、説明の一部です。</p>
+      <h4>文字の組み方は、読み方に従う。</h4>
+      <p>密度の高いリファレンスでも、名前と値は読みやすく保ちます。密度は文字を小さくせず、余白から取ります。ペーパーでは大きな型スケールで、主張とそれを支える詳細を分けます。</p>
+      <h4>印には、意味を伴わせる。</h4>
+      <p><a class="ref ref-mark tone-blue" href="#path-reference">A</a>はドキュメント、<a class="ref ref-mark tone-teal" href="#path-paper">B</a>はペーパーを一貫して指します。記号を添えることで、単色でも関係が残ります。状態や情報の不在には、種別の色と区別した語彙を用います。</p>
+      </div>
+      <div class="actions"><a href="./components/composition/index.html">図版と注釈 →</a><a href="./components/chip/index.html">ラベルと状態 →</a></div>
+    </div>
+  </section>
+
+  <section class="section" id="components" aria-labelledby="components-title">
+    <div class="section-head"><p class="eyebrow">03 / コンポーネント</p><div><h2 class="section-title" id="components-title">一文から、文書全体まで。</h2><p class="note">43種類のコンポーネントとレイアウトが、型・余白・色の体系を共有します。各ガイドに実物の例、構文強調したHTML、使い方の説明を載せています。</p></div></div>
+    <div class="table-wrap"><table>
+      <caption class="sr-only">伝えたい情報の種類から選ぶdoc-uiのコンポーネント</caption>
+      <thead><tr><th scope="col">組みたいもの</th><th scope="col">使うコンポーネント</th></tr></thead>
+      <tbody><tr><th scope="row"><a href="./components/index.html#group-0">レイアウト</a></th><td><ul class="link-list"><li><a href="./components/document/index.html">Document</a></li><li><a href="./components/report/index.html">Report</a></li><li><a href="./components/publication/index.html">Publication</a></li><li><a href="./components/composition/index.html">Composition</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-1">一覧とデータ</a></th><td><ul class="link-list"><li><a href="./components/table/index.html">Table</a></li><li><a href="./components/listing/index.html">Listing</a></li><li><a href="./components/chip/index.html">Chip</a></li><li><a href="./components/card/index.html">Card</a></li><li><a href="./components/facts/index.html">Facts</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-2">図とグラフ</a></th><td><ul class="link-list"><li><a href="./components/meter/index.html">Meter</a></li><li><a href="./components/graph/index.html">Graph</a></li><li><a href="./components/bar-chart/index.html">Bar chart</a></li><li><a href="./components/comparison-plot/index.html">Comparison plot</a></li><li><a href="./components/line-plot/index.html">Line plot</a></li><li><a href="./components/histogram/index.html">Histogram</a></li><li><a href="./components/drawing/index.html">Drawing</a></li><li><a href="./components/annotate/index.html">Annotate</a></li><li><a href="./components/flow-graph/index.html">Flow graph</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-3">文章</a></th><td><ul class="link-list"><li><a href="./components/prose/index.html">Prose</a></li><li><a href="./components/callout/index.html">Callout</a></li><li><a href="./components/quote/index.html">Quote</a></li><li><a href="./components/definitions/index.html">Definitions</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-4">コードと変更</a></th><td><ul class="link-list"><li><a href="./components/code/index.html">Code</a></li><li><a href="./components/symbol/index.html">Symbol</a></li><li><a href="./components/diff/index.html">Diff</a></li><li><a href="./components/terminal/index.html">Terminal</a></li><li><a href="./components/filetree/index.html">File tree</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-5">ナビゲーション</a></th><td><ul class="link-list"><li><a href="./components/tree/index.html">Tree</a></li><li><a href="./components/control/index.html">Control</a></li><li><a href="./components/facets/index.html">Facets</a></li><li><a href="./components/search/index.html">Search</a></li><li><a href="./components/sidebar/index.html">Sidebar</a></li><li><a href="./components/topbar/index.html">Topbar</a></li><li><a href="./components/tabs/index.html">Tabs</a></li><li><a href="./components/disclosure/index.html">Disclosure</a></li><li><a href="./components/pagination/index.html">Pagination</a></li><li><a href="./components/keys/index.html">Keys</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-6">状態とフィードバック</a></th><td><ul class="link-list"><li><a href="./components/notice/index.html">Notice</a></li><li><a href="./components/banner/index.html">Banner</a></li><li><a href="./components/empty/index.html">Empty</a></li><li><a href="./components/stat/index.html">Stat</a></li><li><a href="./components/timeline/index.html">Timeline</a></li><li><a href="./components/tooltip/index.html">Tooltip</a></li></ul></td></tr></tbody>
+    </table></div>
+    <div class="actions"><a href="./components/index.html">すべてのコンポーネントの実例を見る →</a></div>
+  </section>
+
+  <section class="sec" id="building" aria-labelledby="building-title">
+    <div class="label"><h2 id="building-title">04 / 使いはじめる</h2><p class="sidenote">読み方を選び、内容に必要な部品を組み合わせます。</p><div class="actions"><a href="./start/index.html">はじめに →</a></div></div>
+    <div class="field">
+      <h3 class="lead">あなたの情報を、ページに。</h3>
+      <p class="note">文書のheadにスタイルシートを読み込み、HTMLやテンプレートにレイアウトのクラスを指定します。このページは<code>.sheet</code>、コンポーネントのリファレンスは<code>.doc</code>で組んでいます。</p>
+      <div class="code-block"><div class="code-head"><span>HTML</span><button class="btn" data-dd-copy="#home-markup" data-dd-enhance hidden aria-label="HTMLをコピー" aria-live="polite">コピー</button></div><pre class="code" id="home-markup"><code><span class="tok-id">&lt;</span><span class="tok-kw">article</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"sheet"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">h1</span><span class="tok-id">&gt;明快な、読む順序。&lt;/</span><span class="tok-kw">h1</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">p</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"stand"</span><span class="tok-id">&gt;最も伝えたいことを、最初に。&lt;/</span><span class="tok-kw">p</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">section</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"sec"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">h2</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"label"</span><span class="tok-id">&gt;根拠&lt;/</span><span class="tok-kw">h2</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">div</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"field"</span><span class="tok-id">&gt;詳細は、そのあとに。&lt;/</span><span class="tok-kw">div</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;/</span><span class="tok-kw">section</span><span class="tok-id">&gt;</span>
+<span class="tok-id">&lt;/</span><span class="tok-kw">article</span><span class="tok-id">&gt;</span></code></pre></div>
+      <details class="disclosure"><summary>スタイルシートのURL</summary><div class="disclosure-body"><div class="code-block"><div class="code-head"><span>HTML</span><button class="btn" data-dd-copy="#home-stylesheet" data-dd-enhance hidden aria-label="HTMLをコピー" aria-live="polite">コピー</button></div><pre class="code" id="home-stylesheet"><code><span class="tok-id">&lt;</span><span class="tok-kw">link</span><span class="tok-id"> </span><span class="tok-var">rel</span><span class="tok-id">=</span><span class="tok-str">"stylesheet"</span>
+<span class="tok-id">      </span><span class="tok-var">href</span><span class="tok-id">=</span><span class="tok-str">"https://k-kinzal.github.io/document-design/v1.0.0/document-design.css"</span><span class="tok-id">&gt;</span></code></pre></div></div></details>
+      <div class="disclosure-group">
+        <details class="disclosure"><summary>見た目を変更できますか？</summary><div class="disclosure-body prose"><p>型・余白・色の<code>--dd-</code>トークンを上書きします。カスケードレイヤーを使っているため、利用側のCSSでスタイルを変更できます。</p><p>ライトとダークで同じコンポーネントを使えます。<a href="./start/index.html#theming">テーマの設定を見る →</a></p></div></details>
+        <details class="disclosure"><summary>どんな操作が用意されていますか？</summary><div class="disclosure-body prose"><p>任意のスクリプトで、検索・並べ替え・絞り込み・タブ・コピー・テーマ切り替えを追加できます。スクリプトがなくても文書は読めます。</p><p><a href="./components/search/index.html">Search</a> · <a href="./components/facets/index.html">絞り込み</a> · <a href="./components/tabs/index.html">Tabs</a></p></div></details>
+        <details class="disclosure"><summary>どんな用途に向いていますか？</summary><div class="disclosure-body prose"><p>文章・構造化データ・コードを内容とするドキュメントやレポートに使えます。基本スタイルは文書全体に適用する設計です。既存アプリケーションに組み込む場合は、別文書として表示するか、周囲のUIへの影響を確認してください。</p><p>導入ガイドでは、対応ブラウザ、印刷、オフライン保存についても説明しています。</p></div></details>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="colophon"><a class="brand" href="./index.html">doc-ui</a><nav aria-label="フッター"><a href="./components/index.html">ドキュメント</a><a href=".././storybook/index.html">Storybook ↗</a><a href="https://github.com/k-kinzal/document-design">GitHub ↗</a><span>制作： <a href="https://github.com/k-kinzal">k-kinzal</a> · MITライセンス</span></nav></footer></div>
+</body>
+</html>

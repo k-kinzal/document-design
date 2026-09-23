@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>doc-ui — Information, made clear.</title>
+<meta name="description" content="A CSS design system for documentation and reports. Explore the components, layouts, and HTML for making information clear.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fcfcfe" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1f2023" media="(prefers-color-scheme: dark)">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://k-kinzal.github.io/document-design/">
+<link rel="alternate" hreflang="en" href="https://k-kinzal.github.io/document-design/">
+<link rel="alternate" hreflang="ja" href="https://k-kinzal.github.io/document-design/ja/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="doc-ui">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
+<meta property="og:title" content="doc-ui — Information, made clear.">
+<meta property="og:description" content="A CSS design system for documentation and reports. Explore the components, layouts, and HTML for making information clear.">
+<meta property="og:url" content="https://k-kinzal.github.io/document-design/">
+<meta property="og:image" content="https://k-kinzal.github.io/document-design/assets/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="doc-ui — Information, made clear. A diagram compares the reading paths of a reference and a paper.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="doc-ui — Information, made clear.">
+<meta name="twitter:description" content="A CSS design system for documentation and reports. Explore the components, layouts, and HTML for making information clear.">
+<meta name="twitter:image" content="https://k-kinzal.github.io/document-design/assets/og.png">
+<meta name="twitter:image:alt" content="doc-ui — Information, made clear. A diagram compares the reading paths of a reference and a paper.">
+<link rel="icon" href="./assets/favicon.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="./assets/apple-touch-icon.png" sizes="180x180">
+<link  rel="stylesheet" href="./v1.0.0/document-design.min.css">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebPage","@id":"https://k-kinzal.github.io/document-design/","url":"https://k-kinzal.github.io/document-design/","name":"doc-ui — Information, made clear.","headline":"doc-ui — Information, made clear.","description":"A CSS design system for documentation and reports. Explore the components, layouts, and HTML for making information clear.","inLanguage":"en","author":{"@type":"Person","name":"k-kinzal","url":"https://github.com/k-kinzal"},"mainEntity":{"@type":"SoftwareSourceCode","name":"doc-ui","description":"A CSS design system for documentation and reports. Explore the components, layouts, and HTML for making information clear.","codeRepository":"https://github.com/k-kinzal/document-design","programmingLanguage":["CSS","HTML","JavaScript"],"license":"https://opensource.org/license/mit"}}]</script>
+
+<script  src="./v1.0.0/document-design.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg class="draw-defs" aria-hidden="true" focusable="false">
+<marker id="dd-arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 6" refX="8" refY="3"
+        markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+  <path class="draw-arrowhead" d="M0 0L8 3L0 6Z"/>
+</marker>
+</svg>
+<div class="sheet sheet-wide"><header class="masthead"><a class="brand" href="./index.html" aria-label="doc-ui home">doc-ui</a><span class="chip chip-ghost" translate="no">v1.0.0</span><nav aria-label="Main navigation"><a href="./start/index.html" >Get started</a><a href="./components/index.html" >Components</a><a href="https://github.com/k-kinzal/document-design">GitHub <span aria-hidden="true">↗</span></a><a class="btn btn-quiet" href="./ja/index.html" lang="ja" hreflang="ja" rel="alternate" translate="no">日本語</a><button class="btn btn-quiet" data-dd-theme-toggle data-dd-enhance hidden aria-label="Switch color theme">◐</button></nav></header>
+<main class="sheet-body" id="main">
+  <header class="cover">
+    <div><p class="eyebrow">CSS FOR DOCUMENTATION &amp; REPORTS</p><h1 class="cover-title">Information,<br>made clear.</h1></div>
+    <div class="cover-copy">
+      <p>doc-ui brings typography, diagrams, tables, and code into one design system for information-heavy pages.</p>
+      <p>Keep a reference easy to scan. Give a report a clear reading order.</p>
+      <div class="actions"><a class="btn btn-primary btn-lg" href="./components/index.html">Explore components <span aria-hidden="true">→</span></a><a href="./start/index.html">Get started</a></div>
+    </div>
+  </header>
+  <nav aria-label="On this page"><ul class="ribbon"><li><a href="#layouts">01 <b>Reading order</b></a></li><li><a href="#language">02 <b>Visual language</b></a></li><li><a href="#components">03 <b>Components</b></a></li><li><a href="#building">04 <b>Start building</b></a></li></ul></nav>
+
+  <section class="section" id="layouts" aria-labelledby="layouts-title">
+    <p class="eyebrow">01 / READING ORDER</p>
+    <h2 class="section-title" id="layouts-title">Scan a reference. Read a report.</h2>
+    <figure class="plate plate-full plate-side plate-unnumbered" id="reading-paths">
+  <div class="plate-body compare">
+    <section id="path-reference" aria-labelledby="reference-title">
+      <h3 class="compare-title" id="reference-title"><span class="ref ref-mark tone-blue">A</span> Documentation</h3>
+      <ol class="flow tone-blue">
+        <li><span class="flow-mark" aria-hidden="true">01</span><strong class="flow-name">Index</strong><span class="flow-detail">Find a name</span></li>
+        <li><span class="flow-mark" aria-hidden="true">02</span><strong class="flow-name">Entry</strong><span class="flow-detail">Compare its fields</span></li>
+        <li><span class="flow-mark" aria-hidden="true">03</span><strong class="flow-name">Detail</strong><span class="flow-detail">Inspect the source</span></li>
+      </ol>
+    </section>
+    <section id="path-paper" aria-labelledby="paper-title">
+      <h3 class="compare-title" id="paper-title"><span class="ref ref-mark tone-teal">B</span> Paper</h3>
+      <ol class="flow tone-teal">
+        <li><span class="flow-mark" aria-hidden="true">01</span><strong class="flow-name">Question</strong><span class="flow-detail">Orient the reader</span></li>
+        <li><span class="flow-mark" aria-hidden="true">02</span><strong class="flow-name">Evidence</strong><span class="flow-detail">Connect the facts</span></li>
+        <li><span class="flow-mark" aria-hidden="true">03</span><strong class="flow-name">Meaning</strong><span class="flow-detail">Explain the result</span></li>
+      </ol>
+    </section>
+  </div>
+  <figcaption>
+    <p class="plate-summary"><span class="plate-label">Figure 1.</span>Two reading paths, two scales. A reference keeps comparable details close together. A paper gives an idea, its evidence, and its qualifications room to unfold.</p>
+    <p class="sidenote">The arrows show reading order. These are paths through information, not required page templates.</p>
+  </figcaption>
+</figure>
+    <div class="compare">
+      <div class="prose"><h3><a class="ref ref-mark tone-blue" href="#path-reference">A</a> Keep the detail close.</h3><p>A reference is read across: names, types, values. Compact spacing and aligned rows let readers compare entries without losing their place.</p><p><a href="./components/index.html">Browse the component reference →</a></p></div>
+      <div class="prose"><h3><a class="ref ref-mark tone-teal" href="#path-paper">B</a> Give the idea a sequence.</h3><p>A paper is read through: a point, the evidence, its meaning. A separate type and spacing scale brings the main idea forward and keeps notes beside what they explain.</p><p><a href="./components/report/index.html">Use the report layout →</a></p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="language" aria-labelledby="language-title">
+    <aside class="label"><h2 id="language-title">02 / VISUAL LANGUAGE</h2><p class="sidenote">In <a class="ref" href="#reading-paths">Figure 1</a>, letters, color, and aligned stages carry the same meaning in the diagram and the text.</p></aside>
+    <div class="field">
+      <h3 class="lead">The relationships are the design.</h3>
+      <div class="prose">
+      <p>A heading sets the question. A diagram makes a relationship visible. Its caption explains what to take from it. The spacing between them is part of the explanation.</p>
+      <h4>Type follows the reading task.</h4>
+      <p>Names and values stay readable in a dense reference. Density comes from the gaps, not smaller letters. In a paper, a larger scale separates the main idea from the supporting detail.</p>
+      <h4>Meaning travels with the mark.</h4>
+      <p><a class="ref ref-mark tone-blue" href="#path-reference">A</a> always identifies the reference path; <a class="ref ref-mark tone-teal" href="#path-paper">B</a> identifies the paper. The letters keep that relationship intact in monochrome. States and missing information have their own vocabulary, separate from category colors.</p>
+      </div>
+      <div class="actions"><a href="./components/composition/index.html">Figures &amp; annotations →</a><a href="./components/chip/index.html">Labels &amp; states →</a></div>
+    </div>
+  </section>
+
+  <section class="section" id="components" aria-labelledby="components-title">
+    <div class="section-head"><p class="eyebrow">03 / COMPONENTS</p><div><h2 class="section-title" id="components-title">From a sentence to a whole document.</h2><p class="note">43 components and layouts share the same type, spacing, and color system. Each guide includes live examples, highlighted HTML, and usage notes.</p></div></div>
+    <div class="table-wrap"><table>
+      <caption class="sr-only">The doc-ui library, grouped by the information it helps you present</caption>
+      <thead><tr><th scope="col">To compose</th><th scope="col">Start with</th></tr></thead>
+      <tbody><tr><th scope="row"><a href="./components/index.html#group-0">Layouts</a></th><td><ul class="link-list"><li><a href="./components/document/index.html">Document</a></li><li><a href="./components/report/index.html">Report</a></li><li><a href="./components/publication/index.html">Publication</a></li><li><a href="./components/composition/index.html">Composition</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-1">Lists & data</a></th><td><ul class="link-list"><li><a href="./components/table/index.html">Table</a></li><li><a href="./components/listing/index.html">Listing</a></li><li><a href="./components/chip/index.html">Chip</a></li><li><a href="./components/card/index.html">Card</a></li><li><a href="./components/facts/index.html">Facts</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-2">Figures & graphs</a></th><td><ul class="link-list"><li><a href="./components/meter/index.html">Meter</a></li><li><a href="./components/graph/index.html">Graph</a></li><li><a href="./components/bar-chart/index.html">Bar chart</a></li><li><a href="./components/comparison-plot/index.html">Comparison plot</a></li><li><a href="./components/line-plot/index.html">Line plot</a></li><li><a href="./components/histogram/index.html">Histogram</a></li><li><a href="./components/drawing/index.html">Drawing</a></li><li><a href="./components/annotate/index.html">Annotate</a></li><li><a href="./components/flow-graph/index.html">Flow graph</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-3">Reading</a></th><td><ul class="link-list"><li><a href="./components/prose/index.html">Prose</a></li><li><a href="./components/callout/index.html">Callout</a></li><li><a href="./components/quote/index.html">Quote</a></li><li><a href="./components/definitions/index.html">Definitions</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-4">Code & changes</a></th><td><ul class="link-list"><li><a href="./components/code/index.html">Code</a></li><li><a href="./components/symbol/index.html">Symbol</a></li><li><a href="./components/diff/index.html">Diff</a></li><li><a href="./components/terminal/index.html">Terminal</a></li><li><a href="./components/filetree/index.html">File tree</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-5">Navigation</a></th><td><ul class="link-list"><li><a href="./components/tree/index.html">Tree</a></li><li><a href="./components/control/index.html">Control</a></li><li><a href="./components/facets/index.html">Facets</a></li><li><a href="./components/search/index.html">Search</a></li><li><a href="./components/sidebar/index.html">Sidebar</a></li><li><a href="./components/topbar/index.html">Topbar</a></li><li><a href="./components/tabs/index.html">Tabs</a></li><li><a href="./components/disclosure/index.html">Disclosure</a></li><li><a href="./components/pagination/index.html">Pagination</a></li><li><a href="./components/keys/index.html">Keys</a></li></ul></td></tr><tr><th scope="row"><a href="./components/index.html#group-6">Status & feedback</a></th><td><ul class="link-list"><li><a href="./components/notice/index.html">Notice</a></li><li><a href="./components/banner/index.html">Banner</a></li><li><a href="./components/empty/index.html">Empty</a></li><li><a href="./components/stat/index.html">Stat</a></li><li><a href="./components/timeline/index.html">Timeline</a></li><li><a href="./components/tooltip/index.html">Tooltip</a></li></ul></td></tr></tbody>
+    </table></div>
+    <div class="actions"><a href="./components/index.html">See every component in use →</a></div>
+  </section>
+
+  <section class="sec" id="building" aria-labelledby="building-title">
+    <div class="label"><h2 id="building-title">04 / START BUILDING</h2><p class="sidenote">Choose a reading mode, then compose the parts your content needs.</p><div class="actions"><a href="./start/index.html">Get started →</a></div></div>
+    <div class="field">
+      <h3 class="lead">Put your content on the page.</h3>
+      <p class="note">Load the stylesheet in your document’s head, then use the layout classes in your HTML or templates. This page uses <code>.sheet</code>; the component reference uses <code>.doc</code>.</p>
+      <div class="code-block"><div class="code-head"><span>HTML</span><button class="btn" data-dd-copy="#home-markup" data-dd-enhance hidden aria-label="Copy HTML" aria-live="polite">Copy</button></div><pre class="code" id="home-markup"><code><span class="tok-id">&lt;</span><span class="tok-kw">article</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"sheet"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">h1</span><span class="tok-id">&gt;A clear reading order.&lt;/</span><span class="tok-kw">h1</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">p</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"stand"</span><span class="tok-id">&gt;The main idea comes first.&lt;/</span><span class="tok-kw">p</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;</span><span class="tok-kw">section</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"sec"</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">h2</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"label"</span><span class="tok-id">&gt;THE EVIDENCE&lt;/</span><span class="tok-kw">h2</span><span class="tok-id">&gt;</span>
+<span class="tok-id">    &lt;</span><span class="tok-kw">div</span><span class="tok-id"> </span><span class="tok-var">class</span><span class="tok-id">=</span><span class="tok-str">"field"</span><span class="tok-id">&gt;The detail follows.&lt;/</span><span class="tok-kw">div</span><span class="tok-id">&gt;</span>
+<span class="tok-id">  &lt;/</span><span class="tok-kw">section</span><span class="tok-id">&gt;</span>
+<span class="tok-id">&lt;/</span><span class="tok-kw">article</span><span class="tok-id">&gt;</span></code></pre></div>
+      <details class="disclosure"><summary>Stylesheet URL</summary><div class="disclosure-body"><div class="code-block"><div class="code-head"><span>HTML</span><button class="btn" data-dd-copy="#home-stylesheet" data-dd-enhance hidden aria-label="Copy HTML" aria-live="polite">Copy</button></div><pre class="code" id="home-stylesheet"><code><span class="tok-id">&lt;</span><span class="tok-kw">link</span><span class="tok-id"> </span><span class="tok-var">rel</span><span class="tok-id">=</span><span class="tok-str">"stylesheet"</span>
+<span class="tok-id">      </span><span class="tok-var">href</span><span class="tok-id">=</span><span class="tok-str">"https://k-kinzal.github.io/document-design/v1.0.0/document-design.css"</span><span class="tok-id">&gt;</span></code></pre></div></div></details>
+      <div class="disclosure-group">
+        <details class="disclosure"><summary>Can I change the visual style?</summary><div class="disclosure-body prose"><p>Override the <code>--dd-</code> tokens for type, spacing, and color. The stylesheet uses cascade layers, so your CSS can override component styles.</p><p>Light and dark themes share the same components. <a href="./start/index.html#theming">See theming instructions →</a></p></div></details>
+        <details class="disclosure"><summary>Which interactions are included?</summary><div class="disclosure-body prose"><p>The optional script adds search, sorting, filters, tabs, copy controls, and theme switching. The underlying document remains readable without it.</p><p><a href="./components/search/index.html">Search</a> · <a href="./components/facets/index.html">Filters</a> · <a href="./components/tabs/index.html">Tabs</a></p></div></details>
+        <details class="disclosure"><summary>Where does doc-ui fit?</summary><div class="disclosure-body prose"><p>Use it for document and report pages where text, structured data, and code are the content. Its base styles are designed to own the document. When integrating with an existing application, use a separate document or check the effect of those styles on the surrounding UI.</p><p>The setup guide covers browser support, print output, and keeping an offline copy.</p></div></details>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="colophon"><a class="brand" href="./index.html">doc-ui</a><nav aria-label="Footer"><a href="./components/index.html">Documentation</a><a href="./storybook/index.html">Storybook ↗</a><a href="https://github.com/k-kinzal/document-design">GitHub ↗</a><span>by <a href="https://github.com/k-kinzal">k-kinzal</a> · MIT License</span></nav></footer></div>
+</body>
+</html>
