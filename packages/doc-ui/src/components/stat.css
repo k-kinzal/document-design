@@ -97,18 +97,17 @@
    */
   .sheet .stats {
     display: grid;
-    grid-template-columns: subgrid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
     grid-column: 4 / -1;
     gap: 24px;
   }
 
   /*
-   * Pinned per row rather than left to auto-flow: inside a subgrid, an item
-   * that does not fit the remaining tracks is placed in an implicit column
-   * OUTSIDE the field, which puts it in the page's left margin.
+   * Explicit tracks preserve the field's alignment even inside block wrappers.
+   * Count statistics together: links and divs can be mixed in the same row.
    */
-  .sheet .stats > .stat:nth-of-type(odd)  { grid-column: 1 / 5; }
-  .sheet .stats > .stat:nth-of-type(even) { grid-column: 5 / 9; }
+  .sheet .stats > :nth-child(odd of .stat)  { grid-column: 1 / 5; }
+  .sheet .stats > :nth-child(even of .stat) { grid-column: 5 / 9; }
 
   .sheet .stat {
     border-top: 2px solid var(--dd-border-strong);
@@ -130,9 +129,9 @@
     line-height: 1.7;
   }
 
-  @media (max-width: 720px) {
+  @container (max-width: 720px) {
     .sheet .stats { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr); }
-    .sheet .stats > .stat:nth-of-type(odd),
-    .sheet .stats > .stat:nth-of-type(even) { grid-column: 1 / -1; }
+    .sheet .stats > :nth-child(odd of .stat),
+    .sheet .stats > :nth-child(even of .stat) { grid-column: 1 / -1; }
   }
 }

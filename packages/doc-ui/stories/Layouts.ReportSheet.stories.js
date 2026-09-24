@@ -97,6 +97,50 @@ export const Section = {
     </article>`,
 };
 
+/** Direct section content keeps the same reading column as a field wrapper. */
+export const DirectSectionContent = {
+  render: () => html`
+    <article class="sheet" lang="en">
+      <section class="sec">
+        <div class="rail"><h2 class="label">01 / Evidence</h2><p class="sidenote">WordPress SQL catalog. Findings can overlap within a statement.</p></div>
+        <div class="field"><p class="lead">Keep the unresolved findings visible.</p></div>
+        <div class="figures">
+          <figure><h3>Statements</h3><p>The catalog contains 844 statements.</p></figure>
+          <figure><h3>Findings</h3><p>The analysis reports 978 findings.</p></figure>
+          <figure><h3>Dynamic SQL</h3><p>709 findings involve dynamic SQL.</p></figure>
+          <figure><h3>Limits</h3><p>The count does not establish that every possible runtime query has been resolved.</p></figure>
+        </div>
+        <p class="note">Only 35 of 844 statements are fully resolved. This paragraph is a direct child of the section and follows the figures in the reading column.</p>
+        <div class="compare">
+          <div><h3>Count statements</h3><p class="note">A statement is one catalog entry.</p></div>
+          <div><h3>Count findings</h3><p class="note">Several findings may describe the same entry.</p></div>
+        </div>
+      </section>
+    </article>`,
+};
+
+/** Japanese regression specimen for text placed directly after a figure row. */
+export const JapaneseDirectSectionContent = {
+  render: () => html`
+    <article class="sheet" lang="ja">
+      <section class="sec">
+        <h2 class="label">01 / 検証</h2>
+        <div class="field"><p class="lead">未解決の指摘を隠さずに残す。</p></div>
+        <div class="figures">
+          <figure><h3>文</h3><p>WordPressのカタログには844件の文がある。</p></figure>
+          <figure><h3>指摘</h3><p>解析では978件の指摘が報告されている。</p></figure>
+          <figure><h3>動的SQL</h3><p>709件の指摘は動的SQLに関係する。</p></figure>
+          <figure><h3>限界</h3><p>件数だけでは、実行時のすべてのSQLを解決したことにはならない。</p></figure>
+        </div>
+        <p class="note">完全に解決できたのは844件のうち35件。解析の範囲と残る限界も本文に記録する。</p>
+        <div class="compare">
+          <div><h3>文を数える</h3><p class="note">ひとつの文がカタログのひとつの項目になる。</p></div>
+          <div><h3>指摘を数える</h3><p class="note">同じ文に複数の指摘が付くことがある。</p></div>
+        </div>
+      </section>
+    </article>`,
+};
+
 /** Figures that are a number. Two to a row, and any number of them. */
 export const Holds = {
   render: () => html`

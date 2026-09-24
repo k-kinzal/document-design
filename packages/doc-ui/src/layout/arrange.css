@@ -1,6 +1,6 @@
 /*
  * The arrangements both genres need. Each works standalone and, inside a
- * report sheet, snaps to the sheet's own column lines via subgrid — so a row
+ * report sheet, snaps to the sheet's own column lines — so a row
  * of three figures lines up with the paragraph above it rather than merely
  * being three of something.
  */
@@ -35,6 +35,7 @@
   }
 
   .figures > figure {
+    min-width: 0;
     margin: 0;
     border-top: 2px solid var(--dd-border-strong);
     padding-top: calc(var(--dd-base) / 2);
@@ -63,18 +64,13 @@
   }
 
   /*
-   * Inside a sheet these sit on the sheet's columns rather than on columns of
-   * their own.
-   *
-   * Positions are pinned per row rather than left to auto-flow: inside a
-   * subgrid, an item that does not fit the remaining tracks is placed in an
-   * implicit column OUTSIDE the field, which puts it in the page's left
-   * margin. Auto-flow is only safe when the count divides evenly, and the
-   * whole point of these is that the count is whatever the page has to say.
+   * Nine equal tracks reproduce the sheet's field, including its gutters.
+   * Explicit tracks also work inside a block .field or .sheet-inset, where
+   * subgrid has no grid parent and would leave content-sized implicit tracks.
    */
   .sheet .figures {
     display: grid;
-    grid-template-columns: subgrid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
     grid-column: 4 / -1;
     row-gap: calc(var(--dd-base) * 1.5);
   }
@@ -100,10 +96,10 @@
    * two and then to one, instead of shrinking all three past the point where
    * their labels can be read.
    *
-   * Text-only figures keep the subgrid: they have nothing that stops scaling.
+   * Text-only figures keep the nine-track grid.
    */
   .sheet .figures:has(.draw) {
-    grid-template-columns: repeat(auto-fit, minmax(var(--dd-figures-min, 240px), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--dd-figures-min, 240px)), 1fr));
     column-gap: 24px;
   }
 
@@ -112,14 +108,14 @@
   /* The sheet's .stats live in components/stat.css, with the component they
      vary — dd.layout cannot override dd.component, whatever the selector. */
 
-  @media (max-width: 900px) {
+  @container (max-width: 900px) {
     .split { grid-template-columns: 1fr; }
     .split-even { grid-template-columns: 1fr; }
   }
 
-  @media (max-width: 720px) {
+  @container (max-width: 720px) {
     .figures { grid-template-columns: 1fr; }
-    .sheet .figures { grid-column: 1 / -1; }
+    .sheet .figures { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr); }
 
     /*
      * Matched to the nth-of-type selectors above rather than forced past them.
@@ -132,5 +128,13 @@
     .sheet .figures > figure:nth-of-type(3n) { grid-column: 1 / -1; }
 
     .sheet .figures:has(.draw) { grid-template-columns: 1fr; }
+  }
+
+  /* Standalone arrangements may have no ancestor size container. */
+  @media (max-width: 900px) {
+    .split, .split-even { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    .figures { grid-template-columns: minmax(0, 1fr); }
   }
 }

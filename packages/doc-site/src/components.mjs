@@ -45,15 +45,26 @@ export const components = [
     label: "Report layout",
     group: "Layouts",
     description: "A spacious report layout that puts the conclusion, evidence, and limits in view.",
-    api: [[".sheet","A twelve-column grid with the report type and spacing scales."],[".sec / .label / .field","A section, its left label, and its content. Place sec directly inside sheet, or its sheet-body wrapper."],[".fig / .claim / .unit","A prominent number, a claim instead of a number, and its meaning."],[".caveat","The qualifications a reader needs to interpret the result."],[".sheet-inset / .sheet-wide","A single-column inset, or a wider cover layout."]],
+    api: [[".sheet","A twelve-column grid with the report type and spacing scales."],[".sec / .label / .field","A section, its left label, and its content. Place sec directly inside sheet, or its sheet-body wrapper. Direct paragraphs, comparisons, and tables also use the reading column."],[".fig / .claim / .unit","A prominent number, a claim instead of a number, and its meaning."],[".caveat","The qualifications a reader needs to interpret the result."],[".sheet-inset / .sheet-wide","A single-column inset, or a wider cover layout."]],
     note: "The product homepage uses this layout. Use h1 in a standalone sheet; this embedded example uses h2. A report can lead with a statement instead of a number.",
-    story: "layouts-report-sheet--numeric",
+    story: "layouts-report-sheet--direct-section-content",
     examples: [
       { title: "Basic usage", html: String.raw`<article class="sheet sheet-inset">
   <p class="eyebrow">READING ORDER</p>
   <h2>Give the idea a sequence.</h2>
   <p class="stand">A point, its evidence, its meaning.</p>
   <p class="note">Separate type and spacing scales bring the main idea forward, with room for the detail that supports it.</p>
+</article>` },
+      { title: "Direct section content", html: String.raw`<article class="sheet sheet-inset">
+  <section class="sec">
+    <h3 class="label">01 / EVIDENCE</h3>
+    <div class="field"><p class="lead">Keep the unresolved findings visible.</p></div>
+    <p class="note">Only 35 of 844 WordPress statements are fully resolved. State the limits alongside the result.</p>
+    <div class="compare">
+      <div><h4>Statements</h4><p class="note">The catalog contains 844 statements.</p></div>
+      <div><h4>Findings</h4><p class="note">The analysis reports 978 findings. Several may describe the same statement.</p></div>
+    </div>
+  </section>
 </article>` }
     ],
   },

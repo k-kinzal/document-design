@@ -6,12 +6,18 @@
 @layer dd.component {
   .sheet-body {
     display: grid;
-    grid-template-columns: subgrid;
-    column-gap: inherit;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
     min-width: 0;
   }
+  .sheet:not(.sheet-inset) > .sheet-body { grid-template-columns: subgrid; column-gap: inherit; }
   .sheet-body > * { grid-column: 1 / -1; min-width: 0; }
   .sheet-body > :last-child { margin-bottom: calc(var(--dd-base) * 3); }
+
+  /* A block inset cannot fit twelve gutters in a narrow example frame. */
+  @container (max-width: 720px) {
+    .sheet-body { grid-template-columns: minmax(0, 1fr); }
+  }
 
   /* Extends the public plate; numbering, widths and references stay in plate.css. */
   .plate-side { container-type: inline-size; }

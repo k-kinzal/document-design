@@ -106,6 +106,6 @@ test('report leads attach equally to prose and notes', async ({ page }) => {
   await page.locator('.specimen-body').first().evaluate(el => {
     el.innerHTML = '<article class="sheet sheet-inset"><p class="lead">A claim.</p><div class="prose"><p>Its evidence.</p></div><p class="lead">Another claim.</p><p class="note">Its evidence.</p></article>';
   });
-  const gaps = await page.locator('.specimen .lead').evaluateAll(leads => leads.map(el => el.nextElementSibling.getBoundingClientRect().top - el.getBoundingClientRect().bottom));
+  const gaps = await page.locator('.specimen-body').first().locator('.lead').evaluateAll(leads => leads.map(el => el.nextElementSibling.getBoundingClientRect().top - el.getBoundingClientRect().bottom));
   expect(gaps).toEqual([14, 14]);
 });
