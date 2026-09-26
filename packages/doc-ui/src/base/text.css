@@ -109,8 +109,11 @@
    */
   .prose p, .prose li, .note, .lede { text-wrap: pretty; }
 
-  /* An inline link must remain identifiable without distinguishing hues. */
-  :where(p, .notice, .caveat, .doc-footer, .breadcrumbs) a:not(.btn, .chip),
+  /* An inline link must remain identifiable without distinguishing hues.
+     A list item in rendered markdown is running text too: a link in a
+     bulleted step was blue and nothing else, which axe flagged and a
+     monochrome printer would have lost. */
+  :where(p, .prose li, .notice, .caveat, .doc-footer, .breadcrumbs) a:not(.btn, .chip),
   .colophon span a {
     text-decoration: underline;
     text-underline-offset: .15em;

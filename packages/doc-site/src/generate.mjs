@@ -6,6 +6,7 @@ import { home } from './home.mjs';
 import { docs } from './docs.mjs';
 import { components } from './components.mjs';
 import { locales, localePath, localizeHTML, translate } from './i18n.mjs';
+import { paperPage } from './paper.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const generatedRoot = resolve(root, '.generated');
@@ -42,6 +43,9 @@ export function generate({ development = false, outDir = generatedRoot } = {}) {
     mkdirSync(resolve(localeAssets, 'assets'), { recursive: true });
     const starter = localizeHTML(pages.find(p => p.starter && p.lang === lang).starter, { lang });
     writeFileSync(resolve(localeAssets, 'examples/report.html'), starter.replace('</head>', '<meta name="robots" content="noindex, follow">\n</head>'));
+    // The long paper is written in each language rather than translated: its
+    // Japanese is the original record and its English a translation of it.
+    writeFileSync(resolve(localeAssets, 'examples/paper.html'), paperPage(lang));
     writeFileSync(resolve(localeAssets, 'assets/search.js'), `(function () {\n  var root = new URL('../', document.currentScript.src);\n  window.ddSearchIndex = ${JSON.stringify(components.map(c => ({ name: translate(c.name, lang), where: translate(c.group, lang), body: `${translate(c.label, lang)} ${translate(c.description, lang)} ${c.name} ${c.label} ${c.api.map(a => a[0]).join(' ')}`, href: `components/${c.slug}/index.html` })))}.map(function (item) { item.href = new URL(item.href, root).href; return item; });\n})();\n`);
   }
   // A Pages error document may be served at any depth; its assets must be absolute.

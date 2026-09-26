@@ -185,3 +185,57 @@ export const JapaneseMasthead = {
       </div>
     </article>`,
 };
+
+/**
+ * A lead made of words. A profile, a project or a research theme has no
+ * before and after and no count worth the page's largest type; it has a short
+ * answer to "what is this?" and three things that answer it in more detail.
+ * The three are the sections' own `.figures` row, placed in the hero's slot so
+ * the opening stays one group closed by the hero's rule.
+ */
+export const LeadWithWords = {
+  render: () => html`
+    <article class="sheet" lang="en">
+      <p class="eyebrow">WHO IS k_kinzal?</p>
+      <h1>k_kinzal</h1>
+      <p class="stand">Turns complex technology into usable tools and knowledge that carries.</p>
+      <div class="hero">
+        <div class="figures">
+          <figure><h3>Builds usable tools</h3><p>Documentation generation, deployment, PHP test environments, AI development.</p></figure>
+          <figure><h3>Changes things safely</h3><p>Platform migration, design through types, automated tests and quality verification.</p></figure>
+          <figure><h3>Passes knowledge on</h3><p>Articles on Qiita and Zenn, conference talks, Rust and Solana course material.</p></figure>
+        </div>
+      </div>
+      <section class="sec">
+        <div class="rail"><h2 class="label">01<br>Profile</h2></div>
+        <div class="field">
+          <p class="lead">Solves in code the inconveniences met in development and operations.</p>
+          <p class="note">Digs into how things work and confirms them in running form. The process is published as open source, articles, talks and course material.</p>
+        </div>
+      </section>
+    </article>`,
+};
+
+/** The same opening in Japanese. */
+export const JapaneseLeadWithWords = {
+  render: () => html`
+    <article class="sheet" lang="ja">
+      <p class="eyebrow">WHO IS k_kinzal?</p>
+      <h1>k_kinzal</h1>
+      <p class="stand">複雑な技術を、使える道具と伝わる知識に変える人。</p>
+      <div class="hero">
+        <div class="figures">
+          <figure><h3>使える道具を作る</h3><p>文書生成、デプロイ、PHPのテスト環境、AI開発。</p></figure>
+          <figure><h3>安全に変える</h3><p>基盤移行、型による設計、自動テストと品質の検証。</p></figure>
+          <figure><h3>知識を伝える</h3><p>Qiita・Zennでの発信、技術登壇、Rust・Solana教材。</p></figure>
+        </div>
+      </div>
+      <section class="sec">
+        <div class="rail"><h2 class="label">01<br>プロフィール</h2></div>
+        <div class="field">
+          <p class="lead">開発や運用で感じた不便を、コードで解く。</p>
+          <p class="note">仕組みを掘り下げ、動く形で確かめる。その過程を、OSS・記事・登壇・教材として公開する。</p>
+        </div>
+      </section>
+    </article>`,
+};

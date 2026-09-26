@@ -45,8 +45,8 @@ export const components = [
     label: "Report layout",
     group: "Layouts",
     description: "A spacious report layout that puts the conclusion, evidence, and limits in view.",
-    api: [[".sheet","A twelve-column grid with the report type and spacing scales."],[".sec / .label / .field","A section, its left label, and its content. Place sec directly inside sheet, or its sheet-body wrapper. Direct paragraphs, comparisons, and tables also use the reading column."],[".fig / .claim / .unit","A prominent number, a claim instead of a number, and its meaning."],[".caveat","The qualifications a reader needs to interpret the result."],[".sheet-inset / .sheet-wide","A single-column inset, or a wider cover layout."]],
-    note: "The product homepage uses this layout. Use h1 in a standalone sheet; this embedded example uses h2. A report can lead with a statement instead of a number.",
+    api: [[".sheet","A twelve-column grid with the report type and spacing scales."],[".sec / .label / .field","A section, its left label, and its content. Place sec directly inside sheet, or its sheet-body wrapper. Direct paragraphs, comparisons, and tables also use the reading column."],[".fig / .claim / .unit","A prominent number, a claim instead of a number, and its meaning."],[".hero > .figures","A lead made of words: three figures in the hero’s slot, for a profile, a project, or a theme with no before and after."],[".caveat","The qualifications a reader needs to interpret the result."],[".sheet-inset / .sheet-wide","A single-column inset, or a wider cover layout."],["data-dd-paper=\"a4\"","On the root element: the printed sheet size, its margins, and page numbers. Also letter."]],
+    note: "The product homepage uses this layout. Use h1 in a standalone sheet; this embedded example uses h2. A report can lead with a statement instead of a number, or with three short answers instead of a comparison.",
     story: "layouts-report-sheet--direct-section-content",
     examples: [
       { title: "Basic usage", html: String.raw`<article class="sheet sheet-inset">
@@ -65,6 +65,18 @@ export const components = [
       <div><h4>Findings</h4><p class="note">The analysis reports 978 findings. Several may describe the same statement.</p></div>
     </div>
   </section>
+</article>` },
+      { title: "A lead made of words", html: String.raw`<article class="sheet sheet-inset">
+  <p class="eyebrow">WHO IS k_kinzal?</p>
+  <h2>k_kinzal</h2>
+  <p class="stand">Turns complex technology into usable tools and knowledge that carries.</p>
+  <div class="hero">
+    <div class="figures">
+      <figure><h3>Builds usable tools</h3><p>Documentation generation, deployment, PHP test environments, AI development.</p></figure>
+      <figure><h3>Changes things safely</h3><p>Platform migration, design through types, automated tests and quality verification.</p></figure>
+      <figure><h3>Passes knowledge on</h3><p>Articles on Qiita and Zenn, conference talks, Rust and Solana course material.</p></figure>
+    </div>
+  </div>
 </article>` }
     ],
   },
@@ -349,6 +361,30 @@ export const components = [
   <div><dt><span class="chip tone-ok">resolved</span></dt><dd>The complete statement is determined from the source.</dd></div>
   <div><dt>lower bound</dt><dd>There may be more items than the number shown here.</dd></div>
 </dl>` }
+    ],
+  },
+  {
+    slug: "sources",
+    previewHeight: "auto",
+    preview: `<ol class="sources">
+      <li><a href="#">Typesafe State in Rust (preview)</a><span class="source-meta">Zenn Books · 2022.03.08</span></li>
+      <li><a href="#">async-graphql / PR #1018</a><span class="source-meta">GitHub PR · 2022.08.18</span></li>
+    </ol>`,
+    name: "Sources",
+    label: "Citations & references",
+    group: "Reading",
+    description: "Point at a source from the text with a number, and list the sources where the reader can find them.",
+    api: [[".cite","A bracketed number in the running text that links to a source. Write the same number the list shows."],[".sources","An ordered list of sources, numbered by the list itself. start and value attributes are respected."],[".source-meta","Where and when: the venue, the date, and a short description under the title."],["--dd-sources-gutter","Width of the number column. Default 3.25em; widen it for a list past a hundred entries."],["data-dd-print-urls=\"sources\"","On the root element: print addresses only in the sources list, not after every link in the text. none prints no addresses."]],
+    note: "Give each entry an id and link the title to the original. Titles keep the language they were published in; mark it with lang. On paper, each entry spells out its address on a line of its own, so the running text can keep to citation numbers.",
+    story: "components-sources--cited",
+    examples: [
+      { title: "Basic usage", html: String.raw`<p class="note">Published an eight-chapter book on expressing states and transitions as Rust types, and took two fixes to async-graphql upstream.<a class="cite" href="#src-1">1</a><a class="cite" href="#src-2">2</a><a class="cite" href="#src-3">3</a></p>
+<ol class="sources">
+  <li id="src-1"><a href="https://zenn.dev/kinzal/books/aa109c0c428089">Typesafe State in Rust (preview)</a><span class="source-meta">Zenn Books · 2022.03.08 · An eight-chapter public book on states and transitions as types</span></li>
+  <li id="src-2"><a href="https://github.com/async-graphql/async-graphql/pull/1018">async-graphql / PR #1018</a><span class="source-meta">GitHub PR · 2022.08.18 · Fixes request data lost in resolvers</span></li>
+  <li id="src-3"><a href="https://github.com/async-graphql/async-graphql/pull/1049">async-graphql / PR #1049</a><span class="source-meta">GitHub PR · 2022.09.06 · Primitive type support for CursorType</span></li>
+</ol>` },
+      { title: "Printing the addresses once", sourceOnly: true, html: String.raw`<html lang="en" data-dd-paper="a4" data-dd-print-urls="sources">` }
     ],
   },
   {
@@ -733,15 +769,37 @@ export const components = [
     label: "What happened",
     group: "Status & feedback",
     description: "Show the order of events, their outcomes, and how far a run actually got.",
-    api: [[".timeline / .timeline-item","An ordered list and its events."],[".timeline-time / .timeline-title / .timeline-description","When it happened, what happened, and supporting context."],[".is-open","An outlined mark for an unfinished or unconfirmed step."]],
-    note: "Do not mark an unconfirmed step complete. Write the outcome in the title as well as encoding it in color.",
+    api: [[".timeline / .timeline-item","An ordered list and its events."],[".timeline-time / .timeline-title / .timeline-description","When it happened, what happened, and supporting context. A description may hold several paragraphs."],[".is-open","An outlined mark for an unfinished or unconfirmed step."],[".sheet .timeline","Inside a report, entries take the report’s reading size and a baseline between them."]],
+    note: "Do not mark an unconfirmed step complete. Write the outcome in the title as well as encoding it in color. In a report, a chronology reads at the same size as the notes around it; in a catalog, a run’s steps stay compact.",
     story: "components-timeline--run",
     examples: [
       { title: "Basic usage", html: String.raw`<ol class="timeline">
   <li class="timeline-item tone-ok"><span class="timeline-time">Discovery</span><p class="timeline-title">844 statements found</p><p class="timeline-description">Database calls across 77 files in the WordPress catalog.</p></li>
   <li class="timeline-item tone-ok"><span class="timeline-time">Resolution</span><p class="timeline-title">35 statements fully resolved</p><p class="timeline-description">The complete SQL text could be determined.</p></li>
   <li class="timeline-item is-open"><span class="timeline-time">Open results</span><p class="timeline-title">809 statements not fully resolved</p><p class="timeline-description">Dependency models and analysis limits leave this catalog incomplete.</p></li>
-</ol>` }
+</ol>` },
+      { title: "A chronology in a report", html: String.raw`<article class="sheet sheet-inset">
+  <section class="sec">
+    <h3 class="label">02 / 2014</h3>
+    <div class="field">
+      <p class="lead">Build, write and talk about the inconveniences close at hand.</p>
+      <ol class="timeline">
+        <li class="timeline-item"><span class="timeline-time">2014.05–06</span><p class="timeline-title">Reporting build results to Ukagaka</p><p class="timeline-description">Built grunt-sstp, which sends Grunt successes, warnings and failures to a desktop mascot. Published on Qiita on 6 May, followed on 1 June by an explanation of driving it from Scala’s SBT.<a class="cite" href="#src-1">1</a><a class="cite" href="#src-2">2</a></p></li>
+        <li class="timeline-item tone-accent"><span class="timeline-time">2014.10.11 · First talk</span><p class="timeline-title">A new form of notification with PHP and Ukagaka</p><p class="timeline-description">A lightning talk at PHP Conference Japan 2014. The notification tools published since spring led to a talk at a technical conference.<a class="cite" href="#src-3">3</a></p></li>
+      </ol>
+    </div>
+  </section>
+  <section class="sec">
+    <h3 class="label">12 / SOURCES</h3>
+    <div class="field">
+      <ol class="sources">
+        <li id="src-1"><a href="https://github.com/k-kinzal/grunt-sstp">grunt-sstp</a><span class="source-meta">GitHub · 2014.05 · A Grunt plugin that reports build results to a desktop mascot</span></li>
+        <li id="src-2"><a href="https://github.com/k-kinzal/grunt-dgeni">grunt-dgeni</a><span class="source-meta">GitHub · 2014.09 · A plugin that adds documentation generation to a Grunt build</span></li>
+        <li id="src-3"><a href="https://www.slideshare.net/slideshow/php-40139017/40139017">PHP + Ukagaka: a new form of notification</a><span class="source-meta">Slides · 2014.10.11 · Lightning talk at PHP Conference Japan 2014</span></li>
+      </ol>
+    </div>
+  </section>
+</article>` }
     ],
   },
   {

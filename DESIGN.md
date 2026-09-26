@@ -440,6 +440,33 @@ carry: the base for a mark, a count and a definition; `.legend-inline` for a
 strip under a drawing; `.legend-key` for numbered callouts. (`.graph-legend` is
 the former name of `.legend-inline`.)
 
+**A source is cited by number and listed once.** `.cite` is a bracketed number
+in the running text — at the size of a count, no underline, so a sentence with
+three sources is not three links. `.sources` numbers itself from the list, so
+`start` and `value` are respected and the numbers cannot drift from the HTML.
+On paper each entry spells out its address on its own line; the document says
+whether the running text repeats them.
+
+```html
+<p class="note">Built grunt-sstp to report build results.<a class="cite" href="#src-1">1</a></p>
+
+<ol class="sources">
+  <li id="src-1"><a href="https://qiita.com/kinzal/items/ecc0284e3e9a8d00f6b9" lang="ja">GruntJSで伺かを操作するgrunt-sstpを作った</a>
+    <span class="source-meta">Qiita · 2014.05.06</span></li>
+</ol>
+```
+
+**Paper is chosen by the document, not by the stylesheet.** Two attributes on
+the root are the whole print setup for a long paper: the sheet size with its
+margins and page numbers, and where addresses are printed (`inline` by
+default, `sources`, or `none`). A `.timeline` inside a `.sheet` reads at the
+report's size, and `.hero > .figures` leads with three short answers where a
+before / after would be wrong.
+
+```html
+<html lang="ja" data-dd-paper="a4" data-dd-print-urls="sources">
+```
+
 **Optional behaviour**, driven by attributes; the page is complete without it:
 
 ```html

@@ -72,5 +72,41 @@
     color: var(--dd-fg-muted);
   }
 
+  /* An entry that takes a few sentences: paragraphs inside the description,
+     rather than one description per sentence. */
+  .timeline-description > p { margin: 0; }
+  .timeline-description > p + p { margin-top: var(--dd-sp-3); }
+
   .timeline-item > .terminal, .timeline-item > .code-block { margin-top: var(--dd-sp-3); }
+
+  /*
+   * Read, not scanned.
+   *
+   * The sizes above are the catalog's: a run's steps, each a line, scanned
+   * for the one that failed. Inside a report the same list carries a
+   * career, or the history of a design, in a few sentences an entry — and
+   * at 13px under notes set at 16px it was the one block on the page that
+   * dropped below the reading size. The report's scale applies: the time at
+   * the label size, the title and the description at the body size, and a
+   * baseline between entries instead of a gutter.
+   *
+   * A genre variant, so it lives here with the component it varies: a rule
+   * written in dd.layout loses to these defaults whatever its selector.
+   */
+  .sheet .timeline-time { font-size: var(--dd-type-1); color: var(--dd-fg-muted); }
+
+  .sheet .timeline-title {
+    font-size: var(--dd-type-2);
+    font-weight: var(--dd-weight-head);
+    line-height: 1.5;
+  }
+
+  .sheet .timeline-description {
+    margin-top: var(--dd-sp-2);
+    font-size: var(--dd-type-2);
+    line-height: 1.7;
+  }
+
+  .sheet .timeline-item { padding-bottom: var(--dd-base); }
+  .sheet .timeline-item:last-child { padding-bottom: 0; }
 }

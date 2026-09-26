@@ -153,6 +153,7 @@
   .sheet-inset h2 { display: block; border: 0; padding: 0; font-size: var(--dd-type-4); line-height: 1.45; margin-bottom: var(--dd-sp-5); }
   .sheet-inset .fig { margin-block: var(--dd-sp-5); font-size: clamp(2.5rem, 15cqi, 4.75rem); }
   .sheet-inset .note { font-size: var(--dd-text-md); }
+  .sheet-inset :is(.timeline-title, .timeline-description, .sources) { font-size: var(--dd-text-md); }
   .sheet-inset .caveat { font-size: var(--dd-text-md); }
   .specimen-caption {
     margin-top: auto;

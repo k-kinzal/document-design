@@ -21,6 +21,7 @@
     "@playwright/test": "^1.63.0",
     "axe-core": "^4.13.0",
     "parse5": "^8.0.1",
+    "pdfjs-dist": "^6.3.289",
     "shiki": "^4.4.3",
     "vite-plus": "1.0.0-rc.0"
   },

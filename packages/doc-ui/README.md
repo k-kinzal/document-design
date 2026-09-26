@@ -106,7 +106,7 @@ src/
   base/              reset, text, tone modifiers, skip link, print
   layout/            doc (catalog frame), report (sheet), arrange (shared)
   components/        grouped by what they are for:
-                       reading    prose, callout, quote, deflist
+                       reading    prose, callout, quote, deflist, sources
                        code       code, diff, terminal, filetree
                        structure  tree, graph, disclosure, tabs, pagination
                        data       table, listing, meter, plot, stat, facts, symbol

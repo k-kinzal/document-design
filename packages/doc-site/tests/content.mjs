@@ -98,6 +98,18 @@ try {
   for (const lang of locales) {
     const starter = readFileSync(join(temp, 'public', localePath('examples/report.html', lang)), 'utf8');
     assert(starter.includes(`<html lang="${lang}"`));
+    // The long paper: a complete document with no stylesheet of its own,
+    // whose citations all resolve and whose sources all have an address.
+    const paper = readFileSync(join(temp, 'public', localePath('examples/paper.html', lang)), 'utf8');
+    assert(paper.includes(`<html lang="${lang}" data-dd-paper="a4" data-dd-print-urls="sources">`), `Paper is not set for print: ${lang}`);
+    assert(!/<style\b|<script\b/.test(paper), `Paper carries its own CSS or script: ${lang}`);
+    assert(paper.includes(`${releaseTag}/document-design.css`), `Unpinned paper stylesheet: ${lang}`);
+    const cited = new Set([...paper.matchAll(/class="cite" href="#([^"]+)"/g)].map(m => m[1]));
+    const sources = [...paper.matchAll(/<li id="(src-\d+)"><a href="(https?:[^"]+)"/g)].map(m => m[1]);
+    assert(cited.size > 50 && sources.length > 50, `Paper has few sources: ${lang}`);
+    for (const id of cited) assert(sources.includes(id), `Dangling citation in ${lang} paper: #${id}`);
+    assert.equal(sources.length, new Set(sources).size, `Duplicate source ids: ${lang}`);
+    if (lang === 'en') assert(!/[ぁ-んァ-ン一-龯]/.test(paper.replace(/<a href="[^"]+" lang="ja">[^<]*<\/a>/g, '')), 'Untranslated Japanese in the English paper outside cited titles');
     const search = readFileSync(join(temp, 'public', localePath('assets/search.js', lang)), 'utf8');
     assert(search.includes(translate('Reading text', lang)));
   }

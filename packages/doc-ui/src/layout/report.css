@@ -117,6 +117,32 @@
   /* Or the lead is simply a drawing. */
   .hero > svg { grid-column: 1 / -1; grid-row: 1 / 4; }
 
+  /*
+   * Or the lead is words in a row.
+   *
+   * A profile, a project or a research theme has no before and after, and
+   * no count worth the page's largest type. What it has is a short answer
+   * to "what is this?" — the title and the stand-first — and then the three
+   * things that answer it in more detail. Those three are the row of
+   * `.figures` the sections already use, placed in the hero's slot so the
+   * opening stays one group, closed by the hero's rule.
+   *
+   * It takes the whole width, released from the subgrid rows the before /
+   * after sides are pinned to, and it is not a size container: `.figures`
+   * folds on the sheet's width, and a container of its own would have folded
+   * its children on a different width from the one the row itself uses.
+   *
+   * Three classes, not two: `.sheet .figures` in layout/arrange.css also has
+   * two, and being later it won the column — the row sat in the field's
+   * nine tracks with the rail empty beside it.
+   */
+  .sheet .hero > .figures {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    grid-template-rows: none;
+    container-type: normal;
+  }
+
   .cap {
     display: block;
     font-size: var(--dd-type-1);

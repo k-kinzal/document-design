@@ -62,6 +62,37 @@
     }
 
     /*
+     * A sources list is where a paper keeps its URLs, so on paper each
+     * entry spells out its destination on a line of its own — under the
+     * title, in the register of the meta line, breaking wherever it must.
+     * The reader who follows a citation to entry 41 finds the address there
+     * rather than scattered through the running text.
+     */
+    .sources a[href^="http"]::after {
+      content: attr(href);
+      display: block;
+      font-size: 0.85em;
+      color: #555;
+      overflow-wrap: anywhere;
+      word-break: break-all;
+    }
+
+    /*
+     * The document chooses where its URLs are printed: `data-dd-print-urls`
+     * on the root, the body or the article.
+     *
+     * The default writes every external link out where it stands, which is
+     * right for a README with three links and wrong for a paper with sixty
+     * citations: the running text grew by a line for every source, and the
+     * same address then appeared again in the list at the end. `sources`
+     * keeps the URLs to the sources list, so a citation number in the text
+     * is enough. `none` prints no address anywhere, for a document that
+     * will only be read on screen after all or already shows its addresses.
+     */
+    [data-dd-print-urls="sources"] :is(.prose, .content) a[href^="http"]::after,
+    [data-dd-print-urls="none"] a[href^="http"]::after { content: none; }
+
+    /*
      * A printed page is a record, and a record is the whole document.
      *
      * Everything this system hides on screen it hides for a screen reason: a
@@ -121,10 +152,54 @@
      * small by construction get break-inside: avoid.
      */
     :is(h1, h2, h3, h4) { break-after: avoid-page; }
-    :is(figure, .stat, .stat, .card, .graph-wrap) { break-inside: avoid; }
+    :is(figure, .stat, .card, .graph-wrap) { break-inside: avoid; }
     :is(pre, table, .rows, .sec) { break-inside: auto; }
     tr, .row, .member { break-inside: auto; }
     p { orphans: 3; widows: 3; }
+
+    /*
+     * The report's headings are not all headings. A section's `.label` is
+     * often a <div>, its `.lead` is a <p>, and a timeline entry's title is a
+     * <p> under a <span> that says when — and each of them was the thing
+     * left alone at the foot of a page while what it introduced started the
+     * next. A timeline entry and a source are small by construction, a few
+     * lines each, so they are kept whole; an entry that carries a terminal
+     * block breaks anyway, as it must.
+     */
+    .label, .lead, .timeline-time, .timeline-title { break-after: avoid-page; }
+    .timeline-item, .sources > li, .sidenote { break-inside: avoid; }
+
+    /*
+     * The timeline's spine is drawn by a positioned pseudo-element that runs
+     * the height of the list, and a positioned box is not fragmented: on
+     * paper it was drawn on the first page the list started on and on no
+     * page after, leaving the marks on every later page joined by nothing.
+     * A border is drawn on every fragment, so on paper the spine is a border
+     * on the list, at the same x as the line it replaces: 5px in, one wide.
+     */
+    .timeline::before { display: none; }
+    .timeline {
+      margin-left: 5px;
+      border-left: 1px solid var(--dd-border);
+      padding-left: calc(var(--dd-sp-6) - 6px);
+    }
+
+    /*
+     * A folded section is a column, not a grid.
+     *
+     * On a sheet of paper the rail folds — the section's label above its
+     * field, its margin notes at the end — and the section is a twelve-track
+     * grid with one column. Chromium fragments a grid, but when a grid item
+     * breaks across the page the row after it is placed where the row would
+     * have ended had the item not grown: measured on the English paper, the
+     * margin note was drawn over the last two lines of the paragraph that
+     * continued onto the page. A column flex container fragments correctly
+     * and keeps `order`, so the note still comes last. Scoped to the fold,
+     * because a rail that is still a column beside its field needs the grid.
+     */
+    @container (max-width: 904px) {
+      .sheet .sec { display: flex; flex-direction: column; }
+    }
 
     thead { display: table-header-group; }
 
@@ -198,5 +273,50 @@
     }
 
     @page { margin: 16mm; }
+
+    /*
+     * Paper, chosen by the document: `data-dd-paper="a4"` or `"letter"` on
+     * the root element.
+     *
+     * The stylesheet does not know what is in the printer, so by default the
+     * sheet is whatever the reader's dialog says. A paper that is meant to
+     * be a PDF does know, and until now said so with an `@page` of its own,
+     * a fixed-height page box per printed page, and a footer positioned into
+     * the bottom margin by hand — the three things the generated paper
+     * this was measured on had to add, and the three things that went wrong
+     * in it when a page ran long.
+     *
+     * A named page carries the size, the margins and the page number
+     * together. The number is "n / N", in the bottom margin, so a printout
+     * that has lost its last sheet says so. Engines without page margin
+     * boxes keep the size and the margins and simply print no number; the
+     * content is not affected either way.
+     *
+     * The `page` property is set on the element carrying the attribute and
+     * flows to every descendant left at `auto`, so a single attribute on
+     * <html> is enough and an attribute on <article> pages only the article.
+     */
+    @page dd-a4 {
+      size: A4;
+      margin: 18mm 16mm 20mm;
+      @bottom-center {
+        content: counter(page) " / " counter(pages);
+        font: 10px system-ui, sans-serif;
+        color: #555;
+      }
+    }
+
+    @page dd-letter {
+      size: letter;
+      margin: 0.7in 0.65in 0.8in;
+      @bottom-center {
+        content: counter(page) " / " counter(pages);
+        font: 10px system-ui, sans-serif;
+        color: #555;
+      }
+    }
+
+    [data-dd-paper="a4"] { page: dd-a4; }
+    [data-dd-paper="letter"] { page: dd-letter; }
   }
 }
