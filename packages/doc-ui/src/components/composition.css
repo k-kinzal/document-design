@@ -88,8 +88,13 @@
    * with shorthands (`margin: 0`, `margin: 0 0 …`), which are in this layer,
    * so the sheet's layout layer cannot restore the baseline from below;
    * the rule has to sit here, after every component it spaces.
+   *
+   * Only text blocks and other arrangements precede the gap. A heading
+   * keeps its own, closer distance to what follows it: the product page
+   * sets a section title half a baseline from its prose, and a first
+   * version of this rule written as `* + …` doubled that.
    */
-  .sheet .field > * + :is(.compare, .flow, .definitions, .figures, .stats, .table-wrap, .timeline, .prose, .code-block) { margin-top: var(--dd-base); }
+  .sheet .field > :is(.note, .lead, .prose, .compare, .flow, .definitions, .figures, .stats, .table-wrap, .timeline) + :is(.compare, .flow, .definitions, .figures, .stats, .table-wrap, .timeline) { margin-top: var(--dd-base); }
 
   .compare {
     display: grid;
