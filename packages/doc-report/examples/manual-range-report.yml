@@ -1,0 +1,44 @@
+# Compare any two commits or tags by hand. No branch, pull request or
+# release is needed; the two trees are compared directly.
+name: Compare two revisions
+
+on:
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Base tag or commit
+        required: true
+        type: string
+      head:
+        description: Head tag or commit
+        required: true
+        type: string
+      language:
+        description: Report language
+        type: choice
+        options: [en, ja]
+        default: en
+
+permissions: {}
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      copilot-requests: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+      - uses: k-kinzal/document-design@report-v1
+        with:
+          mode: range
+          base: ${{ inputs.base }}
+          head: ${{ inputs.head }}
+          language: ${{ inputs.language }}

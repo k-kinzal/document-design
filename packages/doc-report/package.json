@@ -1,0 +1,22 @@
+{
+  "name": "doc-report",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "GitHub Actions change reports: a self-contained HTML paper built with doc-ui",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "node --test tests/*.test.mjs",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "esbuild": "^0.28.2",
+    "parse5": "^8.0.1",
+    "yaml": "^2.8.1"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

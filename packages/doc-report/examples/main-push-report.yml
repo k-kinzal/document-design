@@ -1,0 +1,43 @@
+# Every push to the default branch, including multi-commit pushes, compared
+# from the push's `before` to its `after`. Read the report from the Job
+# Summary link. Manual runs compare any two tags or commits.
+name: Main change report
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Base tag or commit
+        required: true
+        type: string
+      head:
+        description: Head tag or commit
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      copilot-requests: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+      - uses: k-kinzal/document-design@report-v1
+        with:
+          mode: ${{ github.event_name == 'push' && 'push' || 'range' }}
+          base: ${{ inputs.base }}
+          head: ${{ inputs.head }}
+          language: en

@@ -1,0 +1,88 @@
+name: document-design report publisher
+description: >-
+  Publish a generated change report without running a model: upsert one
+  pull request comment per report id, or attach the HTML to a release as an
+  asset. Verifies the source run, its artifacts and the manifest through the
+  GitHub API before writing.
+author: k-kinzal
+branding:
+  icon: upload
+  color: blue
+
+inputs:
+  target:
+    description: pr or release.
+    required: true
+  source-run-id:
+    description: The workflow run that generated the report. Defaults to the current run.
+    default: ${{ github.run_id }}
+  report-id:
+    description: The report id used at generation.
+    default: default
+  pr-number:
+    description: Pull request number. Resolved from pull_request events when empty.
+    default: ''
+  generation-result:
+    description: success, failure, cancelled or skipped, from the generation job (needs.<job>.result).
+    default: success
+  github-token:
+    description: Token with the permissions the target needs.
+    default: ${{ github.token }}
+  release-tag:
+    description: Target tag. Required when target is release.
+    default: ''
+  create-draft:
+    description: Create a draft release for an existing tag when no release exists.
+    default: 'false'
+  update-release-body:
+    description: Upsert a marked link block in the release notes.
+    default: 'true'
+  replace-assets:
+    description: Replace an asset of the same name with different content. Only on drafts or mutable releases.
+    default: 'false'
+  comment-author:
+    description: Login of the identity that posts comments with this token; existing comments by any other author are never edited.
+    default: github-actions[bot]
+
+outputs:
+  outcome:
+    description: posted, updated, superseded, skipped, failure-posted, attached, reused, replaced, conflict, immutable or failed.
+    value: ${{ steps.publish.outputs.outcome }}
+  comment-url:
+    description: The pull request comment.
+    value: ${{ steps.publish.outputs.comment-url }}
+  asset-url:
+    description: The release asset download URL.
+    value: ${{ steps.publish.outputs.asset-url }}
+  release-url:
+    description: The release page.
+    value: ${{ steps.publish.outputs.release-url }}
+  message:
+    description: What happened, in one sentence.
+    value: ${{ steps.publish.outputs.message }}
+
+runs:
+  using: composite
+  steps:
+    - id: publish
+      shell: bash
+      env:
+        DD_REPORT_ACTION_PATH: ${{ github.action_path }}/../..
+        DD_INPUT_TARGET: ${{ inputs.target }}
+        DD_INPUT_SOURCE_RUN_ID: ${{ inputs.source-run-id }}
+        DD_INPUT_REPORT_ID: ${{ inputs.report-id }}
+        DD_INPUT_PR_NUMBER: ${{ inputs.pr-number }}
+        DD_INPUT_GENERATION_RESULT: ${{ inputs.generation-result }}
+        DD_INPUT_GITHUB_TOKEN: ${{ inputs.github-token }}
+        DD_INPUT_RELEASE_TAG: ${{ inputs.release-tag }}
+        DD_INPUT_CREATE_DRAFT: ${{ inputs.create-draft }}
+        DD_INPUT_UPDATE_RELEASE_BODY: ${{ inputs.update-release-body }}
+        DD_INPUT_REPLACE_ASSETS: ${{ inputs.replace-assets }}
+        DD_INPUT_COMMENT_AUTHOR: ${{ inputs.comment-author }}
+      run: |
+        major="$(node -p 'process.versions.node.split(".")[0]' 2>/dev/null || echo 0)"
+        if [ "$major" -lt 22 ]; then
+          echo "::error::document-design report needs Node.js 22 or newer on PATH (found $(node --version 2>/dev/null || echo none)). Add actions/setup-node with node-version: 24 before this step."
+          exit 1
+        fi
+        node "$DD_REPORT_ACTION_PATH/packages/doc-report/dist/report.mjs" publish

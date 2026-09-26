@@ -24,4 +24,12 @@ Add the stylesheet to your document’s `<head>`:
 Choose a document or report layout, copy a complete HTML example, and learn about
 Japanese typography, themes, offline use, and optional interactions.
 
+## Change reports in GitHub Actions
+
+`k-kinzal/document-design@report-v1` turns a push, pull request, tag range or
+release into a self-contained HTML report typeset with doc-ui, written by
+GitHub Copilot CLI under your own token. See
+[packages/doc-report](packages/doc-report/README.md) for the actions,
+inputs, permissions and complete example workflows.
+
 [MIT License](LICENSE)

@@ -9,7 +9,7 @@ const lock = JSON.parse(read('package-lock.json'));
 test('workspace licenses agree and the publishable package includes the MIT text', () => {
   assert.match(read('LICENSE'), /^MIT License\n\nCopyright \(c\) 2026 k-kinzal\n/);
   assert.equal(read('packages/doc-ui/LICENSE'), read('LICENSE'));
-  for (const path of ['', 'packages/doc-ui/', 'packages/doc-site/', 'packages/doc-publish/']) {
+  for (const path of ['', 'packages/doc-ui/', 'packages/doc-site/', 'packages/doc-publish/', 'packages/doc-report/']) {
     assert.equal(JSON.parse(read(`${path}package.json`)).license, 'MIT', path);
   }
   const ui = JSON.parse(read('packages/doc-ui/package.json'));

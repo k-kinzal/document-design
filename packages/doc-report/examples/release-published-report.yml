@@ -1,0 +1,32 @@
+# Report only, when a release is published. The published release may be
+# immutable, so this example does not try to attach an asset; the HTML is
+# available as a workflow artifact for its retention period. To keep a copy
+# on the release, attach it while the release is still a draft (see
+# prepare-release-report.yml).
+name: Release change report
+
+on:
+  release:
+    types: [published]
+
+permissions: {}
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      copilot-requests: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+      - uses: k-kinzal/document-design/actions/release@report-v1
+        with:
+          language: en

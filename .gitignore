@@ -1,6 +1,9 @@
 # Dependencies and generated output
 node_modules/
 dist/
+# The report action's distribution is committed: consumers run it with
+# `uses:` and no install step. A test keeps it in sync with the source.
+!packages/doc-report/dist/
 storybook-static/
 pages/
 .generated/

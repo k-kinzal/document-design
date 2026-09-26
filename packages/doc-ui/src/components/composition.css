@@ -80,6 +80,17 @@
     color: var(--dd-fg-muted);
   }
 
+  /*
+   * In a report field, a block that follows another block sits one baseline
+   * below it. Measured on a generated report: a `.note` (margin 0) followed
+   * by a `.compare` had no gap at all, and a `.flow` followed by a
+   * `.definitions` none either. The components declare their own margins
+   * with shorthands (`margin: 0`, `margin: 0 0 …`), which are in this layer,
+   * so the sheet's layout layer cannot restore the baseline from below;
+   * the rule has to sit here, after every component it spaces.
+   */
+  .sheet .field > * + :is(.compare, .flow, .definitions, .figures, .stats, .table-wrap, .timeline, .prose, .code-block) { margin-top: var(--dd-base); }
+
   .compare {
     display: grid;
     grid-template-columns: minmax(0, 1fr);

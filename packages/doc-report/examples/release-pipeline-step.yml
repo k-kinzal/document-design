@@ -1,0 +1,71 @@
+# A report job inside an existing release pipeline. The pipeline creates the
+# draft; the report is generated and attached before the maintainer (or the
+# pipeline's last step) publishes it. This avoids relying on one workflow's
+# GITHUB_TOKEN to trigger another workflow, which it does not.
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions: {}
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - run: gh release create "$TAG" --draft --title "$TAG" --notes "" --repo "$GITHUB_REPOSITORY"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+
+  report:
+    needs: draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      copilot-requests: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+      - uses: k-kinzal/document-design/actions/release@report-v1
+        with:
+          language: en
+
+  attach:
+    needs: report
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+    steps:
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+      - uses: k-kinzal/document-design/actions/publish@report-v1
+        with:
+          target: release
+          release-tag: ${{ github.ref_name }}
+          report-id: release
+          generation-result: ${{ needs.report.result }}
+
+  # Publish when everything above succeeded. Remove this job to publish by
+  # hand after reading the report.
+  publish:
+    needs: attach
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - run: gh release edit "$TAG" --draft=false --repo "$GITHUB_REPOSITORY"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}

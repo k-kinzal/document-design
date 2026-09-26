@@ -1,0 +1,61 @@
+# Compare an existing product tag with its previous stable release (or an
+# explicit base) and attach the HTML to a draft release. A draft is created
+# only when no release exists for the tag; nothing is published here, and
+# the tag itself must already exist.
+name: Prepare release report
+
+on:
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Base tag; empty selects the previous stable version
+        required: false
+        type: string
+      head:
+        description: Existing target release tag
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      copilot-requests: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+      - uses: k-kinzal/document-design/actions/release@report-v1
+        with:
+          base: ${{ inputs.base }}
+          head: ${{ inputs.head }}
+          language: en
+          report-id: release
+
+  attach:
+    needs: report
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: write
+    steps:
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+      - uses: k-kinzal/document-design/actions/publish@report-v1
+        with:
+          target: release
+          source-run-id: ${{ github.run_id }}
+          report-id: release
+          release-tag: ${{ inputs.head }}
+          generation-result: ${{ needs.report.result }}
+          create-draft: true
