@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>コンポーネント — doc-ui</title>
-<meta name="description" content="43種類のdoc-uiコンポーネントとレイアウトを目的別に紹介。実物のプレビュー、コピーできるHTML、使い方を確認できます。">
+<meta name="description" content="44種類のdoc-uiコンポーネントとレイアウトを目的別に紹介。実物のプレビュー、コピーできるHTML、使い方を確認できます。">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#fcfcfe" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1f2023" media="(prefers-color-scheme: dark)">
@@ -17,19 +17,19 @@
 <meta property="og:locale" content="ja_JP">
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:title" content="コンポーネント — doc-ui">
-<meta property="og:description" content="43種類のdoc-uiコンポーネントとレイアウトを目的別に紹介。実物のプレビュー、コピーできるHTML、使い方を確認できます。">
+<meta property="og:description" content="44種類のdoc-uiコンポーネントとレイアウトを目的別に紹介。実物のプレビュー、コピーできるHTML、使い方を確認できます。">
 <meta property="og:url" content="https://k-kinzal.github.io/document-design/ja/components/">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="コンポーネント — doc-ui">
-<meta name="twitter:description" content="43種類のdoc-uiコンポーネントとレイアウトを目的別に紹介。実物のプレビュー、コピーできるHTML、使い方を確認できます。">
+<meta name="twitter:description" content="44種類のdoc-uiコンポーネントとレイアウトを目的別に紹介。実物のプレビュー、コピーできるHTML、使い方を確認できます。">
 
 <link rel="icon" href="../../assets/favicon.png" type="image/png" sizes="48x48">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png" sizes="180x180">
-<link  rel="stylesheet" href="../../v1.0.0/document-design.min.css">
-<script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","@id":"https://k-kinzal.github.io/document-design/ja/components/","url":"https://k-kinzal.github.io/document-design/ja/components/","name":"コンポーネント — doc-ui","headline":"コンポーネント","description":"43種類のdoc-uiコンポーネントとレイアウトを目的別に紹介。実物のプレビュー、コピーできるHTML、使い方を確認できます。","inLanguage":"ja","author":{"@type":"Person","name":"k-kinzal","url":"https://github.com/k-kinzal"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"doc-ui","item":"https://k-kinzal.github.io/document-design/ja/"},{"@type":"ListItem","position":2,"name":"コンポーネント","item":"https://k-kinzal.github.io/document-design/ja/components/"}]}]</script>
+<link  rel="stylesheet" href="../../v1.1.0/document-design.min.css">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","@id":"https://k-kinzal.github.io/document-design/ja/components/","url":"https://k-kinzal.github.io/document-design/ja/components/","name":"コンポーネント — doc-ui","headline":"コンポーネント","description":"44種類のdoc-uiコンポーネントとレイアウトを目的別に紹介。実物のプレビュー、コピーできるHTML、使い方を確認できます。","inLanguage":"ja","author":{"@type":"Person","name":"k-kinzal","url":"https://github.com/k-kinzal"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"doc-ui","item":"https://k-kinzal.github.io/document-design/ja/"},{"@type":"ListItem","position":2,"name":"コンポーネント","item":"https://k-kinzal.github.io/document-design/ja/components/"}]}]</script>
 <script  src="../../ja/assets/search.js" defer></script>
-<script  src="../../v1.0.0/document-design.js" defer></script>
+<script  src="../../v1.1.0/document-design.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">本文へ移動</a>
@@ -39,31 +39,19 @@
   <path class="draw-arrowhead" d="M0 0L8 3L0 6Z"/>
 </marker>
 </svg>
-<div class="doc doc-quiet"><nav class="sidebar" id="navigation" aria-label="ドキュメントのナビゲーション"><div class="sidebar-header"><a class="brand" href="../index.html">doc-ui</a></div><div class="sidebar-section"><p class="sidebar-title">はじめに</p><ul class="sidebar-list"><li><a href="../start/index.html">はじめに</a></li><li class="is-active"><a href="../components/index.html" aria-current="page">コンポーネント</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">レイアウト</p><ul class="sidebar-list"><li><a href="../components/document/index.html">Document</a></li><li><a href="../components/report/index.html">Report</a></li><li><a href="../components/publication/index.html">Publication</a></li><li><a href="../components/composition/index.html">Composition</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">一覧とデータ</p><ul class="sidebar-list"><li><a href="../components/table/index.html">Table</a></li><li><a href="../components/listing/index.html">Listing</a></li><li><a href="../components/chip/index.html">Chip</a></li><li><a href="../components/card/index.html">Card</a></li><li><a href="../components/facts/index.html">Facts</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">図とグラフ</p><ul class="sidebar-list"><li><a href="../components/meter/index.html">Meter</a></li><li><a href="../components/graph/index.html">Graph</a></li><li><a href="../components/bar-chart/index.html">Bar chart</a></li><li><a href="../components/comparison-plot/index.html">Comparison plot</a></li><li><a href="../components/line-plot/index.html">Line plot</a></li><li><a href="../components/histogram/index.html">Histogram</a></li><li><a href="../components/drawing/index.html">Drawing</a></li><li><a href="../components/annotate/index.html">Annotate</a></li><li><a href="../components/flow-graph/index.html">Flow graph</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">文章</p><ul class="sidebar-list"><li><a href="../components/prose/index.html">Prose</a></li><li><a href="../components/callout/index.html">Callout</a></li><li><a href="../components/quote/index.html">Quote</a></li><li><a href="../components/definitions/index.html">Definitions</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">コードと変更</p><ul class="sidebar-list"><li><a href="../components/code/index.html">Code</a></li><li><a href="../components/symbol/index.html">Symbol</a></li><li><a href="../components/diff/index.html">Diff</a></li><li><a href="../components/terminal/index.html">Terminal</a></li><li><a href="../components/filetree/index.html">File tree</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">ナビゲーション</p><ul class="sidebar-list"><li><a href="../components/tree/index.html">Tree</a></li><li><a href="../components/control/index.html">Control</a></li><li><a href="../components/facets/index.html">Facets</a></li><li><a href="../components/search/index.html">Search</a></li><li><a href="../components/sidebar/index.html">Sidebar</a></li><li><a href="../components/topbar/index.html">Topbar</a></li><li><a href="../components/tabs/index.html">Tabs</a></li><li><a href="../components/disclosure/index.html">Disclosure</a></li><li><a href="../components/pagination/index.html">Pagination</a></li><li><a href="../components/keys/index.html">Keys</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">状態とフィードバック</p><ul class="sidebar-list"><li><a href="../components/notice/index.html">Notice</a></li><li><a href="../components/banner/index.html">Banner</a></li><li><a href="../components/empty/index.html">Empty</a></li><li><a href="../components/stat/index.html">Stat</a></li><li><a href="../components/timeline/index.html">Timeline</a></li><li><a href="../components/tooltip/index.html">Tooltip</a></li></ul></div><div class="sidebar-section"><ul class="sidebar-list"><li><a href="../../storybook/index.html">Storybook ↗</a></li><li><a href="https://github.com/k-kinzal/document-design">GitHub ↗</a></li></ul></div></nav><div class="main">
+<div class="doc doc-quiet"><nav class="sidebar" id="navigation" aria-label="ドキュメントのナビゲーション"><div class="sidebar-header"><a class="brand" href="../index.html">doc-ui</a></div><div class="sidebar-section"><p class="sidebar-title">はじめに</p><ul class="sidebar-list"><li><a href="../start/index.html">はじめに</a></li><li class="is-active"><a href="../components/index.html" aria-current="page">コンポーネント</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">レイアウト</p><ul class="sidebar-list"><li><a href="../components/document/index.html">Document</a></li><li><a href="../components/report/index.html">Report</a></li><li><a href="../components/publication/index.html">Publication</a></li><li><a href="../components/composition/index.html">Composition</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">一覧とデータ</p><ul class="sidebar-list"><li><a href="../components/table/index.html">Table</a></li><li><a href="../components/listing/index.html">Listing</a></li><li><a href="../components/chip/index.html">Chip</a></li><li><a href="../components/card/index.html">Card</a></li><li><a href="../components/facts/index.html">Facts</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">図とグラフ</p><ul class="sidebar-list"><li><a href="../components/meter/index.html">Meter</a></li><li><a href="../components/graph/index.html">Graph</a></li><li><a href="../components/bar-chart/index.html">Bar chart</a></li><li><a href="../components/comparison-plot/index.html">Comparison plot</a></li><li><a href="../components/line-plot/index.html">Line plot</a></li><li><a href="../components/histogram/index.html">Histogram</a></li><li><a href="../components/drawing/index.html">Drawing</a></li><li><a href="../components/annotate/index.html">Annotate</a></li><li><a href="../components/flow-graph/index.html">Flow graph</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">文章</p><ul class="sidebar-list"><li><a href="../components/prose/index.html">Prose</a></li><li><a href="../components/callout/index.html">Callout</a></li><li><a href="../components/quote/index.html">Quote</a></li><li><a href="../components/definitions/index.html">Definitions</a></li><li><a href="../components/sources/index.html">出典</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">コードと変更</p><ul class="sidebar-list"><li><a href="../components/code/index.html">Code</a></li><li><a href="../components/symbol/index.html">Symbol</a></li><li><a href="../components/diff/index.html">Diff</a></li><li><a href="../components/terminal/index.html">Terminal</a></li><li><a href="../components/filetree/index.html">File tree</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">ナビゲーション</p><ul class="sidebar-list"><li><a href="../components/tree/index.html">Tree</a></li><li><a href="../components/control/index.html">Control</a></li><li><a href="../components/facets/index.html">Facets</a></li><li><a href="../components/search/index.html">Search</a></li><li><a href="../components/sidebar/index.html">Sidebar</a></li><li><a href="../components/topbar/index.html">Topbar</a></li><li><a href="../components/tabs/index.html">Tabs</a></li><li><a href="../components/disclosure/index.html">Disclosure</a></li><li><a href="../components/pagination/index.html">Pagination</a></li><li><a href="../components/keys/index.html">Keys</a></li></ul></div><div class="sidebar-section"><p class="sidebar-title">状態とフィードバック</p><ul class="sidebar-list"><li><a href="../components/notice/index.html">Notice</a></li><li><a href="../components/banner/index.html">Banner</a></li><li><a href="../components/empty/index.html">Empty</a></li><li><a href="../components/stat/index.html">Stat</a></li><li><a href="../components/timeline/index.html">Timeline</a></li><li><a href="../components/tooltip/index.html">Tooltip</a></li></ul></div><div class="sidebar-section"><ul class="sidebar-list"><li><a href="../../storybook/index.html">Storybook ↗</a></li><li><a href="https://github.com/k-kinzal/document-design">GitHub ↗</a></li></ul></div></nav><div class="main">
   <header class="topbar"><button class="btn nav-toggle" data-dd-nav-toggle aria-label="ナビゲーションを開く" aria-controls="navigation" aria-expanded="false">☰ メニュー</button><nav class="breadcrumbs" aria-label="パンくずリスト"><a href="../index.html">doc-ui</a><span class="breadcrumb-sep">/</span><span class="breadcrumb-current">コンポーネント</span></nav><div class="topbar-tools"><input type="search" class="input input-search" placeholder="検索 /" aria-label="コンポーネントを検索" data-dd-search data-dd-enhance hidden autocomplete="off"><a class="btn btn-quiet" href="../../components/index.html" lang="en" hreflang="en" rel="alternate" translate="no">English</a><button class="btn" data-dd-theme-toggle data-dd-enhance hidden aria-label="配色テーマを切り替える">◐</button></div></header>
   <div class="search-results" data-dd-search-results hidden></div>
-  <main class="content" id="main"><h1>コンポーネント</h1><p class="lede">43種類のコンポーネントとレイアウト。</p><nav class="index-nav" aria-label="カテゴリに移動"><a href="#group-0">レイアウト</a><a href="#group-1">一覧とデータ</a><a href="#group-2">図とグラフ</a><a href="#group-3">文章</a><a href="#group-4">コードと変更</a><a href="#group-5">ナビゲーション</a><a href="#group-6">状態とフィードバック</a></nav><section class="group" id="group-0"><h2>レイアウト<span class="count">4コンポーネント</span></h2><div class="cards" id="cards-0"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="doc doc-inset">
-  <div class="main">
-    <div class="content">
-      <h2>レイアウトのリファレンス</h2>
-      <p class="lede">読み方から選ぶ。</p>
-      <dl class="definitions">
-        <div><dt><code>.doc</code></dt><dd>項目を探し、比較する。</dd></div>
-        <div><dt><code>.sheet</code></dt><dd>主張とその根拠をたどる。</dd></div>
-      </dl>
-    </div>
-  </div>
-</div></div><h3><a class="card-link" href="./document/index.html">Document</a></h3><p class="card-description">数百件の中から目的の一件を探すための、密度の高いドキュメントレイアウト。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><article class="sheet sheet-inset">
-  <p class="eyebrow">読む順序</p>
-  <h2>主張に、読む順序を。</h2>
-  <p class="stand">主張、その根拠、そして意味。</p>
-  <p class="note">型と余白のスケールを分け、主張を前に出しながら、それを支える詳細の居場所をつくります。</p>
-</article></div><h3><a class="card-link" href="./report/index.html">Report</a></h3><p class="card-description">結論・根拠・限界が一目でわかる、余白を活かしたレポートレイアウト。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><section class="cover">
+  <main class="content" id="main"><h1>コンポーネント</h1><p class="lede">44種類のコンポーネントとレイアウト。</p><nav class="index-nav" aria-label="カテゴリに移動"><a href="#group-0">レイアウト</a><a href="#group-1">一覧とデータ</a><a href="#group-2">図とグラフ</a><a href="#group-3">文章</a><a href="#group-4">コードと変更</a><a href="#group-5">ナビゲーション</a><a href="#group-6">状態とフィードバック</a></nav><section class="group" id="group-0"><h2>レイアウト<span class="count">4コンポーネント</span></h2><div class="cards" id="cards-0"><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><div class="doc doc-inset"><h2>レイアウトのリファレンス</h2><dl class="definitions">
+      <div><dt><code>.doc</code></dt><dd>項目を探し、比較する。</dd></div>
+      <div><dt><code>.sheet</code></dt><dd>主張とその根拠をたどる。</dd></div>
+    </dl></div></div><h3><a class="card-link" href="./document/index.html">Document</a></h3><p class="card-description">数百件の中から目的の一件を探すための、密度の高いドキュメントレイアウト。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><article class="sheet sheet-inset"><p class="eyebrow">読む順序</p>
+      <h2>主張に、読む順序を。</h2><p class="stand">主張、その根拠、そして意味。</p></article></div><h3><a class="card-link" href="./report/index.html">Report</a></h3><p class="card-description">結論・根拠・限界が一目でわかる、余白を活かしたレポートレイアウト。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><section class="cover">
   <div><p class="eyebrow">DOC-UI / 紙面構成</p>
     <h2 class="cover-title">情報を、見やすく。</h2></div>
   <div class="cover-copy"><p>ドキュメントとレポートのためのデザインシステム。</p>
     <div class="actions"><a class="btn btn-primary btn-lg">はじめに →</a></div></div>
-</section></div><h3><a class="card-link" href="./publication/index.html">Publication</a></h3><p class="card-description">表紙、ナビゲーション、節見出し、作例を囲む枠を再利用できます。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><figure class="plate plate-full plate-side plate-unnumbered">
+</section></div><h3><a class="card-link" href="./publication/index.html">Publication</a></h3><p class="card-description">表紙、ナビゲーション、節見出し、作例を囲む枠を再利用できます。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><figure class="plate plate-full plate-side plate-unnumbered">
   <div class="plate-body">
     <h3 class="compare-title"><span class="ref ref-mark tone-teal">B</span> ペーパー</h3>
     <ol class="flow tone-teal">
@@ -84,7 +72,7 @@
       <tr><td class="mono">{$}items</td><td class="num">7</td></tr>
       <tr><td class="mono">{$}posts</td><td class="num">3</td></tr></tbody>
   </table>
-</div></div><h3><a class="card-link" href="./table/index.html">Table</a></h3><p class="card-description">値を列で揃え、項目を覚えておかなくても比較できるようにします。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><ul class="rows">
+</div></div><h3><a class="card-link" href="./table/index.html">Table</a></h3><p class="card-description">値を列で揃え、項目を覚えておかなくても比較できるようにします。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><ul class="rows">
   <li class="row">
     <a class="row-main">
       <span class="chip tone-blue">SELECT</span>
@@ -104,18 +92,13 @@
   <span class="chip tone-violet">INSERT</span>
   <span class="chip tone-teal">UPDATE</span>
   <span class="chip chip-ghost">v1.0.0</span>
-</div></div><h3><a class="card-link" href="./chip/index.html">Chip</a></h3><p class="card-description">種別や状態を示す小さなラベル。意味と見た目を別々に指定します。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="cards">
-  <section class="card"><h3>Table</h3>
-    <p class="card-description">各テーブルを読み書きするSQL文を確認できます。</p>
-    <p class="card-more"><a>12テーブルを見る →</a></p></section>
-  <section class="card"><h3>シンボル</h3>
-    <p class="card-description">クラスと関数、そのシグネチャと呼び出し元。</p>
-    <p class="card-more"><a>APIリファレンスを見る →</a></p></section>
-</div></div><h3><a class="card-link" href="./card/index.html">Card</a></h3><p class="card-description">リンク先の内容と、そこで何がわかるかを示します。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><dl class="facts">
+</div></div><h3><a class="card-link" href="./chip/index.html">Chip</a></h3><p class="card-description">種別や状態を示す小さなラベル。意味と見た目を別々に指定します。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><section class="card"><h3>Table</h3>
+      <p class="card-description">各テーブルを読み書きするSQL文を確認できます。</p>
+      <p class="card-more"><a>12テーブルを見る →</a></p></section></div><h3><a class="card-link" href="./card/index.html">Card</a></h3><p class="card-description">リンク先の内容と、そこで何がわかるかを示します。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><dl class="facts">
   <div><dt>データセット</dt><dd>WordPress SQLカタログ</dd></div>
   <div><dt>ソースファイル</dt><dd>77ファイル</dd></div>
   <div><dt>解析範囲</dt><dd>WordPress内で検出したデータベース呼び出し</dd></div>
-</dl></div><h3><a class="card-link" href="./facts/index.html">Facts</a></h3><p class="card-description">バージョン・範囲・出典など、一つの対象の属性を短く示す定義リスト。</p></article></div></section><section class="group" id="group-2"><h2>図とグラフ<span class="count">9コンポーネント</span></h2><div class="cards" id="cards-2"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="meter meter-lg" aria-hidden="true">
+</dl></div><h3><a class="card-link" href="./facts/index.html">Facts</a></h3><p class="card-description">バージョン・範囲・出典など、一つの対象の属性を短く示す定義リスト。</p></article></div></section><section class="group" id="group-2"><h2>図とグラフ<span class="count">9コンポーネント</span></h2><div class="cards" id="cards-2"><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><div class="meter meter-lg" aria-hidden="true">
   <span class="meter-part tone-ok" style="--dd-part:4.15%"></span>
   <span class="meter-part is-open" style="--dd-part:95.85%"></span>
 </div>
@@ -131,44 +114,18 @@
     <rect class="node node-toned tone-blue" x="130" y="92" width="140" height="34" rx="7"/>
     <text x="200" y="109">doc-ui</text>
   </svg>
-</div></div><h3><a class="card-link" href="./graph/index.html">Graph</a></h3><p class="card-description">依存関係を示す、生成SVG図のためのスタイル。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><figure class="plate plate-wide">
-  <p><strong>SQL文が最も多い呼び出し元は？</strong></p>
-  <p class="muted">呼び出し元ごとのSQL文 · 共通スケール：0〜8文</p>
-  <ul class="bars">
-    <li class="bar-row">
-      <span class="bar-label mono">MySQL::save</span>
-      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:100%"></span></span>
-      <span class="bar-value">8文</span>
-    </li>
-    <li class="bar-row">
-      <span class="bar-label mono">MySQL::__construct</span>
-      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
-      <span class="bar-value">1文</span>
-    </li>
-    <li class="bar-row">
-      <span class="bar-label mono">MySQL::load</span>
-      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
-      <span class="bar-value">1文</span>
-    </li>
-    <li class="bar-row">
-      <span class="bar-label mono">MySQL::mtime</span>
-      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
-      <span class="bar-value">1文</span>
-    </li>
-    <li class="bar-row">
-      <span class="bar-label mono">MySQL::touch</span>
-      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
-      <span class="bar-value">1文</span>
-    </li>
-    <li class="bar-row">
-      <span class="bar-label mono">MySQL::unlink</span>
-      <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
-      <span class="bar-value">1文</span>
-    </li>
-  </ul>
-  <figcaption>13文のうち8文がMySQL::saveにあり、ほかの呼び出し元にはそれぞれ1文あります。<span class="plate-source">WordPress SQLカタログのスナップショット · cache_data · SimplePie/Cache/MySQL.php。件数は静的な呼び出し箇所であり、実行頻度ではありません。</span>
-  </figcaption>
-</figure></div><h3><a class="card-link" href="./bar-chart/index.html">Bar chart</a></h3><p class="card-description">名前・正確な値・共通のゼロ基準を揃え、カテゴリの量を比較します。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><svg class="draw" style="--dd-draw-width:240px" viewBox="0 0 240 168" role="img" aria-label="ソースカバレッジは変更前68.97%、変更後96.67%。詳しい条件は比較図の作例に記載。">
+</div></div><h3><a class="card-link" href="./graph/index.html">Graph</a></h3><p class="card-description">依存関係を示す、生成SVG図のためのスタイル。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><div>
+  <p class="note">呼び出し元6件中2件・共通の目盛り：0〜8文</p>
+  <ul class="bars"><li class="bar-row">
+    <span class="bar-label mono">MySQL::save</span>
+    <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:100%"></span></span>
+    <span class="bar-value">8文</span>
+  </li><li class="bar-row">
+    <span class="bar-label mono">MySQL::__construct</span>
+    <span class="bar-track" aria-hidden="true"><span class="bar-fill" style="--dd-bar:12.5%"></span></span>
+    <span class="bar-value">1文</span>
+  </li></ul>
+</div></div><h3><a class="card-link" href="./bar-chart/index.html">Bar chart</a></h3><p class="card-description">名前・正確な値・共通のゼロ基準を揃え、カテゴリの量を比較します。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><svg class="draw" style="--dd-draw-width:240px" viewBox="0 0 240 168" role="img" aria-label="ソースカバレッジは変更前68.97%、変更後96.67%。詳しい条件は比較図の作例に記載。">
   <text class="draw-note" x="8" y="20">ソースカバレッジ（%）</text>
   <text class="draw-value" x="8" y="48">変更前 · 68.97%</text>
   <text class="draw-value" x="232" y="72" text-anchor="end">変更後 · 96.67%</text>
@@ -239,11 +196,8 @@
   <text class="draw-strong" x="56" y="140" text-anchor="middle" dominant-baseline="middle">カタログ</text>
   <rect class="node-terminal tone-teal" x="136" y="120" width="96" height="40" rx="20"/>
   <text class="draw-strong" x="184" y="140" text-anchor="middle" dominant-baseline="middle">Report</text>
-</svg></div><h3><a class="card-link" href="./flow-graph/index.html">Flow graph</a></h3><p class="card-description">判断・分岐・結果を、色に頼らず読めるようにします。</p></article></div></section><section class="group" id="group-3"><h2>文章<span class="count">4コンポーネント</span></h2><div class="cards" id="cards-3"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="prose">
-  <h3>情報を見やすくする</h3>
-  <p>読み方が違えば、必要な密度も変わります。カタログで<strong>目的の一件を探す</strong>ことと、レポートを理解することには、異なるレイアウトが必要です。</p>
-  <ul><li>密度は余白から取る。</li><li>数字には意味を添える。</li><li>わからないことを示す。</li></ul>
-</div></div><h3><a class="card-link" href="./prose/index.html">Prose</a></h3><p class="card-description">段落・見出し・リスト・引用を読みやすく組むためのタイポグラフィ。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><aside class="callout tone-warn">
+</svg></div><h3><a class="card-link" href="./flow-graph/index.html">Flow graph</a></h3><p class="card-description">判断・分岐・結果を、色に頼らず読めるようにします。</p></article></div></section><section class="group" id="group-3"><h2>文章<span class="count">5種類のコンポーネント</span></h2><div class="cards" id="cards-3"><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><div class="prose"><h3>情報を見やすくする</h3>
+      <p>読み方が違えば、必要な密度も変わります。カタログで<strong>目的の一件を探す</strong>ことと、レポートを理解することには、異なるレイアウトが必要です。</p></div></div><h3><a class="card-link" href="./prose/index.html">Prose</a></h3><p class="card-description">段落・見出し・リスト・引用を読みやすく組むためのタイポグラフィ。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><aside class="callout tone-warn">
   <p class="callout-title">解析範囲</p>
   <p>動的に組み立てられたSQLは、部分的にしか解決できない場合があります。</p>
 </aside></div><h3><a class="card-link" href="./callout/index.html">Callout</a></h3><p class="card-description">前提条件や注意点、結果の解釈に必要な但し書きを、読む流れの中に置きます。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><blockquote class="quote">
@@ -252,9 +206,12 @@
 </blockquote></div><h3><a class="card-link" href="./quote/index.html">Quote</a></h3><p class="card-description">引用と出典を一緒に置き、周囲の議論と区別します。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><dl class="definitions">
   <div><dt><span class="chip tone-ok">解決済み</span></dt><dd>ソースからSQL文の全体を特定できた状態。</dd></div>
   <div><dt>下限</dt><dd>表示された件数より多くの項目が存在する可能性があります。</dd></div>
-</dl></div><h3><a class="card-link" href="./definitions/index.html">Definitions</a></h3><p class="card-description">カタログ全体の用語を定義し、ラベルの意味を共有します。</p></article></div></section><section class="group" id="group-4"><h2>コードと変更<span class="count">5コンポーネント</span></h2><div class="cards" id="cards-4"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><pre class="code"><code><span class="tok-kw">SELECT</span> id, title
+</dl></div><h3><a class="card-link" href="./definitions/index.html">Definitions</a></h3><p class="card-description">カタログ全体の用語を定義し、ラベルの意味を共有します。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><ol class="sources">
+      <li><a>Typesafe State in Rust (preview)</a><span class="source-meta">Zenn Books · 2022.03.08</span></li>
+      <li><a>async-graphql / PR #1018</a><span class="source-meta">GitHub PR · 2022.08.18</span></li>
+    </ol></div><h3><a class="card-link" href="./sources/index.html">出典</a></h3><p class="card-description">本文から番号で出典を指し、読者が確認できる出典の一覧を用意します。</p></article></div></section><section class="group" id="group-4"><h2>コードと変更<span class="count">5コンポーネント</span></h2><div class="cards" id="cards-4"><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><pre class="code"><code><span class="tok-kw">SELECT</span> id, title
 <span class="tok-kw">FROM</span> posts
-<span class="tok-kw">WHERE</span> status = <span class="tok-str">'published'</span></code></pre></div><h3><a class="card-link" href="./code/index.html">Code</a></h3><p class="card-description">SQL・シグネチャ・ソースの抜粋を、未解決の部分も含めて明快に示します。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><section class="member">
+<span class="tok-kw">WHERE</span> status = <span class="tok-str">'published'</span></code></pre></div><h3><a class="card-link" href="./code/index.html">Code</a></h3><p class="card-description">SQL・シグネチャ・ソースの抜粋を、未解決の部分も含めて明快に示します。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><section class="member">
   <div class="member-head"><h3><code>find()</code><span class="chip chip-ghost">public</span></h3><span class="member-meta">src/Repository.php:24</span></div>
   <div class="member-body">
     <pre class="signature"><span class="t-key">public function</span> <span class="signature-name">find</span>(<span class="t-name">int</span> <span class="signature-param">$id</span>): <span class="t-name">Post</span>|<span class="t-key">null</span></pre>
@@ -275,13 +232,9 @@
   <li><details open><summary><span>コンポーネント</span><span class="tree-count">2項目</span></summary>
     <ul><li><a>Chip</a></li><li><a>Table</a></li></ul>
   </details></li>
-</ul></div><h3><a class="card-link" href="./tree/index.html">Tree</a></h3><p class="card-description">展開できる階層で、名前空間やカテゴリをたどります。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="actions">
-  <a class="btn btn-primary btn-lg">導入ガイド →</a>
-  <a class="btn btn-lg">一覧に戻る</a>
-  <button class="btn btn-quiet">◐</button>
-</div>
-<label>名前で絞り込む <input class="input" type="search" placeholder="例：Chip"></label>
-<ul class="rows"><li class="row">Chip</li><li class="row">Table</li></ul></div><h3><a class="card-link" href="./control/index.html">Control</a></h3><p class="card-description">文書に必要な少数の操作を、控えめで一貫した見た目に揃えます。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="facets">
+</ul></div><h3><a class="card-link" href="./tree/index.html">Tree</a></h3><p class="card-description">展開できる階層で、名前空間やカテゴリをたどります。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><div class="actions"><a class="btn btn-primary">導入ガイド →</a>
+      <a class="btn">一覧に戻る</a></div>
+      <label>名前で絞り込む <input class="input" type="search" placeholder="例：Chip"></label></div><h3><a class="card-link" href="./control/index.html">Control</a></h3><p class="card-description">文書に必要な少数の操作を、控えめで一貫した見た目に揃えます。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><div class="facets">
   <div class="facet-group">
     <button class="chip facet tone-blue">SELECT <span class="facet-count">2</span></button>
     <button class="chip facet tone-violet">INSERT <span class="facet-count">1</span></button>
@@ -333,18 +286,18 @@
   <span class="banner-label">アーカイブ</span>
   <span class="banner-body">これは保存済みのv1.0文書です。</span>
   <a class="banner-action">プロダクトを見る →</a>
-</div></div><h3><a class="card-link" href="./banner/index.html">Banner</a></h3><p class="card-description">保存済みバージョンや比較表示など、文書の状態をページ全体に知らせます。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="empty">
+</div></div><h3><a class="card-link" href="./banner/index.html">Banner</a></h3><p class="card-description">保存済みバージョンや比較表示など、文書の状態をページ全体に知らせます。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><div class="empty">
   <p class="empty-title">該当するSQL文はありません。</p>
   <p class="empty-note">絞り込みを解除するか、別のキーワードで検索してください。</p>
   <a class="btn">コンポーネントに戻る</a>
 </div></div><h3><a class="card-link" href="./empty/index.html">Empty</a></h3><p class="card-description">検索結果なし、絞り込み不一致、特定できなかった情報を区別します。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><div class="stats">
   <div class="stat"><b class="stat-fig">844</b><span class="stat-label">SQL文</span><span class="stat-note">解析対象のSQL文</span></div>
   <div class="stat tone-warn"><b class="stat-fig is-bound">978</b><span class="stat-label">検出結果</span><span class="stat-note">到達できた検出結果の下限</span></div>
-</div></div><h3><a class="card-link" href="./stat/index.html">Stat</a></h3><p class="card-description">問いに答える数字に、ラベルと解釈に必要な条件を添えます。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><ol class="timeline">
-  <li class="timeline-item tone-ok"><span class="timeline-time">検出</span><p class="timeline-title">844文を検出</p><p class="timeline-description">WordPressカタログの77ファイルに含まれるデータベース呼び出し。</p></li>
-  <li class="timeline-item tone-ok"><span class="timeline-time">解決</span><p class="timeline-title">35文を完全に解決</p><p class="timeline-description">SQLの全文を特定できました。</p></li>
-  <li class="timeline-item is-open"><span class="timeline-time">未解決の結果</span><p class="timeline-title">809文は未解決</p><p class="timeline-description">依存関係のモデルと解析限界により、このカタログは完全ではありません。</p></li>
-</ol></div><h3><a class="card-link" href="./timeline/index.html">Timeline</a></h3><p class="card-description">出来事の順序、結果、処理がどこまで進んだかを示します。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><p><span class="hint" tabindex="0">下限</span>は特定できた範囲を示す値であり、合計を保証するものではありません。</p></div><h3><a class="card-link" href="./tooltip/index.html">Tooltip</a></h3><p class="card-description">略語や短いラベルの詳しい説明を補う、CSSによるヒント。</p></article></div></section></main>
+</div></div><h3><a class="card-link" href="./stat/index.html">Stat</a></h3><p class="card-description">問いに答える数字に、ラベルと解釈に必要な条件を添えます。</p></article><article class="card"><div class="card-preview doc doc-inset" style="--dd-preview-height: auto" inert aria-hidden="true"><ol class="timeline">
+      <li class="timeline-item tone-ok"><p class="timeline-title">844文を検出</p></li>
+      <li class="timeline-item tone-ok"><p class="timeline-title">35文を完全に解決</p></li>
+      <li class="timeline-item is-open"><p class="timeline-title">809文は未解決</p></li>
+    </ol></div><h3><a class="card-link" href="./timeline/index.html">Timeline</a></h3><p class="card-description">出来事の順序、結果、処理がどこまで進んだかを示します。</p></article><article class="card"><div class="card-preview doc doc-inset" inert aria-hidden="true"><p><span class="hint" tabindex="0">下限</span>は特定できた範囲を示す値であり、合計を保証するものではありません。</p></div><h3><a class="card-link" href="./tooltip/index.html">Tooltip</a></h3><p class="card-description">略語や短いラベルの詳しい説明を補う、CSSによるヒント。</p></article></div></section></main>
   <footer class="doc-footer">使用： <a href="../index.html">doc-ui</a> · 制作： <a href="https://github.com/k-kinzal">k-kinzal</a> · MITライセンス <a href="https://github.com/k-kinzal/document-design">GitHub ↗</a></footer></div></div>
 </body>
 </html>

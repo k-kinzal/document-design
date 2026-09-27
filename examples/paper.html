@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en" data-dd-paper="a4" data-dd-print-urls="sources">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, follow">
+  <title>k_kinzal — A record of public work, 2014–2026</title>
+  <meta name="description" content="A paper tracing k_kinzal’s public engineering work from 2014 to 2026. A complete doc-ui example of a report with a chronology and sources.">
+  <link rel="stylesheet"
+        href="https://k-kinzal.github.io/document-design/v1.1.0/document-design.css">
+</head>
+<body>
+<article class="sheet" lang="en">
+<p class="eyebrow">k_kinzal / ENGINEERING WORKS · 2014–2026</p>
+<h1>k_kinzal</h1>
+<p class="stand">Turns complex technology into usable tools and knowledge that carries.</p>
+<div class="hero">
+  <div class="figures">
+    <figure><h3>Builds usable tools</h3><p>Documentation generation, deployment, PHP test environments, AI development.</p></figure>
+    <figure><h3>Changes things safely</h3><p>Platform migration, design through types, automated tests and quality verification.</p></figure>
+    <figure><h3>Passes knowledge on</h3><p>Articles on Qiita and Zenn, conference talks, Rust and Solana course material.</p></figure>
+  </div>
+</div>
+<section class="sec">
+  <div class="rail"><h2 class="label">01<br>Profile</h2><p class="sidenote"><span class="sidenote-label">How to read</span>Each period’s heading is the claim, the paragraph after it the context, and the chronology the evidence. Numbers in the text point to the sources at the end.</p></div>
+  <div class="field"><p class="lead">Solves in code the inconveniences met in development and operations.</p>
+    <p class="note">Digs into how things work and confirms them in running form. The process is published as open source, articles, talks and course material.</p>
+    <p class="note">A paper tracing public work from the first talk in 2014 to the present. The profile is an editorial summary based on the work recorded in this paper. Checked on 26 September 2026.</p></div>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">02<br>2014</h2><p class="sidenote"><span class="sidenote-label">First public works</span>PHP · Node.js · Grunt · Scala · Documentation</p><p class="sidenote"><span class="sidenote-label">In focus</span>Publish the implementation and the explanation together. Not only what was built, but how to run it. The shape of activity that later leads to test support and learning material is visible from 2014.</p></div>
+  <div class="field"><p class="lead">Build, write and talk about the inconveniences close at hand.</p>
+    <p class="note">Before the first talk, the tools built and how to use them were already published on Qiita. An early interest in notifications and documentation generation shows here.</p>
+    <ol class="timeline">
+      <li class="timeline-item">
+        <span class="timeline-time">2014.05–06</span>
+        <p class="timeline-title">Reporting build results to Ukagaka</p>
+        <p class="timeline-description">Built grunt-sstp, which sends Grunt successes, warnings and failures to a desktop mascot. Published on Qiita on 6 May, followed on 1 June by an explanation of driving it from Scala’s SBT.<a class="cite" href="#src-1">1</a><a class="cite" href="#src-2">2</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2014.09</span>
+        <p class="timeline-title">Generating documentation from code</p>
+        <p class="timeline-description">Explained ngdoc generation with Dgeni on Qiita. grunt-dgeni put documentation generation into the everyday build, and dgeni-markdown added a tool for Markdown output. The walkthrough and the implementation that simplifies it appear side by side.<a class="cite" href="#src-3">3</a><a class="cite" href="#src-4">4</a><a class="cite" href="#src-5">5</a></p>
+      </li>
+      <li class="timeline-item tone-accent">
+        <span class="timeline-time">2014.10.11 · First talk</span>
+        <p class="timeline-title">A new form of notification with PHP and Ukagaka</p>
+        <p class="timeline-description">A lightning talk at PHP Conference Japan 2014. It combined PHP, SSTP and APIs to deliver events of all kinds to Ukagaka. The notification tools published since spring led to a talk at a technical conference.<a class="cite" href="#src-6">6</a><a class="cite" href="#src-7">7</a></p>
+      </li>
+    </ol></div>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">03<br>2015–2016</h2><p class="sidenote"><span class="sidenote-label">Development workflows</span>Lambda · Scala.js · npm · Flowtype · State Machines</p></div>
+  <div class="field"><p class="lead">Connect new technology to everyday development.</p>
+    <p class="note">Rather than only trying Lambda and Scala.js, the articles and talks showed how to fit them into the flow of testing, building and deploying.</p>
+    <ol class="timeline">
+      <li class="timeline-item">
+        <span class="timeline-time">2015.01</span>
+        <p class="timeline-title">Assembling a development cycle for Lambda</p>
+        <p class="timeline-description">The January article used lambda-template to walk from local tests to execution and log inspection in the cloud. Beyond the function’s code, it arranged a repeatable develop-and-verify loop and connected it to CI/CD.<a class="cite" href="#src-8">8</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2015.03 · 08</span>
+        <p class="timeline-title">Talks on documentation generation and Scala.js</p>
+        <p class="timeline-description">At ng-japan 2015 on 21 March, a comparison of ways to start with Dgeni. At Scala Kansai Summit 2015 on 1 August, how to combine npm with SBT. Another Scala.js talk, published in July, is listed on the official Scala.js site.<a class="cite" href="#src-9">9</a><a class="cite" href="#src-10">10</a><a class="cite" href="#src-11">11</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2015.12 – 2016.01</span>
+        <p class="timeline-title">Revisiting distribution and the build</p>
+        <p class="timeline-description">December explained separating Lambda configuration, artifacts and deployment. The following January verified handling Scala.js from Node.js without SBT. Technology is fitted to the tooling of everyday development.<a class="cite" href="#src-12">12</a><a class="cite" href="#src-13">13</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2016.12</span>
+        <p class="timeline-title">Thinking about serverless in types and states</p>
+        <p class="timeline-description">Explained Lambda development combining SAM, Node and Flowtype. The Step Functions article examined parallel, distributed processing with dynamically built state definitions, and the handling of exceptions and retries.<a class="cite" href="#src-14">14</a><a class="cite" href="#src-15">15</a></p>
+      </li>
+    </ol></div>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">04<br>2017–2019</h2><p class="sidenote"><span class="sidenote-label">Repeatable operations</span>Serverless · Go · Containers · Helm · Automation</p></div>
+  <div class="field"><p class="lead">Turn repeated work into configuration and rules.</p>
+    <p class="note">From deciding on serverless to running commands in containers and operating charts and pull requests: reducing the friction between development and operations.</p>
+    <ol class="timeline">
+      <li class="timeline-item">
+        <span class="timeline-time">2017.08 · 11</span>
+        <p class="timeline-title">Explaining the flow of processing and the boundaries of types</p>
+        <p class="timeline-description">Presented “flowtypeStepFunction” at Serverless Meetup Tokyo #4 on 9 August. A November Qiita article took up Opaque Type Aliases: keeping identifiers of the same base type but different purposes apart, so they cannot be passed in the wrong place.<a class="cite" href="#src-16">16</a><a class="cite" href="#src-17">17</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2018.05 · 10</span>
+        <p class="timeline-title">Deciding on adoption and preparing an execution environment</p>
+        <p class="timeline-description">The May talk introduced adopting serverless for parts of an existing system. aliases, a Go tool created in October, runs commands and their dependencies defined in YAML inside containers.<a class="cite" href="#src-18">18</a><a class="cite" href="#src-19">19</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2018.12 – 2019.01</span>
+        <p class="timeline-title">Adopting Kubernetes and handling the cost of distribution</p>
+        <p class="timeline-description">Presented moving an existing system to Kubernetes at Japan Container Days in December. The following January introduced helm-import on Qiita, which pulls Helm charts from GitHub and elsewhere into a local repository, and showed how to combine it with helmfile.<a class="cite" href="#src-20">20</a><a class="cite" href="#src-21">21</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2019.10</span>
+        <p class="timeline-title">Automating pull request operations</p>
+        <p class="timeline-description">Created pr, a Go CLI. It selects targets with JMESPath conditions and applies labels, assignees, reviews, merges and other operations. A tool that treats day-to-day repository operations as reusable rules.<a class="cite" href="#src-22">22</a></p>
+      </li>
+    </ol></div>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">05<br>2020–2021</h2><p class="sidenote"><span class="sidenote-label">Reliable change</span>PHP · Kubernetes · Helm · Observability · Reliability</p></div>
+  <div class="field"><p class="lead">Keep a running system changeable.</p>
+    <p class="note">The migration of an existing PHP system to Kubernetes was published as talks, a series and Q&amp;A. Interest widened to operating after the migration and to the handling of alerts.</p>
+    <ol class="timeline">
+      <li class="timeline-item">
+        <span class="timeline-time">2020.10–12</span>
+        <p class="timeline-title">Sharing the issues met in the migration, in practical terms</p>
+        <p class="timeline-description">AWS DevDay in October, a series from November and PHP Conference in December described moving from EC2 to Kubernetes. Configuration injection, logging, container shutdown and development environments were handled concretely. The change the migration produced is summarised under “Main results” below.<a class="cite" href="#src-23">23</a><a class="cite" href="#src-24">24</a><a class="cite" href="#src-26">26</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2021.01</span>
+        <p class="timeline-title">Alerts are not only a notification problem</p>
+        <p class="timeline-description">“We cannot manage alerts” on Zenn separated detection, removing the effect on users, and resolving the root cause. It discussed the burden on responders, responsibilities, accumulated knowledge and the difficulty of metrics, from the author’s own concerns.<a class="cite" href="#src-27">27</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2021.03</span>
+        <p class="timeline-title">Sharing what it takes to keep operating Helm charts</p>
+        <p class="timeline-description">At CloudNative Days Spring 2021, a look back at two and a half years of running a chart repository: automating distribution, managing several charts, keeping up with Kubernetes releases, and testing. The work that continues after adoption.<a class="cite" href="#src-28">28</a></p>
+      </li>
+    </ol></div>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">06<br>2022</h2><p class="sidenote"><span class="sidenote-label">Autonomy and types</span>Rust · Type Safety · GraphQL · GitOps · Developer Autonomy</p></div>
+  <div class="field"><p class="lead">Toward systems teams can change themselves and find hard to break.</p>
+    <p class="note">Building the foundation for developer autonomy, and implementations in Rust and GraphQL. Design thinking expressed as a book, a talk, code and articles.</p>
+    <ol class="timeline">
+      <li class="timeline-item">
+        <span class="timeline-time">2022.03</span>
+        <p class="timeline-title">Expressing states and transitions in Rust types</p>
+        <p class="timeline-description">Published “Typesafe State in Rust (preview)” on Zenn Books. Eight chapters on expressing state-dependent data, behaviour and transitions as types, so that wrong operations are constrained.<a class="cite" href="#src-29">29</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2022.04</span>
+        <p class="timeline-title">Handing ownership to development teams</p>
+        <p class="timeline-description">Spoke at DevOpsDays Tokyo 2022 on continuous delivery of IaC, GitOps with Argo CD and constraints with OPA. Designing an environment developers can change themselves together with the mechanisms that keep it safe.<a class="cite" href="#src-30">30</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2022.08–09</span>
+        <p class="timeline-title">Taking problems in the OSS in use upstream</p>
+        <p class="timeline-description">Proposed to async-graphql a fix for request data lost in resolvers and primitive type support for CursorType. The two pull requests were merged in August and September.<a class="cite" href="#src-31">31</a><a class="cite" href="#src-32">32</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2022.11–12</span>
+        <p class="timeline-title">Communicating design and considering compatibility</p>
+        <p class="timeline-description">In November, a Zenn article on alignment, spacing, lines and grouping in diagrams. In December, a proposal for schema changes that absorb old GraphQL operations in a translation layer, with a Rust prototype and the unimplemented parts.<a class="cite" href="#src-33">33</a><a class="cite" href="#src-34">34</a></p>
+      </li>
+    </ol></div>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">07<br>2023</h2><p class="sidenote"><span class="sidenote-label">AI and new learning</span>ChatGPT · LlamaIndex · Serverless · Solana · Rust</p></div>
+  <div class="field"><p class="lead">Try AI, and add ways into learning.</p>
+    <p class="note">Experiments in putting generative AI into systems begin at the start of the year. In the second half, the work widened to Japanese material on Solana and support for learning Rust.</p>
+    <ol class="timeline">
+      <li class="timeline-item">
+        <span class="timeline-time">2023.02–03</span>
+        <p class="timeline-title">Testing what is given to an AI and what comes back</p>
+        <p class="timeline-description">Published an experiment asking ChatGPT and LlamaIndex about the Ukagaka specification, examining how splitting and structuring the document affects the answers. For Security Hub triage, considered structured decisions and a process that includes confirmation by a person.<a class="cite" href="#src-35">35</a><a class="cite" href="#src-36">36</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2023.04</span>
+        <p class="timeline-title">Handling AI output from a program</p>
+        <p class="timeline-description">Presented prompt techniques at ChatGPT Meetup Osaka #1. Experimented with variation in answers and introduced combining prompts with inspection, retries and correction.<a class="cite" href="#src-37">37</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2023.08–10</span>
+        <p class="timeline-title">Reorganising experience and learning a new field</p>
+        <p class="timeline-description">Slides published in August discussed serverless in terms of speed of extension and fault tolerance. In September, a collection of Japanese Solana material; in October, a Zenn article explaining accounts and state updates through a CRUD implementation.<a class="cite" href="#src-38">38</a><a class="cite" href="#src-39">39</a><a class="cite" href="#src-40">40</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2023.11–12</span>
+        <p class="timeline-title">Making Rust and Solana something to learn by doing</p>
+        <p class="timeline-description">Published “Rust Introduction in Solana” and “Rust Programming with AI” for Solana Developer Hub #0, introducing Rust through a counter implementation. #1 also covered Solana Pay.<a class="cite" href="#src-41">41</a><a class="cite" href="#src-42">42</a></p>
+      </li>
+    </ol></div>
+  <p class="caveat">The AI articles record the author’s own experiments and considerations. The collection of Japanese material also includes material by other authors.</p>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">08<br>2024</h2><p class="sidenote"><span class="sidenote-label">Hands-on and enablement</span>Rust · Solana · PHP · Docker · Developer Experience</p></div>
+  <div class="field"><p class="lead">Learn by running things, and create the conditions to go on alone.</p>
+    <p class="note">From Solana exercises and measurement to test support for existing PHP and a retrospective on developer autonomy: supporting the next step of the people who use the technology.</p>
+    <ol class="timeline">
+      <li class="timeline-item">
+        <span class="timeline-time">2024.03</span>
+        <p class="timeline-title">Course material from setup to publishing</p>
+        <p class="timeline-description">For Solana Developer Hub Workshop #4, published material that walks from preparing the environment through wallet connection and minting an NFT to publishing on the web. It is built so that an app is actually made and published.<a class="cite" href="#src-43">43</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2024.05–06</span>
+        <p class="timeline-title">Measuring what happens inside, and how to learn Rust</p>
+        <p class="timeline-description">The May material “Compute Units / Budget optimisation” measured Solana execution cost and examined its relation to implementation and fees. An event on 14 June covered learning Rust from type signatures and applying it to Solana.<a class="cite" href="#src-44">44</a><a class="cite" href="#src-45">45</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2024.11</span>
+        <p class="timeline-title">Making integration tests easier to write, even for old PHP</p>
+        <p class="timeline-description">Created the testcontainers-php repository. It starts, waits for and stops Docker containers from PHP to assemble a test environment. The README, at the time of checking, states support for PHP 5.6 to 8.5.<a class="cite" href="#src-46">46</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2024.11 · Article</span>
+        <p class="timeline-title">Beyond automation, checking developer autonomy</p>
+        <p class="timeline-description">A Zenn retrospective on the delegation and development support so far: rather than relying on granting permissions directly, providing constrained automation and confirming autonomy through surveys and metrics. It moves on to support that keeps improving on the basis of metrics.<a class="cite" href="#src-47">47</a></p>
+      </li>
+    </ol></div>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">09<br>2025</h2><p class="sidenote"><span class="sidenote-label">Tests and AI workflows</span>Testing · AI Agents · Refactoring · Storybook · Solana</p></div>
+  <div class="field"><p class="lead">To develop faster, build the means to verify.</p>
+    <p class="note">Updating existing PHP, testing Solana, managing tasks with AI. In different fields, verification and ways of working were turned into concrete implementations.</p>
+    <ol class="timeline">
+      <li class="timeline-item">
+        <span class="timeline-time">2025.03–04</span>
+        <p class="timeline-title">Tests as the ground for making changes</p>
+        <p class="timeline-description">A March Zenn article explained why testcontainers-php was built: to put in place the tests needed to update old PHP. Material for Solana Developer Hub #16, published in April, organised verification with unit tests and the Test Validator.<a class="cite" href="#src-48">48</a><a class="cite" href="#src-49">49</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2025.06</span>
+        <p class="timeline-title">Handing AI work over through tasks and records</p>
+        <p class="timeline-description">Introduced task-driven AI development on Zenn. Goals, plans and work records are kept in files, so that work can continue from where it left off when the conversation context is lost or the agent changes.<a class="cite" href="#src-50">50</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2025.09</span>
+        <p class="timeline-title">Natural-language conventions as inspection and correction</p>
+        <p class="timeline-description">Prototyped cconv, which calls Claude Code, and shared on Zenn the process and the limits of checking and fixing code against natural-language rules. Solana work continued with material on building, connecting and publishing an app for Seeker.<a class="cite" href="#src-51">51</a><a class="cite" href="#src-52">52</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2025.12</span>
+        <p class="timeline-title">Updating old assets while verifying</p>
+        <p class="timeline-description">Migrated a personal site untouched since the end of 2014 to React and Vite, together with AI. The article records the steps and failures of screen comparison tests, componentisation and quality checks. testcontainers-php also gained a container reuse mode.<a class="cite" href="#src-53">53</a><a class="cite" href="#src-54">54</a></p>
+      </li>
+    </ol></div>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">10<br>2026</h2><p class="sidenote"><span class="sidenote-label">Verifying AI-assisted work</span>PHP · SQL · Storybook · AI Agents · Documentation</p></div>
+  <div class="field"><p class="lead">From the power to build with AI to the power to verify and use it.</p>
+    <p class="note">The more implementation is left to AI, the more design, inspection and records matter. The problem is examined from both PHP tooling and the author’s own way of working.</p>
+    <ol class="timeline">
+      <li class="timeline-item">
+        <span class="timeline-time">2026.01–03</span>
+        <p class="timeline-title">Publishing tools that connect PHP implementation and verification</p>
+        <p class="timeline-description">An article on the development environment described how each AI is used. ztd-query-php advances a PHP implementation of Zero Table Dependency and SQL verification; storybook-php checks screen components; php-ai-toolkit supports static analysis, test output and documentation.<a class="cite" href="#src-55">55</a><a class="cite" href="#src-56">56</a><a class="cite" href="#src-57">57</a><a class="cite" href="#src-58">58</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2026.05</span>
+        <p class="timeline-title">Examining AI exploration and the quality of its output</p>
+        <p class="timeline-description">Reported on Zenn how repeated runs, context and outside intervention affect exploration. Another article described development that combines concept work, linters, tests, audits and real use, and organised the methods that raise quality and the problems that remain.<a class="cite" href="#src-59">59</a><a class="cite" href="#src-60">60</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2026.08</span>
+        <p class="timeline-title">Handling the work of several AIs with a tool of one’s own</p>
+        <p class="timeline-description">Built an app that manages task dependencies, pending runs, scheduled tasks and agent logs in one place, and shared the experience in an article. The article is public; the app is personal and, as stated, not planned for release.<a class="cite" href="#src-61">61</a></p>
+      </li>
+      <li class="timeline-item">
+        <span class="timeline-time">2026.09 · At the time of checking</span>
+        <p class="timeline-title">Shaping output that can be read</p>
+        <p class="timeline-description">document-design organises the hierarchy, typesetting and figures of documents and reports as a shared stylesheet. This paper uses that stylesheet. The interest that runs from Dgeni in 2014 — handing over what was built in a form that can be understood — is visible here too.<a class="cite" href="#src-62">62</a></p>
+      </li>
+    </ol></div>
+  <p class="caveat">The idea of Zero Table Dependency is another author’s. What is covered here is the PHP implementation and the verification base. The connections between activities are this paper’s editorial reading.</p>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">11<br>Main results</h2></div>
+  <div class="field"><p class="lead">The change shown by the platform migration the author joined.</p>
+    <p class="note">Figures recorded in a 2020 published case study, after the migration from EC2 to Kubernetes. They are the team’s results, not figures for one person’s work.<a class="cite" href="#src-25">25</a></p>
+    <div class="stats">
+      <div class="stat"><b class="stat-fig">20 → 5 min</b><span class="stat-label">Time taken by a deployment. About 5 minutes after the migration.</span></div>
+      <div class="stat"><b class="stat-fig">1/20</b><span class="stat-label">Time to roll back a failed release.</span></div>
+      <div class="stat"><b class="stat-fig">1/10</b><span class="stat-label">Operational cost of a release.</span></div>
+    </div></div>
+  <p class="caveat">Results of the team, as recorded in the published case study. The figures do not represent one person’s work.</p>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">12<br>Sources</h2><p class="sidenote">62 sources</p></div>
+  <div class="field"><p class="lead">Follow the public record.</p>
+    <p class="note">A number in the text leads to its source; each title leads to the original. In print, URLs appear only in this list.</p>
+    <ol class="sources">
+      <li id="src-1"><a href="https://qiita.com/kinzal/items/ecc0284e3e9a8d00f6b9" lang="ja">GruntJSで伺かを操作するgrunt-sstpを作った</a><span class="source-meta">Qiita · 2014.05.06 · A Grunt plugin that reports build results to a desktop mascot</span></li>
+      <li id="src-2"><a href="https://qiita.com/kinzal/items/f91239cd39338e980291" lang="ja">Scala-SBTで伺かを実行する</a><span class="source-meta">Qiita · 2014.06.01 · Driving Ukagaka from Scala SBT</span></li>
+      <li id="src-3"><a href="https://qiita.com/kinzal/items/4580abe9e116dfecc85c" lang="ja">Dgeniで簡単に始めるngdocドキュメント生成</a><span class="source-meta">Qiita · 2014.09.22 · From installation and setup to generated documentation</span></li>
+      <li id="src-4"><a href="https://github.com/k-kinzal/dgeni-markdown">dgeni-markdown</a><span class="source-meta">GitHub · 2014.09 · A template that emits documentation as Markdown</span></li>
+      <li id="src-5"><a href="https://github.com/k-kinzal/grunt-dgeni">grunt-dgeni</a><span class="source-meta">GitHub · 2014.09 · A plugin that adds documentation generation to a Grunt build</span></li>
+      <li id="src-6"><a href="https://phpcon.php.gr.jp/w/2014/" lang="ja">PHP Conference Japan 2014 / 公式プログラム</a><span class="source-meta">Event record · 2014.10.11 · Lightning talk “A new form of notification with PHP and Ukagaka”</span></li>
+      <li id="src-7"><a href="https://www.slideshare.net/slideshow/php-40139017/40139017" lang="ja">PHP＋伺かで始める新しい通知の形</a><span class="source-meta">Slides · 2014.10.11 · Notifications built from PHP, SSTP and APIs</span></li>
+      <li id="src-8"><a href="https://qiita.com/kinzal/items/7bc9072510756edb20e7" lang="ja">AWS Lambdaの開発サイクルを作ろう！</a><span class="source-meta">Qiita · 2015.01.03 · Connecting local tests with execution in the cloud</span></li>
+      <li id="src-9"><a href="https://www.slideshare.net/slideshow/dgeni-with-angularjs-application/46111398">Dgeni with AngularJS Application</a><span class="source-meta">Slides · 2015.03.21 · ng-japan 2015. Comparing ways to adopt documentation generation</span></li>
+      <li id="src-10"><a href="https://www.slideshare.net/slideshow/scalajs-51163091/51163091" lang="ja">Scala.jsはじめました！</a><span class="source-meta">Slides · 2015.08.01 · Scala Kansai Summit 2015. A development environment on npm and SBT</span></li>
+      <li id="src-11"><a href="https://www.scala-js.org/community/presentations.html">Scala.js / Presentations</a><span class="source-meta">Official site · 2015 · Lists the Scala.js talk published in July. 2015 material</span></li>
+      <li id="src-12"><a href="https://qiita.com/kinzal/items/046a848a9f0829f87670" lang="ja">AWS Lambdaのデプロイフロー管理</a><span class="source-meta">Qiita · 2015.12.09 · Separating configuration, artifacts and deployment</span></li>
+      <li id="src-13"><a href="https://qiita.com/kinzal/items/9876b14e8810c3badf11" lang="ja">Node.jsから扱うScala.js開発環境［内容名］</a><span class="source-meta">Qiita · 2016.01.31 · Verifying a setup that does not depend on SBT</span></li>
+      <li id="src-14"><a href="https://qiita.com/kinzal/items/7a09659399d9be40d674" lang="ja">SAM＋Node＋FlowtypeでのLambda開発［内容名］</a><span class="source-meta">Qiita · 2016.12.08 · The flow from development to deployment</span></li>
+      <li id="src-15"><a href="https://qiita.com/kinzal/items/843c4659a887a9af7499" lang="ja">Step Functionsで並列分散処理を実現する</a><span class="source-meta">Qiita · 2016.12.11 · Dynamic state definitions, parallelism and error handling</span></li>
+      <li id="src-16"><a href="https://techplay.jp/event/627738">Serverless Meetup Tokyo #4</a><span class="source-meta">Event record · 2017.08.09 · The talk slot for “flowtypeStepFunction”</span></li>
+      <li id="src-17"><a href="https://qiita.com/kinzal/items/735d3c4c58deca41a4b6" lang="ja">FlowtypeとOpaque Type Aliases</a><span class="source-meta">Qiita · 2017.11.19 · Keeping values of the same base type but different purposes apart</span></li>
+      <li id="src-18"><a href="https://speakerdeck.com/cwozaki/serverless-at-chatwork" lang="ja">サーバーレスの活用事例［内容名］</a><span class="source-meta">Slides · 2018.05.30 · AWS Summit 2018. Partial adoption in an existing system</span></li>
+      <li id="src-19"><a href="https://github.com/k-kinzal/aliases">aliases</a><span class="source-meta">GitHub · 2018.10 · A Go tool that runs commands and their dependencies in containers</span></li>
+      <li id="src-20"><a href="https://speakerdeck.com/cwozaki/chatworkniokeruresientosisutemufalsekuberneteshua-falsequ-rizu-mi-number-containerdaysjp-number-meetup" lang="ja">既存システムのKubernetes化［内容名］</a><span class="source-meta">Slides · 2018.12.03 · Japan Container Days v18.12 Meetup. Dated by publication of the slides</span></li>
+      <li id="src-21"><a href="https://qiita.com/kinzal/items/2f3bed69f27e520adb36" lang="ja">Helmのimportプラグインを作った［抄題］</a><span class="source-meta">Qiita · 2019.01.06 · Importing charts from GitHub and elsewhere into a local repository</span></li>
+      <li id="src-22"><a href="https://github.com/k-kinzal/pr">pr</a><span class="source-meta">GitHub · 2019.10 · A Go CLI that operates on the pull requests matching a condition</span></li>
+      <li id="src-23"><a href="https://speakerdeck.com/cwozaki/aws-devday-2020-c-8-resientosisutemuwoec2karakubernetesnizhi-kihuan-eruzhan-i-number-awsdevday" lang="ja">EC2からKubernetesへ移行する取り組み［内容名］</a><span class="source-meta">Slides · 2020.10.20 · AWS DevDay 2020 C-8. Dated by publication of the slides</span></li>
+      <li id="src-24"><a href="https://creators-note.chatwork.com/entry/2020/11/04/141050" lang="ja">PHPシステムのKubernetes移行・第1回［内容名］</a><span class="source-meta">Article · 2020.11.04 · First part of the author’s series on the migration</span></li>
+      <li id="src-25"><a href="https://d1.awsstatic.com/case-studies/jp/pdf/chatwork.pdf" lang="ja">Kubernetes基盤の移行事例［内容名］</a><span class="source-meta">Published case study (PDF) · 2020 · Quantified results of the team the author joined</span></li>
+      <li id="src-26"><a href="https://creators-note.chatwork.com/entry/2020/12/12/140539">PHP on Kubernetes</a><span class="source-meta">Talk report · 2020.12.12 · Summary and Q&amp;A from PHP Conference 2020</span></li>
+      <li id="src-27"><a href="https://zenn.dev/kinzal/articles/998707314a8f6e" lang="ja">僕たちはアラートを管理できない</a><span class="source-meta">Zenn · 2021.01.24 · Responsibilities and metrics for detection, response and root cause</span></li>
+      <li id="src-28"><a href="https://speakerdeck.com/cwozaki/helm-chartrihositoriwo2nian-ban-yun-yong-sitewakatutairoironahua-cloudnative-days-spring-2021-online-number-cndo2021" lang="ja">Helm Chartリポジトリの2年半の運用</a><span class="source-meta">Slides · 2021.03.12 · CloudNative Days Spring 2021</span></li>
+      <li id="src-29"><a href="https://zenn.dev/kinzal/books/aa109c0c428089">Typesafe State in Rust (preview)</a><span class="source-meta">Zenn Books · 2022.03.08 · An eight-chapter public book on states and transitions as types</span></li>
+      <li id="src-30"><a href="https://speakerdeck.com/cwozaki/kai-fa-timunionasitupuwowei-rang-surushou-fa-devopsdays-tokyo-2022-number-devopsdaystokyo" lang="ja">開発チームにオーナーシップを委譲する手法</a><span class="source-meta">Slides · 2022.04.22 · DevOpsDays Tokyo 2022. IaC, GitOps and constraints</span></li>
+      <li id="src-31"><a href="https://github.com/async-graphql/async-graphql/pull/1018">async-graphql / PR #1018</a><span class="source-meta">GitHub PR · 2022.08.18 · Fixes request data lost in resolvers</span></li>
+      <li id="src-32"><a href="https://github.com/async-graphql/async-graphql/pull/1049">async-graphql / PR #1049</a><span class="source-meta">GitHub PR · 2022.09.06 · Primitive type support for CursorType</span></li>
+      <li id="src-33"><a href="https://zenn.dev/kinzal/articles/b9a8d9398f2e1b" lang="ja">ちょっとした工夫で見やすい構成図を書こう！</a><span class="source-meta">Zenn · 2022.11.12 · Alignment, spacing, lines and grouping in diagrams</span></li>
+      <li id="src-34"><a href="https://zenn.dev/kinzal/articles/afdf142d31d729" lang="ja">GraphQLの安全なスキーマ変更［内容名］</a><span class="source-meta">Zenn · 2022.12.26 · A proposal to handle compatibility in a translation layer, prototyped in Rust</span></li>
+      <li id="src-35"><a href="https://zenn.dev/kinzal/articles/39f17a62bb6b20" lang="ja">ChatGPTとLlamaIndexを使った仕様問い合わせAI［抄題］</a><span class="source-meta">Zenn · 2023.02.24 · Structuring a specification and measuring answer accuracy</span></li>
+      <li id="src-36"><a href="https://zenn.dev/kinzal/articles/98db7c5752871e" lang="ja">ChatGPTを使ったSecurity Hubのトリアージ［内容名］</a><span class="source-meta">Zenn · 2023.03.19 · Judgement, structured output and confirmation by a person</span></li>
+      <li id="src-37"><a href="https://www.slideshare.net/slideshow/chatgpt-chatgptjp/257470820" lang="ja">ChatGPTをシステムに組み込むためのプロンプト技法</a><span class="source-meta">Slides · 2023.04.19 · ChatGPT Meetup Osaka #1. Verification and guard processing</span></li>
+      <li id="src-38"><a href="https://speakerdeck.com/cwozaki/sabaresuwocai-yong-subeki100noli-you-1tusikahua-sanaiyo" lang="ja">サーバーレスを採用すべき100の理由</a><span class="source-meta">Slides · 2023.08.30 · Speed of extension and fault tolerance. Dated by publication of the slides</span></li>
+      <li id="src-39"><a href="https://github.com/k-kinzal/solana-materials-in-japanese">solana-materials-in-japanese</a><span class="source-meta">GitHub · 2023.09 · Japanese development material by several authors, organised</span></li>
+      <li id="src-40"><a href="https://zenn.dev/kinzal/articles/5302a4dae1c8d7" lang="ja">SolanaのプログラムでCRUDしてみよう</a><span class="source-meta">Zenn · 2023.10.07 · Learning accounts, owners and state updates through code</span></li>
+      <li id="src-41"><a href="https://www.slideshare.net/slideshow/rust-in-solanapdf-soldevhub/263877075" lang="ja">Rust入門 in Solana</a><span class="source-meta">Slides · 2023.11.25 · Solana Developer Hub #0. An introduction to Rust through a counter</span></li>
+      <li id="src-42"><a href="https://note.com/solana_dev_hub/n/ne19497567c33" lang="ja">Solana Developer Hub / 公開イベント資料集</a><span class="source-meta">Organiser’s record · Talks on Rust, AI and Solana Pay, among others. Updated over time</span></li>
+      <li id="src-43"><a href="https://github.com/k-kinzal/solana-developer-hub-workshop-20240326">Solana Developer Hub Workshop #4</a><span class="source-meta">GitHub course · 2024.03.26 · Setup, wallet connection, minting an NFT and publishing</span></li>
+      <li id="src-44"><a href="https://www.slideshare.net/slideshow/compute-units-budget-solana-developer-hub-online-6-soldevhub/269419208" lang="ja">Compute Units / Budget最適化</a><span class="source-meta">Slides · 2024.05.30 · Solana Developer Hub #6. Measurement, implementation and fees</span></li>
+      <li id="src-45"><a href="https://centrum.substack.com/p/solana-superteam-japan-rust-614" lang="ja">シグネチャで始めるRustプログラミング</a><span class="source-meta">Organiser’s announcement · 2024.06.14 · A talk on learning Rust and applying it to Solana</span></li>
+      <li id="src-46"><a href="https://github.com/k-kinzal/testcontainers-php">testcontainers-php</a><span class="source-meta">GitHub · 2024.11〜 · PHP 5.6–8.5 support as stated in the README at the time of checking</span></li>
+      <li id="src-47"><a href="https://zenn.dev/kinzal/articles/9b7e633b4d36ba" lang="ja">開発の自律性と信頼性への取り組み［内容名］</a><span class="source-meta">Zenn · 2024.11.14 · A retrospective on delegation through automation and support guided by metrics</span></li>
+      <li id="src-48"><a href="https://zenn.dev/kinzal/articles/05ed228550e513" lang="ja">レガシーPHPをサポートしたTestcontainers作りました</a><span class="source-meta">Zenn · 2025.03.22 · An integration-test environment that supports updating legacy PHP</span></li>
+      <li id="src-49"><a href="https://www.slideshare.net/slideshow/solana-solana-developer-hub-online-16-soldevhub/278451432" lang="ja">Solanaプログラムのテスト手法</a><span class="source-meta">Slides · 2025.04.26 · Solana Developer Hub #16. Dated by publication of the slides</span></li>
+      <li id="src-50"><a href="https://zenn.dev/kinzal/articles/ea40cfe897ce47" lang="ja">AI Agentでタスク駆動開発をしている話</a><span class="source-meta">Zenn · 2025.06.01 · A development flow that keeps goals, plans and records in files</span></li>
+      <li id="src-51"><a href="https://zenn.dev/kinzal/articles/4bea9e68156889" lang="ja">Claude Codeを使ったlinterとリファクタリング［内容名］</a><span class="source-meta">Zenn · 2025.09.03 · A prototype, cconv, that checks code against natural-language rules</span></li>
+      <li id="src-52"><a href="https://www.slideshare.net/slideshow/solana-mobile-stack-seeker-solana-developer-hub-21-soldevhub/283478702" lang="ja">Solana Mobile StackではじめるSeekerアプリ開発</a><span class="source-meta">Slides · 2025.09.28 · Solana Developer Hub #21. Dated by publication of the slides</span></li>
+      <li id="src-53"><a href="https://zenn.dev/kinzal/articles/3295f5d16b9ceb" lang="ja">AIを使ってBower/GruntJS時代の個人サイトをモダナイズした</a><span class="source-meta">Zenn · 2025.12.06 · A migration with screen comparison, componentisation and verification</span></li>
+      <li id="src-54"><a href="https://github.com/k-kinzal/testcontainers-php/commit/81a03391d680ea8136d1990f6adedc94bbf3584e" lang="ja">testcontainers-php / コンテナ再利用</a><span class="source-meta">GitHub commit · 2025.12.20 · Adds a container reuse mode</span></li>
+      <li id="src-55"><a href="https://sizu.me/kinzal/posts/ist2ewn2unva" lang="ja">2026年開発、AI系の環境</a><span class="source-meta">Shizuka na Internet · 2026.01.02 · Notes on an AI development environment and how each tool is used</span></li>
+      <li id="src-56"><a href="https://github.com/k-kinzal/ztd-query-php">ztd-query-php</a><span class="source-meta">GitHub · 2026.01〜 · A PHP implementation of Zero Table Dependency and an SQL verification base</span></li>
+      <li id="src-57"><a href="https://github.com/k-kinzal/storybook-php">storybook-php</a><span class="source-meta">GitHub · 2026.03〜 · An addon for checking PHP components in Storybook</span></li>
+      <li id="src-58"><a href="https://github.com/k-kinzal/php-ai-toolkit">php-ai-toolkit</a><span class="source-meta">GitHub · 2026.03〜 · Tools for static analysis, test output and documentation</span></li>
+      <li id="src-59"><a href="https://zenn.dev/kinzal/articles/6e789454354cfc" lang="ja">AIエージェントに不確実性を探索させるためにやること</a><span class="source-meta">Zenn · 2026.05.09 · A practical comparison of iteration, context and outside intervention</span></li>
+      <li id="src-60"><a href="https://zenn.dev/kinzal/articles/80d230f075f4b1" lang="ja">みんなAI Agentで開発どうしてる？僕はこうしてる！！</a><span class="source-meta">Zenn · 2026.05.23 · Combining concept work, tests, audits and real use</span></li>
+      <li id="src-61"><a href="https://zenn.dev/kinzal/articles/2ca5dcfc55f057" lang="ja">AIのためのタスク管理アプリケーションを作ったら気持ちよかった</a><span class="source-meta">Zenn · 2026.08.22 · Building a personal app; the app itself is not published</span></li>
+      <li id="src-62"><a href="https://github.com/k-kinzal/document-design">document-design / doc-ui</a><span class="source-meta">GitHub · 2026 · This paper uses the stylesheet distributed by document-design</span></li>
+    </ol></div>
+</section>
+<section class="sec">
+  <div class="rail"><h2 class="label">13<br>How the sources were handled</h2></div>
+  <div class="field"><p class="note">Representative public work was selected. Articles and books are dated by publication (JST by default), talks by the event or the publication of the slides, pull requests by the merge. A repository’s year and month are its creation date and do not establish when the work or its publication began. Features are as stated in the README at the time of checking. The experience described in a retrospective was not necessarily all gained in the year it was published.</p>
+    <p class="note">The author is named k_kinzal throughout; affiliations and titles are not given. Some titles have been replaced by a description of their content or shortened. The originals may use other spellings and include affiliations.</p></div>
+</section>
+</article>
+</body>
+</html>
