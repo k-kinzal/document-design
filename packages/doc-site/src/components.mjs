@@ -173,6 +173,7 @@ export const components = [
   {
     slug: "listing",
     name: "Listing",
+    previewHeight: "auto",
     label: "Scannable lists",
     group: "Lists & data",
     description: "Keep short and long entries in the same rhythm so the right item is easy to find.",

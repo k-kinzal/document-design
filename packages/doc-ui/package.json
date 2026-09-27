@@ -1,6 +1,6 @@
 {
   "name": "@k-kinzal/doc-ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Shared CSS for documentation, catalogs and reports",
   "license": "MIT",
   "type": "module",

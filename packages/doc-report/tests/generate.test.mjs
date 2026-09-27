@@ -53,7 +53,8 @@ test('a complete report: files, manifest, outputs, and no token anywhere', async
   assert.equal(manifest.generation.promptVersion, '1');
   assert.equal(manifest.html.digest, state.htmlDigest);
   assert.equal(manifest.evidence.digest, state.evidenceDigest);
-  assert.equal(manifest.docUi.version, '1.0.0');
+  const ui = JSON.parse(readFileSync(new URL('../../doc-ui/package.json', import.meta.url), 'utf8'));
+  assert.equal(manifest.docUi.version, ui.version);
   assert.equal(manifest.run.id, '4242');
   assert.equal(manifest.generator.ref, 'report-v1');
   assert.ok(!JSON.stringify(manifest).includes(TOKEN));
