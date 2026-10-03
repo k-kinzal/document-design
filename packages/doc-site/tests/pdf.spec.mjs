@@ -1,4 +1,4 @@
-// The paper, paginated for real.
+// The paper and product page, paginated for real.
 //
 // The report tests check placement under print media, but print media is
 // not pagination: `break-after: avoid-page` does nothing until a page ends,
@@ -8,7 +8,6 @@
 // every heading with something under it, every entry and every source
 // present, and the last paragraph on the last page.
 import { test, expect } from '@playwright/test';
-import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { locales, localePath } from '../src/i18n.mjs';
 import { paperExpectations } from '../src/paper.mjs';
@@ -50,7 +49,11 @@ async function pages(pdf) {
       const y = Math.round(height - item.transform[5]);
       lines.set(y, (lines.get(y) ?? '') + item.str);
     }
-    out.push({ width, height, lines: [...lines].sort((a, b) => a[0] - b[0]).map(([y, text]) => ({ y, text: flat(text) })) });
+    const items = content.items.filter(item => item.str?.trim()).map(item => ({
+      text: flat(item.str), top: height - item.transform[5] - item.height,
+      bottom: height - item.transform[5],
+    }));
+    out.push({ width, height, items, lines: [...lines].sort((a, b) => a[0] - b[0]).map(([y, text]) => ({ y, text: flat(text) })) });
   }
   return out;
 }
@@ -108,3 +111,54 @@ for (const lang of locales) test(`the long paper paginates without losing headin
   const dangling = await page.evaluate(() => [...document.querySelectorAll('.cite')].filter((a) => !document.querySelector(a.getAttribute('href'))).map((a) => a.getAttribute('href')));
   expect(dangling).toEqual([]);
 });
+
+for (const lang of locales) for (const format of ['A4', 'Letter']) {
+  test(`the product page keeps its figure, headings and footer together: ${lang}, ${format}`, async ({ page, browserName }, info) => {
+    test.skip(browserName !== 'chromium', 'PDF generation is Chromium only');
+    await page.goto('/' + localePath('', lang));
+    const expected = await page.evaluate(() => {
+      const texts = selector => [...document.querySelectorAll(selector)].map(el => el.textContent.trim());
+      return {
+        figure: texts('#reading-paths :is(h3, .flow-name, .flow-detail, figcaption p)'),
+        headings: texts('main :is(h2, h3, summary)'),
+        paragraphs: texts('main p:not(.eyebrow, .label)'),
+        rows: texts('#components tbody tr'),
+        lastNote: document.querySelector('#building .sidenote').textContent.trim(),
+      };
+    });
+    const sheets = await pages(await page.pdf({ path: info.outputPath('product.pdf'), format, printBackground: false }));
+    const texts = sheets.map(sheet => sheet.lines.map(line => line.text).join(''));
+
+    // The complete opening figure fits with its introduction, instead of
+    // leaving more than half of the first sheet empty.
+    for (const passage of expected.figure) {
+      expect.soft(locate(texts[0], flat(passage)), `figure on the opening page: ${passage}`).toBeTruthy();
+    }
+    for (const passage of expected.paragraphs) {
+      expect.soft(locate(texts.join(''), flat(passage)), `paragraph present: ${passage}`).toBeTruthy();
+    }
+    for (const row of expected.rows) {
+      expect.soft(sheets.some(sheet => locate(sheet.items.map(item => item.text).join(''), flat(row))), `component group stays on one page: ${row}`).toBe(true);
+    }
+
+    for (const heading of expected.headings) {
+      const index = texts.findIndex(text => locate(text, flat(heading)));
+      expect.soft(index, `heading present: ${heading}`).toBeGreaterThanOrEqual(0);
+      if (index < 0) continue;
+      const span = locate(texts[index], flat(heading));
+      const lines = sheets[index].lines;
+      expect.soft(span[1], `heading has content below it: ${heading}`).toBeLessThanOrEqual(texts[index].length - lines.at(-1).text.length);
+    }
+    for (const sheet of sheets) {
+      expect.soft(sheet.lines.at(-1).text, 'code header stays with the source').not.toBe('HTML');
+    }
+
+    // The last note must precede the footer on the same sheet. Continuous
+    // print-media coordinates missed the grid's overlap after pagination.
+    const last = sheets.at(-1);
+    expect.soft(locate(texts.at(-1), flat(expected.lastNote)), 'no page containing only the footer').toBeTruthy();
+    const footer = last.items.find(item => item.text === 'doc-ui');
+    expect(footer, 'footer present').toBeTruthy();
+    expect.soft(footer.top, 'footer clears every line of content').toBeGreaterThan(Math.max(...last.items.filter(item => item !== footer).map(item => item.bottom)) + 8);
+  });
+}

@@ -238,11 +238,25 @@
 }
 @layer dd.print {
   @media print {
-    .masthead nav, .colophon nav, .actions, .code-head button { display: none !important; }
-    .sheet-wide { padding: 0; max-width: none; }
-    .cover { padding-block: 16px; }
+    .masthead nav, .colophon nav, .ribbon, .actions, .code-head button { display: none !important; }
+    /* A grid row following a fragmented body can overlap its last lines.
+       Keep the publication's outer flow in a column and give the body its
+       own tracks, since a flex parent cannot supply a subgrid. */
+    .sheet-wide { display: flex; flex-direction: column; padding: 0; max-width: none; }
+    .sheet-wide > :is(.sheet-body, .sec, .hero) { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; }
+    /* Recover paper space from gaps, keeping the reading sizes unchanged. */
+    .sheet-wide .sec { margin-top: var(--dd-base); }
+    .sheet-wide .prose p:not(:last-child) { margin-bottom: var(--dd-sp-4); }
+    /* Keep the final body block attached to the colophon across a page end. */
+    .sheet-wide .sheet-body > :last-child { margin-bottom: calc(var(--dd-base) / 2); break-after: avoid-page; }
+    .cover { padding-block: 16px; gap: calc(var(--dd-base) / 2); }
+    .cover .eyebrow { margin-bottom: calc(var(--dd-base) / 2); }
     .cover .cover-title { font-size: 32pt; }
     .section { padding-block: 20px; }
+    .section-head { break-inside: avoid; break-after: avoid-page; }
+    .code-head { break-after: avoid-page; }
+    .code-head + pre.code { padding: var(--dd-sp-4); }
+    .colophon { padding-block: var(--dd-sp-4); break-before: avoid-page; break-inside: avoid; }
     .specimens { grid-template-columns: minmax(0, 1fr); }
     .specimen { break-inside: auto; }
   }

@@ -120,6 +120,8 @@
 
     details > summary { list-style: none; }
     details > summary::marker { content: ""; }
+    .disclosure > summary::before { display: none; }
+    .disclosure-body { padding-bottom: var(--dd-sp-3); }
 
     .tabpanel[hidden] { display: block !important; }
     .tabpanel > .tabpanel-title { display: block !important; }
@@ -151,7 +153,7 @@
      * leaves most of a page blank and breaks it anyway. Only things that are
      * small by construction get break-inside: avoid.
      */
-    :is(h1, h2, h3, h4) { break-after: avoid-page; }
+    :is(h1, h2, h3, h4, summary) { break-after: avoid-page; }
     :is(figure, .stat, .card, .graph-wrap) { break-inside: avoid; }
     :is(pre, table, .rows, .sec) { break-inside: auto; }
     tr, .row, .member { break-inside: auto; }

@@ -303,6 +303,9 @@
 @layer dd.print {
   @media print {
     .plate-side { break-inside: avoid; }
+    .plate-body { padding-block: calc(var(--dd-base) / 2); }
+    /* A wrapped link list still belongs to the row's category. */
+    tr:has(.link-list) { break-inside: avoid; }
     .index-nav { display: none !important; }
   }
 }
