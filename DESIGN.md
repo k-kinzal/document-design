@@ -515,8 +515,10 @@ pages suppress both. Long chapters retain their geometry and furniture on
 every continuation; no fixed-height box clips their text.
 
 The Storybook specimen is paginated before being presented as `.book-proof`
-spreads. A build-time pass reads actual PDF page boundaries, inserts blank
-versos for recto chapter openings, and resolves contents folios. Chromium
+spreads. Flat rules mark each page's trim; the preview presents typesetting
+without shadows or simulated paper depth. A build-time pass reads actual PDF
+page boundaries, inserts blank versos for recto chapter openings, and resolves
+contents folios. Chromium
 currently treats `break-before: right` as a simple page break. Proof images
 link to a selectable PDF and self-contained, reflowing HTML. Neither final
 artifact needs JavaScript. Changing text, fonts or geometry requires a new

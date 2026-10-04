@@ -8,17 +8,20 @@
     width: max-content;
     max-width: none;
     gap: 0;
-    background: var(--dd-sunken);
   }
-  .book-leaf { width: var(--dd-book-width); min-width: 0; }
+  .book-leaf {
+    width: var(--dd-book-width);
+    min-width: 0;
+    /* Mark the trim without changing the proof's dimensions or text scale. */
+    outline: 1px solid var(--dd-border-strong);
+    outline-offset: -1px;
+  }
   .book-leaf > a { display: block; }
   .book-leaf img { display: block; width: 100%; height: auto; }
   .book-leaf[data-dd-side="right"]:first-child { grid-column: 2; }
-  .book-proof .book-spread:has(> :only-child) { background: none; }
-  .book-spread-wrap { overflow-x: auto; max-width: 100%; }
-  /* Narrow screens keep the physical page's type size. Scroll the proof;
+  /* Narrow screens keep the printed text size. Scroll the proof;
      open its HTML source for a reflowing, accessible reading view. */
-  .book-proof .book-leaf { background: var(--dd-raised); box-shadow: var(--dd-shadow); }
+  .book-spread-wrap { overflow-x: auto; max-width: 100%; }
 }
 @layer dd.layout {
   .book-proof { margin-inline: auto; padding: var(--dd-sp-6); }
@@ -29,6 +32,6 @@
 @layer dd.print {
   @media print {
     .book-proof .book-spread { display: block; }
-    .book-proof .book-leaf { break-inside: avoid; break-after: page; box-shadow: none; }
+    .book-proof .book-leaf { break-inside: avoid; break-after: page; outline: none; }
   }
 }

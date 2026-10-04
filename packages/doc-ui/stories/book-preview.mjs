@@ -27,7 +27,7 @@ export function bookPreview(proof, { guides = false } = {}) {
   }
   return `<main class="book-proof" style="${bookVariables(g)}" lang="en">
     <header class="paper-head"><p class="eyebrow">BOOK / ${g.name.toUpperCase()} / LEFT BINDING</p>
-      <h1>${guides ? 'Page anatomy' : 'A book, at its finished size'}</h1>
+      <h1>${guides ? 'Page anatomy' : 'Book typesetting'}</h1>
       <p class="note">${guides ? 'The blue rectangle is the type area (<span lang="ja">版面</span>). Head (<span lang="ja">天</span>), foot (<span lang="ja">地</span>), fore-edge (<span lang="ja">小口</span>) and gutter (<span lang="ja">ノド</span>) sit outside it. Running heads (<span lang="ja">柱</span>) sit above the type area; folios (<span lang="ja">ノンブル</span>) sit below it at the outer edges.' : 'Actual pages from the printed HTML, paired as even-left / odd-right spreads. Blank versos, chapter starts, running heads and contents folios come from pagination. Open a page to inspect the selectable PDF, or read the reflowing HTML.'}</p>
     </header>
     <ul class="ribbon"><li><b>Trim</b> ${g.name} · ${g.width} × ${g.height} mm</li><li><b>Type area</b> ${g.measure} × ${g.extent} mm</li><li><b>Body</b> 12 pt / ${g.leading} mm leading</li><li><b>Margins</b> Head ${g.head} · foot ${g.foot} · gutter ${g.gutter} · fore-edge ${g.fore} mm</li><li><b>Extent</b> ${proof.pages.length} pages</li></ul>
