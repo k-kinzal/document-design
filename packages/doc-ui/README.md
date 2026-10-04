@@ -233,3 +233,44 @@ drawing text size and a 1.5px outline. Center titles with `.draw-strong` and
 explicit SVG alignment attributes; put supporting notes outside the boxes.
 If the text needs more room, enlarge the shared module. Route lines clear of
 branch labels rather than outlining text in a guessed background color.
+
+## Typeset a book
+
+Use `Examples/Book` in Storybook for a complete English or Japanese book with
+a cover, linked contents, chapters, MathML equations, calculated graphs,
+tables, local images and a colophon. It uses the existing reading scale:
+
+```html
+<article class="sheet sheet-paper sheet-book" lang="en"
+         data-dd-color="monochrome" data-dd-paper="a4"
+         data-dd-print-urls="sources">
+  <section class="book-page">
+    <header class="paper-head"><h1>Book title</h1></header>
+    <div class="prose"><p>Opening text.</p></div>
+  </section>
+  <section class="book-page" data-dd-color="color">
+    <header class="paper-head"><h2>Colour plates</h2></header>
+    <figure class="plate">
+      <img src="plate.png" width="1152" height="576" alt="Describe the image">
+      <figcaption>Explain the image and its source.</figcaption>
+    </figure>
+  </section>
+</article>
+```
+
+Each `.book-page` starts a fresh printed page. Long content continues onto as
+many sheets as needed, retaining its colour mode. The next division starts on
+a new sheet. Screen divisions are fluid sections, not simulated printed pages.
+`a4` and `letter` use mirrored binding margins and outer page numbers where
+page margin boxes are supported; omit the paper attribute to use the printer's
+size. Chapter links belong in `.book-toc`; do not guess physical page numbers
+before pagination. Japanese content needs `lang="ja"`.
+
+`data-dd-color="color"` restores the standard palette inside a neutral book.
+`grayscale` selects neutral inks; `monochrome` selects black and white inks.
+Book images follow the nearest colour boundary: neutral modes desaturate them,
+while text and SVG remain vector content. For genuinely bitonal artwork,
+supply a black-and-white source image; desaturation alone retains gray tones.
+These modes describe appearance, not printer ink channels or CMYK separation.
+The example's original raster plates can be regenerated with
+`npm run build:book-art --workspace @k-kinzal/doc-ui`.

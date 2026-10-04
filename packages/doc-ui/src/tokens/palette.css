@@ -19,7 +19,7 @@
 
 @layer dd.tokens {
   :root { color-scheme: light dark; }
-  :root, [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
+  :root, [data-dd-color="color"], [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
     /*
      * color-scheme is what light-dark() reads, so this one property is the
      * whole of the theme switch. The two values below it are not colours and
@@ -28,6 +28,7 @@
      */
     --dd-tint-mix: 6%;
     --dd-shadow: 0 8px 24px rgb(15 23 42 / 0.12);
+    --dd-image-filter: none;
 
     /*
      * ---- neutrals ----
@@ -142,6 +143,7 @@
   /* Rebind the palette at the document boundary, not through a filter:
      CSS, SVG and printed text all use the same neutral inks. */
   [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
+    --dd-image-filter: grayscale(1);
     --dd-bg: light-dark(#ffffff, #202020);
     --dd-surface: light-dark(#f7f7f7, #292929);
     --dd-sunken: light-dark(#f0f0f0, #252525);

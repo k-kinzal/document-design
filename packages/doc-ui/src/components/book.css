@@ -1,0 +1,135 @@
+/* A book is a reading composition, built on .sheet.sheet-paper. Each
+   .book-page starts a fresh printed page; long content continues naturally.
+   Screen boundaries show authored divisions, never pretend to paginate. */
+@layer dd.component {
+  .sheet.sheet-book {
+    display: block;
+    max-width: calc(var(--dd-measure-wide) + var(--dd-sp-6) * 2);
+    padding: 0;
+  }
+  .sheet-book > .book-page {
+    min-width: 0;
+    padding: var(--dd-sp-8) var(--dd-sp-6);
+    color: var(--dd-fg);
+    background: var(--dd-bg);
+    border-bottom: 1px solid var(--dd-border-strong);
+  }
+  .sheet-book .book-cover h1 {
+    font-size: var(--dd-type-7);
+    line-height: 1.15;
+    letter-spacing: var(--dd-track-display);
+  }
+  .sheet-book .book-page > header h2 {
+    display: block;
+    padding: 0;
+    border: 0;
+    font-size: var(--dd-type-5);
+    line-height: 1.3;
+    letter-spacing: var(--dd-track-large);
+  }
+  /* Filter the replaced image only. Filtering a chapter rasterizes its
+     text in some PDF engines and interferes with fragmentation. Inherited
+     tokens let a nested color boundary restore an image as well as text. */
+  .sheet-book :where(img) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    filter: var(--dd-image-filter, none);
+  }
+  .book-toc { list-style: none; padding: 0; }
+  .book-toc a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--dd-sp-5);
+    padding-block: var(--dd-sp-5);
+    border-bottom: 1px solid var(--dd-border);
+  }
+  .book-toc span { color: var(--dd-fg-muted); white-space: nowrap; }
+  @container (max-width: 30rem) {
+    .sheet-book > .book-page { padding: var(--dd-sp-7) var(--dd-sp-5); }
+    .sheet-book .book-cover h1 { font-size: var(--dd-type-5); }
+    .book-toc a { flex-wrap: wrap; gap: var(--dd-sp-2) var(--dd-sp-4); }
+  }
+}
+@layer dd.layout {
+  .book-page > * + * { margin-top: var(--dd-base); }
+  .book-page > header > * + * { margin-top: var(--dd-sp-4); }
+  .book-page > header :is(h1, h2, p) { margin-bottom: 0; }
+}
+@layer dd.print {
+  @media print {
+    .sheet.sheet-book { page: dd-book; }
+    .sheet-book[data-dd-paper="a4"], [data-dd-paper="a4"] .sheet-book { page: dd-book-a4; }
+    .sheet-book[data-dd-paper="letter"], [data-dd-paper="letter"] .sheet-book { page: dd-book-letter; }
+    .sheet-book > .book-page { padding: 0; border: 0; break-inside: auto; }
+    .sheet-book > .book-page + .book-page { break-before: page; }
+    .book-page > header { break-inside: avoid; break-after: avoid-page; }
+    .sheet-book img { print-color-adjust: exact; }
+    .book-toc > li { break-inside: avoid; }
+
+    /* Mirrored binding margins and outer folios; the printer chooses duplex.
+       A page has no fixed-height DOM box and no positioned footer. */
+    /* Chromium discards comma-separated @page selectors, including their
+       margin boxes. Keep each named page rule separate. */
+    @page dd-book {
+      margin: 18mm 18mm 22mm 22mm;
+    }
+    @page dd-book:left {
+      margin-left: 18mm;
+      margin-right: 22mm;
+      @bottom-left {
+        content: counter(page) " / " counter(pages);
+        font: 10px system-ui, sans-serif;
+        color: #000;
+      }
+    }
+    @page dd-book:right {
+      @bottom-right {
+        content: counter(page) " / " counter(pages);
+        font: 10px system-ui, sans-serif;
+        color: #000;
+      }
+    }
+    @page dd-book-a4 {
+      size: A4;
+      margin: 18mm 18mm 22mm 22mm;
+    }
+    @page dd-book-a4:left {
+      margin-left: 18mm;
+      margin-right: 22mm;
+      @bottom-left {
+        content: counter(page) " / " counter(pages);
+        font: 10px system-ui, sans-serif;
+        color: #000;
+      }
+    }
+    @page dd-book-a4:right {
+      @bottom-right {
+        content: counter(page) " / " counter(pages);
+        font: 10px system-ui, sans-serif;
+        color: #000;
+      }
+    }
+    @page dd-book-letter {
+      size: letter;
+      margin: 18mm 18mm 22mm 22mm;
+    }
+    @page dd-book-letter:left {
+      margin-left: 18mm;
+      margin-right: 22mm;
+      @bottom-left {
+        content: counter(page) " / " counter(pages);
+        font: 10px system-ui, sans-serif;
+        color: #000;
+      }
+    }
+    @page dd-book-letter:right {
+      @bottom-right {
+        content: counter(page) " / " counter(pages);
+        font: 10px system-ui, sans-serif;
+        color: #000;
+      }
+    }
+  }
+}

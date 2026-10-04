@@ -14,7 +14,7 @@
 @layer dd.tokens {
   /* Aliases must resolve at the same boundary as the palette: inheriting an
      already resolved root alias would retain its original colour. */
-  :root, [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
+  :root, [data-dd-color="color"], [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
     /* ---- surfaces and text ---- */
     --dd-fg:         var(--dd-ink);
     --dd-fg-muted:   var(--dd-sub);

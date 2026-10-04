@@ -1,7 +1,8 @@
-/* Opt-in palettes for a whole document or an embedded specimen. Images keep
-   their own colours; supply grayscale artwork when the publication needs it. */
+/* Opt-in palettes for a whole document or an embedded specimen. An explicit
+   color boundary restores the palette inside a neutral document. Book pages
+   also apply the inherited image filter; other compositions keep artwork as is. */
 @layer dd.base {
-  [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
+  [data-dd-color="color"], [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
     color: var(--dd-fg);
     background: var(--dd-bg);
   }

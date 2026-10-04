@@ -104,6 +104,8 @@ function plot(t, id) {
   </div>`;
 }
 
+export const entropyPlot = (lang, id) => plot(copy[lang], id);
+
 export function researchPaper({ lang = 'en', color = 'grayscale' } = {}) {
   const t = copy[lang];
   const id = `research-${lang}-${color}`;

@@ -473,9 +473,21 @@ are never shrunk. `--dd-font-math` optionally selects an installed math font.
 **Neutral inks are an explicit choice.** `data-dd-color="grayscale"` or
 `"monochrome"` on the root or document wrapper changes doc-ui's palette and
 semantic roles, including SVG. The light/dark theme still applies; printing
-uses the light palette. Omit the attribute for colour. Images and custom
-colours remain the author's responsibility. Dashes, shapes and labels must
+uses the light palette. Omit the attribute for colour, or use `"color"` to restore
+colour inside a neutral boundary. Custom colours remain the author's
+responsibility. Dashes, shapes and labels must
 still distinguish series and missing information.
+
+**Books add page boundaries to continuous reading.** Compose
+`.sheet.sheet-paper.sheet-book` with `.book-page` sections. Each section begins
+a new printed page and can continue across multiple sheets in the same colour
+mode; no fixed height clips long content. Set `data-dd-color` on a section for
+colour plates among neutral chapters. Book images follow that boundary through
+an image-only grayscale filter, preserving selectable text and vector figures.
+Monochrome text uses black and white; bitonal images must be supplied by the
+author. Outside books, images retain their source colours. A4 and Letter books
+use mirrored binding margins and outer folios. `.book-toc` links to chapters;
+physical page numbers are only known after pagination.
 
 **Paper size is chosen by the document, not by the stylesheet.** Two attributes on
 the root are the whole print setup for a long paper: the sheet size with its

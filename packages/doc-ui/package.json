@@ -17,6 +17,7 @@
   },
   "scripts": {
     "build": "node build.mjs",
+    "build:book-art": "node stories/book-art.mjs",
     "check": "node --test tests/*.test.mjs",
     "check:contrast": "node --test tests/contrast.test.mjs",
     "storybook": "storybook dev -p 6006 --no-open",
