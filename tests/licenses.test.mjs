@@ -13,7 +13,7 @@ test('workspace licenses agree and the publishable package includes the MIT text
     assert.equal(JSON.parse(read(`${path}package.json`)).license, 'MIT', path);
   }
   const ui = JSON.parse(read('packages/doc-ui/package.json'));
-  assert.deepEqual(ui.dependencies ?? {}, {}, 'doc-ui has no third-party runtime dependencies');
+  assert.deepEqual(ui.dependencies ?? {}, {}, 'doc-ui installs no third-party runtime dependencies');
 });
 
 test('locked dependency licenses remain within the reviewed distribution scope', () => {
@@ -23,7 +23,9 @@ test('locked dependency licenses remain within the reviewed distribution scope',
     const name = path.split('node_modules/').at(-1);
     const buildOrTestOnly = pkg.dev && (
       (pkg.license === 'MPL-2.0' && (name === 'axe-core' || /^lightningcss(?:-|$)/.test(name))) ||
-      (pkg.license === 'CC-BY-4.0' && name === 'caniuse-lite')
+      (pkg.license === 'CC-BY-4.0' && name === 'caniuse-lite') ||
+      // markdown-it's own CLI uses argparse; our bundled renderer does not.
+      (pkg.license === 'PSF-2.0' && name === 'argparse')
     );
     assert(permissive.has(pkg.license) || buildOrTestOnly,
       `Review ${name}@${pkg.version}: ${pkg.license ?? 'missing license'}`);

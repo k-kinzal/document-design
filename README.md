@@ -24,6 +24,17 @@ Add the stylesheet to your document’s `<head>`:
 Choose a document or report layout, copy a complete HTML example, and learn about
 Japanese typography, themes, offline use, and optional interactions.
 
+## Markdown to HTML
+
+From a checkout, after `npm install`, generate an HTML file with embedded CSS:
+
+```sh
+npx --no-install @k-kinzal/doc-ui README.md --layout paper -o README.html
+```
+
+Choose `doc`, `report`, `paper`, or `book`; use `--lang ja` for Japanese.
+See the [CLI options and npx distribution instructions](packages/doc-ui/README.md#markdown-cli).
+
 ## Change reports in GitHub Actions
 
 `k-kinzal/document-design@report-v1` turns a push, pull request, tag range or

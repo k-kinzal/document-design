@@ -1,7 +1,7 @@
 {
   "name": "@k-kinzal/doc-ui",
   "version": "1.1.0",
-  "description": "Shared CSS for documentation, catalogs and reports",
+  "description": "CSS for documents and reports, with a Markdown-to-HTML CLI",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -18,19 +18,34 @@
   "scripts": {
     "build": "node build.mjs",
     "build:book-art": "node stories/book-art.mjs",
-    "check": "node --test tests/*.test.mjs",
+    "check": "npm run build && node --test tests/*.test.mjs",
     "check:contrast": "node --test tests/contrast.test.mjs",
     "storybook": "storybook dev -p 6006 --no-open",
     "build:storybook": "storybook build -o storybook-static",
     "prepare": "npm run build",
-    "dev": "npm run storybook"
+    "dev": "npm run storybook",
+    "test": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@storybook/addon-docs": "^10.6.0",
     "@storybook/html-vite": "^10.6.0",
     "browserslist": "^4.28.0",
+    "esbuild": "^0.28.2",
     "lightningcss": "^1.33.0",
+    "markdown-it": "15.0.2",
+    "parse5": "^8.0.1",
+    "pdfjs-dist": "^6.3.289",
     "storybook": "^10.6.0",
     "vite": "npm:@voidzero-dev/vite-plus-core@1.0.0-rc.0"
+  },
+  "bin": {
+    "doc-ui": "./dist/cli.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

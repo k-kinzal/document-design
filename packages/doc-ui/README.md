@@ -20,6 +20,70 @@ details; this is the shared part, maintained once.
 
 **[Component list and examples →](https://k-kinzal.github.io/document-design/components/)**
 
+## Markdown CLI
+
+The `doc-ui` command turns a Markdown file or stdin into a complete HTML
+document. It embeds the matching doc-ui CSS, including its license, so the
+styles need no JavaScript or network. Node.js 22 or newer is required to run
+the converter; reading the HTML only requires a browser.
+
+Run from a repository checkout after `npm install`:
+
+```sh
+npx --no-install @k-kinzal/doc-ui README.md -o README.html
+npx --no-install @k-kinzal/doc-ui report.md --layout paper --lang ja --paper a4 -o report.html
+cat book.md | npx --no-install @k-kinzal/doc-ui --layout book --color monochrome > book.html
+```
+
+After the maintainer publishes the package to npm, the registry invocation is
+`npx @k-kinzal/doc-ui input.md -o output.html`. Until then, a packed archive
+works outside the checkout too; packing does not publish or create a release:
+
+```sh
+npm pack --workspace @k-kinzal/doc-ui
+npx --package ./k-kinzal-doc-ui-1.1.0.tgz doc-ui input.md -o output.html
+```
+
+The archive bundles the parser, CSS and third-party notices. It installs no
+runtime dependencies and needs no build tools at the destination. Pin a full
+package version or retain the archive when reproducible output matters.
+
+| Option | Default | Meaning |
+| --- | --- | --- |
+| `-o`, `--output <file>` | stdout | Write HTML; create missing parent directories. `-` also selects stdout. |
+| `--layout doc` | `doc` | Document frame with normal Markdown heading hierarchy and readable prose. |
+| `--layout report` | | Large opening title, with top-level H2 headings becoming numbered report sections. |
+| `--layout paper` | | Continuous single-column paper with a title header and reading typography. |
+| `--layout book` | | Opening cover/introduction, then one chapter per top-level H2. Each chapter begins on a new printed page; long chapters continue naturally. |
+| `--theme auto\|light\|dark` | `auto` | Follow the reader's preference or select a theme. Print always uses light. |
+| `--color color\|grayscale\|monochrome` | `color` | Use the existing doc-ui colour modes. These describe appearance, not printer ink channels. |
+| `--lang <tag>` | `en` | Set the document language; use `ja` for Japanese typography and labels. |
+| `--paper auto\|a4\|letter` | `auto` | Let the printer choose, or set paper size and page numbering. This creates printable HTML, not a PDF file. |
+| `--print-urls inline\|sources\|none` | `inline` | Print URLs beside links, only in authored `.sources` lists, or omit them. |
+| `--title <text>` | first H1 / filename | Set the browser title. The visible Markdown stays as authored. Stdin without H1 uses “Document”. |
+| `--html` | off | Render raw HTML from trusted Markdown, including doc-ui components. Raw HTML is not sanitized. |
+| `-h`, `--help`; `-v`, `--version` | | Show usage or the package version. |
+
+Omit the input or use `-` to read stdin. Use `--` before a filename beginning
+with `-`. Invalid options and I/O failures exit nonzero and report to stderr;
+stdout contains only HTML. The output must differ from the source file.
+
+CommonMark blocks, tables, strikethrough, automatic links and task lists are
+supported. Tables scroll within a keyboard-focusable wrapper. Fenced code is
+escaped and retains its language class; it is not syntax-highlighted. Headings
+receive readable, unique IDs for links. Only top-level H2s divide reports and
+books; headings inside lists, quotes and code do not split their containers.
+A leading H1 becomes the report title or paper/book header; a missing title
+is not invented. YAML front matter, math and diagram extensions are not
+interpreted. With `--html`, authored HTML can use the existing components.
+
+Images remain references and are not downloaded or embedded. Keep local images
+with the document; remote images still need a network. With `-o`, relative
+Markdown image and link URLs are rebased from the input directory to the output
+directory (stdin starts from the working directory). For stdout, URLs are kept
+as authored: place redirected output beside the input, or use `-o` to rebase it.
+Raw HTML URLs remain as authored even with `-o`.
+
 ## What you get
 
 - **Two page genres.** `.doc` for a catalog you navigate; `.sheet` for a report

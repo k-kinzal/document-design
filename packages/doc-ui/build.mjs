@@ -10,6 +10,7 @@ import browserslist from "browserslist";
 import { mkdirSync, writeFileSync, readFileSync, copyFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { buildCLI } from "./build-cli.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = here;
@@ -76,3 +77,5 @@ for (const [name, size] of results) {
   );
 }
 console.log("document-design.js".padEnd(32), `${(js.length / 1024).toFixed(1)} kB`.padStart(9));
+
+await buildCLI(dist);
