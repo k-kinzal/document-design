@@ -5,6 +5,7 @@ import { licenseNotices } from "./licenses.mjs";
 /** @type {import('@storybook/html-vite').StorybookConfig} */
 export default {
   stories: ["../stories/**/*.mdx", "../stories/**/*.stories.js"],
+  staticDirs: [{ from: '../.generated/book-proofs', to: '/book-proofs' }],
   addons: ["@storybook/addon-docs"],
   framework: { name: "@storybook/html-vite", options: {} },
   core: { disableTelemetry: true },

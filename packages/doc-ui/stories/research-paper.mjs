@@ -82,29 +82,29 @@ const formulas = [
   `<mi>V</mi><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo><mo>=</mo><mn>4</mn><mi>p</mi><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="false">)</mo>`,
 ];
 
-function plot(t, id) {
+function plot(t, id, width = 576) {
   // A prose-width drawing stays at 1:1 even on an A4 sheet with margins.
-  const x = p => 56 + 464 * p;
+  const x = p => 56 + (width - 112) * p;
   const y = value => 282 - 220 * value;
   const path = fn => Array.from({ length: 101 }, (_, i) => `${i ? 'L' : 'M'}${x(i / 100).toFixed(2)} ${y(fn(i / 100)).toFixed(2)}`).join(' ');
   const ticks = [0, 0.25, 0.5, 0.75, 1];
   return `<div class="draw-wrap" tabindex="0" role="region" aria-label="${t.graphTitle}">
-    <svg class="draw" style="--dd-draw-width: 576px" viewBox="0 0 576 356" role="img" aria-labelledby="${id}-plot-title ${id}-plot-desc">
+    <svg class="draw" style="--dd-draw-width: ${width}px" viewBox="0 0 ${width} 356" role="img" aria-labelledby="${id}-plot-title ${id}-plot-desc">
       <title id="${id}-plot-title">${t.graphTitle}</title><desc id="${id}-plot-desc">${t.graphDesc}</desc>
       <text class="draw-label" x="56" y="24">${t.axis}</text>
-      ${ticks.map(v => `<path class="plot-grid" d="M56 ${y(v)}H520"/><text class="draw-note" x="44" y="${y(v) + 5}" text-anchor="end">${v}</text><text class="draw-note" x="${x(v)}" y="307" text-anchor="middle">${v}</text>`).join('')}
-      <path class="plot-axis" d="M56 62V282H520"/>
+      ${ticks.map(v => `<path class="plot-grid" d="M56 ${y(v)}H${width - 56}"/><text class="draw-note" x="44" y="${y(v) + 5}" text-anchor="end">${v}</text><text class="draw-note" x="${x(v)}" y="307" text-anchor="middle">${v}</text>`).join('')}
+      <path class="plot-axis" d="M56 62V282H${width - 56}"/>
       <path class="plot-line tone-blue" d="${path(entropy)}"/>
       <path class="plot-line plot-line-alt tone-violet" d="${path(variance)}"/>
       ${probabilities.map(p => `<circle class="plot-point tone-blue" cx="${x(p)}" cy="${y(entropy(p))}" r="3.5"/><rect class="plot-point plot-point-alt tone-violet" x="${x(p) - 3.5}" y="${y(variance(p)) - 3.5}" width="7" height="7"/>`).join('')}
-      <text class="draw-label" x="288" y="343" text-anchor="middle">${t.xaxis}</text>
-      <text class="draw-strong tone-blue draw-toned" x="440" y="99">H</text>
-      <text class="draw-strong tone-violet draw-toned" x="445" y="180">V</text>
+      <text class="draw-label" x="${width / 2}" y="343" text-anchor="middle">${t.xaxis}</text>
+      <text class="draw-strong tone-blue draw-toned" x="${x(0.8276)}" y="99">H</text>
+      <text class="draw-strong tone-violet draw-toned" x="${x(0.8384)}" y="180">V</text>
     </svg>
   </div>`;
 }
 
-export const entropyPlot = (lang, id) => plot(copy[lang], id);
+export const entropyPlot = (lang, id, width) => plot(copy[lang], id, width);
 
 export function researchPaper({ lang = 'en', color = 'grayscale' } = {}) {
   const t = copy[lang];

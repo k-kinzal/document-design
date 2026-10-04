@@ -46,6 +46,22 @@
     border-bottom: 1px solid var(--dd-border);
   }
   .book-toc span { color: var(--dd-fg-muted); white-space: nowrap; }
+  /* A format-aware manuscript uses the same type area on screen and paper.
+     All lengths come from the trim specification, independent of viewport. */
+  .sheet.sheet-book[data-dd-book] {
+    max-width: var(--dd-book-width);
+    --dd-measure: var(--dd-book-measure);
+    --dd-measure-wide: var(--dd-book-measure);
+  }
+  .sheet-book[data-dd-book] > .book-page {
+    padding: var(--dd-book-head) var(--dd-book-fore) var(--dd-book-foot) var(--dd-book-gutter);
+  }
+  .sheet-book[data-dd-book] .prose { line-height: var(--dd-book-leading); }
+  .sheet-book[data-dd-book] .paper-head { padding-bottom: var(--dd-book-leading); border: 0; }
+  .sheet-book[data-dd-book] .book-cover h1 { font-size: var(--dd-type-6); }
+  .sheet-book[data-dd-book] .book-page > header h2 { font-size: var(--dd-type-4); }
+  .sheet-book[data-dd-book] .book-toc a { padding-block: var(--dd-sp-3); }
+  .sheet-book[data-dd-book] .book-blank { display: none; }
   @container (max-width: 30rem) {
     .sheet-book > .book-page { padding: var(--dd-sp-7) var(--dd-sp-5); }
     .sheet-book .book-cover h1 { font-size: var(--dd-type-5); }
@@ -67,6 +83,20 @@
     .book-page > header { break-inside: avoid; break-after: avoid-page; }
     .sheet-book img { print-color-adjust: exact; }
     .book-toc > li { break-inside: avoid; }
+    .sheet.sheet-book[data-dd-book] { page: auto; }
+    .sheet-book[data-dd-book] > .book-page {
+      page: var(--dd-book-page);
+      padding: 0;
+    }
+    /* Explicit blank leaves come from a pagination pass. Chromium currently
+       treats break-before: right as page, so it cannot enforce recto starts. */
+    .sheet-book[data-dd-book] > .book-blank {
+      display: block;
+      height: 1px;
+      break-before: page;
+      break-after: page;
+      visibility: hidden;
+    }
 
     /* Mirrored binding margins and outer folios; the printer chooses duplex.
        A page has no fixed-height DOM box and no positioned footer. */

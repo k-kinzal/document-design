@@ -1,4 +1,5 @@
 import { entropy, variance, probabilities, entropyPlot } from './research-paper.mjs';
+import { bookGeometry, bookVariables, bookPageCSS } from '../src/book.mjs';
 
 // Vite copies these local assets; the standalone tests embed their bytes.
 export const bookImages = {
@@ -11,10 +12,8 @@ const copy = {
     title: 'A small book of uncertainty',
     subtitle: 'From a probability to an equation, a curve and an image',
     edition: 'document-design · An illustrated mathematical reader',
-    cover: 'Two possible outcomes are enough to ask a useful question: how much do we know before either one occurs? This short book follows that question through words, symbols and pictures.',
     contents: 'Contents',
     chapters: ['Two outcomes, one probability', 'A field of probabilities', 'Reading a curve without colour', 'What a threshold keeps', 'Sources and colophon'],
-    tocNote: 'Follow the chapter links on screen. Printed folios count physical sheets; these chapter numbers remain the same when text flows onto another page.',
     preface: 'About this book',
     prefaceText: 'This is an expository typesetting specimen. Its numerical values and raster artwork are calculated from the functions printed here. They are not observations of people, experiments or model performance. The colour plates, grayscale analysis and monochrome appendix offer different views of those same calculations.',
     theory: [
@@ -43,16 +42,13 @@ const copy = {
     closing: 'A picture does not remove the need for a definition. Equations specify the quantities, captions explain the encoding, and tables preserve values that can be compared without judging a shade or tracing a curve.',
     sourceNote: 'The definition of entropy. The probability field, normalized variance comparison, calculations and illustrations in this book are original expository examples.',
     colophon: 'Typeset with doc-ui. Native MathML, SVG curves and local PNG artwork share the reading layout. Text stays selectable. The HTML can be read and printed without scripts or network access.',
-    colors: { color: 'Colour plate', grayscale: 'Grayscale', monochrome: 'Monochrome' },
   },
   ja: {
     title: '不確実性を読む小さな本',
     subtitle: '一つの確率から、数式・曲線・画像へ',
     edition: 'document-design · 図解で読む数学',
-    cover: '二つの結果だけでも、問いを立てることができる。どちらかが起こる前に、どれだけのことが分かっているのだろう。本書では、言葉・記号・図を通して、その問いをたどる。',
     contents: '目次',
     chapters: ['二つの結果と一つの確率', '確率を画像にする', '色に頼らず曲線を読む', 'しきい値が残すもの', '参考文献・奥付'],
-    tocNote: '画面では各章のリンクから移動できる。印刷したページ番号は実際の用紙を数える。本文が次のページに続いても、章番号は変わらない。',
     preface: '本書について',
     prefaceText: '本書は解説形式の組版サンプルである。数値と画像は、本文に示した関数から計算した。人物や実験、モデル性能の観測結果ではない。カラー図版、グレースケールの分析、白黒の付録を通して、同じ計算を異なる表現で読む。',
     theory: [
@@ -81,26 +77,39 @@ const copy = {
     closing: '画像を使っても定義は必要である。数式が量を定め、キャプションが符号化を説明し、表が濃淡や曲線の読み取りに頼らず比較できる値を残す。',
     sourceNote: 'エントロピーの定義を参照。本書の確率場、正規化分散との比較、計算、図版は、解説のために独自に構成した。',
     colophon: 'doc-uiによる組版。MathMLの数式、SVGの曲線、同梱したPNG画像を同じ読むためのレイアウトに配置した。文字は選択でき、HTMLの閲覧と印刷にスクリプトや外部通信は必要ない。',
-    colors: { color: 'カラー図版', grayscale: 'グレースケール', monochrome: '白黒' },
   },
 };
 
-export function book({ lang = 'en', mode = 'mixed', images = bookImages } = {}) {
+export function bookSettings({ lang = 'en', mode = 'mixed', format = 'a5', geometry = {} } = {}) {
   const t = copy[lang], id = `book-${lang}-${mode}`;
+  const g = bookGeometry(format, geometry);
+  const pages = ['title', 'contents', ...t.chapters.map((_, i) => `chapter-${i + 1}`), 'blank'];
+  const css = pages.map((name, i) => bookPageCSS(`${id}-${name}`, {
+    geometry: g, title: t.title,
+    chapter: name === 'contents' ? t.contents : t.chapters[i - 2] ?? '',
+    furniture: name !== 'title' && name !== 'blank',
+  })).join('\n');
+  return { id, geometry: g, css, title: t.title, contents: t.contents, chapters: t.chapters };
+}
+
+export function book({ lang = 'en', mode = 'mixed', images = bookImages, format = 'a5', geometry = {}, blankBefore = [], folios = {} } = {}) {
+  const t = copy[lang], id = `book-${lang}-${mode}`;
+  const { geometry: g } = bookSettings({ lang, mode, format, geometry });
   const color = preferred => mode === 'mixed' ? preferred : mode;
   const label = n => lang === 'ja' ? `第${n}章` : `Chapter ${n}`;
   const equation = (n, formula) => `<div class="equation" id="${id}-eq-${n}"><div class="eq-body" tabindex="0" role="region" aria-label="${lang === 'ja' ? '式' : 'Equation'} ${n}"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML">${formula}</math></div><a class="eq-number" href="#${id}-eq-${n}">(${n})</a></div>`;
   const image = (preferred, caption, number) => `<figure class="plate${number ? '' : ' plate-unnumbered'}"${number ? ` id="${id}-fig-${number}"` : ''}><img src="${images[preferred === 'monochrome' || color(preferred) === 'monochrome' ? 'monochrome' : 'color']}" width="1152" height="576" alt="${t.fieldAlt}"><figcaption>${caption}</figcaption></figure>`;
-  const start = (n, preferred) => `<section class="book-page" data-dd-color="${color(preferred)}" aria-labelledby="${id}-chapter-${n}"><header class="paper-head"><p class="eyebrow">${label(n)} / ${t.colors[color(preferred)]}</p><h2 id="${id}-chapter-${n}">${t.chapters[n - 1]}</h2></header>`;
-  return `<article class="sheet sheet-paper sheet-book" lang="${lang}" data-dd-color="${mode === 'mixed' ? 'monochrome' : mode}" data-dd-paper="a4" data-dd-print-urls="sources">
-    <section class="book-page book-cover" data-dd-color="${color('color')}">
+  const blank = n => blankBefore.includes(n) ? `<section class="book-page book-blank" aria-hidden="true" style="--dd-book-page: ${id}-blank">&#160;</section>` : '';
+  const start = (n, preferred) => `${blank(n)}<section class="book-page" data-dd-chapter="${n}" style="--dd-book-page: ${id}-chapter-${n}" data-dd-color="${color(preferred)}" aria-labelledby="${id}-chapter-${n}"><header class="paper-head"><p class="eyebrow">${label(n)}</p><h2 id="${id}-chapter-${n}">${t.chapters[n - 1]}</h2></header>`;
+  return `<article class="sheet sheet-paper sheet-book" lang="${lang}" data-dd-book="${format}" style="${bookVariables(g)}" data-dd-color="${mode === 'mixed' ? 'monochrome' : mode}" data-dd-print-urls="sources">
+    <section class="book-page book-cover" data-dd-color="${color('color')}" style="--dd-book-page: ${id}-title">
       <header class="paper-head"><p class="eyebrow" lang="en">MATHEMATICAL READER / 01</p><h1>${t.title}</h1><p class="stand">${t.subtitle}</p></header>
-      ${image('color', t.edition, false)}<div class="prose"><p>${t.cover}</p></div>
+      ${image('color', t.edition, false)}
     </section>
-    <section class="book-page" data-dd-color="${color('monochrome')}" aria-labelledby="${id}-contents">
+    <section class="book-page" data-dd-color="${color('monochrome')}" style="--dd-book-page: ${id}-contents" aria-labelledby="${id}-contents">
       <header class="paper-head"><p class="eyebrow" lang="en">CONTENTS</p><h2 id="${id}-contents">${t.contents}</h2></header>
-      <nav aria-label="${t.contents}"><ol class="book-toc">${t.chapters.map((title, i) => `<li><a href="#${id}-chapter-${i + 1}">${title}<span>${String(i + 1).padStart(2, '0')}</span></a></li>`).join('')}</ol></nav>
-      <div class="prose"><p class="muted">${t.tocNote}</p><h3>${t.preface}</h3><p>${t.prefaceText}</p></div>
+      <nav aria-label="${t.contents}"><ol class="book-toc">${t.chapters.map((title, i) => `<li><a href="#${id}-chapter-${i + 1}">${title}<span>${folios[i + 1] ?? label(i + 1)}</span></a></li>`).join('')}</ol></nav>
+      <div class="prose"><h3>${t.preface}</h3><p>${t.prefaceText}</p></div>
     </section>
     ${start(1, 'monochrome')}<div class="prose">
       <p>${t.theory[0]}</p><p>${t.theory[1]}<a class="cite" href="#${id}-source">1</a></p>
@@ -113,7 +122,7 @@ export function book({ lang = 'en', mode = 'mixed', images = bookImages } = {}) 
     </div></section>
     ${start(3, 'grayscale')}<div class="prose"><p>${t.grayIntro}</p><p>${t.varianceIntro}</p>
       ${equation(3, '<mi>V</mi><mo>(</mo><mi>p</mi><mo>)</mo><mo>=</mo><mn>4</mn><mi>p</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo>')}
-      <figure class="plate" id="${id}-fig-2">${entropyPlot(lang, id)}<figcaption>${t.plotCaption}</figcaption></figure>
+      <figure class="plate" id="${id}-fig-2">${entropyPlot(lang, id, Math.floor(g.measure * 96 / 25.4))}<figcaption>${t.plotCaption}</figcaption></figure>
       <figure class="plate plate-table"><figcaption id="${id}-table-caption">${t.tableCaption}</figcaption><div class="table-wrap"><table aria-labelledby="${id}-table-caption"><thead><tr>${t.tableHeads.map(h => `<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${probabilities.map(p => `<tr><th scope="row" class="num">${p.toFixed(2)}</th><td class="num">${entropy(p).toFixed(3)}</td><td class="num">${variance(p).toFixed(3)}</td></tr>`).join('')}</tbody></table></div></figure>
       <p>${t.grayText}</p>${image('grayscale', mode === 'monochrome' ? t.thresholdCaption : t.grayCaption, 3)}
     </div></section>

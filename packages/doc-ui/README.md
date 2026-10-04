@@ -337,35 +337,71 @@ branch labels rather than outlining text in a guessed background color.
 
 ## Typeset a book
 
-Use `Examples/Book` in Storybook for a complete English or Japanese book with
-a cover, linked contents, chapters, MathML equations, calculated graphs,
-tables, local images and a colophon. It uses the existing reading scale:
+`Examples/Book` in Storybook shows actual paginated spreads in A5, A4 and
+JIS B6, including English and explicitly named Japanese editions. The books
+contain native MathML, calculated SVG graphs, tables, local images and a
+colophon. **Page anatomy** marks the type area and the four margins. Open the
+selectable PDF or download the self-contained, script-free HTML from the proof.
 
-```html
-<article class="sheet sheet-paper sheet-book" lang="en"
-         data-dd-color="monochrome" data-dd-paper="a4"
+Start with the trim size, then choose the type area. The A5 example is
+148 × 210 mm with an 18 mm head, 24 mm foot, 20 mm gutter and 18 mm fore-edge,
+leaving 110 × 168 mm for content. The paper standard specifies the trim;
+these margins are editable design choices. Body text is 12 pt with 7 mm
+leading. Gutter and fore-edge margins mirror on even and odd pages for left
+binding. Book and chapter titles repeat in the outer head margins; plain
+folios sit at the outer foot edges.
+
+The optional `@k-kinzal/doc-ui/book` module generates ordinary CSS. Run it when
+authoring the document, include its CSS after doc-ui, and save the resulting
+HTML. Nothing needs to run in the reader's browser:
+
+```js
+import { bookGeometry, bookVariables, bookPageCSS } from '@k-kinzal/doc-ui/book';
+
+const geometry = bookGeometry('a5', { gutter: 22, fore: 16 });
+const pageCSS = bookPageCSS('chapter-one', {
+  geometry, title: 'Book title', chapter: 'First chapter',
+});
+const manuscript = `
+<article class="sheet sheet-paper sheet-book" lang="en" data-dd-book="a5"
+         style="${bookVariables(geometry)}" data-dd-color="monochrome"
          data-dd-print-urls="sources">
-  <section class="book-page">
-    <header class="paper-head"><h1>Book title</h1></header>
-    <div class="prose"><p>Opening text.</p></div>
+  <section class="book-page" style="--dd-book-page: chapter-one">
+    <header class="paper-head"><h2>First chapter</h2></header>
+    <div class="prose"><p>Chapter text.</p></div>
   </section>
-  <section class="book-page" data-dd-color="color">
-    <header class="paper-head"><h2>Colour plates</h2></header>
-    <figure class="plate">
-      <img src="plate.png" width="1152" height="576" alt="Describe the image">
-      <figcaption>Explain the image and its source.</figcaption>
-    </figure>
-  </section>
-</article>
+</article>`;
+// Include pageCSS in a <style> and manuscript in <body>.
 ```
 
-Each `.book-page` starts a fresh printed page. Long content continues onto as
-many sheets as needed, retaining its colour mode. The next division starts on
-a new sheet. Screen divisions are fluid sections, not simulated printed pages.
-`a4` and `letter` use mirrored binding margins and outer page numbers where
-page margin boxes are supported; omit the paper attribute to use the printer's
-size. Chapter links belong in `.book-toc`; do not guess physical page numbers
-before pagination. Japanese content needs `lang="ja"`.
+Formats are `a5`, `a4`, `b6-jis` (128 × 182 mm, not ISO B6) and `letter`.
+Override `width`, `height`, `head`, `foot`, `gutter`, `fore`, `leading`,
+`headGap` or `folioGap` in millimetres. The last two set the distance between
+the type area and its running head or folio. Generate a uniquely named page
+rule for each chapter; use `furniture: false` for a title page or blank leaf.
+The output is regular named `@page` rules and `--dd-book-*` properties that
+can also be written by a PHP, Rust or shell generator. `data-dd-book` opts into
+the book composition; its geometry comes from those properties and page rules.
+The simpler `data-dd-paper="a4"` / `"letter"` composition remains supported,
+including the Markdown CLI's `--layout book`.
+
+Each `.book-page` begins a new printed page and may continue across as many
+pages as its text requires, with the same geometry, running head and colour
+mode. There are no fixed-height manuscript boxes to clip text. Japanese
+content needs `lang="ja"`. Size SVG drawings for the chosen type area; do not
+scale their text to fit a smaller format.
+
+The Storybook build paginates the specimen in Chromium, reads the PDF back,
+inserts blank versos where needed, and resolves the contents' actual folios.
+This pass is necessary because Chromium does not enforce recto starts with
+`break-before: right`. Rebuild with `npm run build:book-proofs` after changing
+content, fonts, geometry or CSS; both Storybook commands do this automatically.
+The proof pairs even pages on the left and odd pages on the right at the trim
+size, with local horizontal scrolling on narrow screens. The HTML reading
+view reflows instead. Print that HTML with CSS page size and browser headers
+disabled, or use the generated PDF to preserve the checked pagination.
+Named page margin boxes require a supporting print engine; PDF tests use
+Chromium. Reprinting with different fonts can change chapter starts and folios.
 
 `data-dd-color="color"` restores the standard palette inside a neutral book.
 `grayscale` selects neutral inks; `monochrome` selects black and white inks.

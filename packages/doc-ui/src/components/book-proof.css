@@ -1,0 +1,34 @@
+/* A proof contains pages rendered by a pagination engine. Width and height
+   describe the trim, not a fixed-height box that clips a flowing manuscript. */
+@layer dd.component {
+  .book-proof { container-type: inline-size; }
+  .book-proof .book-spread {
+    display: grid;
+    grid-template-columns: repeat(2, var(--dd-book-width));
+    width: max-content;
+    max-width: none;
+    gap: 0;
+    background: var(--dd-sunken);
+  }
+  .book-leaf { width: var(--dd-book-width); min-width: 0; }
+  .book-leaf > a { display: block; }
+  .book-leaf img { display: block; width: 100%; height: auto; }
+  .book-leaf[data-dd-side="right"]:first-child { grid-column: 2; }
+  .book-proof .book-spread:has(> :only-child) { background: none; }
+  .book-spread-wrap { overflow-x: auto; max-width: 100%; }
+  /* Narrow screens keep the physical page's type size. Scroll the proof;
+     open its HTML source for a reflowing, accessible reading view. */
+  .book-proof .book-leaf { background: var(--dd-raised); box-shadow: var(--dd-shadow); }
+}
+@layer dd.layout {
+  .book-proof { margin-inline: auto; padding: var(--dd-sp-6); }
+  .book-proof > * + * { margin-top: var(--dd-sp-6); }
+  .book-proof .book-spread { margin-inline: auto; }
+  .book-proof .book-leaf { margin: 0; }
+}
+@layer dd.print {
+  @media print {
+    .book-proof .book-spread { display: block; }
+    .book-proof .book-leaf { break-inside: avoid; break-after: page; box-shadow: none; }
+  }
+}

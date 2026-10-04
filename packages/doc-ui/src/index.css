@@ -137,6 +137,7 @@
 @import url("./components/composition.css");
 @import url("./components/paper.css");
 @import url("./components/book.css");
+@import url("./components/book-proof.css");
 
 /* print — last, so it wins over anything a component says */
 @import url("./base/print.css");

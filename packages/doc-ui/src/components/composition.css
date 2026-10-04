@@ -4,6 +4,12 @@
  * its caption and conditions stay attached when the column gets narrow.
  */
 @layer dd.component {
+  /* Book prose uses leading and paragraph indents instead of web block gaps.
+     These placements must follow prose's component-layer margin shorthands. */
+  .sheet-book[data-dd-book] .prose p { margin-block: 0; }
+  .sheet-book[data-dd-book] .prose p + p { text-indent: 1em; }
+  .sheet-book[data-dd-book] .prose > :is(.plate, .equation) { margin-block: var(--dd-book-leading); }
+  .sheet-book[data-dd-book] .book-page > .prose { margin-top: var(--dd-book-leading); }
   .sheet-body {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));

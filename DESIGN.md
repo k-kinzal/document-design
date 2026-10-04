@@ -490,16 +490,34 @@ colour inside a neutral boundary. Custom colours remain the author's
 responsibility. Dashes, shapes and labels must
 still distinguish series and missing information.
 
-**Books add page boundaries to continuous reading.** Compose
-`.sheet.sheet-paper.sheet-book` with `.book-page` sections. Each section begins
-a new printed page and can continue across multiple sheets in the same colour
-mode; no fixed height clips long content. Set `data-dd-color` on a section for
-colour plates among neutral chapters. Book images follow that boundary through
-an image-only grayscale filter, preserving selectable text and vector figures.
-Monochrome text uses black and white; bitonal images must be supplied by the
-author. Outside books, images retain their source colours. A4 and Letter books
-use mirrored binding margins and outer folios. `.book-toc` links to chapters;
-physical page numbers are only known after pagination.
+**Books start with a trim size and a type area.** Compose
+`.sheet.sheet-paper.sheet-book[data-dd-book]` with `.book-page` sections.
+Geometry specifies trim width and height, head, foot, gutter and fore-edge
+margins, leading, and the running-head and folio gaps. Paper standards define
+the trim, not the margins. Optional author-time helpers in `doc-ui/book`
+produce static CSS properties and named `@page` rules for A5, A4, JIS B6,
+Letter or custom dimensions. Left-bound books mirror their gutter and
+fore-edge on verso and recto pages. Running book/chapter titles occupy the
+head margin; plain outer folios occupy the foot margin. Title and blank
+pages suppress both. Long chapters retain their geometry and furniture on
+every continuation; no fixed-height box clips their text.
+
+The Storybook specimen is paginated before being presented as `.book-proof`
+spreads. A build-time pass reads actual PDF page boundaries, inserts blank
+versos for recto chapter openings, and resolves contents folios. Chromium
+currently treats `break-before: right` as a simple page break. Proof images
+link to a selectable PDF and self-contained, reflowing HTML. Neither final
+artifact needs JavaScript. Changing text, fonts or geometry requires a new
+pagination pass. PDF tests check trim, mirrored margins, furniture, chapter
+starts, contents, colour boundaries and complete text across real pages.
+
+Set `data-dd-color` on a section for colour plates among neutral chapters;
+its mode continues across all physical pages in that section. Book images
+follow that boundary through an image-only grayscale filter, preserving
+selectable text and vector figures. Monochrome text uses black and white;
+bitonal images must be supplied by the author. Outside books, images retain
+their source colours. The existing A4/Letter `data-dd-paper` composition and
+Markdown CLI remain compatible.
 
 **Paper size is chosen by the document, not by the stylesheet.** Two attributes on
 the root are the whole print setup for a long paper: the sheet size with its
