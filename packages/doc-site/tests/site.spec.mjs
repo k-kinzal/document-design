@@ -96,7 +96,7 @@ test('language links keep the same route and local navigation keeps the chosen l
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   }
   await page.goto('/ja/components/prose/');
-  await page.locator('#navigation a').filter({hasText:/^Report$/}).click();
+  await page.locator('#navigation a').filter({hasText:/^レポート$/}).click();
   await expect(page).toHaveURL(/\/ja\/components\/report\/index.html$/);
 });
 

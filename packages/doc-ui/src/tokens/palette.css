@@ -18,14 +18,14 @@
  */
 
 @layer dd.tokens {
-  :root {
+  :root { color-scheme: light dark; }
+  :root, [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
     /*
      * color-scheme is what light-dark() reads, so this one property is the
      * whole of the theme switch. The two values below it are not colours and
      * so cannot ride inside light-dark(); they are the only thing the dark
      * block further down has to repeat.
      */
-    color-scheme: light dark;
     --dd-tint-mix: 6%;
     --dd-shadow: 0 8px 24px rgb(15 23 42 / 0.12);
 
@@ -137,5 +137,46 @@
       --dd-tint-mix: 12%;
       --dd-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
     }
+  }
+
+  /* Rebind the palette at the document boundary, not through a filter:
+     CSS, SVG and printed text all use the same neutral inks. */
+  [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
+    --dd-bg: light-dark(#ffffff, #202020);
+    --dd-surface: light-dark(#f7f7f7, #292929);
+    --dd-sunken: light-dark(#f0f0f0, #252525);
+    --dd-raised: light-dark(#ffffff, #303030);
+    --dd-hover: light-dark(#eeeeee, #333333);
+    --dd-ink: light-dark(#202020, #eeeeee);
+    --dd-sub: light-dark(#505050, #bdbdbd);
+    --dd-dim: light-dark(#606060, #b0b0b0);
+    --dd-hair: light-dark(#d0d0d0, #494949);
+    --dd-rule: light-dark(#888888, #888888);
+    --dd-blue: var(--dd-ink);
+    --dd-violet: var(--dd-sub);
+    --dd-amber: var(--dd-sub);
+    --dd-teal: var(--dd-sub);
+    --dd-pink: var(--dd-sub);
+    --dd-indigo: var(--dd-ink);
+    --dd-slate: var(--dd-sub);
+    --dd-green: var(--dd-ink);
+    --dd-yellow: var(--dd-ink);
+    --dd-red: var(--dd-ink);
+    --dd-shadow: none;
+  }
+
+  /* Two inks only; dashes, outlines, symbols and labels retain meaning. */
+  :root[data-dd-color="monochrome"], [data-dd-color="monochrome"] {
+    --dd-bg: light-dark(#ffffff, #000000);
+    --dd-ink: light-dark(#000000, #ffffff);
+    --dd-surface: var(--dd-bg);
+    --dd-sunken: var(--dd-bg);
+    --dd-raised: var(--dd-bg);
+    --dd-hover: var(--dd-bg);
+    --dd-sub: var(--dd-ink);
+    --dd-dim: var(--dd-ink);
+    --dd-hair: var(--dd-ink);
+    --dd-rule: var(--dd-ink);
+    --dd-tint-mix: 0%;
   }
 }

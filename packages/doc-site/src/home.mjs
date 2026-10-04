@@ -22,7 +22,7 @@ export const readingPaths = `<figure class="plate plate-full plate-side plate-un
       </ol>
     </section>
     <section id="path-paper" aria-labelledby="paper-title">
-      <h3 class="compare-title" id="paper-title"><span class="ref ref-mark tone-teal">B</span> Paper</h3>
+      <h3 class="compare-title" id="paper-title"><span class="ref ref-mark tone-teal">B</span> Report</h3>
       <ol class="flow tone-teal">
         <li><span class="flow-mark" aria-hidden="true">01</span><strong class="flow-name">Question</strong><span class="flow-detail">Orient the reader</span></li>
         <li><span class="flow-mark" aria-hidden="true">02</span><strong class="flow-name">Evidence</strong><span class="flow-detail">Connect the facts</span></li>
@@ -31,7 +31,7 @@ export const readingPaths = `<figure class="plate plate-full plate-side plate-un
     </section>
   </div>
   <figcaption>
-    <p class="plate-summary"><span class="plate-label">Figure 1.</span>Two reading paths, two scales. A reference keeps comparable details close together. A paper gives an idea, its evidence, and its qualifications room to unfold.</p>
+    <p class="plate-summary"><span class="plate-label">Figure 1.</span>Two reading paths, two scales. A reference keeps comparable details close together. A report gives an idea, its evidence, and its qualifications room to unfold.</p>
     <p class="sidenote">The arrows show reading order. These are paths through information, not required page templates.</p>
   </figcaption>
 </figure>`;
@@ -55,7 +55,7 @@ export function home(lang = 'en') {
     ${readingPaths}
     <div class="compare">
       <div class="prose"><h3><a class="ref ref-mark tone-blue" href="#path-reference">A</a> Keep the detail close.</h3><p>A reference is read across: names, types, values. Compact spacing and aligned rows let readers compare entries without losing their place.</p><p><a href="./components/">Browse the component reference →</a></p></div>
-      <div class="prose"><h3><a class="ref ref-mark tone-teal" href="#path-paper">B</a> Give the idea a sequence.</h3><p>A paper is read through: a point, the evidence, its meaning. A separate type and spacing scale brings the main idea forward and keeps notes beside what they explain.</p><p><a href="./components/report/">Use the report layout →</a></p></div>
+      <div class="prose"><h3><a class="ref ref-mark tone-teal" href="#path-paper">B</a> Give the idea a sequence.</h3><p>A report is read through: a point, the evidence, its meaning. A separate type and spacing scale brings the main idea forward and keeps notes beside what they explain.</p><p><a href="./components/report/">Use the report layout →</a></p></div>
     </div>
   </section>
 
@@ -66,9 +66,9 @@ export function home(lang = 'en') {
       <div class="prose">
       <p>A heading sets the question. A diagram makes a relationship visible. Its caption explains what to take from it. The spacing between them is part of the explanation.</p>
       <h3>Type follows the reading task.</h3>
-      <p>Names and values stay readable in a dense reference. Density comes from the gaps, not smaller letters. In a paper, a larger scale separates the main idea from the supporting detail.</p>
+      <p>Names and values stay readable in a dense reference. Density comes from the gaps, not smaller letters. In a report, a larger scale separates the main idea from the supporting detail.</p>
       <h3>Meaning travels with the mark.</h3>
-      <p><a class="ref ref-mark tone-blue" href="#path-reference">A</a> always identifies the reference path; <a class="ref ref-mark tone-teal" href="#path-paper">B</a> identifies the paper. The letters keep that relationship intact in monochrome. States and missing information have their own vocabulary, separate from category colors.</p>
+      <p><a class="ref ref-mark tone-blue" href="#path-reference">A</a> always identifies the reference path; <a class="ref ref-mark tone-teal" href="#path-paper">B</a> identifies the report. The letters keep that relationship intact in monochrome. States and missing information have their own vocabulary, separate from category colors.</p>
       </div>
       <div class="actions"><a href="./components/composition/">Figures &amp; annotations →</a><a href="./components/chip/">Labels &amp; states →</a></div>
     </div>

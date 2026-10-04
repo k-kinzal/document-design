@@ -1,5 +1,6 @@
 import { catalog } from './catalog.mjs';
 import { charts } from './charts.mjs';
+import { research } from './research.mjs';
 const resolved = catalog.resolution[0].count;
 const unresolved = catalog.total - resolved;
 const resolvedPercent = resolved / catalog.total * 100;
@@ -7,6 +8,7 @@ const resolvedPercent = resolved / catalog.total * 100;
 /* Literal HTML examples, shared by the index and component documentation. */
 export const groups = ["Layouts","Lists & data","Figures & graphs","Reading","Code & changes","Navigation","Status & feedback"];
 export const components = [
+  research,
   {
     slug: "document",
     previewHeight: "auto",
@@ -124,7 +126,7 @@ export const components = [
     examples: [
       { title: "A figure and its explanation", html: String.raw`<figure class="plate plate-full plate-side plate-unnumbered">
   <div class="plate-body">
-    <h3 class="compare-title"><span class="ref ref-mark tone-teal">B</span> Paper</h3>
+    <h3 class="compare-title"><span class="ref ref-mark tone-teal">B</span> Report</h3>
     <ol class="flow tone-teal">
       <li><span class="flow-mark" aria-hidden="true">01</span><strong class="flow-name">Question</strong><span class="flow-detail">Orient the reader</span></li>
       <li><span class="flow-mark" aria-hidden="true">02</span><strong class="flow-name">Evidence</strong><span class="flow-detail">Connect the facts</span></li>
@@ -132,7 +134,7 @@ export const components = [
     </ol>
   </div>
   <figcaption>
-    <p class="plate-summary"><span class="plate-label">Figure 1.</span>A paper gives a point, its evidence, and its meaning a clear reading order.</p>
+    <p class="plate-summary"><span class="plate-label">Figure 1.</span>A report gives a point, its evidence, and its meaning a clear reading order.</p>
     <p class="sidenote">Arrows show a reading sequence, not a causal relationship.</p>
   </figcaption>
 </figure>` },

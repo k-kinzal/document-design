@@ -80,12 +80,12 @@ ${route ? '' : `<meta property="og:image" content="${site.url}assets/og.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="doc-ui — Information, made clear. A diagram compares the reading paths of a reference and a paper.">`}
+<meta property="og:image:alt" content="doc-ui — Information, made clear. A diagram compares the reading paths of a reference and a report.">`}
 <meta name="twitter:card" content="${route ? 'summary' : 'summary_large_image'}">
 <meta name="twitter:title" content="${escape(pageTitle)}">
 <meta name="twitter:description" content="${escape(description)}">
 ${route ? '' : `<meta name="twitter:image" content="${site.url}assets/og.png">
-<meta name="twitter:image:alt" content="doc-ui — Information, made clear. A diagram compares the reading paths of a reference and a paper.">`}
+<meta name="twitter:image:alt" content="doc-ui — Information, made clear. A diagram compares the reading paths of a reference and a report.">`}
 <link rel="icon" href="${base}assets/favicon.png" type="image/png" sizes="48x48">
 <link rel="apple-touch-icon" href="${base}assets/apple-touch-icon.png" sizes="180x180">
 <link ${development ? '' : 'vite-ignore '}rel="stylesheet" href="${development ? '/@fs/' + fileURLToPath(import.meta.resolve('@k-kinzal/doc-ui/src/index.css')) : base + releaseTag + '/document-design.min.css'}">

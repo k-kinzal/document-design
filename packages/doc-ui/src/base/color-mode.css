@@ -1,0 +1,8 @@
+/* Opt-in palettes for a whole document or an embedded specimen. Images keep
+   their own colours; supply grayscale artwork when the publication needs it. */
+@layer dd.base {
+  [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
+    color: var(--dd-fg);
+    background: var(--dd-bg);
+  }
+}

@@ -1,12 +1,12 @@
 import { html } from './helpers.js';
 
 export default {
-  title: "Examples/Paper",
+  title: "Examples/Profile",
   parameters: {
     docs: {
       description: {
         component:
-          "A long paper, read straight through and printed to PDF: a profile " +
+          "A long profile report, read straight through and printed to PDF: a profile " +
           "that leads with words instead of a number, a chronology set at the " +
           "report's reading size, a result with its caveat, and the sources " +
           "the text cites by number. This is an excerpt of the complete " +
@@ -22,8 +22,8 @@ export default {
   },
 };
 
-/** English translation of the paper's opening, one period, its result and its sources. */
-export const Paper = {
+/** English translation of the profile’s opening, one period, its result and its sources. */
+export const Profile = {
   render: () => html`
     <article class="sheet" lang="en" data-dd-paper="a4" data-dd-print-urls="sources">
       <p class="eyebrow">k_kinzal / ENGINEERING WORKS · 2014–2026</p>
@@ -42,7 +42,7 @@ export const Paper = {
         <div class="field">
           <p class="lead">Solves in code the inconveniences met in development and operations.</p>
           <p class="note">Digs into how things work and confirms them in running form. The process is published as open source, articles, talks and course material.</p>
-          <p class="note">A paper tracing public work from the first talk in 2014 to the present. The profile is an editorial summary based on the work recorded in this paper. Checked on 26 September 2026.</p>
+          <p class="note">A profile tracing public work from the first talk in 2014 to the present. The profile is an editorial summary based on the work recorded in this profile. Checked on 26 September 2026.</p>
         </div>
       </section>
 
@@ -123,7 +123,7 @@ export const Japanese = {
         <div class="field">
           <p class="lead">開発や運用で感じた不便を、コードで解く。</p>
           <p class="note">仕組みを掘り下げ、動く形で確かめる。その過程を、OSS・記事・登壇・教材として公開する。</p>
-          <p class="note">2014年の初登壇から現在までの、公開活動をたどるペーパー。人物紹介は本書に収録した活動をもとにした編集上の要約。確認日：2026年9月26日。</p>
+          <p class="note">2014年の初登壇から現在までの、公開活動をたどる人物紹介。人物紹介は本書に収録した活動をもとにした編集上の要約。確認日：2026年9月26日。</p>
         </div>
       </section>
 

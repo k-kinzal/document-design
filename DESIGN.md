@@ -456,7 +456,28 @@ whether the running text repeats them.
 </ol>
 ```
 
-**Paper is chosen by the document, not by the stylesheet.** Two attributes on
+**Research papers use continuous reading.** Compose `.sheet.sheet-paper` with
+`.paper-head`, `.paper-byline`, `.abstract` and ordinary `.prose` sections. This
+uses the existing reading scale; the default `.sheet` remains a report or brief
+that presents its main result at a glance. Figures, tables and references keep
+the existing `.plate`, `.plate-table`, `.ref`, `.cite` and `.sources` vocabulary.
+
+**Equations are text, not images.** Use native `<math>` inline and
+`<math display="block">` inside `.equation > .eq-body` for display mathematics.
+An optional sibling `.eq-number` holds the author-supplied number. Authors own
+both equation numbers and their `.ref` references. Give `.eq-body` `tabindex="0"`,
+`role="region"` and an accessible label so wide expressions can be scrolled by
+keyboard. Split long derivations into `<mtable displaystyle="true">` rows to fit paper; equations
+are never shrunk. `--dd-font-math` optionally selects an installed math font.
+
+**Neutral inks are an explicit choice.** `data-dd-color="grayscale"` or
+`"monochrome"` on the root or document wrapper changes doc-ui's palette and
+semantic roles, including SVG. The light/dark theme still applies; printing
+uses the light palette. Omit the attribute for colour. Images and custom
+colours remain the author's responsibility. Dashes, shapes and labels must
+still distinguish series and missing information.
+
+**Paper size is chosen by the document, not by the stylesheet.** Two attributes on
 the root are the whole print setup for a long paper: the sheet size with its
 margins and page numbers, and where addresses are printed (`inline` by
 default, `sources`, or `none`). A `.timeline` inside a `.sheet` reads at the

@@ -1,0 +1,41 @@
+/* Native MathML keeps mathematical structure available without scripts or
+   network fonts. The generator owns both equation numbers and references. */
+@layer dd.component {
+  :where(math) {
+    font-family: var(--dd-font-math, math);
+    text-autospace: no-autospace;
+    overflow-wrap: normal;
+  }
+
+  .equation {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--dd-sp-4);
+    max-width: var(--dd-measure-wide);
+    font-size: var(--dd-type-2);
+    color: var(--dd-fg);
+    scroll-margin-top: var(--dd-sp-6);
+  }
+
+  .equation:not(:has(> .eq-number)) { grid-template-columns: minmax(0, 1fr); }
+
+  /* Scroll only the formula; its number stays visible. Padding gives tall
+     operators, fraction bars and focus rings room inside the scroll area. */
+  .eq-body {
+    min-width: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: var(--dd-sp-4) var(--dd-sp-2);
+  }
+  .eq-body > math { width: max-content; min-width: 100%; }
+  .eq-number {
+    font-size: var(--dd-type-2);
+    font-variant-numeric: tabular-nums;
+    color: var(--dd-fg-muted);
+    white-space: nowrap;
+  }
+}
+@layer dd.layout {
+  .equation { margin-block: var(--dd-base); }
+}

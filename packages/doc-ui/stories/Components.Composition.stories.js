@@ -5,7 +5,7 @@ export default {
   parameters: { docs: { description: { component: 'Compose a figure, its caption, and the note that qualifies it. The figure can be wider than its prose; annotations follow the caption in a narrow container. All content stays in semantic HTML.' } } },
 };
 
-const figure = (name = 'Paper') => `<figure class="plate plate-full plate-side plate-unnumbered">
+const figure = (name = 'Report') => `<figure class="plate plate-full plate-side plate-unnumbered">
   <div class="plate-body">
     <h3 class="compare-title"><span class="ref ref-mark tone-teal">B</span> ${name}</h3>
     <ol class="flow tone-teal">
@@ -15,7 +15,7 @@ const figure = (name = 'Paper') => `<figure class="plate plate-full plate-side p
     </ol>
   </div>
   <figcaption>
-    <p class="plate-summary"><span class="plate-label">Figure 1.</span>A paper gives a point, its evidence, and its meaning a clear reading order.</p>
+    <p class="plate-summary"><span class="plate-label">Figure 1.</span>A report gives a point, its evidence, and its meaning a clear reading order.</p>
     <p class="sidenote">Arrows show reading order. They do not imply a causal relationship.</p>
   </figcaption>
 </figure>`;
@@ -25,7 +25,7 @@ export const ReadingPath = {
 };
 
 export const NarrowColumn = {
-  render: () => html`<div class="split"><div>${figure('A paper with a longer descriptive title')}</div><article class="prose"><h2>A note stays with its figure.</h2><p>The same figure sits in a narrower column. Its labels remain readable, and the annotation follows the caption.</p><p>The layout adapts to a narrow container while preserving the relationship between prose, figures, and notes. Drawing labels keep their size.</p></article></div>`,
+  render: () => html`<div class="split"><div>${figure('A report with a longer descriptive title')}</div><article class="prose"><h2>A note stays with its figure.</h2><p>The same figure sits in a narrower column. Its labels remain readable, and the annotation follows the caption.</p><p>The layout adapts to a narrow container while preserving the relationship between prose, figures, and notes. Drawing labels keep their size.</p></article></div>`,
 };
 
 export const MobileReadingPath = {
@@ -45,7 +45,7 @@ export const JapaneseReadingPath = {
 };
 
 export const Comparison = {
-  render: () => html`<article class="sheet sheet-wide"><section class="section"><h1 class="section-title">Two reading tasks.</h1><div class="compare"><section><h2 class="compare-title"><span class="ref ref-mark tone-blue">A</span> Reference</h2><p>Find a name. Compare its fields. Inspect the source.</p></section><section><h2 class="compare-title"><span class="ref ref-mark tone-teal">B</span> Paper</h2><p>Read the question. Connect the evidence. Understand the result.</p></section></div></section></article>`,
+  render: () => html`<article class="sheet sheet-wide"><section class="section"><h1 class="section-title">Two reading tasks.</h1><div class="compare"><section><h2 class="compare-title"><span class="ref ref-mark tone-blue">A</span> Reference</h2><p>Find a name. Compare its fields. Inspect the source.</p></section><section><h2 class="compare-title"><span class="ref ref-mark tone-teal">B</span> Report</h2><p>Read the question. Connect the evidence. Understand the result.</p></section></div></section></article>`,
 };
 
 

@@ -42,13 +42,13 @@ optimized for Japanese output.
 
 ## Vision
 
-Build a design system for the documents and papers produced by k-kinzal.
+Build a design system for the documents and reports produced by k-kinzal.
 Focus on making information easy to see, with high information density and
 clear visual presentation.
 
 This system specializes in typesetting and typography. Figures and graphs are
 part of that same system. It provides the foundation for beautiful, readable
-sites composed from documents and papers.
+sites composed from documents and reports.
 
 ## Architecture
 
@@ -63,7 +63,7 @@ There are two kinds of page, and clarity means something different in each:
 
 - **Documents (catalogs)** have high information density. Readers search for one
   item among many. Clarity means **remaining scannable at high density**.
-- **Papers (reports)** have low information density. Readers need to grasp the
+- **Reports (briefs)** have low information density. Readers need to grasp the
   whole on first encounter. Clarity means **showing what the page says at a glance**.
 
 These requirements pull in opposite directions. More density reduces immediate
