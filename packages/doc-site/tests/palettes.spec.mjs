@@ -10,6 +10,11 @@ test('palette cards, header, copied setup and downloads stay in sync across lang
   await page.goto('/start/');
   await expect(page.locator('[data-dd-palette-choice]')).toHaveCount(32);
   await expect(page.locator('.palette-sample')).toHaveCount(64);
+  // A choice must expose the colors that coexist on a real page, including
+  // warning and success. Accent-only previews concealed clashing state inks.
+  for (const tone of ['blue', 'violet', 'teal', 'ok', 'warn', 'danger']) {
+    await expect(page.locator(`.palette-sample .tone-${tone}`)).toHaveCount(64);
+  }
   await page.locator('[data-dd-palette-choice="linen-teal"]').click();
   await expect(page.locator('html')).toHaveAttribute('data-dd-palette', 'linen-teal');
   await expect(page.locator('[data-dd-palette-choice="linen-teal"]')).toHaveAttribute('aria-pressed', 'true');
@@ -90,7 +95,7 @@ test('palette downloads remain usable from disk without JavaScript', async ({ br
     writeFileSync(join(folder, 'document-design.css'), readFileSync(new URL(`../dist/${releaseTag}/document-design.css`, import.meta.url)));
     writeFileSync(join(folder, 'report.html'), '<!doctype html><html lang="en"><head><link rel="stylesheet" href="document-design.css"><link rel="stylesheet" href="palette.css"></head><body><article class="sheet"><h1>Offline report</h1><a href="#">An accent link</a></article></body></html>');
     await page.goto(pathToFileURL(join(folder, 'report.html')).href);
-    for (const [mode, color] of [['light', 'rgb(15, 116, 120)'], ['dark', 'rgb(79, 188, 192)']]) {
+    for (const [mode, color] of [['light', 'rgb(4, 121, 116)'], ['dark', 'rgb(92, 193, 187)']]) {
       await page.emulateMedia({ colorScheme: mode });
       await expect(page.locator('a')).toHaveCSS('color', color);
     }

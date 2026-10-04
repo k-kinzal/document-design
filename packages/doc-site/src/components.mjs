@@ -263,12 +263,14 @@ export const components = [
     <div class="palette-sample" data-dd-palette="linen-teal" data-dd-theme="light">
       <span class="cap">Light</span>
       <div class="stat tone-accent"><b class="stat-fig">978</b><span class="stat-label">findings</span></div>
-      <span class="chip chip-sm tone-danger">? Unresolved</span>
+      <div class="chips" aria-label="Kinds"><span class="chip chip-sm tone-blue">SELECT</span><span class="chip chip-sm tone-violet">INSERT</span><span class="chip chip-sm tone-teal">UPDATE</span></div>
+      <div class="chips" aria-label="States"><span class="chip chip-sm tone-ok">✓ Resolved</span><span class="chip chip-sm tone-warn">! Partial</span><span class="chip chip-sm tone-danger">? Unresolved</span></div>
     </div>
     <div class="palette-sample" data-dd-palette="linen-teal" data-dd-theme="dark">
       <span class="cap">Dark</span>
       <div class="stat tone-accent"><b class="stat-fig">978</b><span class="stat-label">findings</span></div>
-      <span class="chip chip-sm tone-danger">? Unresolved</span>
+      <div class="chips" aria-label="Kinds"><span class="chip chip-sm tone-blue">SELECT</span><span class="chip chip-sm tone-violet">INSERT</span><span class="chip chip-sm tone-teal">UPDATE</span></div>
+      <div class="chips" aria-label="States"><span class="chip chip-sm tone-ok">✓ Resolved</span><span class="chip chip-sm tone-warn">! Partial</span><span class="chip chip-sm tone-danger">? Unresolved</span></div>
     </div>
   </div>
 </article>` }

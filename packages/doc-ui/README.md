@@ -36,7 +36,8 @@ for offline use; no JavaScript or theme attribute is required:
 ```
 
 The pair follows the system preference. `data-dd-theme="light"` or `"dark"`
-selects a mode. Paper and accent vary; category and state hues remain stable,
+selects a mode. Each accent includes coordinated category and state inks.
+Their lightness and chroma vary together; their meanings stay stable,
 with red reserved for missing or unresolved information. All text, accent,
 identity and state colors clear 4.5:1 against five surfaces and their tints.
 

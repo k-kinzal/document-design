@@ -1,4 +1,6 @@
-// Paper and ink vary; identity and state keep the same vocabulary everywhere.
+import { paletteInks } from './palette-inks.mjs';
+
+// Each accent owns a complete ink set; identity and state keep their meanings.
 // Paper / Blue is the original palette and remains the default.
 export const families = [
   { id: 'paper', name: 'Paper', description: 'Neutral paper, crisp ink.', tokens: {} },
@@ -44,6 +46,7 @@ export function paletteCSS(palette, { standalone = false } = {}) {
   // Neutral modes always win on the same boundary, even if this file is last.
   const colorOnly = ':not([data-dd-color="grayscale"], [data-dd-color="monochrome"])';
   const selectors = [standalone && `:root${colorOnly}`, `[data-dd-palette="${palette.id}"]${colorOnly}`].filter(Boolean);
-  const tokens = Object.entries(family.tokens).map(([key, pair]) => `    --dd-${key}: light-dark(${pair.join(', ')});`);
+  const inks = palette.id === 'paper-blue' ? {} : paletteInks[accent.id];
+  const tokens = Object.entries({ ...family.tokens, ...inks }).map(([key, pair]) => `    --dd-${key}: light-dark(${pair.join(', ')});`);
   return `@layer dd.tokens {\n  ${selectors.join(',\n  ')} {\n${tokens.join('\n')}\n    --dd-accent: ${accent.value};\n    --dd-link: var(--dd-accent);\n    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));\n  }\n}\n`;
 }

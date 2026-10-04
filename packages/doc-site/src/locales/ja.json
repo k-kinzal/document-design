@@ -799,7 +799,6 @@
   "2. Choose a palette": "2. 配色を選ぶ",
   "32 palettes, each with a light and dark pair. Four paper colors and eight accents keep the same type, spacing, and meaning.": "ライト・ダークがペアになった32種類の配色。4つの紙面色と8つのアクセント色で、文字組み、余白、意味は共通です。",
   "Paper is neutral; Linen is warm; Mist is cool; Sage has a quiet green cast. Blue, Cyan, Teal, Indigo, Violet, Plum, Citron, and Slate set the accent. Paper / Blue is the original default.": "Paperはニュートラル、Linenは暖色、Mistは寒色、Sageは穏やかな緑の紙面です。アクセントはBlue、Cyan、Teal、Indigo、Violet、Plum、Citron、Slateの8色。従来の標準配色はPaper / Blueです。",
-  "Identity and state keep their colors. Red still marks missing or unresolved information. Every palette meets 4.5:1 text contrast on all five surfaces and on its own tints.": "分類色と状態色の意味は変わりません。赤は引き続き欠落・未解決を示します。すべての配色で、5つの背景面と各色の淡い背景に対する文字のコントラスト比4.5:1を満たします。",
   "Use your selection": "選んだ配色を使う",
   "Selected palette:": "選択中の配色：",
   "Load the base stylesheet and then one palette stylesheet. The palette follows the reader’s light or dark preference. Your document needs no JavaScript to use it.": "基本のスタイルシートの後に、配色のスタイルシートを1つ読み込みます。ライト・ダークは閲覧者の設定に従います。文書での利用にJavaScriptは必要ありません。",
@@ -832,5 +831,9 @@
   "Variance V [1]": "正規化分散 V [1]",
   "Interpretation": "解釈",
   "A common maximum does not make the two functions interchangeable. Definitions and units remain essential to interpreting the figure.": "最大値が共通でも、二つの関数は同じものではありません。図表を解釈するには、定義と単位の確認が必要です。",
-  "These values describe known theoretical functions. They do not estimate uncertainty from a measured sample or demonstrate compression performance.": "これらの値は既知の理論関数を表します。実測標本から不確実性を推定したり、圧縮性能を示したりするものではありません。"
+  "These values describe known theoretical functions. They do not estimate uncertainty from a measured sample or demonstrate compression performance.": "これらの値は既知の理論関数を表します。実測標本から不確実性を推定したり、圧縮性能を示したりするものではありません。",
+  "Each palette coordinates accent, category and state colors. Their intensity changes together; their meaning stays the same. Red marks missing or unresolved information. Every palette meets 4.5:1 text contrast on all five surfaces and on its own tints.": "アクセント・分類色・状態色を一組として整えた配色です。色の強さを揃えて調整し、意味は共通に保ちます。赤は欠落・未解決を示します。すべての配色で、5つの背景面と各色の淡い背景に対する文字のコントラスト比4.5:1を満たします。",
+  "Kinds": "分類",
+  "States": "状態",
+  "! Partial": "! 一部解決"
 }

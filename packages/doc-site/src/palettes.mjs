@@ -10,7 +10,8 @@ export function paletteGallery(base) {
     <div class="palette-pair">${['light', 'dark'].map(mode => `<div class="palette-sample" data-dd-palette="${p.id}" data-dd-theme="${mode}">
       <span class="cap">${mode === 'light' ? 'Light' : 'Dark'}</span>
       <div class="stat tone-accent"><b class="stat-fig">978</b><span class="stat-label">findings</span></div>
-      <span class="chip chip-sm tone-danger">? Unresolved</span>
+      <div class="chips" aria-label="Kinds"><span class="chip chip-sm tone-blue">SELECT</span><span class="chip chip-sm tone-violet">INSERT</span><span class="chip chip-sm tone-teal">UPDATE</span></div>
+      <div class="chips" aria-label="States"><span class="chip chip-sm tone-ok">✓ Resolved</span><span class="chip chip-sm tone-warn">! Partial</span><span class="chip chip-sm tone-danger">? Unresolved</span></div>
     </div>`).join('')}</div>
     <div class="card-more actions"><button class="btn" data-dd-palette-choice="${p.id}" aria-describedby="palette-${p.id}" aria-pressed="false" data-dd-enhance hidden><span data-dd-palette-label>Use this palette</span></button><a href="${base}${p.id}.css" download="${p.id}.css">Download CSS ↓</a></div>
   </article>`).join('')}</div>`;

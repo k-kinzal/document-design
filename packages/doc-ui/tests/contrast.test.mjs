@@ -24,6 +24,7 @@ const TARGET_TEXT = 4.5;
 const TARGET_LARGE = 3.0;   /* reserved for genuinely large text; nothing uses it yet */
 
 import { readFileSync } from 'node:fs';
+import assert from 'node:assert/strict';
 import { palettes, paletteCSS } from '../src/palettes.mjs';
 
 // Measure the declarations we ship, rather than a second hand-maintained palette.
@@ -145,3 +146,24 @@ for (const [theme, what, r, target, ok] of rows) {
 }
 console.log(`${palettes.length} palettes, light and dark: ${rows.length} text/surface and text/tint pairs; minimum ${Math.min(...rows.map(r => r[2])).toFixed(3)}:1.`);
 if (failures) throw new Error(`${failures} contrast pairs are below 4.5:1.`);
+
+// Contrast alone accepted saturated scarlet and gold beside muted Plum.
+// Guard the reviewed ink balance separately from legibility. These bounds
+// prevent that regression; visual review of the complete set is still needed.
+for (const [name, p] of Object.entries(PALETTE)) {
+  const lch = hex => {
+    const [l, a, b] = toOklab(hex);
+    return { l, c: Math.hypot(a, b), h: (Math.atan2(b, a) * 180 / Math.PI + 360) % 360 };
+  };
+  for (const [role, [min, max]] of Object.entries({ red: [10, 35], yellow: [70, 95], green: [145, 165] })) {
+    const { c, h } = lch(p[role]);
+    assert(h >= min && h <= max && c >= 0.055, `${name}: ${role} must keep its semantic hue, not become gray or an identity color`);
+  }
+  if (name.startsWith('paper-blue /')) continue; // Preserve the original appearance.
+  const inks = HUES.filter(h => h !== 'accent').map(h => lch(p[h]));
+  const lightness = inks.map(c => c.l);
+  assert(Math.max(...lightness) - Math.min(...lightness) < 0.06, `${name}: supporting inks must share a lightness band`);
+  const budget = Math.max(0.09, lch(p.accent).c * 1.5);
+  assert(inks.every(c => c.c <= budget), `${name}: a supporting ink overwhelms the accent's chroma range`);
+}
+console.log('Semantic hues and coordinated ink lightness/chroma verified.');

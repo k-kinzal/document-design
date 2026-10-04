@@ -174,8 +174,14 @@ needs looking at* — which is only true because nothing else may use it.
 `paper-blue` is the unchanged default. Load `palettes/linen-teal.css` after the
 base stylesheet to set a whole document, or `document-design.palettes.css`
 and `data-dd-palette="linen-teal"` to choose at a document or specimen boundary.
-Every pair changes only neutral surfaces, neutral inks, links and accents.
-Identity and state retain their hues. Grayscale and monochrome win when set
+Each accent comes with a complete ink set, including identity and state.
+Supporting inks share a lightness band and a chroma range suited to the accent:
+Plum pairs its muted violet with rose red, ochre and sage; Slate quiets the whole
+set. Red still means absence, gold still means caution, and green still means
+resolved. Their exact RGB values are not fixed across palettes. Review these
+colors together in chips, warnings and figures in both modes; passing contrast
+alone does not make a coherent palette. The original `paper-blue` keeps its
+existing inks for compatibility. Grayscale and monochrome win when set
 on the same boundary; a nested palette explicitly restores color. Keep
 `--dd-accent-tint` in sync when overriding `--dd-accent` yourself.
 

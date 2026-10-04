@@ -7,13 +7,14 @@ import { palettes } from '../src/palettes.mjs';
 
 const css = readFileSync(new URL('../dist/document-design.css', import.meta.url), 'utf8');
 const bundle = readFileSync(new URL('../dist/document-design.palettes.css', import.meta.url), 'utf8');
-const specimen = `<span id="accent" class="chip tone-accent">Accent</span><span id="danger" class="chip tone-danger">? Unresolved</span>`;
+const specimen = `<span id="accent" class="chip tone-accent">Accent</span><span id="danger" class="chip tone-danger">? Unresolved</span><span id="warn" class="chip tone-warn">! Partial</span><span id="ok" class="chip tone-ok">✓ Resolved</span>`;
 
 async function colors(page, selector = 'body') {
   return page.locator(selector).evaluate(el => {
     const sample = el.querySelector('#accent');
     const style = getComputedStyle(el), accent = getComputedStyle(sample), danger = getComputedStyle(el.querySelector('#danger'));
-    return { bg: style.backgroundColor, fg: style.color, accent: accent.color, tint: accent.backgroundColor, danger: danger.color, dangerTint: danger.backgroundColor, scheme: style.colorScheme, mix: style.getPropertyValue('--dd-tint-mix').trim() };
+    const warn = getComputedStyle(el.querySelector('#warn')), ok = getComputedStyle(el.querySelector('#ok'));
+    return { bg: style.backgroundColor, fg: style.color, accent: accent.color, tint: accent.backgroundColor, danger: danger.color, dangerTint: danger.backgroundColor, warn: warn.color, warnTint: warn.backgroundColor, ok: ok.color, okTint: ok.backgroundColor, scheme: style.colorScheme, mix: style.getPropertyValue('--dd-tint-mix').trim() };
   });
 }
 
@@ -55,7 +56,8 @@ for (const mode of ['light', 'dark']) {
   test(`all 32 built overlays match the attribute bundle in ${mode}`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: mode });
     const distinct = new Set();
-    let danger;
+    await page.setContent(`<html><head><style>${css}</style></head><body>${specimen}</body></html>`);
+    const original = await colors(page);
     for (const palette of palettes) {
       const overlay = readFileSync(new URL(`../dist/palettes/${palette.id}.min.css`, import.meta.url), 'utf8');
       await page.setContent(`<html><head><style>${css}\n${overlay}</style></head><body>${specimen}</body></html>`);
@@ -63,8 +65,11 @@ for (const mode of ['light', 'dark']) {
       expect(standalone.mix).toBe(mode === 'light' ? '6%' : '12%');
       expect(await contrastFailures(page), palette.id).toEqual([]);
       distinct.add(standalone.bg + standalone.accent);
-      danger ??= standalone.danger;
-      expect(standalone.danger, palette.id).toBe(danger);
+      if (palette.id === 'paper-blue') expect(standalone).toEqual(original);
+      else {
+        expect(standalone.danger, palette.id).not.toBe(original.danger);
+        expect(standalone.warn, palette.id).not.toBe(original.warn);
+      }
       await page.setContent(`<html data-dd-palette="${palette.id}"><head><style>${css}\n${bundle}</style></head><body>${specimen}</body></html>`);
       expect(await colors(page), palette.id).toEqual(standalone);
     }
