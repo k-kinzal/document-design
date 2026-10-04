@@ -1,5 +1,6 @@
 /*
- * Palette — the raw hues. Nothing outside this file declares a raw color.
+ * Palette — the raw hues. Build-time variations live in ../palettes.mjs;
+ * components use these tokens rather than declaring raw colors.
  *
  * The values come from the QuuuAI report sheet, which states its colour rule as
  * "neutrals plus one accent". That rule holds here for the report genre and is
@@ -18,15 +19,15 @@
  */
 
 @layer dd.tokens {
-  :root { color-scheme: light dark; }
-  :root, [data-dd-color="color"], [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
+  :root { color-scheme: light dark; --dd-scheme-tint-mix: 6%; }
+  :root, [data-dd-palette], [data-dd-color="color"], [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
     /*
      * color-scheme is what light-dark() reads, so this one property is the
      * whole of the theme switch. The two values below it are not colours and
      * so cannot ride inside light-dark(); they are the only thing the dark
      * block further down has to repeat.
      */
-    --dd-tint-mix: 6%;
+    --dd-tint-mix: var(--dd-scheme-tint-mix);
     --dd-shadow: 0 8px 24px rgb(15 23 42 / 0.12);
     --dd-image-filter: none;
 
@@ -125,17 +126,24 @@
    * system, which is the right default — a generated report is not the place to
    * have an opinion about how someone's screen is set up.
    */
-  :root[data-dd-theme="light"] { color-scheme: light; }
+  :root[data-dd-theme="light"], [data-dd-theme="light"] {
+    color-scheme: light;
+    --dd-scheme-tint-mix: 6%;
+    --dd-tint-mix: var(--dd-scheme-tint-mix);
+    --dd-shadow: 0 8px 24px rgb(15 23 42 / 0.12);
+  }
 
-  :root[data-dd-theme="dark"] {
+  :root[data-dd-theme="dark"], [data-dd-theme="dark"] {
     color-scheme: dark;
-    --dd-tint-mix: 12%;
+    --dd-scheme-tint-mix: 12%;
+    --dd-tint-mix: var(--dd-scheme-tint-mix);
     --dd-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
   }
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-dd-theme="light"]) {
-      --dd-tint-mix: 12%;
+      --dd-scheme-tint-mix: 12%;
+      --dd-tint-mix: var(--dd-scheme-tint-mix);
       --dd-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
     }
   }

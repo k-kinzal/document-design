@@ -30,7 +30,7 @@
   .tone-warn    { --dd-tone: var(--dd-warn);    --dd-tone-tint: var(--dd-warn-tint); }
   .tone-danger  { --dd-tone: var(--dd-danger);  --dd-tone-tint: var(--dd-danger-tint); }
   .tone-neutral { --dd-tone: var(--dd-neutral); --dd-tone-tint: var(--dd-neutral-tint); }
-  .tone-accent  { --dd-tone: var(--dd-accent);  --dd-tone-tint: var(--dd-blue-tint); }
+  .tone-accent  { --dd-tone: var(--dd-accent);  --dd-tone-tint: var(--dd-accent-tint); }
 }
 
 @layer dd.base {

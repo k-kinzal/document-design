@@ -168,13 +168,25 @@ needs looking at* — which is only true because nothing else may use it.
 <html>                        <!-- follow the system -->
 ```
 
+**Choose a paper and accent without changing meaning.** The build generates
+32 optional light/dark pairs: `paper`, `linen`, `mist`, or `sage`, combined with
+`blue`, `cyan`, `teal`, `indigo`, `violet`, `plum`, `citron`, or `slate`.
+`paper-blue` is the unchanged default. Load `palettes/linen-teal.css` after the
+base stylesheet to set a whole document, or `document-design.palettes.css`
+and `data-dd-palette="linen-teal"` to choose at a document or specimen boundary.
+Every pair changes only neutral surfaces, neutral inks, links and accents.
+Identity and state retain their hues. Grayscale and monochrome win when set
+on the same boundary; a nested palette explicitly restores color. Keep
+`--dd-accent-tint` in sync when overriding `--dd-accent` yourself.
+
 **Tints are derived, not written.** Each is its hue mixed into the page
 background — `color-mix(in oklab, hue var(--dd-tint-mix), bg)` at 6% light and
 12% dark. Those two percentages are not taste: they are the largest mix at
 which every hue still clears 4.5:1 against its own tint.
 
-**Contrast is checked, not asserted.** 150 pairs — every hue and every text
-colour against all five surfaces plus tints — at 4.5:1, in CI. A chip is 12px
+**Contrast is checked, not asserted.** 5,184 pairs across 32 palettes — every
+hue, accent and text colour against all five surfaces plus tints, in light
+and dark — at 4.5:1, in CI. A chip is 12px
 at weight 600, which is *normal* text: WCAG's large-text exception begins at
 18.66px bold. Do not assume a small bold label may use 3:1.
 

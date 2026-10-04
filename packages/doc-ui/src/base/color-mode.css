@@ -2,7 +2,7 @@
    color boundary restores the palette inside a neutral document. Book pages
    also apply the inherited image filter; other compositions keep artwork as is. */
 @layer dd.base {
-  [data-dd-color="color"], [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
+  [data-dd-palette], [data-dd-color="color"], [data-dd-color="grayscale"], [data-dd-color="monochrome"] {
     color: var(--dd-fg);
     background: var(--dd-bg);
   }

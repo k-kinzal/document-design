@@ -122,6 +122,72 @@
     });
   }
 
+  /* ------------------------------------------------------------ palettes */
+
+  // Persistence is opt-in through controls. A standalone archived document
+  // with a fixed palette must never inherit this site's saved preference.
+  var palette = null;
+  function initPalette() {
+    var controls = document.querySelectorAll("[data-dd-palette-select], [data-dd-palette-choice]");
+    if (!controls.length) return;
+    var available = {};
+    each("[data-dd-palette-select] option", function (option) { available[option.value] = option.textContent; });
+    each("[data-dd-palette-choice]", function (button) {
+      var id = button.getAttribute("data-dd-palette-choice");
+      if (!available[id]) available[id] = button.getAttribute("data-dd-palette-name") || id;
+    });
+    var key = root.getAttribute("data-dd-palette-key") || "dd-palette";
+    function apply(value) {
+      if (!Object.prototype.hasOwnProperty.call(available, value)) return;
+      palette = value;
+      root.setAttribute("data-dd-palette", value);
+      each("[data-dd-palette-select]", function (select) { select.value = value; });
+      each("[data-dd-palette-choice]", function (button) {
+        var selected = button.getAttribute("data-dd-palette-choice") === value;
+        button.setAttribute("aria-pressed", String(selected));
+        var label = button.querySelector("[data-dd-palette-label]");
+        if (label) label.textContent = localizedLabel(button, selected ? "Selected" : "Use this palette", selected ? "選択中" : "この配色を使う");
+      });
+      each("[data-dd-palette-current]", function (el) { el.textContent = available[value]; });
+      each("[data-dd-palette-source]", function (el) {
+        var base = el.getAttribute("data-dd-palette-source");
+        // Change only the URL text, preserving both syntax spans and localized
+        // HTML examples. Translators may regenerate the highlighting markup.
+        var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        var node;
+        while ((node = walker.nextNode())) {
+          var text = node.nodeValue, index = text.indexOf(base);
+          if (index === -1) continue;
+          var start = index + base.length;
+          var filename = text.slice(start).match(/^[a-z0-9-]+\.css/);
+          if (filename) node.nodeValue = text.slice(0, start) + value + ".css" + text.slice(start + filename[0].length);
+        }
+      });
+      each("[data-dd-palette-url]", function (el) {
+        var suffix = el.getAttribute("data-dd-palette-suffix") || ".css";
+        var url = el.getAttribute("data-dd-palette-url") + value + suffix;
+        if (el.tagName === "A") {
+          el.href = url;
+          if (el.hasAttribute("download")) el.download = value + suffix;
+        }
+        else el.textContent = url;
+      });
+    }
+    if (palette === null) palette = readStore(key) || root.getAttribute("data-dd-palette") || "paper-blue";
+    if (!Object.prototype.hasOwnProperty.call(available, palette)) palette = "paper-blue";
+    apply(palette);
+    // Per-control binding also works when a gallery is inserted after startup.
+    Array.prototype.forEach.call(controls, function (control) {
+      if (!once(control, "data-dd-palette-bound")) return;
+      control.addEventListener(control.tagName === "SELECT" ? "change" : "click", function () {
+        var value = control.tagName === "SELECT" ? control.value : control.getAttribute("data-dd-palette-choice");
+        if (!Object.prototype.hasOwnProperty.call(available, value)) return;
+        apply(value);
+        writeStore(key, value);
+      });
+    });
+  }
+
   /* ------------------------------------------------------------ sidebar */
 
   /*
@@ -750,6 +816,7 @@
 
   function start() {
     initTheme();
+    initPalette();
     initNav();
     initCopy();
     initSort();

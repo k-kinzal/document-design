@@ -234,7 +234,7 @@ export const components = [
     label: "Ways into content",
     group: "Lists & data",
     description: "Show where a route leads and what a reader can learn there.",
-    api: [[".cards / .card","A list and its entries, arranged in one or two columns according to the container."],[".card-preview","A bounded live preview. Use inert and aria-hidden when the card title provides the accessible description."],["--dd-preview-height","Defaults to 224px. Use auto for a selected preview that needs to keep all text and controls visible; retain normal type sizes."],[".card-link","Stretches the title link across a preview card; its preview must not contain interactive controls."],[".card-description","What this destination can tell the reader."],[".card-more","A detail link aligned at the bottom."],[".aside","A supporting region with a quiet background."]],
+    api: [[".cards / .card","A list and its entries, arranged in one or two columns according to the container."],[".card-preview","A bounded live preview. Use inert and aria-hidden when the card title provides the accessible description."],["--dd-preview-height","Defaults to 224px. Use auto for a selected preview that needs to keep all text and controls visible; retain normal type sizes."],[".card-link","Stretches the title link across a preview card; its preview must not contain interactive controls."],[".card-description","What this destination can tell the reader."],[".card-more","A detail link aligned at the bottom."],[".aside","A supporting region with a quiet background."],[".palette-pair / .palette-sample","Paired light/dark specimens at normal reading sizes. Load document-design.palettes.css after the base CSS and set data-dd-palette and data-dd-theme on each sample."]],
     note: "A rule separates routes without turning every item into a box. Give comparable routes comparable descriptions.",
     story: "components-card--overview",
     examples: [
@@ -256,6 +256,21 @@ export const components = [
   </div>
   <h3><a class="card-link" href="../chip/">Chip</a></h3>
   <p class="card-description">Labels for kinds and states.</p>
+</article>` },
+      { title: "A light and dark palette pair", html: String.raw`<article class="card">
+  <h3 translate="no">Linen / Teal</h3>
+  <div class="palette-pair">
+    <div class="palette-sample" data-dd-palette="linen-teal" data-dd-theme="light">
+      <span class="cap">Light</span>
+      <div class="stat tone-accent"><b class="stat-fig">978</b><span class="stat-label">findings</span></div>
+      <span class="chip chip-sm tone-danger">? Unresolved</span>
+    </div>
+    <div class="palette-sample" data-dd-palette="linen-teal" data-dd-theme="dark">
+      <span class="cap">Dark</span>
+      <div class="stat tone-accent"><b class="stat-fig">978</b><span class="stat-label">findings</span></div>
+      <span class="chip chip-sm tone-danger">? Unresolved</span>
+    </div>
+  </div>
 </article>` }
     ],
   },

@@ -20,6 +20,43 @@ details; this is the shared part, maintained once.
 
 **[Component list and examples →](https://k-kinzal.github.io/document-design/components/)**
 
+## Palette variations
+
+Choose from 32 light/dark pairs: four papers (`paper`, `linen`, `mist`, `sage`)
+and eight accents (`blue`, `cyan`, `teal`, `indigo`, `violet`, `plum`, `citron`,
+`slate`). `paper-blue` preserves the original default. The build writes each
+pair to `dist/palettes/<paper>-<accent>.css` and `.min.css`.
+
+Load one palette after the base stylesheet. Save both files with your HTML
+for offline use; no JavaScript or theme attribute is required:
+
+```html
+<link rel="stylesheet" href="./document-design.css">
+<link rel="stylesheet" href="./palettes/linen-teal.css">
+```
+
+The pair follows the system preference. `data-dd-theme="light"` or `"dark"`
+selects a mode. Paper and accent vary; category and state hues remain stable,
+with red reserved for missing or unresolved information. All text, accent,
+identity and state colors clear 4.5:1 against five surfaces and their tints.
+
+For a gallery or switchable document, load `document-design.palettes.css`
+after the base instead, and set `data-dd-palette="linen-teal"` on the root or
+an embedded specimen. `.palette-pair` holds two `.palette-sample` elements,
+with explicit `data-dd-theme="light"` and `"dark"`. Use normal text roles
+inside; do not scale down the specimen. Grayscale/monochrome override a palette
+on the same element, while an explicit nested palette restores color.
+
+The optional classic script handles a `select[data-dd-palette-select]` whose
+option values are palette IDs, or buttons with `data-dd-palette-choice="id"`
+and `aria-pressed`. Add `data-dd-enhance hidden` to the controls. Preferences
+persist only on pages with palette controls; a standalone fixed document
+keeps its authored palette. The default storage key is `dd-palette`; override
+it with `data-dd-palette-key` on the root. Palette selection and light/dark
+selection are independent. `palettes.json` lists the IDs and names for generators.
+The package exports `@k-kinzal/doc-ui/palettes` (JSON), `./palettes.css`, and
+`./palettes/<id>.css`.
+
 ## Markdown CLI
 
 The `doc-ui` command turns a Markdown file or stdin into a complete HTML

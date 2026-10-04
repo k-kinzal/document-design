@@ -13,6 +13,9 @@
     "./package.json": "./package.json",
     "./js": "./dist/document-design.js",
     "./tokens": "./dist/document-design.tokens.css",
+    "./palettes": "./dist/palettes.json",
+    "./palettes.css": "./dist/document-design.palettes.css",
+    "./palettes/*": "./dist/palettes/*",
     "./src/*": "./src/*"
   },
   "scripts": {
@@ -20,8 +23,8 @@
     "build:book-art": "node stories/book-art.mjs",
     "check": "npm run build && node --test tests/*.test.mjs",
     "check:contrast": "node --test tests/contrast.test.mjs",
-    "storybook": "storybook dev -p 6006 --no-open",
-    "build:storybook": "storybook build -o storybook-static",
+    "storybook": "npm run build && storybook dev -p 6006 --no-open",
+    "build:storybook": "npm run build && storybook build -o storybook-static",
     "prepare": "npm run build",
     "dev": "npm run storybook",
     "test": "playwright test"

@@ -1,4 +1,6 @@
 import "../src/index.css";
+import "../dist/document-design.palettes.css";
+import { palettes } from "../src/palettes.mjs";
 import "./storybook.css";
 import { ensureBehaviour } from "./behaviour";
 import { drawDefs } from "../stories/helpers";
@@ -27,6 +29,11 @@ function ensureDrawDefs() {
  */
 export default {
   globalTypes: {
+    ddPalette: {
+      description: "Paper and accent palette; identity and state retain their meaning",
+      toolbar: { title: "Palette", icon: "paintbrush", dynamicTitle: true,
+        items: palettes.map(p => ({ value: p.id, title: p.name })) },
+    },
     ddTheme: {
       description: "Colour scheme the document is rendered in",
       toolbar: {
@@ -42,7 +49,7 @@ export default {
     },
   },
 
-  initialGlobals: { ddTheme: "auto" },
+  initialGlobals: { ddTheme: "auto", ddPalette: "paper-blue" },
 
   parameters: {
     layout: "fullscreen",
@@ -92,6 +99,7 @@ export default {
       const root = document.documentElement;
       // English is the preview default; Japanese specimens set their own lang.
       root.lang = "en";
+      root.setAttribute("data-dd-palette", context.globals.ddPalette || "paper-blue");
       if (theme === "auto") root.removeAttribute("data-dd-theme");
       else root.setAttribute("data-dd-theme", theme);
 

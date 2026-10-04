@@ -150,7 +150,7 @@ export const Tints = {
  * nine pairs that were failing.
  *
  * Switch the theme in the toolbar and the table re-measures. `npm run
- * check:contrast` asserts 150 pairs in CI, including every hue on all five
+ * check:contrast` asserts 5,184 pairs across 32 palettes in CI, including every hue on all five
  * surfaces.
  */
 export const Measured = {

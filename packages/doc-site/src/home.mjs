@@ -89,7 +89,7 @@ export function home(lang = 'en') {
     <div class="field">
       <h2 class="section-title" id="building-title">Put your content on the page.</h2>
       <p class="note">Load the stylesheet in your document’s head, then use the layout classes in your HTML or templates. This page uses <code>.sheet</code>; the component reference uses <code>.doc</code>.</p>
-      <div class="actions"><a href="./start/">Get started →</a></div>
+      <div class="actions"><a href="./start/">Get started →</a><a href="./start/#palettes">Choose from 32 palettes →</a></div>
       ${code(markup, 'home-markup')}
       <details class="disclosure"><summary>Stylesheet URL</summary><div class="disclosure-body">${code(stylesheet,'home-stylesheet')}</div></details>
       <div class="disclosure-group">

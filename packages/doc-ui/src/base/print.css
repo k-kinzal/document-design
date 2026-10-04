@@ -17,7 +17,7 @@
      * who happened to have dark mode on prints white text on nothing, and
      * then prints it again after finding the setting.
      */
-    :root { color-scheme: light; }
+    :root, [data-dd-theme] { color-scheme: light; }
 
     html, body { background: #fff; }
 

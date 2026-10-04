@@ -1,4 +1,4 @@
-import { mkdirSync, rmSync, writeFileSync, cpSync, existsSync } from 'node:fs';
+import { mkdirSync, rmSync, writeFileSync, cpSync, existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { document, site, releaseTag } from './site.mjs';
@@ -7,6 +7,7 @@ import { docs } from './docs.mjs';
 import { components } from './components.mjs';
 import { locales, localePath, localizeHTML, translate } from './i18n.mjs';
 import { paperPage } from './paper.mjs';
+import palettes from '@k-kinzal/doc-ui/palettes' with { type: 'json' };
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const generatedRoot = resolve(root, '.generated');
@@ -43,6 +44,15 @@ export function generate({ development = false, outDir = generatedRoot } = {}) {
     mkdirSync(resolve(localeAssets, 'assets'), { recursive: true });
     const starter = localizeHTML(pages.find(p => p.starter && p.lang === lang).starter, { lang });
     writeFileSync(resolve(localeAssets, 'examples/report.html'), starter.replace('</head>', '<meta name="robots" content="noindex, follow">\n</head>'));
+    for (const palette of palettes) {
+      // The downloadable example is a complete, portable artifact, including
+      // its palette and license. It also previews unreleased palettes locally.
+      const css = readFileSync(resolve(ui, 'document-design.min.css'), 'utf8') + '\n' +
+        readFileSync(resolve(ui, `palettes/${palette.id}.min.css`), 'utf8');
+      writeFileSync(resolve(localeAssets, `examples/report-${palette.id}.html`), starter
+        .replace(/<link rel="stylesheet"\s+href="[^"]+">/g, '')
+        .replace('</head>', `<meta name="robots" content="noindex, follow">\n<style>${css}</style>\n</head>`));
+    }
     // The long paper is written in each language rather than translated: its
     // Japanese is the original record and its English a translation of it.
     writeFileSync(resolve(localeAssets, 'examples/paper.html'), paperPage(lang));

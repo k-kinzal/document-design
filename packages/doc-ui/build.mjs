@@ -5,12 +5,13 @@
  * one request and an offline copy is one file to keep. It also downlevels
  * against the target floor below.
  */
-import { bundle, transform, browserslistToTargets } from "lightningcss";
+import { bundle, transform, browserslistToTargets, Features } from "lightningcss";
 import browserslist from "browserslist";
 import { mkdirSync, writeFileSync, readFileSync, copyFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { buildCLI } from "./build-cli.mjs";
+import { palettes, paletteCSS } from "./src/palettes.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = here;
@@ -62,6 +63,21 @@ const results = [
   ["src/index.css", "document-design"],
   ["src/tokens.css", "document-design.tokens"],
 ].map(([entry, name]) => [name, build(entry, name)]);
+
+// Consumers ship one small overlay; galleries can opt into the attribute bundle.
+mkdirSync(join(dist, 'palettes'), { recursive: true });
+function writePalette(name, source) {
+  for (const minify of [false, true]) {
+    // Keep overlays independent of compiler-private light/dark variables.
+    // They also accompany the uncompiled source CSS during development.
+    const { code } = transform({ filename: name + '.css', code: Buffer.from(source), minify, targets, exclude: Features.LightDark });
+    writeFileSync(join(dist, name + (minify ? '.min' : '') + '.css'), banner + code.toString());
+  }
+}
+for (const palette of palettes) writePalette(`palettes/${palette.id}`, paletteCSS(palette, { standalone: true }));
+writePalette('document-design.palettes', palettes.map(p => paletteCSS(p)).join('\n'));
+writeFileSync(join(dist, 'palettes.json'), JSON.stringify(palettes, null, 2) + '\n');
+console.log(`palettes: ${palettes.length} light/dark pairs and an optional attribute bundle`);
 
 /* The behaviour layer ships as written — it is small, and a reader who opens
    a generated document and wonders what the page is doing should be able to

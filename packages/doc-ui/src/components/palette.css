@@ -1,0 +1,31 @@
+/* A paired specimen uses real text at its reading size. Light and dark stay
+   side by side so choosing a palette never conceals half of its contract. */
+@layer dd.component {
+  .palette-pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: 1px solid var(--dd-border-strong);
+    border-radius: var(--dd-radius);
+    overflow: hidden;
+  }
+  .palette-sample {
+    display: grid;
+    align-content: start;
+    gap: var(--dd-sp-3);
+    padding: var(--dd-sp-4);
+    min-width: 0;
+  }
+  .palette-sample .chip { justify-self: start; }
+  .palette-select { max-width: 100%; font-size: var(--dd-text-sm); }
+  .card:has([data-dd-palette-choice][aria-pressed="true"]) {
+    border-top-color: var(--dd-accent);
+  }
+  [data-dd-palette-choice][aria-pressed="true"] {
+    border-color: var(--dd-accent);
+    outline: 1px solid var(--dd-accent);
+  }
+  [data-dd-palette-choice][aria-pressed="true"]::before { content: "✓"; }
+  @container (max-width: 22rem) {
+    .palette-sample { padding: var(--dd-sp-3); }
+  }
+}

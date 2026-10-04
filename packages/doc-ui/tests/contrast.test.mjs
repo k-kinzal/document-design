@@ -23,26 +23,30 @@
 const TARGET_TEXT = 4.5;
 const TARGET_LARGE = 3.0;   /* reserved for genuinely large text; nothing uses it yet */
 
-const PALETTE = {
-  light: {
-    bg: "#fcfcfe", surface: "#f6f7f9", sunken: "#f0f2f5", raised: "#ffffff", hover: "#f0f2f6",
-    ink: "#1b1e24", sub: "#4d535d", dim: "#5f6572", hair: "#d9dbe0", rule: "#b8bcc4",
-    blue: "#006bb2", violet: "#79599f", amber: "#707117", slate: "#646a76",
-    teal: "#0f7478", pink: "#b0356f", indigo: "#4a55bd",
-    green: "#1b7c4a", red: "#ac011a", yellow: "#7d5300",
-    mix: 0.06,
-  },
-  dark: {
-    bg: "#1f2023", surface: "#292c30", sunken: "#25272b", raised: "#2d3036", hover: "#2a2d33",
-    ink: "#d9dbdd", sub: "#a7abb3", dim: "#a1a7b2", hair: "#363940", rule: "#4d515a",
-    blue: "#5eabf1", violet: "#b195e2", amber: "#babc5e", slate: "#969dab",
-    teal: "#4fbcc0", pink: "#f085b4", indigo: "#949cf0",
-    green: "#66b382", red: "#ff7570", yellow: "#d6981a",
-    mix: 0.12,
-  },
-};
+import { readFileSync } from 'node:fs';
+import { palettes, paletteCSS } from '../src/palettes.mjs';
 
-const HUES = ["blue", "violet", "amber", "teal", "pink", "indigo", "slate", "green", "red", "yellow"];
+// Measure the declarations we ship, rather than a second hand-maintained palette.
+const source = readFileSync(new URL('../src/tokens/palette.css', import.meta.url), 'utf8');
+const base = { light: { mix: 0.06 }, dark: { mix: 0.12 } };
+for (const [, key, light, dark] of source.matchAll(/--dd-([\w-]+):\s*light-dark\((#[\da-f]{6}), (#[\da-f]{6})\)/g)) {
+  if (base.light[key]) continue;
+  base.light[key] = light;
+  base.dark[key] = dark;
+}
+const PALETTE = {};
+for (const palette of palettes) {
+  const css = paletteCSS(palette);
+  for (const [mode, initial] of Object.entries(base)) {
+    const p = { ...initial };
+    for (const [, key, light, dark] of css.matchAll(/--dd-([\w-]+):\s*light-dark\((#[\da-f]{6}), (#[\da-f]{6})\)/g)) p[key] = mode === 'light' ? light : dark;
+    const alias = css.match(/--dd-accent: var\(--dd-([\w-]+)\)/);
+    if (alias) p.accent = p[alias[1]];
+    PALETTE[`${palette.id} / ${mode}`] = p;
+  }
+}
+
+const HUES = ["blue", "violet", "amber", "teal", "pink", "indigo", "slate", "green", "red", "yellow", "accent"];
 const TEXT = ["ink", "sub", "dim"];
 const SURFACES = ["bg", "surface", "sunken", "raised", "hover"];
 
@@ -136,19 +140,8 @@ for (const [theme, p] of Object.entries(PALETTE)) {
   }
 }
 
-const pad = (s, n) => String(s).padEnd(n);
-let lastTheme = null;
 for (const [theme, what, r, target, ok] of rows) {
-  if (theme !== lastTheme) {
-    console.log(`\n${theme.toUpperCase()}`);
-    lastTheme = theme;
-  }
-  console.log(`  ${ok ? "ok  " : "FAIL"} ${pad(what, 30)} ${r.toFixed(2).padStart(6)} : ${target}`);
+  if (!ok) console.error(`${theme}: ${what} = ${r.toFixed(3)}; requires ${target}`);
 }
-
-console.log(
-  failures === 0
-    ? `\nAll ${rows.length} pairs meet their target.`
-    : `\n${failures} of ${rows.length} pairs are below target.`
-);
-process.exit(failures === 0 ? 0 : 1);
+console.log(`${palettes.length} palettes, light and dark: ${rows.length} text/surface and text/tint pairs; minimum ${Math.min(...rows.map(r => r[2])).toFixed(3)}:1.`);
+if (failures) throw new Error(`${failures} contrast pairs are below 4.5:1.`);
