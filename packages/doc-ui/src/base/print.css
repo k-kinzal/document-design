@@ -164,6 +164,12 @@
     tr, .row, .member { break-inside: auto; }
     p { orphans: 3; widows: 3; }
 
+    /* Column boundaries need the same protection as page boundaries.
+       avoid-page alone allows a heading or equation introduction to be
+       stranded at the foot of the last column on a page. */
+    .paper-columns :is(h2, h3, h4) { break-after: avoid; }
+    .paper-columns p:has(+ .equation) { break-inside: avoid; break-after: avoid; }
+
     /*
      * The report's headings are not all headings. A section's `.label` is
      * often a <div>, its `.lead` is a <p>, and a timeline entry's title is a

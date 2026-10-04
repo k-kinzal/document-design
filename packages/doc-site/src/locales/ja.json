@@ -779,7 +779,6 @@
   "A native MathML display, its keyboard-scrollable wrapper, and an optional author-supplied number. Use .ref for references.": "ネイティブMathML、キーボードでスクロールできるラッパー、任意の著者指定番号。参照には.refを使います。",
   "Neutral inks or black and white, on the root or a document wrapper. The light/dark theme still applies; print uses light. Omit for colour.": "ルート要素または文書ラッパーに、グレースケールまたは白黒を指定します。明暗テーマに従い、印刷では明色になります。カラーは指定を省略します。",
   "Optional mathematical font family. Defaults to the browser’s math font; no font download is required.": "任意の数式用フォント。既定はブラウザーの数式フォントで、ダウンロードは不要です。",
-  "The research-paper example calculates its graph and table from stated functions. Mark series with dashes and shapes as well as colour. Colour modes cover doc-ui tokens, not raster images or custom colours. Split long equations into MathML table rows to fit print; horizontal scrolling is only available on screen. Authors own equation numbers and their references.": "論文サンプルでは、明示した関数からグラフと表を計算します。系列は色に加えて破線や形でも示します。色指定の対象はdoc-uiのトークンで、画像や独自の色は対象外です。長い式は印刷幅に収まるようMathMLの表形式で複数行に分けます。横スクロールは画面でのみ利用できます。式番号と参照番号は著者が管理します。",
   "A paper with an abstract": "要旨のある論文",
   "Uncertainty in a binary source": "二値情報源における不確実性",
   "An expository typesetting specimen": "解説形式の組版サンプル",
@@ -819,5 +818,19 @@
   "Copy selected stylesheet ↑": "選択中のスタイルシートをコピー ↑",
   "A light and dark palette pair": "ライト・ダークの配色ペア",
   "Paired light/dark specimens at normal reading sizes. Load document-design.palettes.css after the base CSS and set data-dd-palette and data-dd-theme on each sample.": "通常の文字サイズでライト・ダークを並べる見本です。基本CSSの後にdocument-design.palettes.cssを読み込み、各見本にdata-dd-paletteとdata-dd-themeを指定します。",
-  "The downloadable example includes the selected palette and all its styles, so it opens offline as a single HTML file.": "ダウンロードできる実例には、選んだ配色とすべてのスタイルが含まれます。HTMLファイル1つでオフラインでも開けます。"
+  "The downloadable example includes the selected palette and all its styles, so it opens offline as a single HTML file.": "ダウンロードできる実例には、選んだ配色とすべてのスタイルが含まれます。HTMLファイル1つでオフラインでも開けます。",
+  "The research-paper example calculates its graph and table from stated functions. Mark series with dashes and shapes as well as colour. Colour modes cover doc-ui tokens, not raster images or custom colours. Split long equations into MathML table rows to fit print; horizontal scrolling is only available on screen. Authors own equation numbers and their references. Keep titles and abstracts outside .paper-columns, and full-width plates between flows. Write content in reading order without manual left and right blocks. This is a general composition, not a publisher-specific template.": "論文サンプルでは、明示した関数からグラフと表を計算します。系列は色に加えて破線や形でも示します。色指定の対象はdoc-uiのトークンで、画像や独自の色は対象外です。長い式は印刷幅に収まるようMathMLの表形式で複数行に分けます。横スクロールは画面でのみ利用できます。式番号と参照番号は著者が管理します。 タイトルと要旨は.paper-columnsの外に、二段抜きの図表は段組ブロックの間に置きます。左右の段を手動で分けず、読む順番に本文を書きます。特定の出版社の投稿様式ではなく、汎用の組版です。",
+  "Wrap prose sections in a two-column reading flow. Columns use the existing type size and become one column when the containing width is too narrow.": "本文の節を二段組のフローで包みます。文字サイズはそのままに、配置先の幅が狭くなると一段組に戻ります。",
+  "Place a full-width figure or table between column flows. Text resumes below it, including in print. Keep column-width figures and tables inside the flow.": "二段抜きの図表は段組ブロックの間に置きます。印刷でも図表の下から本文が続きます。一段幅の図表は段組の中に置きます。",
+  ".plate-full between .paper-columns blocks": ".paper-columnsブロック間の.plate-full",
+  "Two columns with a full-width figure": "二段抜きの図表を含む二段組",
+  "Binary entropy measures uncertainty in bits. It is zero at either deterministic endpoint and reaches one bit when the two outcomes are equally probable.": "二値エントロピーは不確実性をビットで表します。確定的な両端点ではゼロとなり、二つの結果が等確率のときに一ビットとなります。",
+  "Normalized variance also reaches one at equal probabilities. Its shared numerical range helps compare the shapes, but does not give variance the unit “bit”.": "正規化分散も等確率のときに一となります。共通の数値範囲で形を比較できますが、分散に「ビット」という単位が付くわけではありません。",
+  "Values calculated at equal probabilities.": "等確率のときの計算値。",
+  "Probability p": "確率 p",
+  "Entropy H [bit]": "エントロピー H [bit]",
+  "Variance V [1]": "正規化分散 V [1]",
+  "Interpretation": "解釈",
+  "A common maximum does not make the two functions interchangeable. Definitions and units remain essential to interpreting the figure.": "最大値が共通でも、二つの関数は同じものではありません。図表を解釈するには、定義と単位の確認が必要です。",
+  "These values describe known theoretical functions. They do not estimate uncertainty from a measured sample or demonstrate compression performance.": "これらの値は既知の理論関数を表します。実測標本から不確実性を推定したり、圧縮性能を示したりするものではありません。"
 }

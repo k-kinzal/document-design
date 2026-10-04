@@ -32,10 +32,26 @@
   .sheet-paper .plate > figcaption { font-size: var(--dd-type-1); }
   .sheet-paper .plate-source { font-size: inherit; }
 
+  /* A single reading flow, including across printed pages. The minimum
+     column measure lets a narrow containing sheet return to one column. */
+  .paper-columns {
+    columns: 20ric 2;
+    column-gap: var(--dd-sp-6);
+    column-fill: balance;
+  }
+  .paper-columns > .prose + section { padding-top: var(--dd-base); }
+  .paper-columns :is(h2, h3, h4) { break-after: avoid; }
+  .paper-columns :is(.equation, .plate) { break-inside: avoid; }
+  .paper-columns p { orphans: 3; widows: 3; }
+  .paper-columns th:not(.num) { white-space: normal; }
+
   @container (max-width: 30rem) {
     .sheet-paper h1 { font-size: var(--dd-type-4); }
   }
 }
 @layer dd.layout {
   .paper-head > * + * { margin-top: var(--dd-sp-4); }
+  /* Full-width plates sit between column flows. column-span within a flow
+     strands the following text on a new page in Chromium printing. */
+  .paper-columns { margin-block: var(--dd-base); }
 }

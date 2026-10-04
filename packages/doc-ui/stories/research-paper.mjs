@@ -106,29 +106,35 @@ function plot(t, id, width = 576) {
 
 export const entropyPlot = (lang, id, width) => plot(copy[lang], id, width);
 
-export function researchPaper({ lang = 'en', color = 'grayscale' } = {}) {
+export function researchPaper({ lang = 'en', color = 'grayscale', columns = false } = {}) {
   const t = copy[lang];
-  const id = `research-${lang}-${color}`;
-  const equation = n => `<div class="equation" id="${id}-eq-${n}"><div class="eq-body" tabindex="0" role="region" aria-label="${lang === 'ja' ? '式' : 'Equation'} ${n}"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML">${formulas[n - 1]}</math></div><a class="eq-number" href="#${id}-eq-${n}" aria-label="${lang === 'ja' ? '式' : 'Equation'} ${n}">(${n})</a></div>`;
+  const id = `research-${lang}-${color}${columns ? '-columns' : ''}`;
+  // Break at the subtraction, retaining display-size mathematics in a column.
+  const binary = columns ? `<mtable displaystyle="true"><mtr><mtd><mi>H</mi><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo></mtd><mtd><mo>=</mo></mtd><mtd style="text-align: left"><mo>−</mo><mi>p</mi><msub><mi>log</mi><mn>2</mn></msub><mi>p</mi></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd style="text-align: left"><mo>−</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="false">)</mo><msub><mi>log</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="false">)</mo></mtd></mtr></mtable>` : formulas[1];
+  const equation = n => `<div class="equation" id="${id}-eq-${n}"><div class="eq-body" tabindex="0" role="region" aria-label="${lang === 'ja' ? '式' : 'Equation'} ${n}"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML">${n === 2 ? binary : formulas[n - 1]}</math></div><a class="eq-number" href="#${id}-eq-${n}" aria-label="${lang === 'ja' ? '式' : 'Equation'} ${n}">(${n})</a></div>`;
   return `<article class="sheet sheet-paper" lang="${lang}"${color === 'color' ? '' : ` data-dd-color="${color}"`} data-dd-paper="a4" data-dd-print-urls="sources">
     <header class="paper-head">
       <p class="eyebrow">INFORMATION THEORY / EXPOSITORY NOTE</p>
       <h1>${t.title}</h1><p>${t.subtitle}</p><p class="paper-byline">${t.byline}</p>
     </header>
     <section class="abstract prose" aria-labelledby="${id}-abstract"><h2 id="${id}-abstract">${t.abstract}</h2><p>${t.summary}</p><p class="muted">${t.keywords}</p></section>
+    ${columns ? '<div class="paper-columns">' : ''}
     <section class="prose"><h2>${t.headings[0]}</h2><p>${t.intro}<a class="cite" href="#${id}-src-1">1</a></p><p>${t.purpose}</p></section>
     <section class="prose"><h2>${t.headings[1]}</h2><p>${t.definition}</p>${equation(1)}<p>${t.binary}</p>${equation(2)}<p>${t.endpoints}</p><p>${t.derivative}</p>${equation(3)}<p>${t.maximum}</p></section>
     <section class="prose"><h2>${t.headings[2]}</h2><p>${t.comparison}</p>${equation(4)}
       <p>${t.figureIntro} <a class="ref" href="#${id}-fig-1">${t.figureLabel}</a> ${t.figureEnd}</p>
-      <figure class="plate" id="${id}-fig-1">${plot(t, id)}<figcaption>${t.caption}<span class="plate-source">${t.source}</span></figcaption></figure>
+      ${columns ? '</section></div>' : ''}
+      <figure class="plate${columns ? ' plate-full' : ''}" id="${id}-fig-1">${plot(t, id)}<figcaption>${t.caption}<span class="plate-source">${t.source}</span></figcaption></figure>
+      ${columns ? '<div class="paper-columns"><div class="prose">' : ''}
       <p>${t.tableIntro} <a class="ref" href="#${id}-table-1">${t.tableLabel}</a> ${t.tableEnd}</p>
       <figure class="plate plate-table plate-wide" id="${id}-table-1"><figcaption id="${id}-table-caption">${t.tableCaption}</figcaption>
         <div class="table-wrap"><table aria-labelledby="${id}-table-caption"><thead><tr><th scope="col">${t.probability}</th><th scope="col">${t.entropy}</th><th scope="col">${t.variance}</th></tr></thead>
           <tbody>${probabilities.map(p => `<tr><th scope="row" class="num">${p.toFixed(2)}</th><td class="num">${entropy(p).toFixed(3)}</td><td class="num">${variance(p).toFixed(3)}</td></tr>`).join('')}</tbody></table></div>
       </figure>
-    </section>
+    ${columns ? '</div>' : '</section>'}
     <section class="prose"><h2>${t.headings[3]}</h2><p>${t.interpretation}</p><p>${t.limitations}</p><p>${t.accessibility}</p></section>
     <section class="prose"><h2>${t.headings[4]}</h2><p>${t.conclusion}</p></section>
     <section class="prose"><h2>${t.headings[5]}</h2><ol class="sources"><li id="${id}-src-1"><a lang="en" href="https://web.mit.edu/6.976/www/handout/shannon.pdf">C. E. Shannon. A Mathematical Theory of Communication.</a><span class="source-meta" lang="en">The Bell System Technical Journal, 27, 379–423, 623–656 (1948).</span><p>${t.referenceNote}</p></li></ol></section>
+    ${columns ? '</div>' : ''}
   </article>`;
 }

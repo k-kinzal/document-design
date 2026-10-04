@@ -56,7 +56,7 @@ const stories = new Map(Object.entries({
   "components-composition": "components-composition--reading-path",
   "components-sources": "components-sources--cited",
   "examples-profile": "examples-profile--profile",
-  "examples-research-paper": "examples-research-paper--grayscale",
+  "examples-research-paper": "examples-research-paper--two-columns",
   "components-equation": "components-equation--numbered"
 }));
 function sidebar(base, active) {

@@ -8,6 +8,14 @@ export default {
   },
 };
 
+export const TwoColumns = {
+  parameters: { docs: { description: { story: 'A full-width title and abstract followed by .paper-columns reading flows. The .plate-full graph sits between the flows; equations and the table fit one column. Narrow sheets return to one column without reducing type size. Print flows down the left column, then the right, then onto the next page, resuming below the full-width graph. This is a general composition, not a publisher-specific template.' } } },
+  render: () => html`${researchPaper({ columns: true })}`,
+};
+export const JapaneseTwoColumns = {
+  parameters: { docs: { description: { story: 'The two-column composition in Japanese, marked with lang="ja". The same analytical data, full-width graph and column-width table retain their reading order on paper.' } } },
+  render: () => html`${researchPaper({ lang: 'ja', columns: true })}`,
+};
 export const Grayscale = { render: () => html`${researchPaper()}` };
 export const Monochrome = { render: () => html`${researchPaper({ color: 'monochrome' })}` };
 export const Colour = { render: () => html`${researchPaper({ color: 'color' })}` };

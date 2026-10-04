@@ -474,6 +474,18 @@ uses the existing reading scale; the default `.sheet` remains a report or brief
 that presents its main result at a glance. Figures, tables and references keep
 the existing `.plate`, `.plate-table`, `.ref`, `.cite` and `.sources` vocabulary.
 
+**Two columns are a reading flow.** Wrap prose sections in `.paper-columns`.
+Its `20ric` minimum column width and two-column limit give A4 and Letter two
+columns and narrow containers one, with the same reading size. Content flows
+down the left column, then the right, then onto the next printed page; never
+hand-split left and right content. Keep the title and abstract outside the flow.
+Place `.plate-full` figures or tables between `.paper-columns` blocks so prose
+can resume below them. `column-span: all` was measured in Chromium PDFs: it left
+the lower half of the figure's page empty and resumed text on the next page.
+Separate flows avoid that fragmentation defect. In-column plates and equations
+stay together, and headings stay with the following text across column and page
+boundaries. This is a general composition, not a publisher-specific template.
+
 **Equations are text, not images.** Use native `<math>` inline and
 `<math display="block">` inside `.equation > .eq-body` for display mathematics.
 An optional sibling `.eq-number` holds the author-supplied number. Authors own
