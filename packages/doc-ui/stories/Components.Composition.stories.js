@@ -45,6 +45,7 @@ export const JapaneseReadingPath = {
 };
 
 export const Comparison = {
+  parameters: { docs: { description: { story: 'Two equal columns at a nearest size-container width of 46rem or more (736px at the default root size). The sheet supplies that container here; use .field for a report content column. Below the threshold, or without a size container, the comparison stacks.' } } },
   render: () => html`<article class="sheet sheet-wide"><section class="section"><h1 class="section-title">Two reading tasks.</h1><div class="compare"><section><h2 class="compare-title"><span class="ref ref-mark tone-blue">A</span> Reference</h2><p>Find a name. Compare its fields. Inspect the source.</p></section><section><h2 class="compare-title"><span class="ref ref-mark tone-teal">B</span> Report</h2><p>Read the question. Connect the evidence. Understand the result.</p></section></div></section></article>`,
 };
 

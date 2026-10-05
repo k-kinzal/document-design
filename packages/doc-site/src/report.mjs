@@ -1,0 +1,66 @@
+/* A complete report shared by the guide, copyable source and offline download. */
+export const reportBody = `<article class="sheet">
+    <p class="eyebrow">BISON-PARSER / SOURCE COVERAGE</p>
+    <h1>Link the sources. Keep the gap visible.</h1>
+    <p class="stand">Coverage rose from 68.97% to 96.67%. The introduction remains unresolved.</p>
+    <div class="hero">
+      <div class="was">
+        <span class="cap">BEFORE</span>
+        <span class="fig">68.97</span>
+        <span class="unit">% source coverage · 20 of 29 units</span>
+      </div>
+      <div class="now">
+        <span class="cap">AFTER</span>
+        <span class="fig">96.67</span>
+        <span class="unit">% source coverage · 29 of 30 units</span>
+      </div>
+    </div>
+    <section class="sec">
+      <h2 class="label">01 / EVIDENCE</h2>
+      <div class="field">
+        <p class="lead">The implementation was present; the links were missing.</p>
+        <div class="compare">
+          <div class="was">
+            <h3 class="cap">BEFORE</h3>
+            <p class="note">Nine of 29 source units had no interpretation.</p>
+          </div>
+          <div class="now">
+            <h3 class="cap">AFTER</h3>
+            <p class="note">29 of 30 source units have an interpretation. The introduction stays open.</p>
+          </div>
+        </div>
+        <p class="caveat">Source coverage does not establish that every behavior is tested. The unresolved introduction is part of the result.</p>
+      </div>
+    </section>
+    <section class="sec">
+      <h2 class="label">02 / RECORD</h2>
+      <div class="field">
+        <p class="lead">Keep the counts behind the percentages.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>bison-parser source coverage</caption>
+            <thead><tr><th scope="col">Snapshot</th><th scope="col">Interpreted units</th><th scope="col">Total units</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Before</th><td>20</td><td>29</td></tr>
+              <tr><th scope="row">After</th><td>29</td><td>30</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </article>`;
+
+export function reportDocument(stylesheets) {
+  return `<!doctype html>
+<html lang="en" data-dd-paper="a4">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Link the sources. Keep the gap visible.</title>
+  ${stylesheets.replaceAll('\n', '\n  ')}
+</head>
+<body>
+  ${reportBody}
+</body>
+</html>`;
+}

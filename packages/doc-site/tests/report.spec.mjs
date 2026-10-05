@@ -130,3 +130,31 @@ test('standalone arrangements still fold without a size container', async ({ pag
   const widths = await page.locator('.split > *,.figures > *').evaluateAll(es => es.map(e => e.getBoundingClientRect().width));
   for (const width of widths) expect(width).toBe(320);
 });
+
+for (const lang of ['en', 'ja']) test(`the complete report opens offline without a renderer: ${lang}`, async ({ page }, info) => {
+  const locale = lang === 'ja' ? 'ja/' : '';
+  await page.goto(new URL(`../dist/${locale}examples/report-paper-blue.html`, import.meta.url).href);
+  await expect(page.locator('html')).toHaveAttribute('lang', lang);
+  await expect(page.locator('link[rel="stylesheet"], script')).toHaveCount(0);
+  await expect(page.locator('.hero .fig')).toHaveText(['68.97', '96.67']);
+  await expect(page.locator('.sec')).toHaveCount(2);
+  await expect(page.locator('.caveat')).toBeVisible();
+  await expect(page.locator('tbody td')).toHaveText(['20', '29', '29', '30']);
+  for (const width of [1440, 768, 390, 320]) {
+    await page.setViewportSize({ width, height: 1000 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+    const heroRows = await page.locator('.hero > div').evaluateAll(es => es.map(e => [...e.children].map(c => c.getBoundingClientRect().toJSON())));
+    for (const [cap, fig, unit] of heroRows) {
+      expect(fig.y).toBeGreaterThanOrEqual(cap.bottom);
+      expect(unit.y).toBeGreaterThanOrEqual(fig.bottom);
+    }
+    const [a,b] = await page.locator('.compare > *').evaluateAll(es => es.map(e => e.getBoundingClientRect().toJSON()));
+    if (width === 1440) {
+      expect(a.y).toBe(b.y);
+      expect(heroRows[0][1].bottom).toBeCloseTo(heroRows[1][1].bottom, 0);
+      expect(heroRows[0][2].y).toBeCloseTo(heroRows[1][2].y, 0);
+    }
+    else expect(b.y).toBeGreaterThanOrEqual(a.bottom);
+    if (width === 1440 || width === 390) await page.screenshot({ path:info.outputPath(`complete-report-${lang}-${width}.png`), fullPage:true });
+  }
+});

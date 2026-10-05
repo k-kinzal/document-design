@@ -239,3 +239,27 @@ export const JapaneseLeadWithWords = {
       </section>
     </article>`,
 };
+
+/** The report contract also works inside a narrow block on a wide screen. */
+export const InsetReport = {
+  parameters: { docs: { description: { story: 'The inset keeps its own section and hero tracks. A plain semantic wrapper does not need subgrid. The title uses the inset scale; labels keep their section role. Use h2 for the title when embedding under another page heading.' } } },
+  render: () => html`<div style="max-width:360px"><article class="sheet sheet-inset" lang="en"><div>
+    <p class="eyebrow">WORDPRESS / SQL CATALOG</p>
+    <h1>Keep the unresolved statements visible.</h1>
+    <div class="hero">
+      <div class="was"><span class="cap">FULLY RESOLVED</span><b class="fig">35/844</b><span class="unit">statements</span></div>
+      <div class="now"><span class="cap">RESOLVED SHARE</span><b class="fig">4%</b><span class="unit">Rounded to a whole percent</span></div>
+    </div>
+    <section class="sec"><h2 class="label">01 / EVIDENCE</h2><div class="field">
+      <p class="note">35 of 844 WordPress statements are fully resolved.</p>
+      <p class="caveat">The remaining statements are partial or unresolved; the count is not complete runtime coverage.</p>
+    </div></section>
+  </div></article></div>`,
+};
+
+export const LongFigure = {
+  parameters: { docs: { description: { story: 'An unrounded calculation is deliberately too long for a headline. The number scrolls within its own box, without wrapping digits, shrinking type, or moving adjacent content. Prefer useful stated precision in the headline and exact counts in a table; print cannot scroll.' } } },
+  render: () => html`<div style="max-width:360px"><article class="sheet sheet-inset" lang="en">
+    <h2>Resolved share</h2><b class="fig">${35 / 844 * 100}%</b><p class="unit">35 of 844 WordPress statements · unrounded calculation</p>
+  </article></div>`,
+};

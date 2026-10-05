@@ -1,3 +1,5 @@
+import { reportDocument } from './report.mjs';
+import { stylesheet } from './site.mjs';
 import { catalog } from './catalog.mjs';
 import { charts } from './charts.mjs';
 import { research } from './research.mjs';
@@ -47,10 +49,16 @@ export const components = [
     label: "Report layout",
     group: "Layouts",
     description: "A spacious report layout that puts the conclusion, evidence, and limits in view.",
-    api: [[".sheet","A twelve-column grid with the report type and spacing scales."],[".sec / .label / .field","A section, its left label, and its content. Place sec directly inside sheet, or its sheet-body wrapper. Direct paragraphs, comparisons, and tables also use the reading column."],[".fig / .claim / .unit","A prominent number, a claim instead of a number, and its meaning."],[".hero > .figures","A lead made of words: three figures in the hero’s slot, for a profile, a project, or a theme with no before and after."],[".caveat","The qualifications a reader needs to interpret the result."],[".sheet-inset / .sheet-wide","A single-column inset, or a wider cover layout."],["data-dd-paper=\"a4\"","On the root element: the printed sheet size, its margins, and page numbers. Also letter."]],
-    note: "The product homepage uses this layout. Use h1 in a standalone sheet; this embedded example uses h2. A report can lead with a statement instead of a number, or with three short answers instead of a comparison.",
-    story: "layouts-report-sheet--direct-section-content",
+    api: [[".sheet","A twelve-column grid with the report type and spacing scales."],[".sec / .label / .field","Place .sec inside .sheet or .sheet-body; .label names the section and .field contains its content. Direct content also uses the reading column. A block wrapper keeps explicit tracks; only grid parents supply subgrid."],[".fig / .claim / .unit","A short prominent number, a wrapping phrase instead of a number, and a separate unit or explanation. Long numbers scroll locally on screen; they never wrap or become an ellipsis."],[".hero > .figures","A lead made of words: three figures in the hero’s slot, for a profile, a project, or a theme with no before and after."],[".caveat","The qualifications a reader needs to interpret the result."],[".sheet-inset / .sheet-wide","An embedded block frame with a smaller title scale, or a wider cover layout. Use both sheet and sheet-inset on an inset; sections and heroes still arrange their own children."],["data-dd-paper=\"a4\"","On the root element: the printed sheet size, its margins, and page numbers. Also letter."]],
+    note: "Use h1 for a standalone report and h2 when embedding under a page heading. A title says what the report means; a hero is optional. Use .claim for words, .unit for units, and a table for long exact values. Choose and state useful precision for a headline number; the stylesheet does not round, abbreviate, or shrink arbitrary content to fit. Print has no scrolling: check the PDF and keep exact counts in the record.",
+    story: "examples-run-report--report",
+    guide: `<div class="prose"><p>Start with the complete report below. It contains a title, a before/after hero, labeled sections, a comparison, a caveat, and the counts behind the result. Copy the HTML; no renderer is required.</p>
+<p>The sheet owns the page grid. Put the masthead, hero, and sections directly inside it. If a semantic main or article must group them, give that wrapper .sheet-body. Use .field inside a section to establish the content width for its responsive children.</p>
+<p>Sections and heroes inside .sheet-inset or an ordinary block keep explicit columns. At 720px or less of the nearest size container, the section label moves above its content and the hero stacks. Use a nested .sheet or .sheet-inset to establish a new report width; an arbitrary wrapper does not create a size container.</p>
+<p>A text comparison becomes two columns when its nearest size container is at least 46rem wide (736px at the default root size). A .field measures the report content column. Without a size container, .compare stays in one column, even in a wide window.</p></div>
+<div class="actions"><a class="btn" href="../../examples/report-paper-blue.html">Open the complete report ↗</a><a href="../../examples/report-paper-blue.html" download="report.html">Download the HTML ↓</a><a href="../../start/#starter">Setup and palettes →</a></div>`,
     examples: [
+      { title: "Complete report", sourceOnly: true, html: reportDocument(stylesheet) },
       { title: "Basic usage", html: String.raw`<article class="sheet sheet-inset">
   <p class="eyebrow">READING ORDER</p>
   <h2>Give the idea a sequence.</h2>
@@ -120,10 +128,16 @@ export const components = [
     label: "Figures & annotations",
     group: "Layouts",
     description: "Keep a figure, its caption, and the notes that explain it in one reading order.",
-    api: [[".plate / .plate-wide / .plate-full","A numbered semantic figure at text, wide, or full column width."],[".plate-unnumbered","Use an explicit figure number when the generator also writes cross-references."],[".plate-side / .plate-summary / .sidenote","A caption with an adjacent note; the note follows the caption in narrow columns."],[".plate-body / .plate-label / .plate-source","The ruled figure body, an explicit number, and source or conditions."],[".compare / .compare-title / .compare-draw","Two comparable groups side by side when their container has room. .compare-draw keeps each side at the width its drawing was made at and wraps instead."],[".flow / .flow-mark / .flow-name / .flow-detail","A three-stage sequence: ordinal, name, then explanation. Arrows indicate reading order."],[".ref / .ref-mark","A reference to a figure: .ref carries its number, .ref ref-mark a letter-and-colour identity shared by a passage and its panel."],[".sheet-body","Preserves a sheet’s column grid through a semantic main or article wrapper."]],
+    api: [[".plate / .plate-wide / .plate-full","A numbered semantic figure at text, wide, or full column width."],[".plate-unnumbered","Use an explicit figure number when the generator also writes cross-references."],[".plate-side / .plate-summary / .sidenote","A caption with an adjacent note; the note follows the caption in narrow columns."],[".plate-body / .plate-label / .plate-source","The ruled figure body, an explicit number, and source or conditions."],[".compare / .compare-title / .compare-draw","Text comparisons use two equal columns at a nearest size-container width of 46rem (736px with a 16px root) or more. Use a .field, .content, or .sheet ancestor. Below that, or without a size container, they stack. .compare-draw instead wraps fixed-width drawings when they no longer fit."],[".flow / .flow-mark / .flow-name / .flow-detail","A three-stage sequence: ordinal, name, then explanation. Arrows indicate reading order."],[".ref / .ref-mark","A reference to a figure: .ref carries its number, .ref ref-mark a letter-and-colour identity shared by a passage and its panel."],[".sheet-body","Preserves a sheet’s column grid through a semantic main or article wrapper."]],
     note: "Keep captions and notes in the HTML. A letter or label must carry the same meaning wherever it appears. Use ordered lists for sequences; the arrows here mean reading order, not causality. A plate can also contain a table or SVG. Use the draw classes for SVG text and marks, and a draw-wrap when the diagram must scroll without shrinking labels.",
     story: "components-composition--reading-path",
     examples: [
+      { title: "A comparison with a width container", html: String.raw`<div class="field">
+  <div class="compare">
+    <div><h3 class="compare-title">Statements</h3><p class="note">The WordPress catalog contains 844 statements.</p></div>
+    <div><h3 class="compare-title">Findings</h3><p class="note">978 findings may overlap within those statements.</p></div>
+  </div>
+</div>` },
       { title: "A figure and its explanation", html: String.raw`<figure class="plate plate-full plate-side plate-unnumbered">
   <div class="plate-body">
     <h3 class="compare-title"><span class="ref ref-mark tone-teal">B</span> Report</h3>

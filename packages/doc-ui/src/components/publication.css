@@ -150,8 +150,10 @@
     margin: 0;
   }
   .sheet-inset .eyebrow { margin-bottom: var(--dd-sp-5); }
-  .sheet-inset h2 { display: block; border: 0; padding: 0; font-size: var(--dd-type-4); line-height: 1.45; margin-bottom: var(--dd-sp-5); }
-  .sheet-inset .fig { margin-block: var(--dd-sp-5); font-size: clamp(2.5rem, 15cqi, 4.75rem); }
+  .sheet-inset h1 { font-size: var(--dd-type-6); line-height: 1.2; letter-spacing: var(--dd-track-large); }
+  .sheet-inset h2:not(.label) { display: block; border: 0; padding: 0; font-size: var(--dd-type-4); line-height: 1.45; margin-bottom: var(--dd-sp-5); }
+  .sheet-inset .fig { margin-block: var(--dd-sp-5); font-size: clamp(1.5rem, 15cqi, var(--dd-type-5)); }
+  .sheet-inset .was .fig { font-size: clamp(1.25rem, 15cqi, var(--dd-type-4)); }
   .sheet-inset .note { font-size: var(--dd-text-md); }
   .sheet-inset :is(.timeline-title, .timeline-description, .sources) { font-size: var(--dd-text-md); }
   .sheet-inset .caveat { font-size: var(--dd-text-md); }

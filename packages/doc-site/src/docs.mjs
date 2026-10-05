@@ -1,4 +1,5 @@
 import { components, groups } from './components.mjs';
+import { reportDocument } from './report.mjs';
 import { site, escape, code, stylesheet, cssURL, jsURL, languageLink, releaseTag } from './site.mjs';
 
 import { paletteSelect, paletteGallery } from './palettes.mjs';
@@ -89,6 +90,7 @@ function componentPage(c, index, lang) {
   const examples = c.examples.map((example, i) => `<section aria-labelledby="example-${i}"><h2 id="example-${i}">${escape(example.title)}</h2>${example.sourceOnly ? '' : `<figure class="specimen"><figcaption class="specimen-bar">Preview</figcaption><div class="specimen-body${c.slug === 'report' ? '' : ' doc doc-inset'}">${example.html}</div></figure>`}${code(example.html, `source-${i}`, example.language || 'HTML')}</section>`).join('');
   const previous = components[index - 1], next = components[index + 1];
   const content = `<p class="eyebrow">${c.group} / ${c.label}</p><h1>${c.name}</h1><p class="lede">${escape(c.description)}</p>
+  ${c.guide || ''}
   ${examples}
   <section><h2>Classes & attributes</h2><div class="table-wrap"><table><thead><tr><th scope="col">Class / attribute</th><th scope="col">Purpose</th></tr></thead><tbody>${c.api.map(([key,value]) => `<tr><td><code>${escape(key)}</code></td><td>${escape(value)}</td></tr>`).join('')}</tbody></table></div></section>
   <section><h2>Usage notes</h2><div class="callout"><p>${escape(c.note)}</p></div><p class="note">Examples follow your system color scheme. Use ◐ in the header to try automatic, light, and dark themes.</p></section>
@@ -105,30 +107,7 @@ function startPage(lang) {
     .replace('<pre class="code"', `<pre class="code" data-dd-palette-source="${paletteBase}"`);
   const selectedPaletteCode = paletteCode(paletteStylesheet, 'palette-css');
 
-  const starter = `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Information, made clear.</title>
-  ${paletteStylesheet.replaceAll('\n','\n  ')}
-</head>
-<body>
-  <article class="sheet">
-    <p class="eyebrow">DOC-UI</p>
-    <h1>Information, made clear.</h1>
-    <p class="stand">Keep the detail. Give it a reading order.</p>
-    <section class="sec">
-      <h2 class="label">THE IDEA</h2>
-      <div class="field">
-        <p class="lead">Dense enough to scan. Clear enough to understand.</p>
-        <p class="note">Space brings the conclusion forward.
-          Alignment keeps the details in order.</p>
-      </div>
-    </section>
-  </article>
-</body>
-</html>`;
+  const starter = reportDocument(paletteStylesheet);
   return { path: 'start/', title: 'Get started', description: 'Set up doc-ui, choose a document or report layout, and build your first page. Includes a complete HTML example, theming, offline use, and optional behaviors.', search:true, body: shell({ lang, base:'../', title:'Get started', active:'start', content:`<h1>Use doc-ui</h1><p class="lede">Add the stylesheet, choose a layout, and start with a complete HTML document.</p>
 <section><h2>1. Load the stylesheet</h2><p>Add this link to your document’s <code>&lt;head&gt;</code>. The full release version keeps published and archived documents fixed.</p>${code(stylesheet,'setup-css')}</section>
 <section id="palettes"><h2>2. Choose a palette</h2><p>32 palettes, each with a light and dark pair. Four paper colors and eight accents keep the same type, spacing, and meaning.</p><p>Paper is neutral; Linen is warm; Mist is cool; Sage has a quiet green cast. Blue, Cyan, Teal, Indigo, Violet, Plum, Citron, and Slate set the accent. Paper / Blue is the original default.</p><div class="notice">Each palette coordinates accent, category and state colors. Their intensity changes together; their meaning stays the same. Red marks missing or unresolved information. Every palette meets 4.5:1 text contrast on all five surfaces and on its own tints.</div>

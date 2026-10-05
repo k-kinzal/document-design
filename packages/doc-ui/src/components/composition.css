@@ -73,6 +73,16 @@
     font-weight: var(--dd-weight-normal);
     text-wrap: pretty;
   }
+  /* The role wins over a surrounding catalog's heading defaults. */
+  .label {
+    display: block;
+    border: 0;
+    font-size: var(--dd-type-1);
+    line-height: 1.7;
+    font-weight: var(--dd-weight-label);
+    letter-spacing: var(--dd-track-eyebrow);
+    color: var(--dd-fg-subtle);
+  }
   .label > :is(h2, h3) { font: inherit; letter-spacing: inherit; margin: 0 0 var(--dd-sp-5); }
   .label .actions { letter-spacing: normal; font-weight: var(--dd-weight-normal); }
   .sidenote > :last-child { margin-bottom: 0; }

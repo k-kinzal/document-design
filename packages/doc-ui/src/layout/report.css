@@ -97,14 +97,17 @@
     border-bottom: 1px solid var(--dd-border);
   }
 
-  /* Each side is a container, so its figure sizes to the column it is in
-     rather than to the sheet — the spans can change and the number still
-     fits. */
+  /* A size container establishes layout containment and disables row subgrid.
+     Keep the sides in the shared rows; figures use the sheet's size scale and
+     scroll locally if a value exceeds its track. Explicit rows are the fallback. */
   .hero > div {
     display: grid;
     grid-row: 1 / 4;
-    grid-template-rows: subgrid;
-    container-type: inline-size;
+    grid-template-rows: auto 1fr auto;
+    min-width: 0;
+  }
+  @supports (grid-template-rows: subgrid) {
+    .hero > div { grid-template-rows: subgrid; }
   }
 
   .hero .was { grid-column: 1 / 4; }
@@ -168,11 +171,11 @@
    * `overflow-wrap: anywhere` split the page's headline number across two
    * lines. Below 720px the hero stacks; between the two it did neither.
    *
-   * So the figure scales to its own column — 28% of it, which keeps a
-   * five-digit figure at about seventy percent of the track and leaves room
-   * for a longer one. And it is exempted from the breaking rule the rest of
-   * the document needs: a number that wraps is not a smaller number, it is a
-   * different one.
+   * The type scale now caps these values at 49 and 39px. Each figure stays
+   * within its track; a longer value scrolls locally instead of changing
+   * precision or overflowing the next column. It is exempted from the breaking
+   * rule the rest of the document needs: a number that wraps is not a smaller
+   * number, it is a different one.
    *
    * It is capped below the title rather than above it. At 76 against a 61px
    * title the two were within a few pixels of each other, in different places,
@@ -183,9 +186,16 @@
    */
   .fig {
     display: block;
+    min-width: 0;
+    max-width: 100%;
     align-self: end;
     font-size: clamp(1.75rem, 22cqi, var(--dd-type-7));
-    line-height: 0.92;
+    /* A long value scrolls locally, without splitting digits or clipping ink. */
+    line-height: 1.1;
+    /* A scroll container's automatic minimum is zero. Reserve its text line
+       so the hero's row sizing cannot place the caption over the value. */
+    min-height: 1lh;
+    overflow-x: auto;
     font-weight: var(--dd-weight-figure);
     letter-spacing: var(--dd-track-display);
     overflow-wrap: normal;
@@ -260,13 +270,10 @@
 
   .label {
     grid-column: 1 / 3;
-    font-size: var(--dd-type-1);
-    line-height: 1.7;
-    font-weight: var(--dd-weight-label);
-    letter-spacing: var(--dd-track-eyebrow);
-    color: var(--dd-fg-subtle);
     padding-top: 6px;
   }
+  /* A section label keeps its placement when the sheet sits inside a doc. */
+  .sheet .label { margin: 0; padding-bottom: 0; }
 
   .field {
     grid-column: 4 / -1;
@@ -481,7 +488,7 @@
   }
 
   @container (max-width: 720px) {
-    .sheet h1 { grid-column: 1 / -1; }
+    .sheet h1 { grid-column: 1 / -1; font-size: var(--dd-type-6); }
     .sec { grid-template-columns: minmax(0, 1fr); }
     .stand, .label, .field, .caveat { grid-column: 1 / -1; }
     .sheet .sec > :not(.rail) { grid-column: 1 / -1; }
@@ -501,6 +508,9 @@
       grid-template-columns: minmax(0, 1fr);
       grid-template-rows: none;
       row-gap: var(--dd-base);
+      /* Keep the title / after / before hierarchy in a narrow embedded sheet. */
+      --dd-type-7: var(--dd-type-5);
+      --dd-type-6: var(--dd-type-4);
     }
     /*
      * Matched to `.hero .was` / `.hero .now` above, not written as

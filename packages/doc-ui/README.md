@@ -20,6 +20,25 @@ details; this is the shared part, maintained once.
 
 **[Component list and examples →](https://k-kinzal.github.io/document-design/components/)**
 
+## Report HTML
+
+Start with the [complete report and copyable HTML](https://k-kinzal.github.io/document-design/components/report/).
+The [setup guide](https://k-kinzal.github.io/document-design/start/#starter)
+also provides a self-contained HTML download with its styles and palette.
+The report includes a title, before/after figures, sections, comparison, caveat,
+and a table of the underlying counts. No renderer is required.
+
+Put `.sec` and `.hero` inside `.sheet`, or a `.sheet-body` semantic wrapper.
+Use `.sheet.sheet-inset` for an embedded report and `.field` for section content.
+A `.compare` uses two columns at **46rem of its nearest size container**
+(736px with a 16px root), supplied by `.field`, `.sheet`, or `.content`.
+Without one it stacks; window width alone does not select two columns.
+
+Use `.fig` for a short number, `.claim` for words, and `.unit` for its unit or
+meaning. Long numbers scroll locally on screen without changing the value.
+Choose useful stated precision for headline numbers and keep long exact values
+in a table. Print cannot scroll; verify the PDF before distributing it.
+
 ## Palette variations
 
 Choose from 32 light/dark pairs: four papers (`paper`, `linen`, `mist`, `sage`)
