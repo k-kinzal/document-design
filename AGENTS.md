@@ -25,6 +25,11 @@ optimized for Japanese output.
 - Release when the maintainer chooses: update the package version and workspace
   dependency, validate the build, then create a matching annotated `vX.Y.Z` tag.
   Never move or overwrite a published full-version tag.
+- Pushing the tag generates and automatically attaches the change report,
+  creating a draft GitHub Release if needed. Wait for `Release change report`
+  and the tagged build to succeed, add the distribution assets and release
+  notes to that draft while preserving the report link, then publish it.
+  Do not publish before attachment or upload the report by hand.
 - Main commits publish immutable distributions under their full commit SHA and
   update `/latest/`. Stable release tags publish full, minor, and major URLs.
   The single product site and Storybook follow the highest stable release;

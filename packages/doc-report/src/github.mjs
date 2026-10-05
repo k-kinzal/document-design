@@ -42,14 +42,16 @@ export function createClient({ token, apiUrl = 'https://api.github.com', fetch: 
     try { return JSON.parse(text); } catch { return text; }
   }
 
-  async function paginate(path, { limit = Infinity } = {}) {
+  async function paginate(path, { limit = Infinity, key } = {}) {
     const out = [];
     let url = path.startsWith('http') ? path : `${base}${path}`;
     while (url && out.length < limit) {
       const response = await fetchImpl(url, { headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28', 'User-Agent': userAgent } });
       if (!response.ok) throw new GitHubError(response.status, safeMessage(await response.text().catch(() => '')), { method: 'GET', path });
       const page = await response.json();
-      out.push(...(Array.isArray(page) ? page : []));
+      const items = key ? page?.[key] : page;
+      if (!Array.isArray(items)) throw new GitHubError(response.status, `Expected an array${key ? ` in ${key}` : ''} in the paginated response`, { method: 'GET', path });
+      out.push(...items);
       const link = response.headers.get('link') ?? '';
       const next = /<([^>]+)>;\s*rel="next"/.exec(link);
       url = next ? next[1] : null;

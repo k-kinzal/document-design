@@ -744,14 +744,16 @@ function createClient({ token, apiUrl = "https://api.github.com", fetch: fetchIm
       return text2;
     }
   }
-  async function paginate(path, { limit = Infinity } = {}) {
+  async function paginate(path, { limit = Infinity, key } = {}) {
     const out = [];
     let url = path.startsWith("http") ? path : `${base}${path}`;
     while (url && out.length < limit) {
       const response = await fetchImpl(url, { headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${token}`, "X-GitHub-Api-Version": "2022-11-28", "User-Agent": userAgent } });
       if (!response.ok) throw new GitHubError(response.status, safeMessage(await response.text().catch(() => "")), { method: "GET", path });
       const page = await response.json();
-      out.push(...Array.isArray(page) ? page : []);
+      const items = key ? page?.[key] : page;
+      if (!Array.isArray(items)) throw new GitHubError(response.status, `Expected an array${key ? ` in ${key}` : ""} in the paginated response`, { method: "GET", path });
+      out.push(...items);
       const link2 = response.headers.get("link") ?? "";
       const next = /<([^>]+)>;\s*rel="next"/.exec(link2);
       url = next ? next[1] : null;
@@ -10320,7 +10322,7 @@ async function loadRun({ client, repository, runId }) {
   return run4;
 }
 async function loadArtifacts({ client, repository, runId, reportId }) {
-  const artifacts = await client.paginate(`/repos/${repository}/actions/runs/${runId}/artifacts?per_page=100`, { limit: 1e3 });
+  const artifacts = await client.paginate(`/repos/${repository}/actions/runs/${runId}/artifacts?per_page=100`, { limit: 1e3, key: "artifacts" });
   const selected = selectArtifacts(artifacts, reportId, runId);
   for (const kind of ["html", "manifest"]) if (selected[kind]?.expired) throw new PublishError(`The ${kind} artifact ${selected[kind].name} has expired.`);
   return selected;

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
+import { createClient } from '../src/github.mjs';
 import { PublishError, artifactPattern, assetName, publishPullRequest, publishRelease, selectArtifacts } from '../src/publish.mjs';
 import { marker, parseCommentMeta, prCommentBody } from '../src/summary.mjs';
 import { apiError, fakeClient, fakeContext } from './helpers.mjs';
@@ -28,7 +29,7 @@ function prRoutes({ prHead = HEAD, comments = [], manifestBody = manifest(), zip
     [`GET /repos/${REPO}/actions/runs/${RUN}`]: { id: RUN, run_attempt: 1, head_sha: HEAD, event: 'pull_request', repository: { full_name: REPO }, pull_requests: [{ number: 3 }], html_url: `https://github.com/${REPO}/actions/runs/${RUN}` },
     [`GET /repos/${REPO}/pulls/3`]: () => ({ number: 3, head: { sha: prHead }, base: { sha: 'c'.repeat(40) } }),
     [`GET /repos/${REPO}/issues/3/comments`]: comments,
-    [`GET /repos/${REPO}/actions/runs/${RUN}/artifacts`]: artifacts(),
+    [`GET /repos/${REPO}/actions/runs/${RUN}/artifacts`]: { total_count: 3, artifacts: artifacts() },
     [`GET /repos/${REPO}/actions/artifacts/6/zip`]: zipped ? makeZip('x.manifest.json', JSON.stringify(manifestBody), { deflate: true }) : Buffer.from(JSON.stringify(manifestBody)),
     [`POST /repos/${REPO}/issues/3/comments`]: (body) => { posted.push(body); return { id: 100, html_url: 'https://github.com/octo/consumer/pull/3#issuecomment-100' }; },
     [`PATCH /repos/${REPO}/issues/comments/*`]: (body, url) => { patched.push({ id: url.pathname.split('/').pop(), body }); return { id: 77, html_url: 'https://github.com/octo/consumer/pull/3#issuecomment-77' }; },
@@ -140,11 +141,11 @@ test('a manifest that disagrees with the run or the pull request is refused', as
 test('runs from another repository and missing artifacts are handled', async () => {
   const other = prRoutes({ extra: { [`GET /repos/${REPO}/actions/runs/${RUN}`]: { id: RUN, repository: { full_name: 'else/where' }, head_sha: HEAD } } });
   await assert.rejects(publishPullRequest({ inputs: prInputs(), context, client: other.client }), /belongs to else\/where/);
-  const none = prRoutes({ extra: { [`GET /repos/${REPO}/actions/runs/${RUN}/artifacts`]: [] } });
+  const none = prRoutes({ extra: { [`GET /repos/${REPO}/actions/runs/${RUN}/artifacts`]: { total_count: 0, artifacts: [] } } });
   const result = await publishPullRequest({ inputs: prInputs(), context, client: none.client });
   assert.equal(result.outcome, 'failure-posted');
   assert.equal(result.generationFailed, true);
-  const expired = prRoutes({ extra: { [`GET /repos/${REPO}/actions/runs/${RUN}/artifacts`]: artifacts().map((a) => ({ ...a, expired: true })) } });
+  const expired = prRoutes({ extra: { [`GET /repos/${REPO}/actions/runs/${RUN}/artifacts`]: { total_count: 3, artifacts: artifacts().map((a) => ({ ...a, expired: true })) } } });
   await assert.rejects(publishPullRequest({ inputs: prInputs(), context, client: expired.client }), /expired/);
 });
 
@@ -163,7 +164,7 @@ function releaseRoutes({ releases = [], tagRef = { object: { type: 'tag', sha: '
   const release = { id: 1, tag_name: 'v1.1.0', draft: true, immutable: false, body: '## Notes\n\nHand-written.', assets: [], upload_url: 'https://uploads.github.com/repos/octo/consumer/releases/1/assets{?name,label}', html_url: 'https://github.com/octo/consumer/releases/tag/v1.1.0' };
   const routes = {
     [`GET /repos/${REPO}/actions/runs/${RUN}`]: { id: RUN, run_attempt: 1, head_sha: HEAD, event: 'workflow_dispatch', repository: { full_name: REPO }, html_url: 'https://run' },
-    [`GET /repos/${REPO}/actions/runs/${RUN}/artifacts`]: artifacts().map((a) => ({ ...a, name: a.name.replace('-default-', '-release-') })),
+    [`GET /repos/${REPO}/actions/runs/${RUN}/artifacts`]: { total_count: 3, artifacts: artifacts().map((a) => ({ ...a, name: a.name.replace('-default-', '-release-') })) },
     [`GET /repos/${REPO}/actions/artifacts/6/zip`]: makeZip('m.json', JSON.stringify(manifestBody)),
     [`GET /repos/${REPO}/actions/artifacts/5/zip`]: makeZip('r.html', html),
     [`GET /repos/${REPO}/git/ref/tags/v1.1.0`]: tagRef,
@@ -204,6 +205,37 @@ test('without a release nothing is created unless create-draft is set; drafts ar
   assert.match(draft.patched[0].body, /Download the HTML report \(release asset\): https:\/\/github\.com\/octo\/consumer\/releases\/download\/v1\.1\.0\/document-design-release-v1\.1\.0\.html/);
   const missingTag = releaseRoutes({ tagRef: apiError(404, 'Not Found') });
   await assert.rejects(publishRelease({ inputs: releaseInputs({ createDraft: true }), context, client: missingTag.client }), /does not create tags/);
+});
+
+test('the REST client attaches a raw report from paginated artifact envelopes to a new draft', async () => {
+  const routes = releaseRoutes({ extra: {
+    [`GET /repos/${REPO}/actions/artifacts/6/zip`]: Buffer.from(JSON.stringify(manifest({ reportId: 'release', pullRequest: null }))),
+    [`GET /repos/${REPO}/actions/artifacts/5/zip`]: html,
+  } });
+  const pages = [];
+  const client = createClient({ token: 't', fetch: async (url, options) => {
+    const parsed = new URL(url);
+    const body = typeof options.body === 'string' ? JSON.parse(options.body) : options.body;
+    const data = await routes.client.request(options.method ?? 'GET', url, { body });
+    if (parsed.pathname === `/repos/${REPO}/actions/runs/${RUN}/artifacts`) {
+      const page = Number(parsed.searchParams.get('page') ?? 1);
+      pages.push(page);
+      // Put the HTML and manifest on different pages, as GitHub may do
+      // when a workflow has multiple reports or has been rerun.
+      const headers = page === 1 ? { link: `<${url}&page=2>; rel="next"` } : {};
+      return Response.json({ total_count: 3, artifacts: page === 1 ? data.artifacts.slice(0, 1) : data.artifacts.slice(1) }, { headers });
+    }
+    return Buffer.isBuffer(data) ? new Response(data) : Response.json(data);
+  } });
+  const result = await publishRelease({ inputs: releaseInputs({ createDraft: true }), context, client });
+  assert.deepEqual(pages, [1, 2]);
+  assert.equal(result.outcome, 'attached');
+  assert.equal(result.draft, true);
+  assert.equal(routes.created.length, 1);
+  assert.equal(routes.created[0].draft, true);
+  assert.deepEqual(routes.uploaded, [{ name: 'document-design-release-v1.1.0.html', bytes: html.length }]);
+  assert.match(routes.patched[0].body, /^## Notes\n\nHand-written\.\n\n<!-- document-design:report:release:start -->/);
+  assert.ok(!routes.patched.some(body => 'draft' in body), 'attachment never publishes the draft');
 });
 
 test('the tag must point at the commit the report describes', async () => {

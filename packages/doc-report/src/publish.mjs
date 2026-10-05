@@ -54,7 +54,7 @@ async function loadRun({ client, repository, runId }) {
 }
 
 async function loadArtifacts({ client, repository, runId, reportId }) {
-  const artifacts = await client.paginate(`/repos/${repository}/actions/runs/${runId}/artifacts?per_page=100`, { limit: 1000 });
+  const artifacts = await client.paginate(`/repos/${repository}/actions/runs/${runId}/artifacts?per_page=100`, { limit: 1000, key: 'artifacts' });
   const selected = selectArtifacts(artifacts, reportId, runId);
   for (const kind of ['html', 'manifest']) if (selected[kind]?.expired) throw new PublishError(`The ${kind} artifact ${selected[kind].name} has expired.`);
   return selected;

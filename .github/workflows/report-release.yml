@@ -1,9 +1,8 @@
-# Release reports for the product tags (vMAJOR.MINOR.PATCH). A tag push is
-# report-only. A manual run compares any two product tags, or a tag with its
-# previous stable release, and can attach the HTML to a draft release when
-# asked. The action code always comes from trusted main, checked out beside
-# the analysed tag, so tags older than the action can still be compared.
-# The action's own report-* tags never match this trigger.
+# Product tag pushes generate a report and attach it to the matching release,
+# creating a draft when needed. Publish that draft after this workflow and
+# the package build succeed. Manual comparisons attach only when requested.
+# The action code comes from trusted main, checked out beside the analysed
+# tag, so older tags can still be compared. Action report-* tags do not match.
 name: Release change report
 
 on:
@@ -58,14 +57,17 @@ jobs:
         uses: ./action/actions/release
         with:
           repository-path: target
-          head: ${{ inputs.head }}
+          head: ${{ inputs.head || github.ref_name }}
           base: ${{ inputs.base }}
           language: ${{ inputs.language || 'en' }}
           report-id: release
 
   attach:
     needs: report
-    if: github.event_name == 'workflow_dispatch' && inputs.attach
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.attach)
+    concurrency:
+      group: release-report-attach-${{ inputs.head || github.ref_name }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -86,6 +88,6 @@ jobs:
           target: release
           source-run-id: ${{ github.run_id }}
           report-id: release
-          release-tag: ${{ inputs.head }}
+          release-tag: ${{ inputs.head || github.ref_name }}
           generation-result: ${{ needs.report.result }}
           create-draft: true

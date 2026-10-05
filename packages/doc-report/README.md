@@ -199,7 +199,12 @@ Complete workflows are in [`examples/`](examples/):
 This repository's own [`report-main.yml`](../../.github/workflows/report-main.yml)
 runs the unreleased action from each main commit, and
 [`report-release.yml`](../../.github/workflows/report-release.yml) compares
-product tags with the action code checked out from main.
+product tags with the action code checked out from main. Every product tag
+push automatically attaches the report and its link to the matching GitHub
+Release, creating a draft if needed. After the report workflow and tagged
+build succeed, add the distribution assets and release notes to that draft,
+preserve the report link, and publish it. Manual comparisons remain
+report-only unless `attach` is enabled.
 
 ## Permissions
 

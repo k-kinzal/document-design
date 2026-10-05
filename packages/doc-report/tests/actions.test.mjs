@@ -136,7 +136,16 @@ test('dogfooding workflows use the local action code and least privilege', () =>
   assert.equal(checkouts[1].with.path, 'target');
   const use = steps.find((s) => s.uses === './action/actions/release');
   assert.equal(use.with['repository-path'], 'target');
-  assert.match(release.jobs.attach.if, /inputs\.attach/);
+  assert.equal(use.with.head, '${{ inputs.head || github.ref_name }}');
+  assert.equal(release.jobs.attach.needs, 'report', 'attach only after successful generation');
+  assert.equal(release.jobs.attach.if, "github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.attach)");
+  assert.equal(release.on.workflow_dispatch.inputs.attach.default, false, 'manual comparisons can remain report-only');
+  assert.deepEqual(release.jobs.attach.concurrency, {
+    group: 'release-report-attach-${{ inputs.head || github.ref_name }}',
+    'cancel-in-progress': false,
+  });
+  assert.equal(release.jobs.attach.steps.at(-1).with['release-tag'], use.with.head);
+  assert.equal(release.jobs.attach.steps.at(-1).with['source-run-id'], '${{ github.run_id }}');
   assert.equal(release.jobs.attach.steps.at(-1).with['create-draft'], true);
   assert.equal(release.jobs.attach.steps.at(-1).uses, './action/actions/publish');
 

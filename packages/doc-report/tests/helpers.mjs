@@ -81,12 +81,14 @@ export function fakeClient(routes, { log = [] } = {}) {
       if (result instanceof Error) throw result;
       return result;
     },
-    async paginate(path, { limit = Infinity } = {}) {
+    async paginate(path, { limit = Infinity, key } = {}) {
       log.push({ method: 'GET', path, paginate: true });
       const { handler, url } = lookup('GET', path);
       const result = typeof handler === 'function' ? await handler(undefined, url, {}) : handler;
       if (result instanceof Error) throw result;
-      return (Array.isArray(result) ? result : []).slice(0, limit);
+      const items = key ? result?.[key] : result;
+      if (!Array.isArray(items)) throw new Error(`Expected an array in fake response for ${path}`);
+      return items.slice(0, limit);
     },
   };
 }
