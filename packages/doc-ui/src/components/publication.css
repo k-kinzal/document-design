@@ -247,15 +247,18 @@
     .sheet-wide { display: flex; flex-direction: column; padding: 0; max-width: none; }
     .sheet-wide > :is(.sheet-body, .sec, .hero) { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; }
     /* Recover paper space from gaps, keeping the reading sizes unchanged. */
+    .masthead { padding-block: var(--dd-sp-3); }
     .sheet-wide .sec { margin-top: var(--dd-base); }
     .sheet-wide .prose p:not(:last-child) { margin-bottom: var(--dd-sp-4); }
+    .sheet-wide .disclosure > summary { padding-block: var(--dd-sp-2); }
+    .sheet-wide .disclosure-body { padding-bottom: 0; }
     /* Keep the final body block attached to the colophon across a page end. */
     .sheet-wide .sheet-body > :last-child { margin-bottom: calc(var(--dd-base) / 2); break-after: avoid-page; }
-    .cover { padding-block: 16px; gap: calc(var(--dd-base) / 2); }
+    .cover { padding-block: calc(var(--dd-base) / 2); gap: calc(var(--dd-base) / 2); }
     .cover .eyebrow { margin-bottom: calc(var(--dd-base) / 2); }
     .cover .cover-title { font-size: 32pt; }
-    .section { padding-block: 20px; }
-    .section-head { break-inside: avoid; break-after: avoid-page; }
+    .section { padding-block: calc(var(--dd-base) / 2); }
+    .section-head { margin-bottom: calc(var(--dd-base) / 2); break-inside: avoid; break-after: avoid-page; }
     .code-head { break-after: avoid-page; }
     .code-head + pre.code { padding: var(--dd-sp-4); }
     .colophon { padding-block: var(--dd-sp-4); break-before: avoid-page; break-inside: avoid; }

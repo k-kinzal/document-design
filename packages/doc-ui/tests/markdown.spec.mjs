@@ -51,6 +51,8 @@ for (const layout of ['doc', 'report', 'paper', 'book']) {
 
 test('paper and book options survive actual A4/Letter pagination', async ({ page }, info) => {
   const { getDocument } = await import('pdfjs-dist/legacy/build/pdf.mjs');
+  // PDF fonts may split a word around a ligature into separate text runs.
+  const flat = text => text.normalize('NFKC').replace(/\s+/g, '');
   for (const [layout, paper, width, height] of [['paper', 'a4', 595, 842], ['book', 'letter', 612, 792]]) {
     const paragraph = 'Readers need to distinguish observed findings from unresolved references. The catalog keeps the evidence and its limits together.\n\n';
     const source = '# Catalog evidence\n\nOpening context.\n\n## First chapter\n\n' + paragraph.repeat(45) + '## Final chapter\n\nThe final observation remains visible.\n';
@@ -59,7 +61,7 @@ test('paper and book options survive actual A4/Letter pagination', async ({ page
     writeFileSync(input, source);
     execFileSync(process.execPath, [cli, input, '-o', output, '--layout', layout, '--paper', paper, '--color', 'monochrome']);
     await page.goto(pathToFileURL(output).href);
-    const pdf = await page.pdf({ preferCSSPageSize: true });
+    const pdf = await page.pdf({ path: info.outputPath(`${layout}.pdf`), preferCSSPageSize: true });
     const loading = getDocument({ data: new Uint8Array(pdf), useSystemFonts: true });
     const doc = await loading.promise;
     expect(doc.numPages).toBeGreaterThanOrEqual(3);
@@ -70,18 +72,18 @@ test('paper and book options survive actual A4/Letter pagination', async ({ page
       expect(Math.round(box.width)).toBe(width);
       expect(Math.round(box.height)).toBe(height);
       const { items } = await sheet.getTextContent();
-      const text = items.map(item => item.str).join(' ').replace(/\s+/g, ' ');
-      expect(text).toContain(`${n} / ${doc.numPages}`);
+      const text = flat(items.map(item => item.str).join(''));
+      expect(text).toContain(flat(`${n} / ${doc.numPages}`));
       texts.push(text);
     }
-    expect(texts.at(-1)).toContain('The final observation remains visible.');
-    expect(texts.join(' ').match(/Readers need to distinguish/g)).toHaveLength(45);
+    expect(texts.at(-1)).toContain(flat('The final observation remains visible.'));
+    expect(texts.join('').match(/Readersneedtodistinguish/g)).toHaveLength(45);
     if (layout === 'book') {
-      expect(texts[0]).toContain('Catalog evidence');
-      expect(texts[0]).not.toContain('First chapter');
-      expect(texts[1]).toContain('First chapter');
-      expect(texts.at(-1)).toContain('Final chapter');
-      expect(texts.at(-1)).not.toContain('Readers need to distinguish');
+      expect(texts[0]).toContain(flat('Catalog evidence'));
+      expect(texts[0]).not.toContain(flat('First chapter'));
+      expect(texts[1]).toContain(flat('First chapter'));
+      expect(texts.at(-1)).toContain(flat('Final chapter'));
+      expect(texts.at(-1)).not.toContain(flat('Readers need to distinguish'));
     }
     await loading.destroy();
   }

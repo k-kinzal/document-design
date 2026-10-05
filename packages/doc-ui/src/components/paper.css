@@ -40,7 +40,7 @@
     column-fill: balance;
   }
   .paper-columns > .prose + section { padding-top: var(--dd-base); }
-  .paper-columns :is(h2, h3, h4) { break-after: avoid; }
+  .paper-columns :is(h2, h3, h4) { break-inside: avoid; break-after: avoid; }
   .paper-columns :is(.equation, .plate) { break-inside: avoid; }
   .paper-columns p { orphans: 3; widows: 3; }
   .paper-columns th:not(.num) { white-space: normal; }

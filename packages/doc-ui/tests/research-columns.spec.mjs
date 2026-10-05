@@ -65,8 +65,9 @@ for (const lang of ['en', 'ja']) {
     const caption = await page.locator('.plate-full > figcaption').textContent();
     const following = await page.locator('.plate-full + .paper-columns p').first().textContent();
     const table = await page.locator('.plate-table tbody').textContent();
-    const pdf = await page.pdf({ preferCSSPageSize: true, printBackground: true });
-    await info.attach('research-columns.pdf', { body: pdf, contentType: 'application/pdf' });
+    const pdfPath = info.outputPath('research-columns.pdf');
+    const pdf = await page.pdf({ path: pdfPath, preferCSSPageSize: true, printBackground: true });
+    await info.attach('research-columns.pdf', { path: pdfPath, contentType: 'application/pdf' });
     const loading = getDocument({ data: new Uint8Array(pdf), useSystemFonts: true });
     const doc = await loading.promise;
     const pages = [];
