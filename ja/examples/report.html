@@ -1,23 +1,63 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" data-dd-paper="a4">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>情報を、見やすく。</title>
+  <title>出典を結び、空白を残す。</title>
   <link rel="stylesheet"
-        href="https://k-kinzal.github.io/document-design/v1.1.0/document-design.css">
+        href="https://k-kinzal.github.io/document-design/v1.2.1/document-design.css">
+  <link rel="stylesheet"
+        href="https://k-kinzal.github.io/document-design/v1.2.1/palettes/paper-blue.css">
 <meta name="robots" content="noindex, follow">
 </head>
 <body>
   <article class="sheet">
-    <p class="eyebrow">DOC-UI</p>
-    <h1>情報を、見やすく。</h1>
-    <p class="stand">詳細を残し、読む順序をつくる。</p>
+    <p class="eyebrow">BISON-PARSER / 出典カバレッジ</p>
+    <h1>出典を結び、空白を残す。</h1>
+    <p class="stand">カバレッジは68.97%から96.67%へ。導入文は未解決のままです。</p>
+    <div class="hero">
+      <div class="was">
+        <span class="cap">変更前</span>
+        <span class="fig">68.97</span>
+        <span class="unit">% 出典カバレッジ · 29単位中20単位</span>
+      </div>
+      <div class="now">
+        <span class="cap">変更後</span>
+        <span class="fig">96.67</span>
+        <span class="unit">% 出典カバレッジ · 30単位中29単位</span>
+      </div>
+    </div>
     <section class="sec">
-      <h2 class="label">考え方</h2>
+      <h2 class="label">01 / 根拠</h2>
       <div class="field">
-        <p class="lead">探せる密度。伝わる明快さ。</p>
-        <p class="note">余白が結論を前に出し、整列が詳細を読みやすくします。</p>
+        <p class="lead">実装は存在し、出典との結び付きが欠けていました。</p>
+        <div class="compare">
+          <div class="was">
+            <h3 class="cap">変更前</h3>
+            <p class="note">29の出典単位のうち9単位に解釈がありませんでした。</p>
+          </div>
+          <div class="now">
+            <h3 class="cap">変更後</h3>
+            <p class="note">30の出典単位のうち29単位に解釈が付きました。導入文は未解決のままです。</p>
+          </div>
+        </div>
+        <p class="caveat">出典カバレッジは、すべての挙動がテスト済みであることを意味しません。未解決の導入文も結果の一部です。</p>
+      </div>
+    </section>
+    <section class="sec">
+      <h2 class="label">02 / 記録</h2>
+      <div class="field">
+        <p class="lead">割合の根拠になる件数を残す。</p>
+        <div class="table-wrap">
+          <table>
+            <caption>bison-parserの出典カバレッジ</caption>
+            <thead><tr><th scope="col">時点</th><th scope="col">解釈のある単位</th><th scope="col">単位の総数</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">変更前</th><td>20</td><td>29</td></tr>
+              <tr><th scope="row">変更後</th><td>29</td><td>30</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   </article>

@@ -1,0 +1,194 @@
+[
+  {
+    "id": "paper-blue",
+    "name": "Paper / Blue",
+    "family": "paper",
+    "accent": "blue"
+  },
+  {
+    "id": "paper-cyan",
+    "name": "Paper / Cyan",
+    "family": "paper",
+    "accent": "cyan"
+  },
+  {
+    "id": "paper-teal",
+    "name": "Paper / Teal",
+    "family": "paper",
+    "accent": "teal"
+  },
+  {
+    "id": "paper-indigo",
+    "name": "Paper / Indigo",
+    "family": "paper",
+    "accent": "indigo"
+  },
+  {
+    "id": "paper-violet",
+    "name": "Paper / Violet",
+    "family": "paper",
+    "accent": "violet"
+  },
+  {
+    "id": "paper-plum",
+    "name": "Paper / Plum",
+    "family": "paper",
+    "accent": "plum"
+  },
+  {
+    "id": "paper-citron",
+    "name": "Paper / Citron",
+    "family": "paper",
+    "accent": "citron"
+  },
+  {
+    "id": "paper-slate",
+    "name": "Paper / Slate",
+    "family": "paper",
+    "accent": "slate"
+  },
+  {
+    "id": "linen-blue",
+    "name": "Linen / Blue",
+    "family": "linen",
+    "accent": "blue"
+  },
+  {
+    "id": "linen-cyan",
+    "name": "Linen / Cyan",
+    "family": "linen",
+    "accent": "cyan"
+  },
+  {
+    "id": "linen-teal",
+    "name": "Linen / Teal",
+    "family": "linen",
+    "accent": "teal"
+  },
+  {
+    "id": "linen-indigo",
+    "name": "Linen / Indigo",
+    "family": "linen",
+    "accent": "indigo"
+  },
+  {
+    "id": "linen-violet",
+    "name": "Linen / Violet",
+    "family": "linen",
+    "accent": "violet"
+  },
+  {
+    "id": "linen-plum",
+    "name": "Linen / Plum",
+    "family": "linen",
+    "accent": "plum"
+  },
+  {
+    "id": "linen-citron",
+    "name": "Linen / Citron",
+    "family": "linen",
+    "accent": "citron"
+  },
+  {
+    "id": "linen-slate",
+    "name": "Linen / Slate",
+    "family": "linen",
+    "accent": "slate"
+  },
+  {
+    "id": "mist-blue",
+    "name": "Mist / Blue",
+    "family": "mist",
+    "accent": "blue"
+  },
+  {
+    "id": "mist-cyan",
+    "name": "Mist / Cyan",
+    "family": "mist",
+    "accent": "cyan"
+  },
+  {
+    "id": "mist-teal",
+    "name": "Mist / Teal",
+    "family": "mist",
+    "accent": "teal"
+  },
+  {
+    "id": "mist-indigo",
+    "name": "Mist / Indigo",
+    "family": "mist",
+    "accent": "indigo"
+  },
+  {
+    "id": "mist-violet",
+    "name": "Mist / Violet",
+    "family": "mist",
+    "accent": "violet"
+  },
+  {
+    "id": "mist-plum",
+    "name": "Mist / Plum",
+    "family": "mist",
+    "accent": "plum"
+  },
+  {
+    "id": "mist-citron",
+    "name": "Mist / Citron",
+    "family": "mist",
+    "accent": "citron"
+  },
+  {
+    "id": "mist-slate",
+    "name": "Mist / Slate",
+    "family": "mist",
+    "accent": "slate"
+  },
+  {
+    "id": "sage-blue",
+    "name": "Sage / Blue",
+    "family": "sage",
+    "accent": "blue"
+  },
+  {
+    "id": "sage-cyan",
+    "name": "Sage / Cyan",
+    "family": "sage",
+    "accent": "cyan"
+  },
+  {
+    "id": "sage-teal",
+    "name": "Sage / Teal",
+    "family": "sage",
+    "accent": "teal"
+  },
+  {
+    "id": "sage-indigo",
+    "name": "Sage / Indigo",
+    "family": "sage",
+    "accent": "indigo"
+  },
+  {
+    "id": "sage-violet",
+    "name": "Sage / Violet",
+    "family": "sage",
+    "accent": "violet"
+  },
+  {
+    "id": "sage-plum",
+    "name": "Sage / Plum",
+    "family": "sage",
+    "accent": "plum"
+  },
+  {
+    "id": "sage-citron",
+    "name": "Sage / Citron",
+    "family": "sage",
+    "accent": "citron"
+  },
+  {
+    "id": "sage-slate",
+    "name": "Sage / Slate",
+    "family": "sage",
+    "accent": "slate"
+  }
+]

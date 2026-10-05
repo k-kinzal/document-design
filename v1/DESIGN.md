@@ -168,13 +168,31 @@ needs looking at* — which is only true because nothing else may use it.
 <html>                        <!-- follow the system -->
 ```
 
+**Choose a paper and accent without changing meaning.** The build generates
+32 optional light/dark pairs: `paper`, `linen`, `mist`, or `sage`, combined with
+`blue`, `cyan`, `teal`, `indigo`, `violet`, `plum`, `citron`, or `slate`.
+`paper-blue` is the unchanged default. Load `palettes/linen-teal.css` after the
+base stylesheet to set a whole document, or `document-design.palettes.css`
+and `data-dd-palette="linen-teal"` to choose at a document or specimen boundary.
+Each accent comes with a complete ink set, including identity and state.
+Supporting inks share a lightness band and a chroma range suited to the accent:
+Plum pairs its muted violet with rose red, ochre and sage; Slate quiets the whole
+set. Red still means absence, gold still means caution, and green still means
+resolved. Their exact RGB values are not fixed across palettes. Review these
+colors together in chips, warnings and figures in both modes; passing contrast
+alone does not make a coherent palette. The original `paper-blue` keeps its
+existing inks for compatibility. Grayscale and monochrome win when set
+on the same boundary; a nested palette explicitly restores color. Keep
+`--dd-accent-tint` in sync when overriding `--dd-accent` yourself.
+
 **Tints are derived, not written.** Each is its hue mixed into the page
 background — `color-mix(in oklab, hue var(--dd-tint-mix), bg)` at 6% light and
 12% dark. Those two percentages are not taste: they are the largest mix at
 which every hue still clears 4.5:1 against its own tint.
 
-**Contrast is checked, not asserted.** 150 pairs — every hue and every text
-colour against all five surfaces plus tints — at 4.5:1, in CI. A chip is 12px
+**Contrast is checked, not asserted.** 5,184 pairs across 32 palettes — every
+hue, accent and text colour against all five surfaces plus tints, in light
+and dark — at 4.5:1, in CI. A chip is 12px
 at weight 600, which is *normal* text: WCAG's large-text exception begins at
 18.66px bold. Do not assume a small bold label may use 3:1.
 
@@ -456,7 +474,72 @@ whether the running text repeats them.
 </ol>
 ```
 
-**Paper is chosen by the document, not by the stylesheet.** Two attributes on
+**Research papers use continuous reading.** Compose `.sheet.sheet-paper` with
+`.paper-head`, `.paper-byline`, `.abstract` and ordinary `.prose` sections. This
+uses the existing reading scale; the default `.sheet` remains a report or brief
+that presents its main result at a glance. Figures, tables and references keep
+the existing `.plate`, `.plate-table`, `.ref`, `.cite` and `.sources` vocabulary.
+
+**Two columns are a reading flow.** Wrap prose sections in `.paper-columns`.
+Its `20ric` minimum column width and two-column limit give A4 and Letter two
+columns and narrow containers one, with the same reading size. Content flows
+down the left column, then the right, then onto the next printed page; never
+hand-split left and right content. Keep the title and abstract outside the flow.
+Place `.plate-full` figures or tables between `.paper-columns` blocks so prose
+can resume below them. `column-span: all` was measured in Chromium PDFs: it left
+the lower half of the figure's page empty and resumed text on the next page.
+Separate flows avoid that fragmentation defect. In-column plates and equations
+stay together, and headings stay with the following text across column and page
+boundaries. This is a general composition, not a publisher-specific template.
+
+**Equations are text, not images.** Use native `<math>` inline and
+`<math display="block">` inside `.equation > .eq-body` for display mathematics.
+An optional sibling `.eq-number` holds the author-supplied number. Authors own
+both equation numbers and their `.ref` references. Give `.eq-body` `tabindex="0"`,
+`role="region"` and an accessible label so wide expressions can be scrolled by
+keyboard. Split long derivations into `<mtable displaystyle="true">` rows to fit paper; equations
+are never shrunk. `--dd-font-math` optionally selects an installed math font.
+
+**Neutral inks are an explicit choice.** `data-dd-color="grayscale"` or
+`"monochrome"` on the root or document wrapper changes doc-ui's palette and
+semantic roles, including SVG. The light/dark theme still applies; printing
+uses the light palette. Omit the attribute for colour, or use `"color"` to restore
+colour inside a neutral boundary. Custom colours remain the author's
+responsibility. Dashes, shapes and labels must
+still distinguish series and missing information.
+
+**Books start with a trim size and a type area.** Compose
+`.sheet.sheet-paper.sheet-book[data-dd-book]` with `.book-page` sections.
+Geometry specifies trim width and height, head, foot, gutter and fore-edge
+margins, leading, and the running-head and folio gaps. Paper standards define
+the trim, not the margins. Optional author-time helpers in `doc-ui/book`
+produce static CSS properties and named `@page` rules for A5, A4, JIS B6,
+Letter or custom dimensions. Left-bound books mirror their gutter and
+fore-edge on verso and recto pages. Running book/chapter titles occupy the
+head margin; plain outer folios occupy the foot margin. Title and blank
+pages suppress both. Long chapters retain their geometry and furniture on
+every continuation; no fixed-height box clips their text.
+
+The Storybook specimen is paginated before being presented as `.book-proof`
+spreads. Flat rules mark each page's trim; the preview presents typesetting
+without shadows or simulated paper depth. A build-time pass reads actual PDF
+page boundaries, inserts blank versos for recto chapter openings, and resolves
+contents folios. Chromium
+currently treats `break-before: right` as a simple page break. Proof images
+link to a selectable PDF and self-contained, reflowing HTML. Neither final
+artifact needs JavaScript. Changing text, fonts or geometry requires a new
+pagination pass. PDF tests check trim, mirrored margins, furniture, chapter
+starts, contents, colour boundaries and complete text across real pages.
+
+Set `data-dd-color` on a section for colour plates among neutral chapters;
+its mode continues across all physical pages in that section. Book images
+follow that boundary through an image-only grayscale filter, preserving
+selectable text and vector figures. Monochrome text uses black and white;
+bitonal images must be supplied by the author. Outside books, images retain
+their source colours. The existing A4/Letter `data-dd-paper` composition and
+Markdown CLI remain compatible.
+
+**Paper size is chosen by the document, not by the stylesheet.** Two attributes on
 the root are the whole print setup for a long paper: the sheet size with its
 margins and page numbers, and where addresses are printed (`inline` by
 default, `sources`, or `none`). A `.timeline` inside a `.sheet` reads at the
