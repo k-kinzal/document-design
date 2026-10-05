@@ -15,6 +15,7 @@ playwright-report/
 coverage/
 
 # Local configuration; keep shareable examples
+/projects/
 .env
 .env.*
 !.env.example

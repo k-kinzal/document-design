@@ -216,6 +216,9 @@ belong in `/v2/`.
 
 ## Examples
 
+Local consumer checkouts and their Quuu project IDs are indexed in
+`projects/README.md`. The `projects/` directory is machine-local and ignored by Git.
+
 These source designs are the intended consumers. The system need not reproduce
 their current design, but it must improve on it.
 
