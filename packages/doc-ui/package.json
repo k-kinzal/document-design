@@ -1,6 +1,6 @@
 {
   "name": "@k-kinzal/doc-ui",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "CSS for documents and reports, with a Markdown-to-HTML CLI",
   "license": "MIT",
   "type": "module",

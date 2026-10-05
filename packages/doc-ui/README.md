@@ -98,7 +98,7 @@ works outside the checkout too; packing does not publish or create a release:
 
 ```sh
 npm pack --workspace @k-kinzal/doc-ui
-npx --package ./k-kinzal-doc-ui-1.2.0.tgz doc-ui input.md -o output.html
+npx --package ./k-kinzal-doc-ui-1.2.1.tgz doc-ui input.md -o output.html
 ```
 
 The archive bundles the parser, CSS and third-party notices. It installs no
