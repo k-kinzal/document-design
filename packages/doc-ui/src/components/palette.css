@@ -16,7 +16,26 @@
     min-width: 0;
   }
   .palette-sample .chip { justify-self: start; }
-  .palette-select { max-width: 100%; font-size: var(--dd-text-sm); }
+  /* Keep the native menu and arrow, with the quiet treatment of navigation.
+     The accessible name belongs on the select; no visible label is needed. */
+  .palette-select {
+    max-width: 100%;
+    min-width: 0;
+    padding: var(--dd-sp-1) var(--dd-sp-3);
+    font-size: var(--dd-text-sm);
+    line-height: 1.6;
+    color: var(--dd-fg-muted);
+    background: transparent;
+    border: 0;
+    border-radius: var(--dd-radius-sm);
+    cursor: pointer;
+  }
+  /* Transparent on screen; forced colors can still supply a system outline. */
+  .palette-select:focus { outline: 2px solid transparent; }
+  .palette-select:is(:hover, :focus-visible) {
+    color: var(--dd-fg);
+    background: var(--dd-hover);
+  }
   .card:has([data-dd-palette-choice][aria-pressed="true"]) {
     border-top-color: var(--dd-accent);
   }

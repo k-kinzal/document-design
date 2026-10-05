@@ -1,7 +1,7 @@
 import palettes from '@k-kinzal/doc-ui/palettes' with { type: 'json' };
 
 export function paletteSelect() {
-  return `<label class="palette-select" data-dd-enhance hidden>Palette <select class="input palette-select" data-dd-palette-select>${palettes.map(p => `<option value="${p.id}" translate="no">${p.name}</option>`).join('')}</select></label>`;
+  return `<select class="palette-select" aria-label="Palette" data-dd-palette-select data-dd-enhance hidden>${palettes.map(p => `<option value="${p.id}" translate="no">${p.name}</option>`).join('')}</select>`;
 }
 
 export function paletteGallery(base) {
