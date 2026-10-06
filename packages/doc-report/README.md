@@ -7,6 +7,10 @@ is written by GitHub Copilot CLI under the caller's own `GITHUB_TOKEN`; the
 page, its links, its stylesheet and its provenance are assembled by
 deterministic code and validated before upload.
 
+The `report-v1` and `report-vX.Y.Z` action releases are not yet published.
+The external `uses:` examples below target that planned release; this repository
+currently builds and runs the actions from source in its own workflows.
+
 Three entry points share one generator:
 
 | Action | `uses:` | Job |

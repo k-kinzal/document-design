@@ -84,24 +84,30 @@ document. It embeds the matching doc-ui CSS, including its license, so the
 styles need no JavaScript or network. Node.js 22 or newer is required to run
 the converter; reading the HTML only requires a browser.
 
-Run from a repository checkout after `npm install`:
+Run the published package from npm (the CLI is available in version 1.2.0 and newer):
 
 ```sh
-npx --no-install @k-kinzal/doc-ui README.md -o README.html
-npx --no-install @k-kinzal/doc-ui report.md --layout paper --lang ja --paper a4 -o report.html
-cat book.md | npx --no-install @k-kinzal/doc-ui --layout book --color monochrome > book.html
+npx @k-kinzal/doc-ui README.md -o README.html
+npx @k-kinzal/doc-ui report.md --layout paper --lang ja --paper a4 -o report.html
+cat book.md | npx @k-kinzal/doc-ui --layout book --color monochrome > book.html
 ```
 
-After the maintainer publishes the package to npm, the registry invocation is
-`npx @k-kinzal/doc-ui input.md -o output.html`. Until then, a packed archive
-works outside the checkout too; packing does not publish or create a release:
+Pin a full version for reproducible output:
+
+```sh
+npx @k-kinzal/doc-ui@1.2.1 input.md -o output.html
+```
+
+To use a repository checkout, run `npm install` at its root, then use
+`npx --no-install @k-kinzal/doc-ui input.md -o output.html`. A packed archive
+also works outside the checkout; packing does not publish or create a release:
 
 ```sh
 npm pack --workspace @k-kinzal/doc-ui
 npx --package ./k-kinzal-doc-ui-1.2.1.tgz doc-ui input.md -o output.html
 ```
 
-The archive bundles the parser, CSS and third-party notices. It installs no
+The package bundles the parser, CSS and third-party notices. It installs no
 runtime dependencies and needs no build tools at the destination. Pin a full
 package version or retain the archive when reproducible output matters.
 
