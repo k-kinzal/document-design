@@ -13,6 +13,7 @@
     "./package.json": "./package.json",
     "./js": "./dist/document-design.js",
     "./book": "./src/book.mjs",
+    "./image": "./src/image.mjs",
     "./tokens": "./dist/document-design.tokens.css",
     "./palettes": "./dist/palettes.json",
     "./palettes.css": "./dist/document-design.palettes.css",
@@ -52,5 +53,11 @@
   },
   "engines": {
     "node": ">=22.0.0"
+  },
+  "peerDependencies": {
+    "playwright": "1.63.0"
+  },
+  "peerDependenciesMeta": {
+    "playwright": { "optional": true }
   }
 }

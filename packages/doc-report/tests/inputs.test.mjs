@@ -16,6 +16,8 @@ test('defaults are applied and documented values are accepted', () => {
   assert.equal(inputs.model, 'auto');
   assert.equal(inputs.reportId, 'release_1');
   assert.equal(inputs.title, null);
+  assert.equal(inputs.image, false);
+  assert.equal(parseGenerateInputs({ ...base, image: 'true' }).image, true);
 });
 
 test('empty strings mean unset', () => {
@@ -29,6 +31,7 @@ test('empty strings mean unset', () => {
 for (const [name, value, why] of [
   ['mode', 'guess', 'unknown enum'],
   ['language', 'fr', 'unsupported language'],
+  ['image', 'yes', 'not a boolean'],
   ['on-empty', 'ignore', 'unknown enum'],
   ['retention-days', '0', 'below range'],
   ['retention-days', '91', 'above range'],

@@ -51,7 +51,7 @@ test('file output supports spaces, creates parents, rebases images, and keeps th
 
 test('invalid arguments and I/O errors return nonzero without partial HTML', t => {
   const dir = temp(t);
-  for (const args of [['--layout', 'oops'], [join(dir, 'missing.md')], ['-', '-o', dir]]) {
+  for (const args of [['--layout', 'oops'], [join(dir, 'missing.md')], ['-', '-o', dir], ['--image', 'x.jpg'], ['--image-width', '960'], ['--image', 'x.png', '--image-width', '0'], ['--image', 'x.png', '--image-width', '960.5'], ['--image', 'x.png', '-o', 'x.png']]) {
     const result = run(args, '# Text');
     assert.equal(result.status, 1);
     assert.equal(result.stdout, '');

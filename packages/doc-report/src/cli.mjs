@@ -35,6 +35,9 @@ function publicOutputs(state, extra = {}) {
     status: state.status,
     'has-changes': state.hasChanges === true ? 'true' : state.hasChanges === false ? 'false' : '',
     'report-path': state.reportPath ?? '',
+    'image-path': state.imagePath ?? '',
+    'image-artifact-id': state.imageArtifact?.id ?? '',
+    'image-artifact-url': state.imageArtifact?.url ?? '',
     'manifest-path': state.manifestPath ?? '',
     'artifact-id': state.artifact?.id ?? '',
     'artifact-url': state.artifact?.url ?? '',
@@ -62,7 +65,7 @@ async function commandGenerate({ defaultMode, defaultReportId }) {
     if (!(error instanceof InputError)) log(error.stack ?? String(error));
   }
   writeState(context, state);
-  writeOutputs(context.outputFile, { upload: state.upload ? 'true' : 'false', 'report-path': state.reportPath ?? '', 'manifest-path': state.manifestPath ?? '' });
+  writeOutputs(context.outputFile, { upload: state.upload ? 'true' : 'false', 'image-path': state.imagePath ?? '', 'report-path': state.reportPath ?? '', 'manifest-path': state.manifestPath ?? '' });
   log(`Generation ${state.status}${state.reason ? `: ${state.reason}` : ''}`);
 }
 
@@ -72,12 +75,18 @@ function commandManifest() {
   if (!state || !state.upload) return;
   const env = process.env;
   state.artifact = { id: env.DD_ARTIFACT_ID ? Number(env.DD_ARTIFACT_ID) : null, url: env.DD_ARTIFACT_URL || null, digest: env.DD_ARTIFACT_DIGEST || null };
-  if (!state.artifact.id || !state.artifact.url) {
+  state.imageArtifact = { id: env.DD_IMAGE_ARTIFACT_ID ? Number(env.DD_IMAGE_ARTIFACT_ID) : null, url: env.DD_IMAGE_ARTIFACT_URL || null };
+  if (state.imagePath && (!state.imageArtifact.id || !state.imageArtifact.url)) {
+    state.status = 'failed';
+    state.reason = 'The PNG artifact upload did not return an artifact id and URL.';
+    state.upload = false;
+  } else if (!state.artifact.id || !state.artifact.url) {
     state.status = 'failed';
     state.reason = 'The HTML artifact upload did not return an artifact id and URL.';
     state.upload = false;
   } else if (state.manifestPath) {
     const manifest = JSON.parse(readFileSync(state.manifestPath, 'utf8'));
+    if (manifest.image) manifest.image.artifact = state.imageArtifact;
     manifest.artifact = { id: state.artifact.id, url: state.artifact.url, digest: state.artifact.digest, name: state.files?.html ?? null, retentionDays: state.retentionDays };
     writeFileSync(state.manifestPath, JSON.stringify(manifest, null, 2) + '\n');
   }
@@ -131,7 +140,7 @@ async function commandPublish() {
   if (result.assetUrl) lines.push('', `Asset: ${result.assetUrl}`);
   if (result.releaseUrl) lines.push(`Release: ${result.releaseUrl}`);
   appendSummary(context.summaryFile, lines.join('\n') + '\n');
-  writeOutputs(context.outputFile, { outcome: result.outcome, 'comment-url': result.commentUrl ?? '', 'asset-url': result.assetUrl ?? '', 'release-url': result.releaseUrl ?? '', message: result.message ?? '' });
+  writeOutputs(context.outputFile, { outcome: result.outcome, 'comment-url': result.commentUrl ?? '', 'asset-url': result.assetUrl ?? '', 'image-asset-url': result.imageAssetUrl ?? '', 'release-url': result.releaseUrl ?? '', message: result.message ?? '' });
   const failed = ['failed', 'conflict', 'immutable'].includes(result.outcome) || (result.outcome === 'failure-posted' && inputs.generationResult === 'success');
   if (failed) { log(`::error::${result.message}`); process.exitCode = 1; }
   else log(`${result.outcome}: ${result.message}`);

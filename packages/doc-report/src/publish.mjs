@@ -21,17 +21,17 @@ const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 export function artifactPattern(reportId, runId) {
   if (!REPORT_ID_PATTERN.test(reportId)) throw new PublishError(`invalid report id ${reportId}`);
-  return new RegExp(`^${escapeRe(FILE_PREFIX)}-${escapeRe(reportId)}-([0-9a-f]{7})-${escapeRe(String(runId))}-(\\d+)\\.(html|manifest\\.json)$`);
+  return new RegExp(`^${escapeRe(FILE_PREFIX)}-${escapeRe(reportId)}-([0-9a-f]{7})-${escapeRe(String(runId))}-(\\d+)\\.(html|png|manifest\\.json)$`);
 }
 
-// The newest attempt's HTML and manifest artifacts for a report id.
+// The newest attempt's HTML, optional PNG and manifest artifacts for a report id.
 export function selectArtifacts(artifacts, reportId, runId) {
   const pattern = artifactPattern(reportId, runId);
-  const found = { html: null, manifest: null };
+  const found = { html: null, manifest: null, image: null };
   for (const artifact of artifacts) {
     const m = pattern.exec(artifact.name);
     if (!m) continue;
-    const kind = m[3] === 'html' ? 'html' : 'manifest';
+    const kind = m[3] === 'html' ? 'html' : m[3] === 'png' ? 'image' : 'manifest';
     const attempt = Number(m[2]);
     if (!found[kind] || attempt > found[kind].attempt || (attempt === found[kind].attempt && artifact.id > found[kind].id)) {
       found[kind] = { ...artifact, attempt, headShort: m[1] };
@@ -182,10 +182,10 @@ function daysBetween(a, b) {
 
 // ---- release ----
 
-export function assetName(reportId, tag) {
+export function assetName(reportId, tag, extension = 'html') {
   const safe = tag.replace(/[^A-Za-z0-9._-]/g, '-');
   const suffix = safe === tag ? '' : `-${createHash('sha256').update(tag).digest('hex').slice(0, 8)}`;
-  return `${FILE_PREFIX}-${reportId}-${safe}${suffix}.html`;
+  return `${FILE_PREFIX}-${reportId}-${safe}${suffix}.${extension}`;
 }
 
 async function findRelease({ client, repository, tag }) {
@@ -222,6 +222,20 @@ export async function publishRelease({ inputs, context, client, log = () => {} }
   const digest = `sha256:${createHash('sha256').update(html).digest('hex')}`;
   if (manifest.html?.digest && manifest.html.digest !== digest) throw new PublishError(`The HTML artifact digest ${digest} does not match the manifest ${manifest.html.digest}.`);
 
+  const used = [artifacts.html, artifacts.manifest];
+  let png = null;
+  if (manifest.image) {
+    const image = artifacts.image;
+    if (!image || image.expired) throw new PublishError('The PNG artifact is missing or expired.');
+    if (manifest.image.file !== image.name || String(manifest.image.artifact?.id) !== String(image.id)) throw new PublishError('The PNG artifact does not match the manifest.');
+    png = await downloadArtifact({ client, repository, artifact: image });
+    const imageDigest = `sha256:${createHash('sha256').update(png).digest('hex')}`;
+    if (manifest.image.digest !== imageDigest) throw new PublishError('The PNG artifact digest does not match the manifest.');
+    if (!png.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) throw new PublishError('The image artifact is not a PNG.');
+    used.push(image);
+  }
+  if (used.some(artifact => artifact.attempt !== Number(manifest.run.attempt) || artifact.headShort !== manifest.head.sha.slice(0, 7))) throw new PublishError('The artifacts do not describe the same head and run attempt.');
+
   const tag = inputs.releaseTag;
   const commit = await tagCommit({ client, repository, tag });
   if (!commit) throw new PublishError(`Tag ${tag} does not exist. The publish action does not create tags.`);
@@ -245,6 +259,26 @@ export async function publishRelease({ inputs, context, client, log = () => {} }
   }
 
   const name = assetName(inputs.reportId, tag);
+  const attached = await attachAsset({ client, repository, release, tag, runId, inputs, log, name, bytes: html, digest, contentType: 'text/html; charset=utf-8' });
+  const asset = attached.asset;
+  const imageAttached = png ? await attachAsset({ client, repository, release, tag, runId, inputs, log, name: assetName(inputs.reportId, tag, 'png'), bytes: png, digest: manifest.image.digest, contentType: 'image/png' }) : null;
+  const imageAssetUrl = imageAttached?.asset.browser_download_url ?? null;
+  const outcomes = [attached.outcome, imageAttached?.outcome].filter(Boolean);
+  const outcome = outcomes.includes('replaced') ? 'replaced' : outcomes.includes('attached') ? 'attached' : 'reused';
+
+  let bodyUpdated = false;
+  if (inputs.updateReleaseBody) {
+    const block = releaseBlock({ reportId: inputs.reportId, language: manifest.language ?? 'en', assetUrl: asset.browser_download_url, imageAssetUrl, artifactUrl: artifactUrl({ serverUrl: context.serverUrl, repository, runId, artifactId: artifacts.html.id }), baseSha: manifest.base?.sha ?? null, headSha: manifest.head.sha, status: manifest.status, runUrl: run.html_url ?? null });
+    const body = upsertReleaseBlock(release.body ?? '', block, inputs.reportId);
+    if (body !== (release.body ?? '')) {
+      await client.request('PATCH', `/repos/${repository}/releases/${release.id}`, { body: { body } });
+      bodyUpdated = true;
+    }
+  }
+  return { outcome, message: `${outcome === 'reused' ? 'Reused' : 'Attached'} ${name} on ${release.draft ? 'draft ' : ''}release ${tag}`, assetUrl: asset.browser_download_url, assetName: name, imageAssetUrl, releaseUrl: release.html_url, draft: Boolean(release.draft), created, bodyUpdated, head: manifest.head.sha, status: manifest.status };
+}
+
+async function attachAsset({ client, repository, release, tag, runId, inputs, log, name, bytes, digest, contentType }) {
   const existing = (release.assets ?? []).find((a) => a.name === name);
   let asset = null;
   let reused = false;
@@ -270,7 +304,7 @@ export async function publishRelease({ inputs, context, client, log = () => {} }
     const tempName = existing ? `${name}.new-${runId}` : name;
     let uploaded;
     try {
-      uploaded = await client.request('POST', `${uploadUrl}?name=${encodeURIComponent(tempName)}`, { body: html, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+      uploaded = await client.request('POST', `${uploadUrl}?name=${encodeURIComponent(tempName)}`, { body: bytes, headers: { 'Content-Type': contentType } });
     } catch (error) {
       const hint = error instanceof GitHubError && error.status === 403 ? ' The attach job needs contents: write.' : '';
       throw new PublishError(`Uploading ${tempName} to ${tag} failed: ${error.message}.${hint}`);
@@ -286,16 +320,7 @@ export async function publishRelease({ inputs, context, client, log = () => {} }
     asset = uploaded;
   }
 
-  let bodyUpdated = false;
-  if (inputs.updateReleaseBody) {
-    const block = releaseBlock({ reportId: inputs.reportId, language: manifest.language ?? 'en', assetUrl: asset.browser_download_url, artifactUrl: artifactUrl({ serverUrl: context.serverUrl, repository, runId, artifactId: artifacts.html.id }), baseSha: manifest.base?.sha ?? null, headSha: manifest.head.sha, status: manifest.status, runUrl: run.html_url ?? null });
-    const body = upsertReleaseBlock(release.body ?? '', block, inputs.reportId);
-    if (body !== (release.body ?? '')) {
-      await client.request('PATCH', `/repos/${repository}/releases/${release.id}`, { body: { body } });
-      bodyUpdated = true;
-    }
-  }
-  return { outcome: reused ? 'reused' : existing ? 'replaced' : 'attached', message: `${reused ? 'Reused' : 'Attached'} ${name} on ${release.draft ? 'draft ' : ''}release ${tag}`, assetUrl: asset.browser_download_url, assetName: name, releaseUrl: release.html_url, draft: Boolean(release.draft), created, bodyUpdated, head: manifest.head.sha, status: manifest.status };
+  return { asset, outcome: reused ? 'reused' : existing ? 'replaced' : 'attached' };
 }
 
 export { marker };

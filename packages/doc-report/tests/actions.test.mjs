@@ -12,8 +12,8 @@ import { packageRoot, repoRoot } from './helpers.mjs';
 const read = (path) => parse(readFileSync(join(repoRoot, path), 'utf8'));
 const UPLOAD_ARTIFACT = 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a';
 
-const COMMON_INPUTS = ['github-token', 'repository-path', 'base', 'head', 'language', 'title', 'instructions', 'model', 'report-id', 'retention-days', 'timeout-seconds', 'max-input-bytes', 'max-attempts', 'on-empty'];
-const OUTPUTS = ['status', 'has-changes', 'report-path', 'manifest-path', 'artifact-id', 'artifact-url', 'manifest-artifact-id', 'base-ref', 'head-ref', 'base-sha', 'head-sha', 'base-tree', 'run-url', 'reason'];
+const COMMON_INPUTS = ['github-token', 'repository-path', 'base', 'head', 'language', 'image', 'title', 'instructions', 'model', 'report-id', 'retention-days', 'timeout-seconds', 'max-input-bytes', 'max-attempts', 'on-empty'];
+const OUTPUTS = ['status', 'has-changes', 'report-path', 'image-path', 'image-artifact-id', 'image-artifact-url', 'manifest-path', 'artifact-id', 'artifact-url', 'manifest-artifact-id', 'base-ref', 'head-ref', 'base-sha', 'head-sha', 'base-tree', 'run-url', 'reason'];
 
 // Resolve the DD_REPORT_ACTION_PATH expression the way the runner would,
 // from the directory the action.yml lives in.
@@ -39,9 +39,10 @@ for (const [file, expectedInputs, defaults] of [
     assert.equal(action.inputs['max-attempts'].default, '2');
     assert.equal(action.inputs['on-empty'].default, 'report');
     assert.equal(action.inputs.model.default, 'auto');
+    assert.equal(action.inputs.image.default, 'false');
     assert.equal(action.runs.using, 'composite');
     const steps = Object.fromEntries(action.runs.steps.map((s) => [s.id, s]));
-    assert.deepEqual(Object.keys(steps), ['generate', 'upload', 'manifest', 'upload-manifest', 'finish']);
+    assert.deepEqual(Object.keys(steps), ['generate', 'upload', 'upload-image', 'manifest', 'upload-manifest', 'finish']);
     const actionDir = dirname(join(repoRoot, file));
     for (const id of ['generate', 'manifest', 'finish']) {
       const root = actionPathOf(steps[id], actionDir);
@@ -52,7 +53,7 @@ for (const [file, expectedInputs, defaults] of [
       assert.match(steps[id].env.DD_REPORT_STATE_DIR, /^\$\{\{ runner\.temp \}\}\/document-design-report\/\$\{\{ github\.action \}\}$/);
     }
     assert.equal(steps.finish.if, 'always()');
-    for (const id of ['upload', 'upload-manifest']) {
+    for (const id of ['upload', 'upload-image', 'upload-manifest']) {
       assert.equal(steps[id].uses, UPLOAD_ARTIFACT);
       assert.equal(steps[id].with.archive, false);
       assert.equal(steps[id].with['if-no-files-found'], 'error');
@@ -60,6 +61,8 @@ for (const [file, expectedInputs, defaults] of [
     }
     assert.equal(steps.upload.if, "steps.generate.outputs.upload == 'true'");
     assert.equal(steps['upload-manifest'].if, "steps.manifest.outputs.upload == 'true'");
+    assert.equal(steps['upload-image'].if, "steps.generate.outputs.upload == 'true' && steps.generate.outputs.image-path != ''");
+    assert.equal(steps.manifest.env.DD_IMAGE_ARTIFACT_ID, '${{ steps.upload-image.outputs.artifact-id }}');
     // Every input reaches the generator as an environment variable, never
     // interpolated into the shell script.
     for (const name of expectedInputs) {
@@ -81,7 +84,7 @@ test('actions/publish/action.yml: inputs, outputs and path resolution', () => {
   assert.equal(action.inputs['create-draft'].default, 'false');
   assert.equal(action.inputs['update-release-body'].default, 'true');
   assert.equal(action.inputs['replace-assets'].default, 'false');
-  assert.deepEqual(Object.keys(action.outputs).sort(), ['asset-url', 'comment-url', 'message', 'outcome', 'release-url']);
+  assert.deepEqual(Object.keys(action.outputs).sort(), ['asset-url', 'comment-url', 'image-asset-url', 'message', 'outcome', 'release-url']);
   const [step] = action.runs.steps;
   assert.equal(actionPathOf(step, join(repoRoot, 'actions/publish')), repoRoot);
   assert.match(step.run, /report\.mjs" publish/);
@@ -137,6 +140,7 @@ test('dogfooding workflows use the local action code and least privilege', () =>
   const use = steps.find((s) => s.uses === './action/actions/release');
   assert.equal(use.with['repository-path'], 'target');
   assert.equal(use.with.head, '${{ inputs.head || github.ref_name }}');
+  assert.equal(use.with.image, true);
   assert.equal(release.jobs.attach.needs, 'report', 'attach only after successful generation');
   assert.equal(release.jobs.attach.if, "github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.attach)");
   assert.equal(release.on.workflow_dispatch.inputs.attach.default, false, 'manual comparisons can remain report-only');

@@ -19,6 +19,7 @@ import { RevisionError, attachTrees, resolveRevision } from './revisions.mjs';
 import { ReportValidationError, extractJson, validateReport } from './schema.mjs';
 import { validateHtml } from './validate.mjs';
 import { FILE_PREFIX } from './version.mjs';
+import { reportImage } from './image.mjs';
 
 const run = promisify(execFile);
 
@@ -47,7 +48,7 @@ export function fileNames({ reportId, headSha, context }) {
   return { html: `${stem}.html`, manifest: `${stem}.manifest.json` };
 }
 
-export async function generate({ inputs, context, env = process.env, log = console.error, now = () => new Date() }) {
+export async function generate({ inputs, context, env = process.env, log = console.error, now = () => new Date(), captureImage = reportImage }) {
   const state = { status: 'failed', reason: null, reportId: inputs.reportId, language: inputs.language, mode: inputs.mode, runUrl: runUrl(context), retentionDays: inputs.retentionDays, upload: false, notes: [] };
   const stateDir = context.stateDir || join(context.runnerTemp || process.cwd(), 'document-design-report', inputs.reportId);
   const outDir = join(stateDir, 'out');
@@ -116,11 +117,24 @@ export async function generate({ inputs, context, env = process.env, log = conso
   const reportPath = join(outDir, files.html);
   const manifestPath = join(outDir, files.manifest);
   writeFileSync(reportPath, html);
+  let imagePath = null;
+  let png = null;
+  if (inputs.image) {
+    files.image = files.html.replace(/\.html$/, '.png');
+    imagePath = join(outDir, files.image);
+    try {
+      png = await captureImage({ html, stateDir, env, log });
+      writeFileSync(imagePath, png);
+    } catch (error) {
+      return fail(state, `PNG generation failed: ${error.message}`);
+    }
+  }
   const manifest = buildManifest({ context, inputs, revision, evidence, status, html, generation, generatedAt, actionRevision: revisionSha, docUi, files });
+  if (png) manifest.image = { file: files.image, digest: sha256(png), bytes: png.length, type: 'image/png' };
   manifest.run.url = state.runUrl;
   writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
 
-  Object.assign(state, { status, reason: null, upload: true, reportPath, manifestPath, htmlDigest: sha256(html), evidenceDigest: evidence.digest, files, generatedAt });
+  Object.assign(state, { status, reason: null, upload: true, reportPath, imagePath, manifestPath, htmlDigest: sha256(html), evidenceDigest: evidence.digest, files, generatedAt });
   return state;
 }
 

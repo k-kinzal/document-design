@@ -35,7 +35,7 @@ inputs:
     description: Create a draft release for an existing tag when no release exists.
     default: 'false'
   update-release-body:
-    description: Upsert a marked link block in the release notes.
+    description: Upsert a marked block with report links and the optional PNG in the release notes.
     default: 'true'
   replace-assets:
     description: Replace an asset of the same name with different content. Only on drafts or mutable releases.
@@ -54,6 +54,9 @@ outputs:
   asset-url:
     description: The release asset download URL.
     value: ${{ steps.publish.outputs.asset-url }}
+  image-asset-url:
+    description: The optional PNG release asset URL embedded in the notes.
+    value: ${{ steps.publish.outputs.image-asset-url }}
   release-url:
     description: The release page.
     value: ${{ steps.publish.outputs.release-url }}

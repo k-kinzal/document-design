@@ -4,9 +4,27 @@ import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { generate } from '../src/generate.mjs';
 import { validateHtml } from '../src/validate.mjs';
+import { sha256 } from '../src/manifest.mjs';
 import { fakeCopilot, fakeContext, fakeInputs, makeRepo, quiet, tempDir } from './helpers.mjs';
 
 const TOKEN = 'ghs_verysecrettokenvalue0123456789abcdef';
+
+test('optional PNG describes the same HTML, records its digest, and fails closed on capture errors', async t => {
+  const { repo, env, context } = setup(t);
+  const { base, head } = twoCommits(repo);
+  const inputs = fakeInputs({ repositoryPath: repo.dir, mode: 'range', base, head, image: true });
+  const png = Buffer.from('test screenshot bytes');
+  let captured;
+  const state = await generate({ inputs, context, env, log: quiet, captureImage: async ({ html }) => { captured = html; return png; } });
+  assert.equal(state.status, 'complete', state.reason);
+  assert.equal(captured, readFileSync(state.reportPath, 'utf8'));
+  assert.deepEqual(readFileSync(state.imagePath), png);
+  assert.deepEqual(JSON.parse(readFileSync(state.manifestPath)).image, { file: state.files.image, digest: sha256(png), bytes: png.length, type: 'image/png' });
+  const failed = await generate({ inputs, context, env, log: quiet, captureImage: async () => { throw new Error('Browser unavailable'); } });
+  assert.equal(failed.status, 'failed');
+  assert.equal(failed.upload, false);
+  assert.match(failed.reason, /PNG generation failed: Browser unavailable/);
+});
 
 function setup(t, { response = 'valid', extraEnv = {} } = {}) {
   const repo = makeRepo();

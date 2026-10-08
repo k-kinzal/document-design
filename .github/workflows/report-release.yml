@@ -61,6 +61,7 @@ jobs:
           base: ${{ inputs.base }}
           language: ${{ inputs.language || 'en' }}
           report-id: release
+          image: true
 
   attach:
     needs: report

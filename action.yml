@@ -30,6 +30,9 @@ inputs:
   language:
     description: Report language, en or ja.
     default: en
+  image:
+    description: Also render a full-page PNG and upload it beside the HTML. Installs Chromium when enabled.
+    default: 'false'
   title:
     description: Report title. Defaults to a title built from the repository and the compared revisions.
     default: ''
@@ -68,6 +71,15 @@ outputs:
   report-path:
     description: Absolute path of the HTML inside this job.
     value: ${{ steps.finish.outputs.report-path }}
+  image-path:
+    description: Absolute path of the optional PNG inside this job.
+    value: ${{ steps.finish.outputs.image-path }}
+  image-artifact-id:
+    description: Id of the optional PNG artifact.
+    value: ${{ steps.finish.outputs.image-artifact-id }}
+  image-artifact-url:
+    description: URL of the optional PNG artifact.
+    value: ${{ steps.finish.outputs.image-artifact-url }}
   manifest-path:
     description: Absolute path of the manifest inside this job.
     value: ${{ steps.finish.outputs.manifest-path }}
@@ -116,6 +128,7 @@ runs:
         DD_INPUT_BASE: ${{ inputs.base }}
         DD_INPUT_HEAD: ${{ inputs.head }}
         DD_INPUT_PR_NUMBER: ${{ inputs.pr-number }}
+        DD_INPUT_IMAGE: ${{ inputs.image }}
         DD_INPUT_LANGUAGE: ${{ inputs.language }}
         DD_INPUT_TITLE: ${{ inputs.title }}
         DD_INPUT_INSTRUCTIONS: ${{ inputs.instructions }}
@@ -143,12 +156,23 @@ runs:
         retention-days: ${{ inputs.retention-days }}
         if-no-files-found: error
 
+    - id: upload-image
+      if: steps.generate.outputs.upload == 'true' && steps.generate.outputs.image-path != ''
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        path: ${{ steps.generate.outputs.image-path }}
+        archive: false
+        retention-days: ${{ inputs.retention-days }}
+        if-no-files-found: error
+
     - id: manifest
       if: steps.generate.outputs.upload == 'true'
       shell: bash
       env:
         DD_REPORT_ACTION_PATH: ${{ github.action_path }}
         DD_REPORT_STATE_DIR: ${{ runner.temp }}/document-design-report/${{ github.action }}
+        DD_IMAGE_ARTIFACT_ID: ${{ steps.upload-image.outputs.artifact-id }}
+        DD_IMAGE_ARTIFACT_URL: ${{ steps.upload-image.outputs.artifact-url }}
         DD_ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
         DD_ARTIFACT_URL: ${{ steps.upload.outputs.artifact-url }}
         DD_ARTIFACT_DIGEST: ${{ steps.upload.outputs.artifact-digest }}

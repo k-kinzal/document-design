@@ -11,6 +11,7 @@
     "test": "playwright test"
   },
   "devDependencies": {
+    "@k-kinzal/doc-ui": "1.2.1",
     "@playwright/test": "^1.63.0",
     "esbuild": "^0.28.2",
     "parse5": "^8.0.1",

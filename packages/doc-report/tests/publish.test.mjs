@@ -13,6 +13,8 @@ const REPO = 'octo/consumer';
 const RUN = 10;
 const html = Buffer.from('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>t</title><style></style></head><body>report</body></html>');
 const digest = `sha256:${createHash('sha256').update(html).digest('hex')}`;
+const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a3ioAAAAASUVORK5CYII=', 'base64');
+const pngDigest = `sha256:${createHash('sha256').update(png).digest('hex')}`;
 
 const manifest = (extra = {}) => ({ schema: 1, repository: REPO, reportId: 'default', run: { id: String(RUN), attempt: 1 }, head: { sha: HEAD, ref: 'feature' }, base: { sha: BASE }, status: 'complete', language: 'en', evidence: { digest: 'sha256:e' }, generatedAt: '2026-09-26T00:00:00Z', html: { digest }, artifact: { id: 5 }, pullRequest: { number: 3 }, release: null, ...extra });
 
@@ -277,4 +279,64 @@ test('a failed generation cannot be attached', async () => {
 test('an HTML artifact whose digest differs from the manifest is refused', async () => {
   const routes = releaseRoutes({ extra: { [`GET /repos/${REPO}/actions/artifacts/5/zip`]: makeZip('r.html', 'tampered') } });
   await assert.rejects(publishRelease({ inputs: releaseInputs({ createDraft: true }), context, client: routes.client }), /digest .* does not match/);
+});
+
+function imageRoutes({ image = {}, artifact = {}, bytes = png, releases = [] } = {}) {
+  const name = `document-design-release-${HEAD.slice(0, 7)}-${RUN}-1.png`;
+  return releaseRoutes({
+    releases,
+    manifestBody: manifest({ reportId: 'release', pullRequest: null, image: { file: name, digest: pngDigest, artifact: { id: 8 }, ...image } }),
+    extra: {
+      [`GET /repos/${REPO}/actions/runs/${RUN}/artifacts`]: { artifacts: [...artifacts().map(a => ({ ...a, name: a.name.replace('-default-', '-release-') })), { id: 8, name, expired: false, ...artifact }] },
+      [`GET /repos/${REPO}/actions/artifacts/8/zip`]: bytes,
+    },
+  });
+}
+
+test('a PNG is attached alongside HTML and embedded once, keeping handwritten notes and HTML links', async () => {
+  const routes = imageRoutes();
+  const result = await publishRelease({ inputs: releaseInputs({ createDraft: true }), context, client: routes.client });
+  assert.equal(result.outcome, 'attached');
+  assert.deepEqual(routes.uploaded.map(a => a.name), ['document-design-release-v1.1.0.html', 'document-design-release-v1.1.0.png']);
+  assert.match(result.imageAssetUrl, /document-design-release-v1\.1\.0\.png$/);
+  const body = routes.patched[0].body;
+  assert.match(body, /^## Notes\n\nHand-written\./);
+  assert.match(body, /Download the HTML report/);
+  assert.match(body, /!\[Change report\]\(<https:\/\/github\.com\/octo\/consumer\/releases\/download\/v1\.1\.0\/document-design-release-v1\.1\.0\.png>\)/);
+  const existing = { ...routes.release, body, assets: routes.uploaded.map((asset, i) => ({ ...asset, id: 500 + i, digest: i ? pngDigest : digest, browser_download_url: i ? result.imageAssetUrl : result.assetUrl })) };
+  const again = imageRoutes({ releases: [existing] });
+  const repeated = await publishRelease({ inputs: releaseInputs(), context, client: again.client });
+  assert.equal(repeated.outcome, 'reused');
+  assert.equal(again.uploaded.length, 0);
+  assert.equal(again.patched.length, 0);
+});
+
+test('missing, tampered, expired and mismatched PNGs fail before release writes', async () => {
+  for (const options of [
+    { artifact: { name: 'missing.png' } },
+    { bytes: Buffer.from('tampered') },
+    { artifact: { expired: true } },
+    { image: { artifact: { id: 999 } } },
+    { image: { file: `document-design-release-${HEAD.slice(0, 7)}-${RUN}-2.png` }, artifact: { name: `document-design-release-${HEAD.slice(0, 7)}-${RUN}-2.png` } },
+  ]) {
+    const routes = imageRoutes(options);
+    await assert.rejects(publishRelease({ inputs: releaseInputs({ createDraft: true }), context, client: routes.client }), PublishError);
+    assert.equal(routes.created.length + routes.uploaded.length + routes.patched.length + routes.deleted.length, 0);
+  }
+});
+
+test('PNG conflicts obey replace-assets and replacement uploads precede deletion', async () => {
+  const routes = imageRoutes();
+  const release = { ...routes.release, assets: [
+    { id: 100, name: 'document-design-release-v1.1.0.html', digest, browser_download_url: 'https://dl/html' },
+    { id: 101, name: 'document-design-release-v1.1.0.png', digest: 'sha256:old', browser_download_url: 'https://dl/png' },
+  ] };
+  const conflict = imageRoutes({ releases: [release] });
+  await assert.rejects(publishRelease({ inputs: releaseInputs(), context, client: conflict.client }), error => error.outcome === 'conflict');
+  assert.equal(conflict.patched.length + conflict.deleted.length + conflict.uploaded.length, 0);
+  const replace = imageRoutes({ releases: [release] });
+  const result = await publishRelease({ inputs: releaseInputs({ replaceAssets: true }), context, client: replace.client });
+  assert.equal(result.outcome, 'replaced');
+  assert.deepEqual(replace.uploaded.map(a => a.name), [`document-design-release-v1.1.0.png.new-${RUN}`]);
+  assert.deepEqual(replace.deleted, ['101']);
 });

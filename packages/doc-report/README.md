@@ -89,6 +89,7 @@ how tags older than the action are compared.
 | `base`, `head` | | Explicit refs. `range` needs both. |
 | `pr-number` | | Root only; needed for `pr` outside a pull request event. |
 | `language` | `en` | `en` or `ja`. The page and its summaries follow it. |
+| `image` | `false` | Also render and upload a full-page PNG; installs pinned Playwright and Chromium in runner temp. |
 | `title` | built from the repository and revisions | Page title. |
 | `instructions` | | Extra guidance for the model. Safety, grounding and output rules cannot be overridden by it. |
 | `model` | `auto` | Copilot model name. The models actually used are read back from the CLI and recorded. |
@@ -110,6 +111,9 @@ refs and report ids stop the action before anything runs.
 status                 complete | partial | empty | skipped | failed
 has-changes            true | false
 report-path            HTML path inside the generating job
+image-path             optional PNG path inside the generating job
+image-artifact-id      optional PNG artifact id
+image-artifact-url     optional PNG artifact URL
 manifest-path          manifest path inside the generating job
 artifact-id            HTML artifact id
 artifact-url           HTML artifact URL from upload-artifact
@@ -180,6 +184,22 @@ By default a release must exist; `create-draft: true` creates a draft for
 an existing tag. Tags are never created and drafts are never published.
 The notes get one marked block with the asset link, the artifact preview
 link, the compared SHAs and the status; the rest of the body is preserved.
+
+Set `image: true` on the generation action to also attach
+`document-design-<report-id>-<tag>.png` and embed it in that marked block. The
+image uses the same HTML at a 960px viewport and 2× resolution in light mode.
+The HTML links remain available for searching, copying text and following
+references. The publisher exposes `image-asset-url` alongside `asset-url`.
+The PNG digest, artifact id, head and run attempt are checked before attachment;
+a requested image that fails to render or upload fails the generation job.
+Browser setup needs network access and, on Linux, permission to install system
+dependencies. Install Japanese fonts on self-hosted runners when generating
+Japanese reports. Draft and private release asset URLs may require access;
+public embedding is intended for the published public release.
+
+This repository enables images in its release dogfooding workflow. These inputs
+are available on `main`; pin a commit containing them until an action release
+includes them.
 
 Attaching is idempotent: the same digest is reused, a different one under
 the same name is a conflict unless `replace-assets: true` on a draft or

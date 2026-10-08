@@ -89,10 +89,12 @@ export function prCommentBody({ reportId, language = 'en', meta, outcome, previo
 
 export const releaseMarkers = (reportId) => ({ start: `<!-- document-design:report:${reportId}:start -->`, end: `<!-- document-design:report:${reportId}:end -->` });
 
-export function releaseBlock({ reportId, language = 'en', assetUrl, artifactUrl, baseSha, headSha, status, runUrl }) {
+export function releaseBlock({ reportId, language = 'en', assetUrl, imageAssetUrl, artifactUrl, baseSha, headSha, status, runUrl }) {
   const T = t(language);
   const { start, end } = releaseMarkers(reportId);
-  const lines = [start, `### ${T.releaseBlock}${reportId !== 'release' ? ` (${reportId})` : ''}`, '', `- ${T.releaseAsset}: ${assetUrl}`];
+  const lines = [start, `### ${T.releaseBlock}${reportId !== 'release' ? ` (${reportId})` : ''}`, ''];
+  if (imageAssetUrl) lines.push(`![${T.releaseBlock}](<${imageAssetUrl}>)`, '');
+  lines.push(`- ${T.releaseAsset}: ${assetUrl}`);
   if (artifactUrl) lines.push(`- ${T.releaseArtifact}: ${artifactUrl}`);
   lines.push(`- ${comparedLine({ baseSha, headSha }, T)}`, `- ${T.status}: ${T.statuses[status] ?? status}`);
   if (runUrl) lines.push(`- ${T.workflow}: ${runUrl}`);

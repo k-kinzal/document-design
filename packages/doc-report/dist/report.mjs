@@ -26,8 +26,8 @@
  */
 
 // src/cli.mjs
-import { existsSync as existsSync4, mkdirSync as mkdirSync3, readFileSync as readFileSync4, writeFileSync as writeFileSync3 } from "node:fs";
-import { join as join4 } from "node:path";
+import { existsSync as existsSync4, mkdirSync as mkdirSync4, readFileSync as readFileSync4, writeFileSync as writeFileSync3 } from "node:fs";
+import { join as join6 } from "node:path";
 
 // src/context.mjs
 import { appendFileSync, readFileSync } from "node:fs";
@@ -91,10 +91,10 @@ function appendSummary(file, markdown) {
 }
 
 // src/generate.mjs
-import { execFile as execFile3 } from "node:child_process";
-import { mkdirSync as mkdirSync2, writeFileSync as writeFileSync2 } from "node:fs";
-import { join as join3 } from "node:path";
-import { promisify as promisify3 } from "node:util";
+import { execFile as execFile4 } from "node:child_process";
+import { mkdirSync as mkdirSync3, writeFileSync as writeFileSync2 } from "node:fs";
+import { join as join5 } from "node:path";
+import { promisify as promisify4 } from "node:util";
 
 // src/copilot.mjs
 import { execFile, spawn } from "node:child_process";
@@ -266,7 +266,7 @@ function summariseUsage(data) {
   return { models: [...models].slice(0, 8), counters: Object.fromEntries(Object.entries(counters).slice(0, 16)) };
 }
 function spawnCollect(command2, args, { cwd, env, timeoutMs }) {
-  return new Promise((resolve3, reject) => {
+  return new Promise((resolve4, reject) => {
     let child;
     try {
       child = spawn(command2, args, { cwd, env, stdio: ["ignore", "pipe", "pipe"], detached: process.platform !== "win32" });
@@ -312,7 +312,7 @@ function spawnCollect(command2, args, { cwd, env, timeoutMs }) {
       if (settled) return;
       settled = true;
       clearTimeout(timer);
-      resolve3({ code: code ?? (signal ? 128 : 1), signal, timedOut, stdout: Buffer.concat(out).toString("utf8"), stderr: Buffer.concat(err).toString("utf8") });
+      resolve4({ code: code ?? (signal ? 128 : 1), signal, timedOut, stdout: Buffer.concat(out).toString("utf8"), stderr: Buffer.concat(err).toString("utf8") });
     });
   });
 }
@@ -5748,7 +5748,7 @@ var OpenElementStack = class {
   get currentTmplContentOrNode() {
     return this._isInTemplate() ? this.treeAdapter.getTemplateContent(this.current) : this.current;
   }
-  constructor(document, treeAdapter, handler) {
+  constructor(document2, treeAdapter, handler) {
     this.treeAdapter = treeAdapter;
     this.handler = handler;
     this.items = [];
@@ -5756,7 +5756,7 @@ var OpenElementStack = class {
     this.stackTop = -1;
     this.tmplCount = 0;
     this.currentTagId = TAG_ID.UNKNOWN;
-    this.current = document;
+    this.current = document2;
   }
   //Index of element
   _indexOf(element) {
@@ -6190,8 +6190,8 @@ var defaultTreeAdapter = {
   getTemplateContent(templateElement) {
     return templateElement.content;
   },
-  setDocumentType(document, name, publicId, systemId) {
-    const doctypeNode = document.childNodes.find((node) => node.nodeName === "#documentType");
+  setDocumentType(document2, name, publicId, systemId) {
+    const doctypeNode = document2.childNodes.find((node) => node.nodeName === "#documentType");
     if (doctypeNode) {
       doctypeNode.name = name;
       doctypeNode.publicId = publicId;
@@ -6204,14 +6204,14 @@ var defaultTreeAdapter = {
         systemId,
         parentNode: null
       };
-      defaultTreeAdapter.appendChild(document, node);
+      defaultTreeAdapter.appendChild(document2, node);
     }
   },
-  setDocumentMode(document, mode) {
-    document.mode = mode;
+  setDocumentMode(document2, mode) {
+    document2.mode = mode;
   },
-  getDocumentMode(document) {
-    return document.mode;
+  getDocumentMode(document2) {
+    return document2.mode;
   },
   detachNode(node) {
     if (node.parentNode) {
@@ -6681,7 +6681,7 @@ var defaultParserOptions = {
   onParseError: null
 };
 var Parser = class {
-  constructor(options, document, fragmentContext = null, scriptHandler = null) {
+  constructor(options, document2, fragmentContext = null, scriptHandler = null) {
     this.fragmentContext = fragmentContext;
     this.scriptHandler = scriptHandler;
     this.currentToken = null;
@@ -6706,7 +6706,7 @@ var Parser = class {
     if (this.onParseError) {
       this.options.sourceCodeLocationInfo = true;
     }
-    this.document = document !== null && document !== void 0 ? document : this.treeAdapter.createDocument();
+    this.document = document2 !== null && document2 !== void 0 ? document2 : this.treeAdapter.createDocument();
     this.tokenizer = new Tokenizer(this.options, this);
     this.activeFormattingElements = new FormattingElementList(this.treeAdapter);
     this.fragmentContextID = fragmentContext ? getTagID(this.treeAdapter.getTagName(fragmentContext)) : TAG_ID.UNKNOWN;
@@ -9711,7 +9711,7 @@ var ALLOWED_META = /* @__PURE__ */ new Set(["viewport", "color-scheme", "generat
 var STYLE_DECL = /^\s*(--dd-part\s*:\s*\d{1,3}(?:\.\d+)?%|--dd-draw-width\s*:\s*\d{1,5}px|--dd-flow-steps\s*:\s*\d{1,2})\s*$/;
 function validateHtml(html) {
   const problems = [];
-  const document = parse(html);
+  const document2 = parse(html);
   let styleCount = 0;
   let htmlLang = null;
   let charset = false;
@@ -9802,7 +9802,7 @@ function validateHtml(html) {
     }
     for (const child of node.childNodes ?? []) walk(child, svg);
   }
-  walk(document, false);
+  walk(document2, false);
   if (!htmlLang || !/^[a-z]{2}(?:-[A-Za-z0-9]+)?$/.test(htmlLang)) problems.push("<html> needs a lang attribute");
   if (!charset) problems.push('missing <meta charset="utf-8">');
   if (!title) problems.push("missing <title>");
@@ -9811,12 +9811,83 @@ function validateHtml(html) {
   return { ok: problems.length === 0, problems };
 }
 
-// src/generate.mjs
+// src/image.mjs
+import { execFile as execFile3 } from "node:child_process";
+import { mkdirSync as mkdirSync2 } from "node:fs";
+import { join as join4 } from "node:path";
+import { pathToFileURL as pathToFileURL2 } from "node:url";
+import { promisify as promisify3 } from "node:util";
+
+// ../doc-ui/src/image.mjs
+import { mkdtemp, writeFile, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join as join3, resolve as resolve2, sep } from "node:path";
+import { pathToFileURL } from "node:url";
+import { createRequire } from "node:module";
+var PLAYWRIGHT_VERSION = "1.63.0";
+async function loadChromium() {
+  for (const base of [import.meta.url, pathToFileURL(join3(process.cwd(), "package.json"))]) {
+    let entry;
+    try {
+      entry = createRequire(base).resolve("playwright");
+    } catch (error) {
+      if (error.code === "MODULE_NOT_FOUND") continue;
+      throw error;
+    }
+    const module = await import(pathToFileURL(entry).href);
+    return module.chromium ?? module.default.chromium;
+  }
+  throw new Error(`PNG output needs Playwright. Run npm install --save-dev playwright@${PLAYWRIGHT_VERSION}, then npx playwright install chromium.`);
+}
+async function renderImage({ html, baseDir = process.cwd(), width = 960, theme = "light", chromium, launchOptions = {}, offline = false }) {
+  if (!Number.isInteger(width) || width < 320 || width > 2400) throw new Error("Image width must be a whole number from 320 to 2400.");
+  chromium ??= await loadChromium();
+  const dir = await mkdtemp(join3(tmpdir(), "doc-ui-image-"));
+  let browser;
+  try {
+    const file = join3(dir, "report.html");
+    const base = pathToFileURL(resolve2(baseDir) + sep).href.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+    await writeFile(file, html.replace(/<head(?:\s[^>]*)?>/i, (match) => `${match}<base href="${base}">`));
+    browser = await chromium.launch(launchOptions);
+    const page = await browser.newPage({ viewport: { width, height: 900 }, deviceScaleFactor: 2, colorScheme: theme === "dark" ? "dark" : "light", reducedMotion: "reduce", javaScriptEnabled: false, serviceWorkers: "block" });
+    page.setDefaultTimeout(3e4);
+    if (offline) await page.route(/^https?:\/\//, (route) => route.abort());
+    await page.goto(pathToFileURL(file).href, { waitUntil: "load" });
+    await page.evaluate(() => {
+      for (const element of document.querySelectorAll("[data-dd-defer]")) element.style.contentVisibility = "visible";
+      for (const image of document.images) image.loading = "eager";
+    });
+    await page.waitForFunction(() => document.fonts.status === "loaded" && Array.from(document.images, (image) => image.complete).every(Boolean));
+    return await page.screenshot({ type: "png", fullPage: true, animations: "disabled", timeout: 3e4 });
+  } finally {
+    try {
+      await browser?.close();
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  }
+}
+
+// src/image.mjs
 var run3 = promisify3(execFile3);
+async function reportImage({ html, stateDir, env, log: log2 }) {
+  const prefix = join4(stateDir, "browser");
+  mkdirSync2(prefix, { recursive: true });
+  const options = { cwd: prefix, env, timeout: 3e5, maxBuffer: 8 * 1024 * 1024 };
+  log2(`Installing Playwright ${PLAYWRIGHT_VERSION} and Chromium for PNG output`);
+  await run3(process.platform === "win32" ? "npm.cmd" : "npm", ["install", "--prefix", prefix, "--no-audit", "--no-fund", "--no-package-lock", "--ignore-scripts", `playwright@${PLAYWRIGHT_VERSION}`], options);
+  const pkg = join4(prefix, "node_modules/playwright");
+  await run3(process.execPath, [join4(pkg, "cli.js"), "install", "--with-deps", "chromium"], options);
+  const { chromium } = await import(pathToFileURL2(join4(pkg, "index.mjs")).href);
+  return renderImage({ html, chromium, offline: true });
+}
+
+// src/generate.mjs
+var run4 = promisify4(execFile4);
 async function actionRevision(context) {
   if (context.actionPath) {
     try {
-      const { stdout } = await run3("git", ["-C", context.actionPath, "rev-parse", "HEAD"], { env: { PATH: process.env.PATH, HOME: process.env.HOME, GIT_TERMINAL_PROMPT: "0" } });
+      const { stdout } = await run4("git", ["-C", context.actionPath, "rev-parse", "HEAD"], { env: { PATH: process.env.PATH, HOME: process.env.HOME, GIT_TERMINAL_PROMPT: "0" } });
       if (/^[0-9a-f]{40}$/.test(stdout.trim())) return stdout.trim();
     } catch {
     }
@@ -9836,11 +9907,11 @@ function fileNames({ reportId, headSha, context }) {
   const stem = `${FILE_PREFIX}-${reportId}-${headSha.slice(0, 7)}-${context.runId || "local"}-${context.runAttempt || "1"}`;
   return { html: `${stem}.html`, manifest: `${stem}.manifest.json` };
 }
-async function generate({ inputs, context, env = process.env, log: log2 = console.error, now = () => /* @__PURE__ */ new Date() }) {
+async function generate({ inputs, context, env = process.env, log: log2 = console.error, now = () => /* @__PURE__ */ new Date(), captureImage = reportImage }) {
   const state = { status: "failed", reason: null, reportId: inputs.reportId, language: inputs.language, mode: inputs.mode, runUrl: runUrl(context), retentionDays: inputs.retentionDays, upload: false, notes: [] };
-  const stateDir = context.stateDir || join3(context.runnerTemp || process.cwd(), "document-design-report", inputs.reportId);
-  const outDir = join3(stateDir, "out");
-  mkdirSync2(outDir, { recursive: true });
+  const stateDir = context.stateDir || join5(context.runnerTemp || process.cwd(), "document-design-report", inputs.reportId);
+  const outDir = join5(stateDir, "out");
+  mkdirSync3(outDir, { recursive: true });
   state.stateDir = stateDir;
   const git = createGit(inputs.repositoryPath, { env });
   let revision2 = null;
@@ -9895,13 +9966,26 @@ async function generate({ inputs, context, env = process.env, log: log2 = consol
   const check = validateHtml(html);
   if (!check.ok) return fail(state, `The rendered HTML failed validation and was not uploaded: ${check.problems.slice(0, 5).join("; ")}`);
   const files = fileNames({ reportId: inputs.reportId, headSha: revision2.head.sha, context });
-  const reportPath = join3(outDir, files.html);
-  const manifestPath = join3(outDir, files.manifest);
+  const reportPath = join5(outDir, files.html);
+  const manifestPath = join5(outDir, files.manifest);
   writeFileSync2(reportPath, html);
+  let imagePath = null;
+  let png = null;
+  if (inputs.image) {
+    files.image = files.html.replace(/\.html$/, ".png");
+    imagePath = join5(outDir, files.image);
+    try {
+      png = await captureImage({ html, stateDir, env, log: log2 });
+      writeFileSync2(imagePath, png);
+    } catch (error) {
+      return fail(state, `PNG generation failed: ${error.message}`);
+    }
+  }
   const manifest = buildManifest({ context, inputs, revision: revision2, evidence, status, html, generation, generatedAt, actionRevision: revisionSha, docUi, files });
+  if (png) manifest.image = { file: files.image, digest: sha256(png), bytes: png.length, type: "image/png" };
   manifest.run.url = state.runUrl;
   writeFileSync2(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
-  Object.assign(state, { status, reason: null, upload: true, reportPath, manifestPath, htmlDigest: sha256(html), evidenceDigest: evidence.digest, files, generatedAt });
+  Object.assign(state, { status, reason: null, upload: true, reportPath, imagePath, manifestPath, htmlDigest: sha256(html), evidenceDigest: evidence.digest, files, generatedAt });
   return state;
 }
 function describe(revision2) {
@@ -9927,7 +10011,7 @@ function skip(state, reason, message) {
 async function askModel({ inputs, evidence, stateDir, env, log: log2 }) {
   const deadline = Date.now() + inputs.timeoutSeconds * 1e3;
   const index = evidenceIndex(evidence);
-  const cli = await ensureCli({ prefix: join3(stateDir, "copilot"), env, log: log2 });
+  const cli = await ensureCli({ prefix: join5(stateDir, "copilot"), env, log: log2 });
   let repair = null;
   let lastError = null;
   let elapsed = 0;
@@ -9937,7 +10021,7 @@ async function askModel({ inputs, evidence, stateDir, env, log: log2 }) {
     const remaining = deadline - Date.now();
     if (remaining < 1e3) break;
     const prompt = buildPrompt({ evidence, language: inputs.language, title: inputs.title, instructions: inputs.instructions, repair });
-    const workRoot = join3(stateDir, `attempt-${attempt}`);
+    const workRoot = join5(stateDir, `attempt-${attempt}`);
     log2(`Generating with Copilot CLI (attempt ${attempt} of ${inputs.maxAttempts}, model ${inputs.model}, prompt ${Buffer.byteLength(prompt.text, "utf8")} bytes)`);
     let result;
     try {
@@ -9969,7 +10053,7 @@ async function askModel({ inputs, evidence, stateDir, env, log: log2 }) {
 
 // src/inputs.mjs
 import { existsSync as existsSync3, statSync } from "node:fs";
-import { resolve as resolve2 } from "node:path";
+import { resolve as resolve3 } from "node:path";
 var InputError = class extends Error {
   constructor(name, message) {
     super(`Invalid input \`${name}\`: ${message}`);
@@ -10031,6 +10115,7 @@ function readEnv(env = process.env) {
     head: get("HEAD"),
     "pr-number": get("PR_NUMBER"),
     language: get("LANGUAGE"),
+    image: get("IMAGE"),
     title: get("TITLE"),
     instructions: get("INSTRUCTIONS"),
     model: get("MODEL"),
@@ -10055,7 +10140,7 @@ function readEnv(env = process.env) {
 function parseGenerateInputs(raw, { defaultMode = "auto", defaultReportId = "default", cwd = process.cwd() } = {}) {
   const token = String(raw["github-token"] ?? "");
   if (!token.trim()) throw new InputError("github-token", "a token is required");
-  const repositoryPath = resolve2(cwd, text(raw["repository-path"], "repository-path", { max: 4096 }) || ".");
+  const repositoryPath = resolve3(cwd, text(raw["repository-path"], "repository-path", { max: 4096 }) || ".");
   if (!existsSync3(repositoryPath) || !statSync(repositoryPath).isDirectory()) {
     throw new InputError("repository-path", `not a directory: ${repositoryPath}`);
   }
@@ -10068,6 +10153,7 @@ function parseGenerateInputs(raw, { defaultMode = "auto", defaultReportId = "def
     head: ref(raw.head, "head"),
     prNumber: integer(raw["pr-number"], "pr-number", { min: 1, max: 999999999, fallback: null }),
     language: oneOf2(raw.language, "language", LANGUAGES, "en"),
+    image: boolean(raw.image, "image", false),
     title: text(raw.title, "title", { max: 200 }) || null,
     instructions: text(raw.instructions, "instructions", { max: 4e3 }) || null,
     model: text(raw.model, "model", { max: 64 }) || DEFAULT_MODEL,
@@ -10215,10 +10301,12 @@ function prCommentBody({ reportId, language = "en", meta, outcome, previous = nu
   return lines.join("\n") + "\n";
 }
 var releaseMarkers = (reportId) => ({ start: `<!-- document-design:report:${reportId}:start -->`, end: `<!-- document-design:report:${reportId}:end -->` });
-function releaseBlock({ reportId, language = "en", assetUrl, artifactUrl: artifactUrl2, baseSha, headSha, status, runUrl: runUrl2 }) {
+function releaseBlock({ reportId, language = "en", assetUrl, imageAssetUrl, artifactUrl: artifactUrl2, baseSha, headSha, status, runUrl: runUrl2 }) {
   const T = t(language);
   const { start, end } = releaseMarkers(reportId);
-  const lines = [start, `### ${T.releaseBlock}${reportId !== "release" ? ` (${reportId})` : ""}`, "", `- ${T.releaseAsset}: ${assetUrl}`];
+  const lines = [start, `### ${T.releaseBlock}${reportId !== "release" ? ` (${reportId})` : ""}`, ""];
+  if (imageAssetUrl) lines.push(`![${T.releaseBlock}](<${imageAssetUrl}>)`, "");
+  lines.push(`- ${T.releaseAsset}: ${assetUrl}`);
   if (artifactUrl2) lines.push(`- ${T.releaseArtifact}: ${artifactUrl2}`);
   lines.push(`- ${comparedLine({ baseSha, headSha }, T)}`, `- ${T.status}: ${T.statuses[status] ?? status}`);
   if (runUrl2) lines.push(`- ${T.workflow}: ${runUrl2}`);
@@ -10293,15 +10381,15 @@ var PublishError = class extends Error {
 var escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 function artifactPattern(reportId, runId) {
   if (!REPORT_ID_PATTERN.test(reportId)) throw new PublishError(`invalid report id ${reportId}`);
-  return new RegExp(`^${escapeRe(FILE_PREFIX)}-${escapeRe(reportId)}-([0-9a-f]{7})-${escapeRe(String(runId))}-(\\d+)\\.(html|manifest\\.json)$`);
+  return new RegExp(`^${escapeRe(FILE_PREFIX)}-${escapeRe(reportId)}-([0-9a-f]{7})-${escapeRe(String(runId))}-(\\d+)\\.(html|png|manifest\\.json)$`);
 }
 function selectArtifacts(artifacts, reportId, runId) {
   const pattern = artifactPattern(reportId, runId);
-  const found = { html: null, manifest: null };
+  const found = { html: null, manifest: null, image: null };
   for (const artifact of artifacts) {
     const m = pattern.exec(artifact.name);
     if (!m) continue;
-    const kind = m[3] === "html" ? "html" : "manifest";
+    const kind = m[3] === "html" ? "html" : m[3] === "png" ? "image" : "manifest";
     const attempt = Number(m[2]);
     if (!found[kind] || attempt > found[kind].attempt || attempt === found[kind].attempt && artifact.id > found[kind].id) {
       found[kind] = { ...artifact, attempt, headShort: m[1] };
@@ -10310,16 +10398,16 @@ function selectArtifacts(artifacts, reportId, runId) {
   return found;
 }
 async function loadRun({ client, repository, runId }) {
-  let run4;
+  let run5;
   try {
-    run4 = await client.request("GET", `/repos/${repository}/actions/runs/${runId}`);
+    run5 = await client.request("GET", `/repos/${repository}/actions/runs/${runId}`);
   } catch (error) {
     throw new PublishError(`Cannot read workflow run ${runId}: ${error.message}. The publish job needs actions: read.`);
   }
-  if (String(run4.repository?.full_name ?? "").toLowerCase() !== repository.toLowerCase()) {
-    throw new PublishError(`Run ${runId} belongs to ${run4.repository?.full_name ?? "another repository"}, not ${repository}.`);
+  if (String(run5.repository?.full_name ?? "").toLowerCase() !== repository.toLowerCase()) {
+    throw new PublishError(`Run ${runId} belongs to ${run5.repository?.full_name ?? "another repository"}, not ${repository}.`);
   }
-  return run4;
+  return run5;
 }
 async function loadArtifacts({ client, repository, runId, reportId }) {
   const artifacts = await client.paginate(`/repos/${repository}/actions/runs/${runId}/artifacts?per_page=100`, { limit: 1e3, key: "artifacts" });
@@ -10360,25 +10448,25 @@ async function publishPullRequest({ inputs, context, client, log: log2 = () => {
 } }) {
   const repository = context.repository;
   if (!repository) throw new PublishError("GITHUB_REPOSITORY is not set.");
-  const run4 = await loadRun({ client, repository, runId: inputs.sourceRunId });
-  const prNumber = inputs.prNumber ?? context.event?.pull_request?.number ?? run4.pull_requests?.[0]?.number ?? null;
+  const run5 = await loadRun({ client, repository, runId: inputs.sourceRunId });
+  const prNumber = inputs.prNumber ?? context.event?.pull_request?.number ?? run5.pull_requests?.[0]?.number ?? null;
   if (!prNumber) throw new PublishError("No pull request number: pass pr-number.");
-  if (Array.isArray(run4.pull_requests) && run4.pull_requests.length && !run4.pull_requests.some((p) => p.number === prNumber)) {
-    throw new PublishError(`Run ${run4.id} is not associated with pull request #${prNumber}.`);
+  if (Array.isArray(run5.pull_requests) && run5.pull_requests.length && !run5.pull_requests.some((p) => p.number === prNumber)) {
+    throw new PublishError(`Run ${run5.id} is not associated with pull request #${prNumber}.`);
   }
   const pr = await client.request("GET", `/repos/${repository}/pulls/${prNumber}`);
-  const runHead = run4.head_sha;
+  const runHead = run5.head_sha;
   const language = inputs.language ?? "en";
   if (pr.head.sha !== runHead) {
-    log2(`Pull request #${prNumber} has moved to ${pr.head.sha}; run ${run4.id} reported ${runHead}. Nothing is posted.`);
+    log2(`Pull request #${prNumber} has moved to ${pr.head.sha}; run ${run5.id} reported ${runHead}. Nothing is posted.`);
     return { outcome: "superseded", message: `The pull request head is now ${pr.head.sha.slice(0, 12)}; the report for ${String(runHead).slice(0, 12)} is stale and was not posted.`, prNumber };
   }
   const comments = await client.paginate(`/repos/${repository}/issues/${prNumber}/comments?per_page=100`);
   const ours = comments.filter((c) => isOurComment(c.body, inputs.reportId) && String(c.user?.login ?? "").toLowerCase() === inputs.commentAuthor.toLowerCase());
   const existing = ours.length ? ours.reduce((a, b) => a.id > b.id ? a : b) : null;
   const oldMeta = existing ? parseCommentMeta(existing.body) : null;
-  const runId = Number(run4.id);
-  const attempt = Number(run4.run_attempt ?? 1);
+  const runId = Number(run5.id);
+  const attempt = Number(run5.run_attempt ?? 1);
   if (oldMeta && oldMeta.head === runHead && (oldMeta.run > runId || oldMeta.run === runId && oldMeta.attempt > attempt)) {
     return { outcome: "skipped", message: `A newer report for ${runHead.slice(0, 12)} (run ${oldMeta.run} attempt ${oldMeta.attempt}) is already posted.`, prNumber, commentUrl: existing.html_url };
   }
@@ -10387,7 +10475,7 @@ async function publishPullRequest({ inputs, context, client, log: log2 = () => {
   let meta;
   let previous = null;
   let publishFailure = null;
-  const runUrl2 = run4.html_url ?? `${context.serverUrl}/${repository}/actions/runs/${runId}`;
+  const runUrl2 = run5.html_url ?? `${context.serverUrl}/${repository}/actions/runs/${runId}`;
   if (inputs.generationResult === "skipped" || inputs.generationResult === "cancelled") {
     return { outcome: "skipped", message: `The generation job was ${inputs.generationResult}; no comment is posted.`, prNumber };
   }
@@ -10432,10 +10520,10 @@ function daysBetween(a, b) {
   const ms = new Date(b) - new Date(a);
   return Number.isFinite(ms) ? Math.round(ms / 864e5) : null;
 }
-function assetName(reportId, tag) {
+function assetName(reportId, tag, extension = "html") {
   const safe = tag.replace(/[^A-Za-z0-9._-]/g, "-");
   const suffix = safe === tag ? "" : `-${createHash3("sha256").update(tag).digest("hex").slice(0, 8)}`;
-  return `${FILE_PREFIX}-${reportId}-${safe}${suffix}.html`;
+  return `${FILE_PREFIX}-${reportId}-${safe}${suffix}.${extension}`;
 }
 async function findRelease({ client, repository, tag }) {
   const releases = await client.paginate(`/repos/${repository}/releases?per_page=100`, { limit: 300 });
@@ -10459,8 +10547,8 @@ async function publishRelease({ inputs, context, client, log: log2 = () => {
 } }) {
   const repository = context.repository;
   if (!repository) throw new PublishError("GITHUB_REPOSITORY is not set.");
-  const run4 = await loadRun({ client, repository, runId: inputs.sourceRunId });
-  const runId = Number(run4.id);
+  const run5 = await loadRun({ client, repository, runId: inputs.sourceRunId });
+  const runId = Number(run5.id);
   if (inputs.generationResult !== "success") throw new PublishError(`The generation job result is ${inputs.generationResult}; there is no report to attach.`);
   const artifacts = await loadArtifacts({ client, repository, runId, reportId: inputs.reportId });
   if (!artifacts.html || !artifacts.manifest) throw new PublishError(`Run ${runId} has no ${!artifacts.html ? "HTML" : "manifest"} artifact for report id ${inputs.reportId}.`);
@@ -10468,6 +10556,19 @@ async function publishRelease({ inputs, context, client, log: log2 = () => {
   const html = await downloadArtifact({ client, repository, artifact: artifacts.html });
   const digest = `sha256:${createHash3("sha256").update(html).digest("hex")}`;
   if (manifest.html?.digest && manifest.html.digest !== digest) throw new PublishError(`The HTML artifact digest ${digest} does not match the manifest ${manifest.html.digest}.`);
+  const used = [artifacts.html, artifacts.manifest];
+  let png = null;
+  if (manifest.image) {
+    const image = artifacts.image;
+    if (!image || image.expired) throw new PublishError("The PNG artifact is missing or expired.");
+    if (manifest.image.file !== image.name || String(manifest.image.artifact?.id) !== String(image.id)) throw new PublishError("The PNG artifact does not match the manifest.");
+    png = await downloadArtifact({ client, repository, artifact: image });
+    const imageDigest = `sha256:${createHash3("sha256").update(png).digest("hex")}`;
+    if (manifest.image.digest !== imageDigest) throw new PublishError("The PNG artifact digest does not match the manifest.");
+    if (!png.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) throw new PublishError("The image artifact is not a PNG.");
+    used.push(image);
+  }
+  if (used.some((artifact) => artifact.attempt !== Number(manifest.run.attempt) || artifact.headShort !== manifest.head.sha.slice(0, 7))) throw new PublishError("The artifacts do not describe the same head and run attempt.");
   const tag = inputs.releaseTag;
   const commit = await tagCommit({ client, repository, tag });
   if (!commit) throw new PublishError(`Tag ${tag} does not exist. The publish action does not create tags.`);
@@ -10489,14 +10590,32 @@ async function publishRelease({ inputs, context, client, log: log2 = () => {
     throw new PublishError(`Release ${tag} is published and immutable; assets cannot be added after publication. Attach the report while the release is a draft. The HTML artifact remains available in the workflow run.`, { outcome: "immutable" });
   }
   const name = assetName(inputs.reportId, tag);
+  const attached = await attachAsset({ client, repository, release, tag, runId, inputs, log: log2, name, bytes: html, digest, contentType: "text/html; charset=utf-8" });
+  const asset = attached.asset;
+  const imageAttached = png ? await attachAsset({ client, repository, release, tag, runId, inputs, log: log2, name: assetName(inputs.reportId, tag, "png"), bytes: png, digest: manifest.image.digest, contentType: "image/png" }) : null;
+  const imageAssetUrl = imageAttached?.asset.browser_download_url ?? null;
+  const outcomes = [attached.outcome, imageAttached?.outcome].filter(Boolean);
+  const outcome = outcomes.includes("replaced") ? "replaced" : outcomes.includes("attached") ? "attached" : "reused";
+  let bodyUpdated = false;
+  if (inputs.updateReleaseBody) {
+    const block = releaseBlock({ reportId: inputs.reportId, language: manifest.language ?? "en", assetUrl: asset.browser_download_url, imageAssetUrl, artifactUrl: artifactUrl({ serverUrl: context.serverUrl, repository, runId, artifactId: artifacts.html.id }), baseSha: manifest.base?.sha ?? null, headSha: manifest.head.sha, status: manifest.status, runUrl: run5.html_url ?? null });
+    const body = upsertReleaseBlock(release.body ?? "", block, inputs.reportId);
+    if (body !== (release.body ?? "")) {
+      await client.request("PATCH", `/repos/${repository}/releases/${release.id}`, { body: { body } });
+      bodyUpdated = true;
+    }
+  }
+  return { outcome, message: `${outcome === "reused" ? "Reused" : "Attached"} ${name} on ${release.draft ? "draft " : ""}release ${tag}`, assetUrl: asset.browser_download_url, assetName: name, imageAssetUrl, releaseUrl: release.html_url, draft: Boolean(release.draft), created, bodyUpdated, head: manifest.head.sha, status: manifest.status };
+}
+async function attachAsset({ client, repository, release, tag, runId, inputs, log: log2, name, bytes: bytes2, digest, contentType }) {
   const existing = (release.assets ?? []).find((a) => a.name === name);
   let asset = null;
   let reused = false;
   if (existing) {
     let existingDigest = existing.digest ?? null;
     if (!existingDigest) {
-      const bytes2 = await client.request("GET", `/repos/${repository}/releases/assets/${existing.id}`, { raw: true, accept: "application/octet-stream" });
-      existingDigest = `sha256:${createHash3("sha256").update(bytes2).digest("hex")}`;
+      const bytes3 = await client.request("GET", `/repos/${repository}/releases/assets/${existing.id}`, { raw: true, accept: "application/octet-stream" });
+      existingDigest = `sha256:${createHash3("sha256").update(bytes3).digest("hex")}`;
     }
     if (existingDigest === digest) {
       asset = existing;
@@ -10513,7 +10632,7 @@ async function publishRelease({ inputs, context, client, log: log2 = () => {
     const tempName = existing ? `${name}.new-${runId}` : name;
     let uploaded;
     try {
-      uploaded = await client.request("POST", `${uploadUrl}?name=${encodeURIComponent(tempName)}`, { body: html, headers: { "Content-Type": "text/html; charset=utf-8" } });
+      uploaded = await client.request("POST", `${uploadUrl}?name=${encodeURIComponent(tempName)}`, { body: bytes2, headers: { "Content-Type": contentType } });
     } catch (error) {
       const hint = error instanceof GitHubError && error.status === 403 ? " The attach job needs contents: write." : "";
       throw new PublishError(`Uploading ${tempName} to ${tag} failed: ${error.message}.${hint}`);
@@ -10528,25 +10647,16 @@ async function publishRelease({ inputs, context, client, log: log2 = () => {
     }
     asset = uploaded;
   }
-  let bodyUpdated = false;
-  if (inputs.updateReleaseBody) {
-    const block = releaseBlock({ reportId: inputs.reportId, language: manifest.language ?? "en", assetUrl: asset.browser_download_url, artifactUrl: artifactUrl({ serverUrl: context.serverUrl, repository, runId, artifactId: artifacts.html.id }), baseSha: manifest.base?.sha ?? null, headSha: manifest.head.sha, status: manifest.status, runUrl: run4.html_url ?? null });
-    const body = upsertReleaseBlock(release.body ?? "", block, inputs.reportId);
-    if (body !== (release.body ?? "")) {
-      await client.request("PATCH", `/repos/${repository}/releases/${release.id}`, { body: { body } });
-      bodyUpdated = true;
-    }
-  }
-  return { outcome: reused ? "reused" : existing ? "replaced" : "attached", message: `${reused ? "Reused" : "Attached"} ${name} on ${release.draft ? "draft " : ""}release ${tag}`, assetUrl: asset.browser_download_url, assetName: name, releaseUrl: release.html_url, draft: Boolean(release.draft), created, bodyUpdated, head: manifest.head.sha, status: manifest.status };
+  return { asset, outcome: reused ? "reused" : existing ? "replaced" : "attached" };
 }
 
 // src/cli.mjs
 var log = (message) => process.stderr.write(`${message}
 `);
 function stateFile(context) {
-  const dir = context.stateDir || join4(context.runnerTemp || process.cwd(), "document-design-report", "default");
-  mkdirSync3(dir, { recursive: true });
-  return join4(dir, "state.json");
+  const dir = context.stateDir || join6(context.runnerTemp || process.cwd(), "document-design-report", "default");
+  mkdirSync4(dir, { recursive: true });
+  return join6(dir, "state.json");
 }
 function readState(context) {
   const file = stateFile(context);
@@ -10561,6 +10671,9 @@ function publicOutputs(state, extra = {}) {
     status: state.status,
     "has-changes": state.hasChanges === true ? "true" : state.hasChanges === false ? "false" : "",
     "report-path": state.reportPath ?? "",
+    "image-path": state.imagePath ?? "",
+    "image-artifact-id": state.imageArtifact?.id ?? "",
+    "image-artifact-url": state.imageArtifact?.url ?? "",
     "manifest-path": state.manifestPath ?? "",
     "artifact-id": state.artifact?.id ?? "",
     "artifact-url": state.artifact?.url ?? "",
@@ -10587,7 +10700,7 @@ async function commandGenerate({ defaultMode, defaultReportId }) {
     if (!(error instanceof InputError)) log(error.stack ?? String(error));
   }
   writeState(context, state);
-  writeOutputs(context.outputFile, { upload: state.upload ? "true" : "false", "report-path": state.reportPath ?? "", "manifest-path": state.manifestPath ?? "" });
+  writeOutputs(context.outputFile, { upload: state.upload ? "true" : "false", "image-path": state.imagePath ?? "", "report-path": state.reportPath ?? "", "manifest-path": state.manifestPath ?? "" });
   log(`Generation ${state.status}${state.reason ? `: ${state.reason}` : ""}`);
 }
 function commandManifest() {
@@ -10596,12 +10709,18 @@ function commandManifest() {
   if (!state || !state.upload) return;
   const env = process.env;
   state.artifact = { id: env.DD_ARTIFACT_ID ? Number(env.DD_ARTIFACT_ID) : null, url: env.DD_ARTIFACT_URL || null, digest: env.DD_ARTIFACT_DIGEST || null };
-  if (!state.artifact.id || !state.artifact.url) {
+  state.imageArtifact = { id: env.DD_IMAGE_ARTIFACT_ID ? Number(env.DD_IMAGE_ARTIFACT_ID) : null, url: env.DD_IMAGE_ARTIFACT_URL || null };
+  if (state.imagePath && (!state.imageArtifact.id || !state.imageArtifact.url)) {
+    state.status = "failed";
+    state.reason = "The PNG artifact upload did not return an artifact id and URL.";
+    state.upload = false;
+  } else if (!state.artifact.id || !state.artifact.url) {
     state.status = "failed";
     state.reason = "The HTML artifact upload did not return an artifact id and URL.";
     state.upload = false;
   } else if (state.manifestPath) {
     const manifest = JSON.parse(readFileSync4(state.manifestPath, "utf8"));
+    if (manifest.image) manifest.image.artifact = state.imageArtifact;
     manifest.artifact = { id: state.artifact.id, url: state.artifact.url, digest: state.artifact.digest, name: state.files?.html ?? null, retentionDays: state.retentionDays };
     writeFileSync3(state.manifestPath, JSON.stringify(manifest, null, 2) + "\n");
   }
@@ -10658,7 +10777,7 @@ async function commandPublish() {
   if (result.assetUrl) lines.push("", `Asset: ${result.assetUrl}`);
   if (result.releaseUrl) lines.push(`Release: ${result.releaseUrl}`);
   appendSummary(context.summaryFile, lines.join("\n") + "\n");
-  writeOutputs(context.outputFile, { outcome: result.outcome, "comment-url": result.commentUrl ?? "", "asset-url": result.assetUrl ?? "", "release-url": result.releaseUrl ?? "", message: result.message ?? "" });
+  writeOutputs(context.outputFile, { outcome: result.outcome, "comment-url": result.commentUrl ?? "", "asset-url": result.assetUrl ?? "", "image-asset-url": result.imageAssetUrl ?? "", "release-url": result.releaseUrl ?? "", message: result.message ?? "" });
   const failed = ["failed", "conflict", "immutable"].includes(result.outcome) || result.outcome === "failure-posted" && inputs.generationResult === "success";
   if (failed) {
     log(`::error::${result.message}`);

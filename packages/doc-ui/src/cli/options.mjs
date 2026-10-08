@@ -20,6 +20,8 @@ Read stdin when input is omitted or "-"; write stdout unless -o is given.
 
 Options:
   -o, --output <file>      Write HTML to a file ("-" for stdout)
+      --image <file.png>   Also capture the HTML as a full-page PNG (needs Playwright)
+      --image-width <px>   Image viewport width, 320–2400 (default: 960)
       --layout <name>      doc, report, paper, book (default: doc)
       --theme <name>       auto, light, dark (default: auto)
       --color <name>       color, grayscale, monochrome (default: color)
@@ -33,6 +35,7 @@ Options:
 
 Examples:
   doc-ui README.md -o README.html
+  doc-ui release.md --layout report -o release.html --image release.png
   doc-ui report.md --layout paper --lang ja --paper a4 -o report.html
   cat book.md | doc-ui --layout book --color monochrome > book.html
 
@@ -45,6 +48,7 @@ export function parseOptions(args) {
     args, allowPositionals: true, strict: true,
     options: {
       output: { type: 'string', short: 'o' },
+      image: { type: 'string' }, 'image-width': { type: 'string' },
       ...Object.fromEntries(Object.keys(choices).map(key => [key, { type: 'string' }])),
       lang: { type: 'string' }, title: { type: 'string' },
       html: { type: 'boolean' },
@@ -65,5 +69,10 @@ export function parseOptions(args) {
     throw new Error('--lang must be a language tag, such as en or ja.');
   }
   if (options.output === '' || options.input === '') throw new Error('File paths must not be empty.');
+  if (options.image !== undefined && !/\.png$/i.test(options.image)) throw new Error('--image must name a .png file.');
+  const width = options['image-width'] ?? '960';
+  if (!/^\d+$/.test(width) || Number(width) < 320 || Number(width) > 2400) throw new Error('--image-width must be a whole number from 320 to 2400.');
+  if (options['image-width'] && !options.image) throw new Error('--image-width requires --image.');
+  options.imageWidth = Number(width);
   return options;
 }

@@ -4,6 +4,7 @@ import { basename, dirname, resolve } from 'node:path';
 import pkg from '../../package.json' with { type: 'json' };
 import { help, parseOptions } from './options.mjs';
 import { renderMarkdown } from './render.mjs';
+import { renderImage } from '../image.mjs';
 
 process.stdout.on('error', error => {
   if (error.code === 'EPIPE') process.exit(0);
@@ -18,14 +19,15 @@ async function run() {
   if (!options.input && process.stdin.isTTY) return process.stdout.write(help);
   const input = options.input && options.input !== '-' ? resolve(options.input) : null;
   const output = options.output && options.output !== '-' ? resolve(options.output) : null;
-  if (input && output) {
-    const source = await stat(input);
-    const destination = await stat(output).catch(error => {
-      if (error.code !== 'ENOENT') throw error;
-      return null;
-    });
-    if (input === output || (destination && source.dev === destination.dev && source.ino === destination.ino)) {
-      throw new Error('Input and output must be different files.');
+  const image = options.image ? resolve(options.image) : null;
+  const paths = [input, output, image].filter(Boolean);
+  const stats = await Promise.all(paths.map(path => stat(path).catch(error => {
+    if (error.code !== 'ENOENT') throw error;
+    return null;
+  })));
+  for (let i = 0; i < paths.length; i++) for (let j = i + 1; j < paths.length; j++) {
+    if (paths[i] === paths[j] || (stats[i] && stats[j] && stats[i].dev === stats[j].dev && stats[i].ino === stats[j].ino)) {
+      throw new Error('Input and outputs must be different files.');
     }
   }
   let markdown;
@@ -43,6 +45,11 @@ async function run() {
     sourceDir: input ? dirname(input) : process.cwd(),
     outputDir: output ? dirname(output) : undefined,
   });
+  if (image) {
+    const png = await renderImage({ html, baseDir: output ? dirname(output) : input ? dirname(input) : process.cwd(), width: options.imageWidth, theme: options.theme });
+    await mkdir(dirname(image), { recursive: true });
+    await writeFile(image, png);
+  }
   if (output) {
     await mkdir(dirname(output), { recursive: true });
     await writeFile(output, html, 'utf8');

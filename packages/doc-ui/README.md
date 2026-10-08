@@ -114,6 +114,8 @@ package version or retain the archive when reproducible output matters.
 | Option | Default | Meaning |
 | --- | --- | --- |
 | `-o`, `--output <file>` | stdout | Write HTML; create missing parent directories. `-` also selects stdout. |
+| `--image <file.png>` | off | Also capture the full HTML page as PNG. Requires optional Playwright and Chromium. |
+| `--image-width <px>` | `960` | PNG viewport width, 320–2400 CSS pixels; captured at 2× resolution. |
 | `--layout doc` | `doc` | Document frame with normal Markdown heading hierarchy and readable prose. |
 | `--layout report` | | Large opening title, with top-level H2 headings becoming numbered report sections. |
 | `--layout paper` | | Continuous single-column paper with a title header and reading typography. |
@@ -130,6 +132,23 @@ package version or retain the archive when reproducible output matters.
 Omit the input or use `-` to read stdin. Use `--` before a filename beginning
 with `-`. Invalid options and I/O failures exit nonzero and report to stderr;
 stdout contains only HTML. The output must differ from the source file.
+
+PNG output is available in the repository checkout (not in the 1.2.1 release).
+Install the optional browser tooling once, then generate both files:
+
+```sh
+npm install --save-dev playwright@1.63.0
+npx playwright install chromium
+npx --no-install @k-kinzal/doc-ui release.md --layout report -o release.html --image release.png
+```
+
+The PNG captures the screen layout, including content below the viewport, with
+JavaScript disabled. `--theme auto` captures light; `--theme dark` captures dark.
+Fonts must be installed on the rendering machine, including Japanese fonts for
+Japanese documents. Local image references resolve beside the HTML output (or
+the Markdown input when HTML goes to stdout). HTML keeps its links and selectable
+text; the PNG can be embedded in release notes. HTML-only conversion needs no
+browser installation.
 
 CommonMark blocks, tables, strikethrough, automatic links and task lists are
 supported. Tables scroll within a keyboard-focusable wrapper. Fenced code is
