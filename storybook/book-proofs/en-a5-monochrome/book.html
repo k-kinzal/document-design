@@ -2865,6 +2865,46 @@
     margin-right: var(--dd-sp-2);
   }
 
+  .prose .callout {
+    font-size: inherit;
+  }
+
+  .prose .cite {
+    text-decoration: none;
+  }
+
+  .prose > :is(.diagram, .equation) {
+    max-width: var(--dd-measure-wide);
+  }
+
+  .diagram .draw-wrap > img {
+    border-radius: 0;
+    max-width: none;
+    height: auto;
+  }
+
+  .diagram-light {
+    display: block;
+  }
+
+  .diagram-dark, [data-dd-theme="dark"] .diagram-light {
+    display: none;
+  }
+
+  [data-dd-theme="dark"] .diagram-dark {
+    display: block;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-dd-theme="light"]) .diagram-light {
+      display: none;
+    }
+
+    :root:not([data-dd-theme="light"]) .diagram-dark {
+      display: block;
+    }
+  }
+
   .callout {
     margin: 0 0 var(--dd-sp-5);
     padding: var(--dd-sp-4) var(--dd-sp-5);
@@ -5869,6 +5909,18 @@
 
 @layer dd.print {
   @media print {
+    .diagram-light {
+      display: block !important;
+    }
+
+    .diagram-dark {
+      display: none !important;
+    }
+
+    .diagram .draw-wrap > img {
+      max-width: 100% !important;
+    }
+
     .masthead nav, .colophon nav, .ribbon, .actions, .code-head button {
       display: none !important;
     }

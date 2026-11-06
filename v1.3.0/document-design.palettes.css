@@ -1,0 +1,766 @@
+/*!
+ * MIT License
+ *
+ * Copyright (c) 2026 k-kinzal
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+@layer dd.tokens {
+  [data-dd-palette="paper-blue"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-accent: var(--dd-blue);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="paper-cyan"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-blue: light-dark(#2f6e9e, #76b5e9);
+    --dd-violet: light-dark(#725b9a, #b7a0e4);
+    --dd-amber: light-dark(#6d6e1d, #b2b467);
+    --dd-teal: light-dark(#047879, #53c2c1);
+    --dd-pink: light-dark(#915076, #dc94bc);
+    --dd-indigo: light-dark(#5863a2, #9ba9ed);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#277a55, #72c298);
+    --dd-red: light-dark(#a14a4a, #ee908d);
+    --dd-yellow: light-dark(#836412, #cba960);
+    --dd-accent: light-dark(#086b86, #60b8d1);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="paper-teal"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-blue: light-dark(#346e9c, #79b4e6);
+    --dd-violet: light-dark(#715c97, #b7a0e2);
+    --dd-amber: light-dark(#6c6d24, #b1b46b);
+    --dd-teal: light-dark(#047974, #5cc1bb);
+    --dd-pink: light-dark(#8f5175, #da96bc);
+    --dd-indigo: light-dark(#5e629f, #a2a8e9);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#2d7956, #76c199);
+    --dd-red: light-dark(#9f4c49, #ec928c);
+    --dd-yellow: light-dark(#82641b, #caa965);
+    --dd-accent: var(--dd-teal);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="paper-indigo"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-blue: light-dark(#2e69b2, #73b1ff);
+    --dd-violet: light-dark(#7555a8, #bb9af4);
+    --dd-amber: light-dark(#6d6e02, #b3b549);
+    --dd-teal: light-dark(#047974, #05c7c0);
+    --dd-pink: light-dark(#984780, #e48cc8);
+    --dd-indigo: light-dark(#5c5db1, #9ea4ff);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#027e47, #62c689);
+    --dd-red: light-dark(#ad3e45, #fc8587);
+    --dd-yellow: light-dark(#836412, #cba960);
+    --dd-accent: var(--dd-indigo);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="paper-violet"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-blue: light-dark(#3c6aa4, #80b1f0);
+    --dd-violet: light-dark(#775899, #bd9de4);
+    --dd-amber: light-dark(#6b6e18, #afb564);
+    --dd-teal: light-dark(#047974, #4ec3bd);
+    --dd-pink: light-dark(#934e77, #de93bd);
+    --dd-indigo: light-dark(#5e61a4, #a1a7f0);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#2b7a4d, #75c291);
+    --dd-red: light-dark(#a2484e, #f08d91);
+    --dd-yellow: light-dark(#816512, #c8aa60);
+    --dd-accent: var(--dd-violet);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="paper-plum"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-blue: light-dark(#416c98, #85b2e2);
+    --dd-violet: light-dark(#785b8e, #be9fd7);
+    --dd-amber: light-dark(#6a6e2f, #afb474);
+    --dd-teal: light-dark(#19796f, #6ac0b5);
+    --dd-pink: light-dark(#8c5474, #d598ba);
+    --dd-indigo: light-dark(#5f6399, #a3a8e3);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#3c7753, #82be96);
+    --dd-red: light-dark(#9a4f55, #e69498);
+    --dd-yellow: light-dark(#7f6528, #c7aa6e);
+    --dd-accent: light-dark(#855184, #c493c6);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="paper-citron"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-blue: light-dark(#3e6c9b, #82b3e5);
+    --dd-violet: light-dark(#755b93, #bba0dc);
+    --dd-amber: light-dark(#6c6d29, #b1b36f);
+    --dd-teal: light-dark(#087970, #65c1b5);
+    --dd-pink: light-dark(#8d5375, #d897bb);
+    --dd-indigo: light-dark(#5f639c, #a2a8e6);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#3f774d, #84be90);
+    --dd-red: light-dark(#9c4f46, #e99489);
+    --dd-yellow: light-dark(#856224, #cda76b);
+    --dd-accent: var(--dd-amber);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="paper-slate"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-blue: light-dark(#4e6c8b, #92b1d3);
+    --dd-violet: light-dark(#716085, #b7a5cd);
+    --dd-amber: light-dark(#6b6c43, #b0b286);
+    --dd-teal: light-dark(#3c7471, #81bbb6);
+    --dd-pink: light-dark(#825b71, #cb9fb7);
+    --dd-indigo: light-dark(#62658b, #a6aad4);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#4c735a, #90ba9e);
+    --dd-red: light-dark(#8f5753, #da9c96);
+    --dd-yellow: light-dark(#7b6540, #c2aa83);
+    --dd-accent: var(--dd-slate);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="linen-blue"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fdfcf9, #24211f);
+    --dd-surface: light-dark(#f9f7f2, #2d2926);
+    --dd-sunken: light-dark(#f5f2eb, #292522);
+    --dd-raised: light-dark(#fff, #322e2a);
+    --dd-hover: light-dark(#f5f2ec, #302c28);
+    --dd-ink: light-dark(#28221c, #e2dcd3);
+    --dd-sub: light-dark(#595047, #b8aaa0);
+    --dd-dim: light-dark(#6a6055, #b3a59b);
+    --dd-hair: light-dark(#e1dbd0, #403a34);
+    --dd-rule: light-dark(#c4bbae, #595047);
+    --dd-blue: light-dark(#1f6cb0, #6ab3fd);
+    --dd-violet: light-dark(#7b52a4, #c198f0);
+    --dd-amber: light-dark(#6d6e02, #b3b549);
+    --dd-teal: light-dark(#047974, #05c7c0);
+    --dd-pink: light-dark(#9b467a, #e88bc1);
+    --dd-indigo: light-dark(#5c5db1, #9ea4ff);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#027e47, #62c689);
+    --dd-red: light-dark(#ad3f3c, #fc867f);
+    --dd-yellow: light-dark(#876114, #cfa761);
+    --dd-accent: var(--dd-blue);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="linen-cyan"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fdfcf9, #24211f);
+    --dd-surface: light-dark(#f9f7f2, #2d2926);
+    --dd-sunken: light-dark(#f5f2eb, #292522);
+    --dd-raised: light-dark(#fff, #322e2a);
+    --dd-hover: light-dark(#f5f2ec, #302c28);
+    --dd-ink: light-dark(#28221c, #e2dcd3);
+    --dd-sub: light-dark(#595047, #b8aaa0);
+    --dd-dim: light-dark(#6a6055, #b3a59b);
+    --dd-hair: light-dark(#e1dbd0, #403a34);
+    --dd-rule: light-dark(#c4bbae, #595047);
+    --dd-blue: light-dark(#2f6e9e, #76b5e9);
+    --dd-violet: light-dark(#725b9a, #b7a0e4);
+    --dd-amber: light-dark(#6d6e1d, #b2b467);
+    --dd-teal: light-dark(#047879, #53c2c1);
+    --dd-pink: light-dark(#915076, #dc94bc);
+    --dd-indigo: light-dark(#5863a2, #9ba9ed);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#277a55, #72c298);
+    --dd-red: light-dark(#a14a4a, #ee908d);
+    --dd-yellow: light-dark(#836412, #cba960);
+    --dd-accent: light-dark(#086b86, #60b8d1);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="linen-teal"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fdfcf9, #24211f);
+    --dd-surface: light-dark(#f9f7f2, #2d2926);
+    --dd-sunken: light-dark(#f5f2eb, #292522);
+    --dd-raised: light-dark(#fff, #322e2a);
+    --dd-hover: light-dark(#f5f2ec, #302c28);
+    --dd-ink: light-dark(#28221c, #e2dcd3);
+    --dd-sub: light-dark(#595047, #b8aaa0);
+    --dd-dim: light-dark(#6a6055, #b3a59b);
+    --dd-hair: light-dark(#e1dbd0, #403a34);
+    --dd-rule: light-dark(#c4bbae, #595047);
+    --dd-blue: light-dark(#346e9c, #79b4e6);
+    --dd-violet: light-dark(#715c97, #b7a0e2);
+    --dd-amber: light-dark(#6c6d24, #b1b46b);
+    --dd-teal: light-dark(#047974, #5cc1bb);
+    --dd-pink: light-dark(#8f5175, #da96bc);
+    --dd-indigo: light-dark(#5e629f, #a2a8e9);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#2d7956, #76c199);
+    --dd-red: light-dark(#9f4c49, #ec928c);
+    --dd-yellow: light-dark(#82641b, #caa965);
+    --dd-accent: var(--dd-teal);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="linen-indigo"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fdfcf9, #24211f);
+    --dd-surface: light-dark(#f9f7f2, #2d2926);
+    --dd-sunken: light-dark(#f5f2eb, #292522);
+    --dd-raised: light-dark(#fff, #322e2a);
+    --dd-hover: light-dark(#f5f2ec, #302c28);
+    --dd-ink: light-dark(#28221c, #e2dcd3);
+    --dd-sub: light-dark(#595047, #b8aaa0);
+    --dd-dim: light-dark(#6a6055, #b3a59b);
+    --dd-hair: light-dark(#e1dbd0, #403a34);
+    --dd-rule: light-dark(#c4bbae, #595047);
+    --dd-blue: light-dark(#2e69b2, #73b1ff);
+    --dd-violet: light-dark(#7555a8, #bb9af4);
+    --dd-amber: light-dark(#6d6e02, #b3b549);
+    --dd-teal: light-dark(#047974, #05c7c0);
+    --dd-pink: light-dark(#984780, #e48cc8);
+    --dd-indigo: light-dark(#5c5db1, #9ea4ff);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#027e47, #62c689);
+    --dd-red: light-dark(#ad3e45, #fc8587);
+    --dd-yellow: light-dark(#836412, #cba960);
+    --dd-accent: var(--dd-indigo);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="linen-violet"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fdfcf9, #24211f);
+    --dd-surface: light-dark(#f9f7f2, #2d2926);
+    --dd-sunken: light-dark(#f5f2eb, #292522);
+    --dd-raised: light-dark(#fff, #322e2a);
+    --dd-hover: light-dark(#f5f2ec, #302c28);
+    --dd-ink: light-dark(#28221c, #e2dcd3);
+    --dd-sub: light-dark(#595047, #b8aaa0);
+    --dd-dim: light-dark(#6a6055, #b3a59b);
+    --dd-hair: light-dark(#e1dbd0, #403a34);
+    --dd-rule: light-dark(#c4bbae, #595047);
+    --dd-blue: light-dark(#3c6aa4, #80b1f0);
+    --dd-violet: light-dark(#775899, #bd9de4);
+    --dd-amber: light-dark(#6b6e18, #afb564);
+    --dd-teal: light-dark(#047974, #4ec3bd);
+    --dd-pink: light-dark(#934e77, #de93bd);
+    --dd-indigo: light-dark(#5e61a4, #a1a7f0);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#2b7a4d, #75c291);
+    --dd-red: light-dark(#a2484e, #f08d91);
+    --dd-yellow: light-dark(#816512, #c8aa60);
+    --dd-accent: var(--dd-violet);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="linen-plum"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fdfcf9, #24211f);
+    --dd-surface: light-dark(#f9f7f2, #2d2926);
+    --dd-sunken: light-dark(#f5f2eb, #292522);
+    --dd-raised: light-dark(#fff, #322e2a);
+    --dd-hover: light-dark(#f5f2ec, #302c28);
+    --dd-ink: light-dark(#28221c, #e2dcd3);
+    --dd-sub: light-dark(#595047, #b8aaa0);
+    --dd-dim: light-dark(#6a6055, #b3a59b);
+    --dd-hair: light-dark(#e1dbd0, #403a34);
+    --dd-rule: light-dark(#c4bbae, #595047);
+    --dd-blue: light-dark(#416c98, #85b2e2);
+    --dd-violet: light-dark(#785b8e, #be9fd7);
+    --dd-amber: light-dark(#6a6e2f, #afb474);
+    --dd-teal: light-dark(#19796f, #6ac0b5);
+    --dd-pink: light-dark(#8c5474, #d598ba);
+    --dd-indigo: light-dark(#5f6399, #a3a8e3);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#3c7753, #82be96);
+    --dd-red: light-dark(#9a4f55, #e69498);
+    --dd-yellow: light-dark(#7f6528, #c7aa6e);
+    --dd-accent: light-dark(#855184, #c493c6);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="linen-citron"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fdfcf9, #24211f);
+    --dd-surface: light-dark(#f9f7f2, #2d2926);
+    --dd-sunken: light-dark(#f5f2eb, #292522);
+    --dd-raised: light-dark(#fff, #322e2a);
+    --dd-hover: light-dark(#f5f2ec, #302c28);
+    --dd-ink: light-dark(#28221c, #e2dcd3);
+    --dd-sub: light-dark(#595047, #b8aaa0);
+    --dd-dim: light-dark(#6a6055, #b3a59b);
+    --dd-hair: light-dark(#e1dbd0, #403a34);
+    --dd-rule: light-dark(#c4bbae, #595047);
+    --dd-blue: light-dark(#3e6c9b, #82b3e5);
+    --dd-violet: light-dark(#755b93, #bba0dc);
+    --dd-amber: light-dark(#6c6d29, #b1b36f);
+    --dd-teal: light-dark(#087970, #65c1b5);
+    --dd-pink: light-dark(#8d5375, #d897bb);
+    --dd-indigo: light-dark(#5f639c, #a2a8e6);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#3f774d, #84be90);
+    --dd-red: light-dark(#9c4f46, #e99489);
+    --dd-yellow: light-dark(#856224, #cda76b);
+    --dd-accent: var(--dd-amber);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="linen-slate"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fdfcf9, #24211f);
+    --dd-surface: light-dark(#f9f7f2, #2d2926);
+    --dd-sunken: light-dark(#f5f2eb, #292522);
+    --dd-raised: light-dark(#fff, #322e2a);
+    --dd-hover: light-dark(#f5f2ec, #302c28);
+    --dd-ink: light-dark(#28221c, #e2dcd3);
+    --dd-sub: light-dark(#595047, #b8aaa0);
+    --dd-dim: light-dark(#6a6055, #b3a59b);
+    --dd-hair: light-dark(#e1dbd0, #403a34);
+    --dd-rule: light-dark(#c4bbae, #595047);
+    --dd-blue: light-dark(#4e6c8b, #92b1d3);
+    --dd-violet: light-dark(#716085, #b7a5cd);
+    --dd-amber: light-dark(#6b6c43, #b0b286);
+    --dd-teal: light-dark(#3c7471, #81bbb6);
+    --dd-pink: light-dark(#825b71, #cb9fb7);
+    --dd-indigo: light-dark(#62658b, #a6aad4);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#4c735a, #90ba9e);
+    --dd-red: light-dark(#8f5753, #da9c96);
+    --dd-yellow: light-dark(#7b6540, #c2aa83);
+    --dd-accent: var(--dd-slate);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="mist-blue"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#f9fcfe, #1c2228);
+    --dd-surface: light-dark(#f1f7fa, #252c32);
+    --dd-sunken: light-dark(#edf3f7, #21282e);
+    --dd-raised: light-dark(#fff, #293038);
+    --dd-hover: light-dark(#eef4f8, #272e35);
+    --dd-ink: light-dark(#1b2732, #d6e0e8);
+    --dd-sub: light-dark(#485766, #a3b1bd);
+    --dd-dim: light-dark(#586879, #9fadb9);
+    --dd-hair: light-dark(#d4dfe7, #34404a);
+    --dd-rule: light-dark(#afc2cf, #485967);
+    --dd-blue: light-dark(#1f6cb0, #6ab3fd);
+    --dd-violet: light-dark(#7b52a4, #c198f0);
+    --dd-amber: light-dark(#6d6e02, #b3b549);
+    --dd-teal: light-dark(#047974, #05c7c0);
+    --dd-pink: light-dark(#9b467a, #e88bc1);
+    --dd-indigo: light-dark(#5c5db1, #9ea4ff);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#027e47, #62c689);
+    --dd-red: light-dark(#ad3f3c, #fc867f);
+    --dd-yellow: light-dark(#876114, #cfa761);
+    --dd-accent: var(--dd-blue);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="mist-cyan"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#f9fcfe, #1c2228);
+    --dd-surface: light-dark(#f1f7fa, #252c32);
+    --dd-sunken: light-dark(#edf3f7, #21282e);
+    --dd-raised: light-dark(#fff, #293038);
+    --dd-hover: light-dark(#eef4f8, #272e35);
+    --dd-ink: light-dark(#1b2732, #d6e0e8);
+    --dd-sub: light-dark(#485766, #a3b1bd);
+    --dd-dim: light-dark(#586879, #9fadb9);
+    --dd-hair: light-dark(#d4dfe7, #34404a);
+    --dd-rule: light-dark(#afc2cf, #485967);
+    --dd-blue: light-dark(#2f6e9e, #76b5e9);
+    --dd-violet: light-dark(#725b9a, #b7a0e4);
+    --dd-amber: light-dark(#6d6e1d, #b2b467);
+    --dd-teal: light-dark(#047879, #53c2c1);
+    --dd-pink: light-dark(#915076, #dc94bc);
+    --dd-indigo: light-dark(#5863a2, #9ba9ed);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#277a55, #72c298);
+    --dd-red: light-dark(#a14a4a, #ee908d);
+    --dd-yellow: light-dark(#836412, #cba960);
+    --dd-accent: light-dark(#086b86, #60b8d1);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="mist-teal"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#f9fcfe, #1c2228);
+    --dd-surface: light-dark(#f1f7fa, #252c32);
+    --dd-sunken: light-dark(#edf3f7, #21282e);
+    --dd-raised: light-dark(#fff, #293038);
+    --dd-hover: light-dark(#eef4f8, #272e35);
+    --dd-ink: light-dark(#1b2732, #d6e0e8);
+    --dd-sub: light-dark(#485766, #a3b1bd);
+    --dd-dim: light-dark(#586879, #9fadb9);
+    --dd-hair: light-dark(#d4dfe7, #34404a);
+    --dd-rule: light-dark(#afc2cf, #485967);
+    --dd-blue: light-dark(#346e9c, #79b4e6);
+    --dd-violet: light-dark(#715c97, #b7a0e2);
+    --dd-amber: light-dark(#6c6d24, #b1b46b);
+    --dd-teal: light-dark(#047974, #5cc1bb);
+    --dd-pink: light-dark(#8f5175, #da96bc);
+    --dd-indigo: light-dark(#5e629f, #a2a8e9);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#2d7956, #76c199);
+    --dd-red: light-dark(#9f4c49, #ec928c);
+    --dd-yellow: light-dark(#82641b, #caa965);
+    --dd-accent: var(--dd-teal);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="mist-indigo"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#f9fcfe, #1c2228);
+    --dd-surface: light-dark(#f1f7fa, #252c32);
+    --dd-sunken: light-dark(#edf3f7, #21282e);
+    --dd-raised: light-dark(#fff, #293038);
+    --dd-hover: light-dark(#eef4f8, #272e35);
+    --dd-ink: light-dark(#1b2732, #d6e0e8);
+    --dd-sub: light-dark(#485766, #a3b1bd);
+    --dd-dim: light-dark(#586879, #9fadb9);
+    --dd-hair: light-dark(#d4dfe7, #34404a);
+    --dd-rule: light-dark(#afc2cf, #485967);
+    --dd-blue: light-dark(#2e69b2, #73b1ff);
+    --dd-violet: light-dark(#7555a8, #bb9af4);
+    --dd-amber: light-dark(#6d6e02, #b3b549);
+    --dd-teal: light-dark(#047974, #05c7c0);
+    --dd-pink: light-dark(#984780, #e48cc8);
+    --dd-indigo: light-dark(#5c5db1, #9ea4ff);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#027e47, #62c689);
+    --dd-red: light-dark(#ad3e45, #fc8587);
+    --dd-yellow: light-dark(#836412, #cba960);
+    --dd-accent: var(--dd-indigo);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="mist-violet"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#f9fcfe, #1c2228);
+    --dd-surface: light-dark(#f1f7fa, #252c32);
+    --dd-sunken: light-dark(#edf3f7, #21282e);
+    --dd-raised: light-dark(#fff, #293038);
+    --dd-hover: light-dark(#eef4f8, #272e35);
+    --dd-ink: light-dark(#1b2732, #d6e0e8);
+    --dd-sub: light-dark(#485766, #a3b1bd);
+    --dd-dim: light-dark(#586879, #9fadb9);
+    --dd-hair: light-dark(#d4dfe7, #34404a);
+    --dd-rule: light-dark(#afc2cf, #485967);
+    --dd-blue: light-dark(#3c6aa4, #80b1f0);
+    --dd-violet: light-dark(#775899, #bd9de4);
+    --dd-amber: light-dark(#6b6e18, #afb564);
+    --dd-teal: light-dark(#047974, #4ec3bd);
+    --dd-pink: light-dark(#934e77, #de93bd);
+    --dd-indigo: light-dark(#5e61a4, #a1a7f0);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#2b7a4d, #75c291);
+    --dd-red: light-dark(#a2484e, #f08d91);
+    --dd-yellow: light-dark(#816512, #c8aa60);
+    --dd-accent: var(--dd-violet);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="mist-plum"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#f9fcfe, #1c2228);
+    --dd-surface: light-dark(#f1f7fa, #252c32);
+    --dd-sunken: light-dark(#edf3f7, #21282e);
+    --dd-raised: light-dark(#fff, #293038);
+    --dd-hover: light-dark(#eef4f8, #272e35);
+    --dd-ink: light-dark(#1b2732, #d6e0e8);
+    --dd-sub: light-dark(#485766, #a3b1bd);
+    --dd-dim: light-dark(#586879, #9fadb9);
+    --dd-hair: light-dark(#d4dfe7, #34404a);
+    --dd-rule: light-dark(#afc2cf, #485967);
+    --dd-blue: light-dark(#416c98, #85b2e2);
+    --dd-violet: light-dark(#785b8e, #be9fd7);
+    --dd-amber: light-dark(#6a6e2f, #afb474);
+    --dd-teal: light-dark(#19796f, #6ac0b5);
+    --dd-pink: light-dark(#8c5474, #d598ba);
+    --dd-indigo: light-dark(#5f6399, #a3a8e3);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#3c7753, #82be96);
+    --dd-red: light-dark(#9a4f55, #e69498);
+    --dd-yellow: light-dark(#7f6528, #c7aa6e);
+    --dd-accent: light-dark(#855184, #c493c6);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="mist-citron"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#f9fcfe, #1c2228);
+    --dd-surface: light-dark(#f1f7fa, #252c32);
+    --dd-sunken: light-dark(#edf3f7, #21282e);
+    --dd-raised: light-dark(#fff, #293038);
+    --dd-hover: light-dark(#eef4f8, #272e35);
+    --dd-ink: light-dark(#1b2732, #d6e0e8);
+    --dd-sub: light-dark(#485766, #a3b1bd);
+    --dd-dim: light-dark(#586879, #9fadb9);
+    --dd-hair: light-dark(#d4dfe7, #34404a);
+    --dd-rule: light-dark(#afc2cf, #485967);
+    --dd-blue: light-dark(#3e6c9b, #82b3e5);
+    --dd-violet: light-dark(#755b93, #bba0dc);
+    --dd-amber: light-dark(#6c6d29, #b1b36f);
+    --dd-teal: light-dark(#087970, #65c1b5);
+    --dd-pink: light-dark(#8d5375, #d897bb);
+    --dd-indigo: light-dark(#5f639c, #a2a8e6);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#3f774d, #84be90);
+    --dd-red: light-dark(#9c4f46, #e99489);
+    --dd-yellow: light-dark(#856224, #cda76b);
+    --dd-accent: var(--dd-amber);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="mist-slate"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#f9fcfe, #1c2228);
+    --dd-surface: light-dark(#f1f7fa, #252c32);
+    --dd-sunken: light-dark(#edf3f7, #21282e);
+    --dd-raised: light-dark(#fff, #293038);
+    --dd-hover: light-dark(#eef4f8, #272e35);
+    --dd-ink: light-dark(#1b2732, #d6e0e8);
+    --dd-sub: light-dark(#485766, #a3b1bd);
+    --dd-dim: light-dark(#586879, #9fadb9);
+    --dd-hair: light-dark(#d4dfe7, #34404a);
+    --dd-rule: light-dark(#afc2cf, #485967);
+    --dd-blue: light-dark(#4e6c8b, #92b1d3);
+    --dd-violet: light-dark(#716085, #b7a5cd);
+    --dd-amber: light-dark(#6b6c43, #b0b286);
+    --dd-teal: light-dark(#3c7471, #81bbb6);
+    --dd-pink: light-dark(#825b71, #cb9fb7);
+    --dd-indigo: light-dark(#62658b, #a6aad4);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#4c735a, #90ba9e);
+    --dd-red: light-dark(#8f5753, #da9c96);
+    --dd-yellow: light-dark(#7b6540, #c2aa83);
+    --dd-accent: var(--dd-slate);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="sage-blue"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fafdf9, #1e231f);
+    --dd-surface: light-dark(#f3f8f1, #272e28);
+    --dd-sunken: light-dark(#eff4ed, #232a24);
+    --dd-raised: light-dark(#fff, #2b322c);
+    --dd-hover: light-dark(#f0f5ee, #29302a);
+    --dd-ink: light-dark(#222c23, #dbe3d9);
+    --dd-sub: light-dark(#4e5b4e, #aab7a6);
+    --dd-dim: light-dark(#5e6b5e, #a5b2a1);
+    --dd-hair: light-dark(#d7e0d3, #394338);
+    --dd-rule: light-dark(#b5c4b0, #4e5d4b);
+    --dd-blue: light-dark(#1f6cb0, #6ab3fd);
+    --dd-violet: light-dark(#7b52a4, #c198f0);
+    --dd-amber: light-dark(#6d6e02, #b3b549);
+    --dd-teal: light-dark(#047974, #05c7c0);
+    --dd-pink: light-dark(#9b467a, #e88bc1);
+    --dd-indigo: light-dark(#5c5db1, #9ea4ff);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#027e47, #62c689);
+    --dd-red: light-dark(#ad3f3c, #fc867f);
+    --dd-yellow: light-dark(#876114, #cfa761);
+    --dd-accent: var(--dd-blue);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="sage-cyan"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fafdf9, #1e231f);
+    --dd-surface: light-dark(#f3f8f1, #272e28);
+    --dd-sunken: light-dark(#eff4ed, #232a24);
+    --dd-raised: light-dark(#fff, #2b322c);
+    --dd-hover: light-dark(#f0f5ee, #29302a);
+    --dd-ink: light-dark(#222c23, #dbe3d9);
+    --dd-sub: light-dark(#4e5b4e, #aab7a6);
+    --dd-dim: light-dark(#5e6b5e, #a5b2a1);
+    --dd-hair: light-dark(#d7e0d3, #394338);
+    --dd-rule: light-dark(#b5c4b0, #4e5d4b);
+    --dd-blue: light-dark(#2f6e9e, #76b5e9);
+    --dd-violet: light-dark(#725b9a, #b7a0e4);
+    --dd-amber: light-dark(#6d6e1d, #b2b467);
+    --dd-teal: light-dark(#047879, #53c2c1);
+    --dd-pink: light-dark(#915076, #dc94bc);
+    --dd-indigo: light-dark(#5863a2, #9ba9ed);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#277a55, #72c298);
+    --dd-red: light-dark(#a14a4a, #ee908d);
+    --dd-yellow: light-dark(#836412, #cba960);
+    --dd-accent: light-dark(#086b86, #60b8d1);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="sage-teal"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fafdf9, #1e231f);
+    --dd-surface: light-dark(#f3f8f1, #272e28);
+    --dd-sunken: light-dark(#eff4ed, #232a24);
+    --dd-raised: light-dark(#fff, #2b322c);
+    --dd-hover: light-dark(#f0f5ee, #29302a);
+    --dd-ink: light-dark(#222c23, #dbe3d9);
+    --dd-sub: light-dark(#4e5b4e, #aab7a6);
+    --dd-dim: light-dark(#5e6b5e, #a5b2a1);
+    --dd-hair: light-dark(#d7e0d3, #394338);
+    --dd-rule: light-dark(#b5c4b0, #4e5d4b);
+    --dd-blue: light-dark(#346e9c, #79b4e6);
+    --dd-violet: light-dark(#715c97, #b7a0e2);
+    --dd-amber: light-dark(#6c6d24, #b1b46b);
+    --dd-teal: light-dark(#047974, #5cc1bb);
+    --dd-pink: light-dark(#8f5175, #da96bc);
+    --dd-indigo: light-dark(#5e629f, #a2a8e9);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#2d7956, #76c199);
+    --dd-red: light-dark(#9f4c49, #ec928c);
+    --dd-yellow: light-dark(#82641b, #caa965);
+    --dd-accent: var(--dd-teal);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="sage-indigo"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fafdf9, #1e231f);
+    --dd-surface: light-dark(#f3f8f1, #272e28);
+    --dd-sunken: light-dark(#eff4ed, #232a24);
+    --dd-raised: light-dark(#fff, #2b322c);
+    --dd-hover: light-dark(#f0f5ee, #29302a);
+    --dd-ink: light-dark(#222c23, #dbe3d9);
+    --dd-sub: light-dark(#4e5b4e, #aab7a6);
+    --dd-dim: light-dark(#5e6b5e, #a5b2a1);
+    --dd-hair: light-dark(#d7e0d3, #394338);
+    --dd-rule: light-dark(#b5c4b0, #4e5d4b);
+    --dd-blue: light-dark(#2e69b2, #73b1ff);
+    --dd-violet: light-dark(#7555a8, #bb9af4);
+    --dd-amber: light-dark(#6d6e02, #b3b549);
+    --dd-teal: light-dark(#047974, #05c7c0);
+    --dd-pink: light-dark(#984780, #e48cc8);
+    --dd-indigo: light-dark(#5c5db1, #9ea4ff);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#027e47, #62c689);
+    --dd-red: light-dark(#ad3e45, #fc8587);
+    --dd-yellow: light-dark(#836412, #cba960);
+    --dd-accent: var(--dd-indigo);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="sage-violet"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fafdf9, #1e231f);
+    --dd-surface: light-dark(#f3f8f1, #272e28);
+    --dd-sunken: light-dark(#eff4ed, #232a24);
+    --dd-raised: light-dark(#fff, #2b322c);
+    --dd-hover: light-dark(#f0f5ee, #29302a);
+    --dd-ink: light-dark(#222c23, #dbe3d9);
+    --dd-sub: light-dark(#4e5b4e, #aab7a6);
+    --dd-dim: light-dark(#5e6b5e, #a5b2a1);
+    --dd-hair: light-dark(#d7e0d3, #394338);
+    --dd-rule: light-dark(#b5c4b0, #4e5d4b);
+    --dd-blue: light-dark(#3c6aa4, #80b1f0);
+    --dd-violet: light-dark(#775899, #bd9de4);
+    --dd-amber: light-dark(#6b6e18, #afb564);
+    --dd-teal: light-dark(#047974, #4ec3bd);
+    --dd-pink: light-dark(#934e77, #de93bd);
+    --dd-indigo: light-dark(#5e61a4, #a1a7f0);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#2b7a4d, #75c291);
+    --dd-red: light-dark(#a2484e, #f08d91);
+    --dd-yellow: light-dark(#816512, #c8aa60);
+    --dd-accent: var(--dd-violet);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="sage-plum"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fafdf9, #1e231f);
+    --dd-surface: light-dark(#f3f8f1, #272e28);
+    --dd-sunken: light-dark(#eff4ed, #232a24);
+    --dd-raised: light-dark(#fff, #2b322c);
+    --dd-hover: light-dark(#f0f5ee, #29302a);
+    --dd-ink: light-dark(#222c23, #dbe3d9);
+    --dd-sub: light-dark(#4e5b4e, #aab7a6);
+    --dd-dim: light-dark(#5e6b5e, #a5b2a1);
+    --dd-hair: light-dark(#d7e0d3, #394338);
+    --dd-rule: light-dark(#b5c4b0, #4e5d4b);
+    --dd-blue: light-dark(#416c98, #85b2e2);
+    --dd-violet: light-dark(#785b8e, #be9fd7);
+    --dd-amber: light-dark(#6a6e2f, #afb474);
+    --dd-teal: light-dark(#19796f, #6ac0b5);
+    --dd-pink: light-dark(#8c5474, #d598ba);
+    --dd-indigo: light-dark(#5f6399, #a3a8e3);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#3c7753, #82be96);
+    --dd-red: light-dark(#9a4f55, #e69498);
+    --dd-yellow: light-dark(#7f6528, #c7aa6e);
+    --dd-accent: light-dark(#855184, #c493c6);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="sage-citron"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fafdf9, #1e231f);
+    --dd-surface: light-dark(#f3f8f1, #272e28);
+    --dd-sunken: light-dark(#eff4ed, #232a24);
+    --dd-raised: light-dark(#fff, #2b322c);
+    --dd-hover: light-dark(#f0f5ee, #29302a);
+    --dd-ink: light-dark(#222c23, #dbe3d9);
+    --dd-sub: light-dark(#4e5b4e, #aab7a6);
+    --dd-dim: light-dark(#5e6b5e, #a5b2a1);
+    --dd-hair: light-dark(#d7e0d3, #394338);
+    --dd-rule: light-dark(#b5c4b0, #4e5d4b);
+    --dd-blue: light-dark(#3e6c9b, #82b3e5);
+    --dd-violet: light-dark(#755b93, #bba0dc);
+    --dd-amber: light-dark(#6c6d29, #b1b36f);
+    --dd-teal: light-dark(#087970, #65c1b5);
+    --dd-pink: light-dark(#8d5375, #d897bb);
+    --dd-indigo: light-dark(#5f639c, #a2a8e6);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#3f774d, #84be90);
+    --dd-red: light-dark(#9c4f46, #e99489);
+    --dd-yellow: light-dark(#856224, #cda76b);
+    --dd-accent: var(--dd-amber);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+
+  [data-dd-palette="sage-slate"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-bg: light-dark(#fafdf9, #1e231f);
+    --dd-surface: light-dark(#f3f8f1, #272e28);
+    --dd-sunken: light-dark(#eff4ed, #232a24);
+    --dd-raised: light-dark(#fff, #2b322c);
+    --dd-hover: light-dark(#f0f5ee, #29302a);
+    --dd-ink: light-dark(#222c23, #dbe3d9);
+    --dd-sub: light-dark(#4e5b4e, #aab7a6);
+    --dd-dim: light-dark(#5e6b5e, #a5b2a1);
+    --dd-hair: light-dark(#d7e0d3, #394338);
+    --dd-rule: light-dark(#b5c4b0, #4e5d4b);
+    --dd-blue: light-dark(#4e6c8b, #92b1d3);
+    --dd-violet: light-dark(#716085, #b7a5cd);
+    --dd-amber: light-dark(#6b6c43, #b0b286);
+    --dd-teal: light-dark(#3c7471, #81bbb6);
+    --dd-pink: light-dark(#825b71, #cb9fb7);
+    --dd-indigo: light-dark(#62658b, #a6aad4);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#4c735a, #90ba9e);
+    --dd-red: light-dark(#8f5753, #da9c96);
+    --dd-yellow: light-dark(#7b6540, #c2aa83);
+    --dd-accent: var(--dd-slate);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+}
