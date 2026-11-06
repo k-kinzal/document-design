@@ -15,7 +15,7 @@
     "icons": "node src/icons.mjs"
   },
   "dependencies": {
-    "@k-kinzal/doc-ui": "1.2.1"
+    "@k-kinzal/doc-ui": "1.3.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

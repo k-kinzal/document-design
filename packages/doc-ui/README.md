@@ -95,7 +95,7 @@ cat book.md | npx @k-kinzal/doc-ui --layout book --color monochrome > book.html
 Pin a full version for reproducible output:
 
 ```sh
-npx @k-kinzal/doc-ui@1.2.1 input.md -o output.html
+npx @k-kinzal/doc-ui@1.3.0 input.md -o output.html
 ```
 
 To use a repository checkout, run `npm install` at its root, then use
@@ -104,7 +104,7 @@ also works outside the checkout; packing does not publish or create a release:
 
 ```sh
 npm pack --workspace @k-kinzal/doc-ui
-npx --package ./k-kinzal-doc-ui-1.2.1.tgz doc-ui input.md -o output.html
+npx --package ./k-kinzal-doc-ui-1.3.0.tgz doc-ui input.md -o output.html
 ```
 
 The package bundles the parser, CSS and third-party notices. It installs no
@@ -133,7 +133,7 @@ Omit the input or use `-` to read stdin. Use `--` before a filename beginning
 with `-`. Invalid options and I/O failures exit nonzero and report to stderr;
 stdout contains only HTML. The output must differ from the source file.
 
-PNG output is available in the repository checkout (not in the 1.2.1 release).
+PNG output and rich Markdown rendering are available in version 1.3.0 and newer.
 Install the optional browser tooling once, then generate both files:
 
 ```sh

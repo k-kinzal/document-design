@@ -18,7 +18,7 @@ Add the stylesheet to your document’s `<head>`:
 
 ```html
 <link rel="stylesheet"
-      href="https://k-kinzal.github.io/document-design/v1.2.1/document-design.css">
+      href="https://k-kinzal.github.io/document-design/v1.3.0/document-design.css">
 ```
 
 [Start your first document →](https://k-kinzal.github.io/document-design/start/)
@@ -34,7 +34,7 @@ npx @k-kinzal/doc-ui README.md --layout paper -o README.html
 ```
 
 Choose `doc`, `report`, `paper`, or `book`; use `--lang ja` for Japanese.
-Pin `@k-kinzal/doc-ui@1.2.1` for reproducible output.
+Pin `@k-kinzal/doc-ui@1.3.0` for reproducible output.
 See the [CLI options and distribution instructions](packages/doc-ui/README.md#markdown-cli).
 
 ## Change reports in GitHub Actions

@@ -62,8 +62,10 @@ for (const theme of ['auto', 'light', 'dark']) {
       expect(Math.round(sheet.getViewport({ scale: 1 }).width)).toBe(595);
       printed += (await sheet.getTextContent()).items.map(item => item.str).join(' ');
     }
-    expect(printed).toContain('Generate once, read offline');
-    expect(printed).toContain('WordPress SQL catalog');
+    // PDF fonts can split ligatures into separate text runs on Linux.
+    const flat = value => value.normalize('NFKC').replace(/\s+/g, '');
+    expect(flat(printed)).toContain(flat('Generate once, read offline'));
+    expect(flat(printed)).toContain(flat('WordPress SQL catalog'));
     await loading.destroy();
     expect(requests).toEqual([]);
   });

@@ -121,7 +121,7 @@ test('Japanese search, copy feedback and themes use the page language', async ({
 test('Japanese typography activates without applying proportional metrics to body text', async ({page}, info) => {
   for (const lang of locales) {
     await page.goto('/' + localePath('components/prose/', lang));
-    const type = await page.locator('.specimen .prose').evaluate(el => {
+    const type = await page.locator('.specimen .prose:has(h3)').evaluate(el => {
       const heading = getComputedStyle(el.querySelector('h3'));
       const body = getComputedStyle(el.querySelector('p'));
       return {heading:heading.fontFeatureSettings, body:body.fontFeatureSettings, breaks:heading.wordBreak, lineBreak:body.lineBreak, autospace:body.textAutospace, measure:el.querySelector('p').getBoundingClientRect().width};
@@ -132,7 +132,7 @@ test('Japanese typography activates without applying proportional metrics to bod
     expect(type.lineBreak).toBe('strict');
     expect(type.autospace).toBe('normal');
     expect(type.measure).toBe(576);
-    await page.locator('.specimen').screenshot({path:info.outputPath(`prose-${lang}.png`)});
+    await page.locator('.specimen:has(.prose h3)').screenshot({path:info.outputPath(`prose-${lang}.png`)});
     await page.goto('/' + localePath('', lang));
     await page.screenshot({path:info.outputPath(`home-${lang}.png`),fullPage:true});
     await page.setViewportSize({width:390,height:844});
@@ -147,7 +147,7 @@ test('language switching and Japanese examples work from disk without JavaScript
   await page.goto(new URL('../dist/components/prose/index.html',import.meta.url).href);
   await page.getByRole('link',{name:'日本語',exact:true}).click();
   await expect(page.locator('html')).toHaveAttribute('lang','ja');
-  await expect(page.locator('.specimen')).toContainText('情報を見やすくする');
+  await expect(page.locator('.specimen:has(.prose h3)')).toContainText('情報を見やすくする');
   await expect(page.locator('#navigation')).toBeVisible();
   await page.getByRole('link',{name:'English',exact:true}).click();
   await expect(page.locator('html')).toHaveAttribute('lang','en');
