@@ -80,3 +80,14 @@ test('environment names map to inputs', () => {
   assert.equal(raw['report-id'], 'main');
   assert.equal(raw['max-input-bytes'], '50000');
 });
+
+test('publish accepts current GitHub run IDs within the declared range', () => {
+  const raw = { 'github-token': 't', target: 'release', 'release-tag': 'v1.3.0' };
+  for (const id of ['42148510536', '999999999999']) {
+    assert.equal(parsePublishInputs({ ...raw, 'source-run-id': id }).sourceRunId, Number(id));
+  }
+  for (const id of ['0', '1000000000000', '9007199254740993', '42.5', '4e10', '-1']) {
+    assert.throws(() => parsePublishInputs({ ...raw, 'source-run-id': id }),
+      error => error instanceof InputError && error.input === 'source-run-id');
+  }
+});

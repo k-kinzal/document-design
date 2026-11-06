@@ -10093,9 +10093,9 @@ function oneOf2(raw, name, allowed, fallback) {
 function integer(raw, name, { min, max, fallback }) {
   const value = String(raw ?? "").trim();
   if (!value) return fallback;
-  if (!/^\d{1,9}$/.test(value)) throw new InputError(name, `expected a whole number; got ${JSON.stringify(value)}`);
+  if (!/^\d+$/.test(value)) throw new InputError(name, `expected a whole number; got ${JSON.stringify(value)}`);
   const n = Number(value);
-  if (n < min || n > max) throw new InputError(name, `expected ${min}..${max}; got ${n}`);
+  if (!Number.isSafeInteger(n) || n < min || n > max) throw new InputError(name, `expected ${min}..${max}; got ${n}`);
   return n;
 }
 function boolean(raw, name, fallback) {
