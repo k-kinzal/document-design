@@ -1,0 +1,24 @@
+/*!
+ * MIT License
+ *
+ * Copyright (c) 2026 k-kinzal
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+@layer dd.tokens{:root:not([data-dd-color=grayscale],[data-dd-color=monochrome]),[data-dd-palette=linen-cyan]:not([data-dd-color=grayscale],[data-dd-color=monochrome]){--dd-bg:light-dark(#fdfcf9,#24211f);--dd-surface:light-dark(#f9f7f2,#2d2926);--dd-sunken:light-dark(#f5f2eb,#292522);--dd-raised:light-dark(#fff,#322e2a);--dd-hover:light-dark(#f5f2ec,#302c28);--dd-ink:light-dark(#28221c,#e2dcd3);--dd-sub:light-dark(#595047,#b8aaa0);--dd-dim:light-dark(#6a6055,#b3a59b);--dd-hair:light-dark(#e1dbd0,#403a34);--dd-rule:light-dark(#c4bbae,#595047);--dd-blue:light-dark(#2f6e9e,#76b5e9);--dd-violet:light-dark(#725b9a,#b7a0e4);--dd-amber:light-dark(#6d6e1d,#b2b467);--dd-teal:light-dark(#047879,#53c2c1);--dd-pink:light-dark(#915076,#dc94bc);--dd-indigo:light-dark(#5863a2,#9ba9ed);--dd-slate:light-dark(#616978,#a5afbe);--dd-green:light-dark(#277a55,#72c298);--dd-red:light-dark(#a14a4a,#ee908d);--dd-yellow:light-dark(#836412,#cba960);--dd-accent:light-dark(#086b86,#60b8d1);--dd-link:var(--dd-accent);--dd-accent-tint:color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg))}}
