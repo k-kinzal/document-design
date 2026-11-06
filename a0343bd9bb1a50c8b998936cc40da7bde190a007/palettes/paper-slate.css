@@ -1,0 +1,40 @@
+/*!
+ * MIT License
+ *
+ * Copyright (c) 2026 k-kinzal
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+@layer dd.tokens {
+  :root:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]), [data-dd-palette="paper-slate"]:not([data-dd-color="grayscale"], [data-dd-color="monochrome"]) {
+    --dd-blue: light-dark(#4e6c8b, #92b1d3);
+    --dd-violet: light-dark(#716085, #b7a5cd);
+    --dd-amber: light-dark(#6b6c43, #b0b286);
+    --dd-teal: light-dark(#3c7471, #81bbb6);
+    --dd-pink: light-dark(#825b71, #cb9fb7);
+    --dd-indigo: light-dark(#62658b, #a6aad4);
+    --dd-slate: light-dark(#616978, #a5afbe);
+    --dd-green: light-dark(#4c735a, #90ba9e);
+    --dd-red: light-dark(#8f5753, #da9c96);
+    --dd-yellow: light-dark(#7b6540, #c2aa83);
+    --dd-accent: var(--dd-slate);
+    --dd-link: var(--dd-accent);
+    --dd-accent-tint: color-mix(in oklab, var(--dd-accent) var(--dd-tint-mix), var(--dd-bg));
+  }
+}
