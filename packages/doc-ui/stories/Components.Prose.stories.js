@@ -78,3 +78,41 @@ export const Checklist = {
       </ul>
     </article>`,
 };
+
+/** Static output shapes used by the Markdown CLI. No renderer runs here. */
+export const GeneratedExtensions = {
+  parameters: { docs: { description: { story: "The Markdown CLI renders alerts, code, definitions, footnotes and TeX before writing HTML. Math uses native MathML; the only stylesheet is doc-ui." } } },
+  render: () => html`
+    <article class="prose">
+      <h2>Catalog evidence</h2>
+      <aside class="callout tone-violet">
+        <p class="callout-title">Important</p>
+        <p>Only 35 of 844 statements were resolved.<a class="cite" role="doc-noteref" id="example-ref" href="#example-note">1</a></p>
+      </aside>
+      <dl><dt>Coverage</dt><dd>The share of statements whose references could be resolved.</dd></dl>
+      <pre><code class="language-sql"><span class="tok-kw">SELECT</span> post_title <span class="tok-kw">FROM</span> wp_posts;</code></pre>
+      <div class="equation"><div class="eq-body" role="region" tabindex="0" aria-label="Equation">
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mfrac><mn>35</mn><mn>844</mn></mfrac><mo>×</mo><mn>100</mn><mo>%</mo></mrow></math>
+      </div></div>
+      <section role="doc-endnotes" aria-label="Footnotes"><ol class="sources">
+        <li id="example-note">WordPress SQL catalog: 844 statements, 978 findings. <a role="doc-backlink" href="#example-ref" aria-label="Back to reference 1">↩</a></li>
+      </ol></section>
+    </article>`,
+};
+
+export const JapaneseGeneratedExtensions = {
+  parameters: { docs: { description: { story: "Japanese alert and footnote labels, with the document language explicitly marked." } } },
+  render: () => html`
+    <article class="prose" lang="ja">
+      <h2>カタログの調査範囲</h2>
+      <aside class="callout tone-violet"><p class="callout-title">重要</p>
+        <p>参照先を解決できたのは844文中35文です。<a class="cite" role="doc-noteref" id="example-ref-ja" href="#example-note-ja">1</a></p>
+      </aside>
+      <div class="equation"><div class="eq-body" role="region" tabindex="0" aria-label="数式">
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mfrac><mn>35</mn><mn>844</mn></mfrac><mo>×</mo><mn>100</mn><mo>%</mo></mrow></math>
+      </div></div>
+      <section role="doc-endnotes" aria-label="脚注"><ol class="sources">
+        <li id="example-note-ja">WordPress SQLカタログ：844文、978件の検出結果。<a role="doc-backlink" href="#example-ref-ja" aria-label="本文へ戻る">↩</a></li>
+      </ol></section>
+    </article>`,
+};

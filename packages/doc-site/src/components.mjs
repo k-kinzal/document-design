@@ -338,7 +338,7 @@ export const components = [
     label: "Reading text",
     group: "Reading",
     description: "Readable typography for paragraphs, headings, lists, and quotations.",
-    api: [[".prose","A reading container for semantic HTML."],[".prose-wide","Removes the normal reading-width limit."],["code / kbd / blockquote","Inline code, key names, and quotations use standard HTML elements."]],
+    api: [[".prose","A reading container for semantic HTML."],[".prose-wide","Removes the normal reading-width limit."],["code / kbd / blockquote","Inline code, key names, and quotations use standard HTML elements."],[".equation / .eq-body","A scrollable native MathML equation; no additional stylesheet or script is needed."]],
     note: "Choose heading levels by the structure of the document, not by the size you want.",
     story: "components-prose--article",
     examples: [
@@ -346,6 +346,14 @@ export const components = [
   <h3>Make information clear</h3>
   <p>Different ways of reading call for different densities. <strong>Finding a single entry</strong> in a catalog and understanding a report deserve different layouts.</p>
   <ul><li>Take density from spacing.</li><li>Give numbers meaning.</li><li>Show what remains unknown.</li></ul>
+</div>` },
+      { title: "Native equations", html: String.raw`<div class="prose">
+  <p>The resolved share of the WordPress catalog is 35 of 844 statements.</p>
+  <div class="equation"><div class="eq-body" role="region" tabindex="0" aria-label="Equation">
+    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" translate="no">
+      <mrow><mfrac><mn>35</mn><mn>844</mn></mfrac><mo>×</mo><mn>100</mn><mo>%</mo></mrow>
+    </math>
+  </div></div>
 </div>` }
     ],
   },

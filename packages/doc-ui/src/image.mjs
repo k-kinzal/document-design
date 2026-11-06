@@ -6,8 +6,8 @@ import { createRequire } from 'node:module';
 
 export const PLAYWRIGHT_VERSION = '1.63.0';
 
-// Playwright is optional: HTML generation and the downloaded CLI stay standalone.
-export async function loadChromium() {
+// Playwright is optional: only Mermaid and PNG generation need a browser.
+export async function loadChromium(purpose = 'PNG output') {
   for (const base of [import.meta.url, pathToFileURL(join(process.cwd(), 'package.json'))]) {
     let entry;
     try { entry = createRequire(base).resolve('playwright'); }
@@ -15,7 +15,7 @@ export async function loadChromium() {
     const module = await import(pathToFileURL(entry).href);
     return module.chromium ?? module.default.chromium;
   }
-  throw new Error(`PNG output needs Playwright. Run npm install --save-dev playwright@${PLAYWRIGHT_VERSION}, then npx playwright install chromium.`);
+  throw new Error(`${purpose} needs Playwright. Run npm install --save-dev playwright@${PLAYWRIGHT_VERSION}, then npx playwright install chromium.`);
 }
 
 // Capture the same screen layout as the HTML, at twice its CSS resolution.

@@ -40,7 +40,10 @@ Examples:
   cat book.md | doc-ui --layout book --color monochrome > book.html
 
 Report H2 headings become sections; book H2 headings start printed chapters.
-Images remain references; CSS is embedded and requires no network or JavaScript.
+Code highlighting, footnotes, definition lists, GitHub alerts and TeX math are supported.
+Mermaid fences become embedded SVG images (generation needs Playwright + Chromium).
+Generated HTML needs only its embedded doc-ui CSS; no runtime libraries or CDN.
+Authored images remain references.
 `;
 
 export function parseOptions(args) {

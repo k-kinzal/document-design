@@ -17,7 +17,7 @@ test('workspace licenses agree and the publishable package includes the MIT text
 });
 
 test('locked dependency licenses remain within the reviewed distribution scope', () => {
-  const permissive = new Set(['MIT', 'Apache-2.0', 'ISC', 'BSD-2-Clause', 'BSD-3-Clause', '0BSD']);
+  const permissive = new Set(['MIT', 'Apache-2.0', 'ISC', 'BSD-2-Clause', 'BSD-3-Clause', '0BSD', 'Unlicense']);
   for (const [path, pkg] of Object.entries(lock.packages)) {
     if (!path.includes('node_modules/') || pkg.link) continue;
     const name = path.split('node_modules/').at(-1);
@@ -27,7 +27,10 @@ test('locked dependency licenses remain within the reviewed distribution scope',
       // markdown-it's own CLI uses argparse; our bundled renderer does not.
       (pkg.license === 'PSF-2.0' && name === 'argparse')
     );
-    assert(permissive.has(pkg.license) || buildOrTestOnly,
+    // The CLI build checks and includes the actual license files as well.
+    const reviewed = (name === 'dompurify' && pkg.license === '(MPL-2.0 OR Apache-2.0)') ||
+      (name === 'khroma' && pkg.version === '2.1.0' && pkg.license === undefined);
+    assert(permissive.has(pkg.license) || buildOrTestOnly || reviewed,
       `Review ${name}@${pkg.version}: ${pkg.license ?? 'missing license'}`);
   }
 });

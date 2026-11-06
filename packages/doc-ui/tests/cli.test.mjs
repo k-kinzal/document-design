@@ -66,16 +66,21 @@ test('packed npm distribution runs through npx outside the workspace without dep
   assert.equal(packed.status, 0, packed.stderr);
   const [pkg] = JSON.parse(packed.stdout);
   const paths = pkg.files.map(file => file.path);
-  for (const path of ['dist/cli.mjs', 'dist/document-design.min.css', 'dist/CLI-NOTICES.txt', 'LICENSE']) assert(paths.includes(path), path);
+  for (const path of ['dist/cli.mjs', 'dist/mermaid.js', 'dist/document-design.min.css', 'dist/CLI-NOTICES.txt', 'LICENSE']) assert(paths.includes(path), path);
   assert.equal(pkg.files.find(file => file.path === 'dist/cli.mjs').mode & 0o111, 0o111);
   const notices = readFileSync(join(root, 'dist/CLI-NOTICES.txt'), 'utf8');
-  for (const name of ['markdown-it', 'entities', 'linkify-it', 'mdurl', 'punycode.js', 'uc.micro']) assert(notices.includes(`${name}@`), name);
+  for (const name of ['markdown-it', 'entities', 'linkify-it', 'mdurl', 'punycode.js', 'uc.micro', 'highlight.js', 'mermaid', 'katex', 'dompurify', 'khroma', 'fastdom']) assert(notices.includes(`${name}@`), name);
+  assert(!notices.includes('elkjs@'), 'The generator uses Mermaid 11 without the optional ELK layout');
   assert(!notices.includes('argparse@'), 'markdown-it CLI is not part of our renderer');
   const executed = spawnSync('npx', ['--yes', '--offline', '--ignore-scripts', '--cache', join(dir, 'cache'), '--package', join(dir, pkg.filename), 'doc-ui', '--layout', 'paper'], {
-    cwd: dir, input: '# Packed document\n\nWorks offline.', encoding: 'utf8', timeout: 30000,
+    cwd: dir, input: '# Packed document\n\nWorks offline.[^note]\n\n```js\nconst value = 1;\n```\n\n$x^2$\n\n[^note]: A source.', encoding: 'utf8', timeout: 30000,
   });
   assert.equal(executed.status, 0, executed.stderr);
   assert.match(executed.stdout, /<h1 id="packed-document">Packed document<\/h1>/);
   assert.match(executed.stdout, /class="sheet sheet-paper"/);
   assert.match(executed.stdout, /@layer dd/);
+  assert.match(executed.stdout, /class="tok-kw"/);
+  assert.match(executed.stdout, /<math /);
+  assert.match(executed.stdout, /role="doc-endnotes"/);
+  assert.doesNotMatch(executed.stdout, /<script|<link rel="stylesheet"/);
 });

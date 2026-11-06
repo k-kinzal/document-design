@@ -147,17 +147,64 @@ JavaScript disabled. `--theme auto` captures light; `--theme dark` captures dark
 Fonts must be installed on the rendering machine, including Japanese fonts for
 Japanese documents. Local image references resolve beside the HTML output (or
 the Markdown input when HTML goes to stdout). HTML keeps its links and selectable
-text; the PNG can be embedded in release notes. HTML-only conversion needs no
-browser installation.
+text; the PNG can be embedded in release notes. Conversion without Mermaid or
+PNG output needs no browser installation.
 
-CommonMark blocks, tables, strikethrough, automatic links and task lists are
-supported. Tables scroll within a keyboard-focusable wrapper. Fenced code is
-escaped and retains its language class; it is not syntax-highlighted. Headings
-receive readable, unique IDs for links. Only top-level H2s divide reports and
-books; headings inside lists, quotes and code do not split their containers.
-A leading H1 becomes the report title or paper/book header; a missing title
-is not invented. YAML front matter, math and diagram extensions are not
-interpreted. With `--html`, authored HTML can use the existing components.
+The generator supports the following syntax. All rendering happens during
+conversion: the HTML contains no highlighting, Mermaid or KaTeX runtime, no
+third-party stylesheets, and no CDN references. Its only stylesheet is doc-ui.
+
+| Syntax | HTML output |
+| --- | --- |
+| CommonMark headings, emphasis, lists, quotes, links and images | Semantic HTML; headings have unique linkable IDs. |
+| Tables, `~~strikethrough~~`, automatic links, `- [x]` tasks | Scrollable tables with column headers, deletion text, links and disabled checkboxes. |
+| Fenced code with a language, such as `js`, `ts`, `python`, `php`, `sql`, `bash`, `json`, `yaml`, `html`, `css`, `rust` | Highlighted spans using doc-ui's `tok-*` classes. Unknown or omitted languages remain escaped plain text. |
+| `[^note]` and `[^note]: Text` | Numbered citations and a footnote list with return links; repeated references and multiple paragraphs work. |
+| A term followed by `: Definition` | A semantic definition list. |
+| `> [!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]`, `[!CAUTION]` inside a quote | Callouts with visible labels, localized with `--lang ja`; nested Markdown remains intact. |
+| `$x^2$`, `$$...$$`, `\(...\)`, `\[...\]`, or a `math` fence | Native MathML, including the TeX source as an annotation. No KaTeX CSS or web fonts are needed. Escape literal dollar signs as `\$`. |
+| A `mermaid` fence | Embedded SVG images for light and dark themes, a caption, and an expandable source block. |
+
+For example:
+
+````md
+## Coverage
+
+> [!IMPORTANT]
+> Only 35 of 844 statements were resolved.[^catalog]
+
+```sql
+SELECT post_title FROM wp_posts WHERE post_status = 'publish';
+```
+
+The resolved share is $35 / 844$.
+
+```mermaid
+flowchart LR
+  accTitle: Document generation
+  accDescr: Markdown is converted into a readable HTML document.
+  A[Markdown] --> B[HTML]
+```
+
+[^catalog]: WordPress SQL catalog: 844 statements and 978 findings.
+````
+
+Mermaid needs the optional Playwright/Chromium installation shown above **only
+on the generating machine**. Keep `mermaid.js` beside `cli.mjs` when copying
+the distribution manually. The npm package includes both and their license
+notices. Flowcharts, sequence, class, state, ER, pie and Gantt diagrams use the
+bundled renderer; external icon packs and the optional ELK layout are not loaded.
+Use `accTitle` and `accDescr` to describe the diagram. Diagrams retain their
+measured text size and scroll on narrow screens; print uses the light image and
+fits it to the page. Browser-dependent fonts must be installed at generation
+time. Invalid Mermaid or TeX fails the conversion instead of silently omitting
+content. Mermaid HTML labels, callbacks, links and external resources are disabled.
+
+Only top-level H2s divide reports and books; headings inside lists, quotes,
+footnotes and code do not split their containers. A leading H1 becomes the
+report title or paper/book header; a missing title is not invented. YAML front
+matter is not interpreted. With `--html`, trusted authored HTML can use the
+existing components, including native `<details>` disclosures.
 
 Images remain references and are not downloaded or embedded. Keep local images
 with the document; remote images still need a network. With `-o`, relative

@@ -26,8 +26,17 @@ For a Japanese manuscript, use `--lang ja`. Select the layout for the content:
   doc-ui modes. `sources` does not generate a bibliography from ordinary links.
 - Use `--html` only for trusted authored HTML, including MathML or doc-ui
   components. Raw HTML is otherwise disabled and is not sanitized when enabled.
-  YAML frontmatter, TeX math, and diagram extensions are not interpreted. Code
-  fences retain language classes but are not syntax-highlighted.
+  YAML frontmatter is not interpreted.
+- Language-tagged code fences are highlighted during generation with doc-ui's
+  token classes. Footnotes (`[^note]`), definition lists, and GitHub alerts
+  (`> [!NOTE]`, `TIP`, `IMPORTANT`, `WARNING`, `CAUTION`) render as semantic HTML.
+- TeX (`$...$`, `$$...$$`, `\(...\)`, `\[...\]`, or a `math` fence) becomes native
+  MathML. Mermaid fences become embedded SVG images with light/dark variants,
+  captions from `accTitle`, and expandable source. Invalid TeX or Mermaid fails
+  conversion. Mermaid needs optional Playwright and Chromium on the generating
+  machine: `npm install --save-dev playwright@1.63.0` then
+  `npx playwright install chromium`. The resulting HTML needs only doc-ui CSS,
+  with no runtime libraries, extra stylesheets, fonts, or CDN dependencies.
 - Images are not embedded or downloaded. Keep them with the output for offline
   use. `-o` rebases relative Markdown links and images to the output directory;
   raw HTML URLs stay as authored. Stdout preserves relative URLs, so redirected

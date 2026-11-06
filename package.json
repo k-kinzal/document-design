@@ -22,6 +22,7 @@
   },
   "devDependencies": {},
   "overrides": {
+    "mermaid": { "katex": "0.19.1" },
     "vite": "npm:@voidzero-dev/vite-plus-core@1.0.0-rc.0",
     "vitest": "5.0.1"
   }

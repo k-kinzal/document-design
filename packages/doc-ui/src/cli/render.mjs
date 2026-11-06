@@ -2,6 +2,9 @@ import MarkdownIt from 'markdown-it';
 import { relative, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { defaults } from './options.mjs';
+import { highlight } from './highlight.mjs';
+import { extensions } from './extensions.mjs';
+import { renderDiagrams } from './diagrams.mjs';
 
 const escape = text => String(text).replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -9,7 +12,7 @@ const escape = text => String(text).replace(/[&<>"']/g, char => ({
 
 function plainText(tokens) {
   return tokens.map(token => token.children ? plainText(token.children)
-    : ['text', 'code_inline'].includes(token.type) ? token.content
+    : ['text', 'code_inline', 'math_inline'].includes(token.type) ? token.content
       : ['softbreak', 'hardbreak'].includes(token.type) ? ' ' : '').join('');
 }
 
@@ -24,6 +27,14 @@ function rebase(url, sourceDir, outputDir) {
 
 function prepare(tokens, options) {
   const used = new Set();
+  const reserve = list => {
+    for (const token of list) {
+      if (token.type === 'footnote_open') used.add(`dd-fn-${token.meta.id + 1}`);
+      if (token.type === 'footnote_ref') used.add(`dd-fnref-${token.meta.id + 1}${token.meta.subId ? `-${token.meta.subId}` : ''}`);
+      if (token.children) reserve(token.children);
+    }
+  };
+  reserve(tokens);
   const visit = list => {
     for (let i = 0; i < list.length; i++) {
       const token = list[i];
@@ -88,14 +99,40 @@ function composition(tokens, md, options, env) {
   }).join('')}</main>`;
 }
 
-export function renderMarkdown(markdown, settings = {}) {
+export async function renderMarkdown(markdown, settings = {}) {
   const options = { ...defaults, ...settings };
-  const md = new MarkdownIt({ html: options.html, linkify: true });
-  const tableLabel = options.lang.toLowerCase().startsWith('ja') ? '表（横スクロール）' : 'Table (scroll horizontally)';
+  const md = new MarkdownIt({ html: options.html, linkify: true, highlight }).use(extensions, options);
+  const ja = options.lang.toLowerCase().startsWith('ja');
+  const tableLabel = ja ? '表（横スクロール）' : 'Table (scroll horizontally)';
   md.renderer.rules.table_open = () => `<div class="table-wrap" role="region" tabindex="0" aria-label="${tableLabel}"><table>\n`;
   md.renderer.rules.table_close = () => '</table></div>\n';
+  md.renderer.rules.th_open = (tokens, i, settings, env, renderer) => {
+    tokens[i].attrSet('scope', 'col');
+    return renderer.renderToken(tokens, i, settings);
+  };
+  const fence = md.renderer.rules.fence;
+  md.renderer.rules.fence = (tokens, i, settings, env, renderer) => {
+    const token = tokens[i];
+    if (!token.meta?.light) return fence(tokens, i, settings, env, renderer);
+    const { title, description } = token.meta;
+    const label = title || (ja ? 'Mermaid図' : 'Mermaid diagram');
+    const image = theme => {
+      const { svg, width, height } = token.meta[theme];
+      return `<img class="diagram-${theme}" src="data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}" width="${width}" height="${height}" alt="${escape([label, description].filter(Boolean).join(': '))}">`;
+    };
+    return `<figure class="plate plate-wide diagram"><div class="draw-wrap" role="region" tabindex="0" aria-label="${escape(label)}">${image('light')}${image('dark')}</div><figcaption>${escape(label)}</figcaption><details class="as-written"><summary>${ja ? '図のソース' : 'Diagram source'}</summary><pre><code class="language-mermaid">${escape(token.content)}</code></pre></details></figure>\n`;
+  };
   const env = {};
   const tokens = md.parse(markdown, env);
+  const diagrams = [];
+  const collect = list => {
+    for (const token of list) {
+      if (token.type === 'fence' && token.info.trim().split(/\s+/)[0].toLowerCase() === 'mermaid') diagrams.push(token);
+      if (token.children) collect(token.children);
+    }
+  };
+  collect(tokens);
+  await renderDiagrams(diagrams, options);
   prepare(tokens, options);
   const h1 = tokens.findIndex(token => token.type === 'heading_open' && token.tag === 'h1');
   const title = options.title ?? (h1 < 0 ? options.fallbackTitle ?? 'Document' : plainText(tokens[h1 + 1].children ?? []));

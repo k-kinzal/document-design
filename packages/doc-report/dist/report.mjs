@@ -9825,7 +9825,7 @@ import { join as join3, resolve as resolve2, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 import { createRequire } from "node:module";
 var PLAYWRIGHT_VERSION = "1.63.0";
-async function loadChromium() {
+async function loadChromium(purpose = "PNG output") {
   for (const base of [import.meta.url, pathToFileURL(join3(process.cwd(), "package.json"))]) {
     let entry;
     try {
@@ -9837,7 +9837,7 @@ async function loadChromium() {
     const module = await import(pathToFileURL(entry).href);
     return module.chromium ?? module.default.chromium;
   }
-  throw new Error(`PNG output needs Playwright. Run npm install --save-dev playwright@${PLAYWRIGHT_VERSION}, then npx playwright install chromium.`);
+  throw new Error(`${purpose} needs Playwright. Run npm install --save-dev playwright@${PLAYWRIGHT_VERSION}, then npx playwright install chromium.`);
 }
 async function renderImage({ html, baseDir = process.cwd(), width = 960, theme = "light", chromium, launchOptions = {}, offline = false }) {
   if (!Number.isInteger(width) || width < 320 || width > 2400) throw new Error("Image width must be a whole number from 320 to 2400.");

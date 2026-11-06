@@ -163,4 +163,30 @@
   /* A checklist written in markdown. */
   .prose li:has(> input[type="checkbox"]) { list-style: none; margin-left: calc(var(--dd-sp-6) * -1); }
   .prose li > input[type="checkbox"] { margin-right: var(--dd-sp-2); }
+
+  /* Generated extensions use the same reading size and citation treatment
+     as the surrounding prose, including inside report and book layouts. */
+  .prose .callout { font-size: inherit; }
+  .prose .cite { text-decoration: none; }
+  .prose > :is(.diagram, .equation) { max-width: var(--dd-measure-wide); }
+
+  /* Generated SVG images retain their measured size. Narrow columns scroll
+     the wrapper instead of shrinking the words inside the diagram. */
+  .diagram .draw-wrap > img { max-width: none; height: auto; border-radius: 0; }
+  .diagram-light { display: block; }
+  .diagram-dark { display: none; }
+  [data-dd-theme="dark"] .diagram-light { display: none; }
+  [data-dd-theme="dark"] .diagram-dark { display: block; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-dd-theme="light"]) .diagram-light { display: none; }
+    :root:not([data-dd-theme="light"]) .diagram-dark { display: block; }
+  }
+}
+
+@layer dd.print {
+  @media print {
+    .diagram-light { display: block !important; }
+    .diagram-dark { display: none !important; }
+    .diagram .draw-wrap > img { max-width: 100% !important; }
+  }
 }

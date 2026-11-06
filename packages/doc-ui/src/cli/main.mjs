@@ -39,7 +39,7 @@ async function run() {
     markdown = chunks.join('');
   }
   const css = await readFile(new URL('./document-design.min.css', import.meta.url), 'utf8');
-  const html = renderMarkdown(markdown, {
+  const html = await renderMarkdown(markdown, {
     ...options, css,
     fallbackTitle: input ? basename(input).replace(/\.(?:md|markdown)$/i, '') : 'Document',
     sourceDir: input ? dirname(input) : process.cwd(),
